@@ -20,6 +20,7 @@ Preferred communication style: Simple, everyday language.
 - **File Upload Component**: Supports images, videos, and documents with drag-drop and preview (10MB limit)
 - **Job Applications Management**: Admin can view, filter, and manage job applications with status updates
 - **Enhanced Job Management**: Search and filter functionality for job listings
+- **News Management System**: Full CRUD for news articles with categories (general, events, achievements, announcements), bilingual support (Arabic/English), and publish/draft status
 
 ### Backend Updates
 - **Job Applications API**: Added CRUD endpoints for job applications (/api/job-applications)
