@@ -444,6 +444,289 @@ function JobApplicationsManagement() {
   );
 }
 
+// News Management Tab
+function NewsManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [editingNews, setEditingNews] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [newArticle, setNewArticle] = useState({
+    title: "",
+    titleEn: "",
+    content: "",
+    contentEn: "",
+    summary: "",
+    summaryEn: "",
+    imageUrl: "",
+    category: "general",
+    isPublished: true
+  });
+
+  const { data: newsArticles, isLoading } = useQuery({
+    queryKey: ['/api/news'],
+    queryFn: async () => {
+      const res = await fetch('/api/news', { credentials: 'include' });
+      return res.json();
+    }
+  });
+
+  const addMutation = useMutation({
+    mutationFn: async (article: any) => {
+      const res = await fetch('/api/news', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article),
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "تم الحفظ", description: "تم إضافة الخبر بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/news'] });
+      setShowAddDialog(false);
+      resetForm();
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async (article: any) => {
+      const res = await fetch(`/api/news/${article.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article),
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "تم التحديث", description: "تم تحديث الخبر بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/news'] });
+      setShowAddDialog(false);
+      setEditingNews(null);
+      resetForm();
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/news/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (!res.ok) throw new Error('Failed');
+    },
+    onSuccess: () => {
+      toast({ title: "تم الحذف", description: "تم حذف الخبر" });
+      queryClient.invalidateQueries({ queryKey: ['/api/news'] });
+    }
+  });
+
+  const resetForm = () => {
+    setNewArticle({
+      title: "", titleEn: "", content: "", contentEn: "",
+      summary: "", summaryEn: "", imageUrl: "", category: "general", isPublished: true
+    });
+  };
+
+  const handleEdit = (article: any) => {
+    setEditingNews(article);
+    setNewArticle({
+      title: article.title || "",
+      titleEn: article.titleEn || "",
+      content: article.content || "",
+      contentEn: article.contentEn || "",
+      summary: article.summary || "",
+      summaryEn: article.summaryEn || "",
+      imageUrl: article.imageUrl || "",
+      category: article.category || "general",
+      isPublished: article.isPublished ?? true
+    });
+    setShowAddDialog(true);
+  };
+
+  const handleSubmit = () => {
+    if (editingNews) {
+      updateMutation.mutate({ ...newArticle, id: editingNews.id });
+    } else {
+      addMutation.mutate(newArticle);
+    }
+  };
+
+  const filteredNews = newsArticles?.filter((article: any) =>
+    article.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    article.summary?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const categories = [
+    { value: "general", label: "عام" },
+    { value: "events", label: "فعاليات" },
+    { value: "achievements", label: "إنجازات" },
+    { value: "announcements", label: "إعلانات" }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h3 className="text-lg font-bold">إدارة الأخبار</h3>
+        <Dialog open={showAddDialog} onOpenChange={(open) => {
+          setShowAddDialog(open);
+          if (!open) { setEditingNews(null); resetForm(); }
+        }}>
+          <DialogTrigger asChild>
+            <Button className="bg-gradient-brand">
+              <Plus className="w-4 h-4 ml-2" />
+              إضافة خبر جديد
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{editingNews ? "تعديل الخبر" : "إضافة خبر جديد"}</DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>العنوان (عربي) *</Label>
+                <Input value={newArticle.title} onChange={e => setNewArticle(n => ({ ...n, title: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Title (English)</Label>
+                <Input value={newArticle.titleEn} onChange={e => setNewArticle(n => ({ ...n, titleEn: e.target.value }))} dir="ltr" />
+              </div>
+              <div className="space-y-2">
+                <Label>الملخص (عربي)</Label>
+                <Textarea value={newArticle.summary} onChange={e => setNewArticle(n => ({ ...n, summary: e.target.value }))} rows={2} />
+              </div>
+              <div className="space-y-2">
+                <Label>Summary (English)</Label>
+                <Textarea value={newArticle.summaryEn} onChange={e => setNewArticle(n => ({ ...n, summaryEn: e.target.value }))} rows={2} dir="ltr" />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <Label>المحتوى الكامل (عربي) *</Label>
+                <Textarea value={newArticle.content} onChange={e => setNewArticle(n => ({ ...n, content: e.target.value }))} rows={5} />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <Label>Full Content (English)</Label>
+                <Textarea value={newArticle.contentEn} onChange={e => setNewArticle(n => ({ ...n, contentEn: e.target.value }))} rows={5} dir="ltr" />
+              </div>
+              <div className="space-y-2">
+                <Label>صورة الخبر</Label>
+                <FileUpload 
+                  currentUrl={newArticle.imageUrl}
+                  onUpload={(url) => setNewArticle(n => ({ ...n, imageUrl: url }))}
+                  accept="image/*"
+                />
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>التصنيف</Label>
+                  <Select value={newArticle.category} onValueChange={(v) => setNewArticle(n => ({ ...n, category: v }))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(cat => (
+                        <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    checked={newArticle.isPublished} 
+                    onChange={e => setNewArticle(n => ({ ...n, isPublished: e.target.checked }))} 
+                    className="w-4 h-4"
+                  />
+                  <Label>منشور</Label>
+                </div>
+              </div>
+            </div>
+            <Button 
+              onClick={handleSubmit} 
+              disabled={addMutation.isPending || updateMutation.isPending || !newArticle.title} 
+              className="w-full mt-4 bg-gradient-brand"
+            >
+              {(addMutation.isPending || updateMutation.isPending) && <Loader2 className="animate-spin ml-2 w-4 h-4" />}
+              {editingNews ? "تحديث الخبر" : "إضافة الخبر"}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <div className="flex gap-3">
+        <Input 
+          placeholder="البحث في الأخبار..." 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1"
+        />
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-8">
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {filteredNews?.map((article: any) => (
+            <Card key={article.id} className="hover:shadow-md transition-shadow overflow-hidden">
+              <div className="flex flex-col md:flex-row">
+                {article.imageUrl && (
+                  <div className="w-full md:w-48 h-32 md:h-auto flex-shrink-0">
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <CardContent className="p-4 flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h4 className="font-bold text-lg">{article.title}</h4>
+                        <Badge variant={article.isPublished ? "default" : "secondary"} className="text-xs">
+                          {article.isPublished ? "منشور" : "مسودة"}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          {categories.find(c => c.value === article.category)?.label || "عام"}
+                        </Badge>
+                      </div>
+                      {article.summary && (
+                        <p className="text-sm text-gray-600 line-clamp-2">{article.summary}</p>
+                      )}
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {article.createdAt && new Date(article.createdAt).toLocaleDateString('ar-SA')}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(article)}>
+                        <Edit className="w-4 h-4 ml-1" />
+                        تعديل
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-destructive hover:text-destructive" 
+                        onClick={() => deleteMutation.mutate(article.id)}
+                      >
+                        <Trash2 className="w-4 h-4 ml-1" />
+                        حذف
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </div>
+            </Card>
+          ))}
+          {(!filteredNews || filteredNews.length === 0) && (
+            <div className="text-center py-12">
+              <FileText className="w-16 h-16 mx-auto text-muted-foreground/30 mb-3" />
+              <p className="text-muted-foreground">لا توجد أخبار</p>
+              <p className="text-sm text-muted-foreground/70">أضف خبراً جديداً للبدء</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Content Management Tab
 function ContentManagement() {
   const { toast } = useToast();
@@ -1112,11 +1395,12 @@ export default function Admin() {
   const isEditor = user.role === "editor";
   const isManager = user.role === "manager";
 
-  const [activeTab, setActiveTab] = useState(isAdmin ? "content" : "transfers");
+  const [activeTab, setActiveTab] = useState(isAdmin ? "news" : "transfers");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { id: "content", label: "إدارة المحتوى", icon: FileText, roles: ["admin"] },
+    { id: "news", label: "إدارة الأخبار", icon: FileText, roles: ["admin"] },
+    { id: "content", label: "إدارة المحتوى", icon: Image, roles: ["admin"] },
     { id: "jobs", label: "إدارة الوظائف", icon: Building2, roles: ["admin"] },
     { id: "applications", label: "طلبات التوظيف", icon: UserPlus, roles: ["admin"] },
     { id: "employees", label: "إدارة الموظفين", icon: Users, roles: ["admin"] },
@@ -1258,6 +1542,14 @@ export default function Admin() {
           )}
 
           {/* Content Sections based on activeTab */}
+          {activeTab === "news" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <NewsManagement />
+              </CardContent>
+            </Card>
+          )}
+
           {activeTab === "content" && isAdmin && (
             <Card className="border-0 shadow-lg">
               <CardContent className="p-4 md:p-6">

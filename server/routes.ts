@@ -683,6 +683,79 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== NEWS ARTICLES ====================
+  app.get("/api/news", async (req, res) => {
+    try {
+      const news = await db.collection("news")
+        .find({})
+        .sort({ createdAt: -1 })
+        .toArray();
+      const normalizedNews = news.map(article => ({
+        ...article,
+        id: article._id.toString(),
+        _id: undefined
+      }));
+      res.json(normalizedNews);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الأخبار" });
+    }
+  });
+
+  app.post("/api/news", requireRole("admin"), async (req, res) => {
+    try {
+      const { title, titleEn, content, contentEn, summary, summaryEn, imageUrl, category, isPublished } = req.body;
+      if (!title) {
+        return res.status(400).json({ message: "العنوان مطلوب" });
+      }
+      const article = {
+        title,
+        titleEn,
+        content,
+        contentEn,
+        summary,
+        summaryEn,
+        imageUrl,
+        category: category || "general",
+        isPublished: isPublished ?? true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      const result = await db.collection("news").insertOne(article);
+      res.json({ ...article, id: result.insertedId.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إضافة الخبر" });
+    }
+  });
+
+  app.put("/api/news/:id", requireRole("admin"), async (req, res) => {
+    try {
+      const id = String(req.params.id);
+      const { title, titleEn, content, contentEn, summary, summaryEn, imageUrl, category, isPublished } = req.body;
+      await db.collection("news").updateOne(
+        { _id: new ObjectId(id) },
+        { 
+          $set: { 
+            title, titleEn, content, contentEn, summary, summaryEn, 
+            imageUrl, category, isPublished, updatedAt: new Date() 
+          } 
+        }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الخبر" });
+    }
+  });
+
+  app.delete("/api/news/:id", requireRole("admin"), async (req, res) => {
+    try {
+      const id = String(req.params.id);
+      await db.collection("news").deleteOne({ _id: new ObjectId(id) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الخبر" });
+    }
+  });
+
   // ==================== JOB APPLICATIONS ====================
   app.get("/api/job-applications", requireRole("admin"), async (req, res) => {
     try {
