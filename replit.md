@@ -8,6 +8,23 @@ Twaq is an Arabic-language charitable donation platform built for the Saudi mark
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (February 2026)
+
+### UI/UX Improvements
+- **Splash Screen Removed**: Website now loads directly to the main page
+- **WhatsApp Contact Button**: Creative expandable popup design with contact number +966 50 579 3012
+- **Mobile Responsiveness**: Enhanced CSS for touch-friendly targets and better mobile layouts
+- **Admin Panel Redesign**: New sidebar navigation layout for better usability
+
+### New Features
+- **File Upload Component**: Supports images, videos, and documents with drag-drop and preview (10MB limit)
+- **Job Applications Management**: Admin can view, filter, and manage job applications with status updates
+- **Enhanced Job Management**: Search and filter functionality for job listings
+
+### Backend Updates
+- **Job Applications API**: Added CRUD endpoints for job applications (/api/job-applications)
+- **Service Worker**: Updated cache versioning for proper cache clearing
+
 ## System Architecture
 
 ### Frontend Architecture
@@ -35,7 +52,7 @@ Preferred communication style: Simple, everyday language.
 ### Data Layer
 - **Database**: MongoDB (connected via `MONGODB_URI` environment variable)
 - **Schema Definition**: Drizzle ORM schemas in `shared/schema.ts` (PostgreSQL dialect, but app uses MongoDB)
-- **Collections**: users, donations
+- **Collections**: users, donations, jobs, job_applications, content, settings, uploads
 - **Validation**: Zod schemas derived from Drizzle schemas using drizzle-zod
 
 ### Key Design Patterns
