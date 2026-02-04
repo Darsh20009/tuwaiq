@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Twaq Brand Colors - Green & Blue Gradients */
+  --primary: 155 45% 45%;      /* #3F9E6C - Deep Green */
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 195 55% 45%;    /* #3399CC - Rich Blue */
+  --secondary-foreground: 0 0% 100%;
+
+  --accent: 155 60% 95%;       /* Light Green Tint */
+  --accent-foreground: 155 45% 35%;
+
+  --background: 210 20% 99%;   /* Very light cool gray */
+  --foreground: 215 25% 20%;   /* Dark Blue-Grey text */
+
+  --card: 0 0% 100%;
+  --card-foreground: 215 25% 20%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 25% 20%;
+
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 20% 50%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 155 45% 45%;
+
+  --radius: 0.75rem;
+  
+  --font-body: 'Tajawal', sans-serif;
+  --font-heading: 'Cairo', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    direction: rtl;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-body;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(155, 45%, 96%, 0.5) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(195, 55%, 96%, 0.5) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold tracking-tight text-foreground;
+  }
+}
+
+/* Custom Utilities for Islamic/Modern feel */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-l from-primary to-secondary;
+  }
+  
+  .bg-gradient-brand {
+    @apply bg-gradient-to-l from-primary to-secondary;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+  /* Responsive Navigation & Grid */
+  @media (max-width: 640px) {
+    .container {
+      @apply px-4;
+    }
+    .text-4xl {
+      @apply text-3xl;
+    }
+    .text-6xl {
+      @apply text-4xl;
+    }
+  }
+
+  /* Safari smooth scroll fix */
+  @supports (-webkit-overflow-scrolling: touch) {
+    .scroll-smooth {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  /* iPhone Notch / Safe Area support */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}

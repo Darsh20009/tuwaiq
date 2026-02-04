@@ -1,0 +1,737 @@
+import express, { type Express, Request, Response, NextFunction } from "express";
+import { createServer, type Server } from "http";
+import { storage } from "./storage";
+import { db, donationsCollection, usersCollection } from "./db";
+import { api } from "@shared/routes";
+import { z } from "zod";
+import session from "express-session";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+import MemoryStore from "memorystore";
+import { ObjectId } from "mongodb";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+const scryptAsync = promisify(scrypt);
+
+// Configure multer for file uploads
+const uploadDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+const storage_multer = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage_multer });
+
+async function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString("hex")}.${salt}`;
+}
+
+async function comparePasswords(supplied: string, stored: string) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
+
+// Middleware to check role
+function requireRole(...roles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "غير مصرح" });
+    }
+    const user = req.user as any;
+    if (!roles.includes(user.role)) {
+      return res.status(403).json({ message: "ليس لديك صلاحية" });
+    }
+    next();
+  };
+}
+
+export async function registerRoutes(
+  httpServer: Server,
+  app: Express
+): Promise<Server> {
+  const SessionStore = MemoryStore(session);
+  app.use(express.json({ limit: '10mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || "twaq_secret_key",
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 86400000 },
+      store: new SessionStore({
+        checkPeriod: 86400000,
+      }),
+    })
+  );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  passport.use(
+    new LocalStrategy(
+      { usernameField: "mobile" },
+      async (mobile, password, done) => {
+        try {
+          const user = await storage.getUserByMobile(mobile);
+          if (!user || !(await comparePasswords(password, user.password))) {
+            return done(null, false, { message: "رقم الجوال أو كلمة المرور غير صحيحة" });
+          }
+          return done(null, user);
+        } catch (err) {
+          return done(err);
+        }
+      }
+    )
+  );
+
+  passport.serializeUser((user: any, done) => done(null, user.id));
+  passport.deserializeUser(async (id: any, done) => {
+    try {
+      const user = await storage.getUser(String(id));
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+
+  // ==================== AUTH ROUTES ====================
+  app.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { mobile, newPassword } = req.body;
+      const user = await storage.getUserByMobile(mobile);
+      if (!user) {
+        return res.status(404).json({ message: "المستخدم غير موجود" });
+      }
+      const hashedPassword = await hashPassword(newPassword);
+      await usersCollection.updateOne(
+        { _id: new ObjectId(String(user.id)) },
+        { $set: { password: hashedPassword, updatedAt: new Date() } }
+      );
+      res.json({ message: "تم تغيير كلمة المرور بنجاح" });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في الخادم" });
+    }
+  });
+
+  app.post(api.auth.register.path, async (req, res) => {
+    try {
+      const input = api.auth.register.input.parse(req.body);
+      const existing = await storage.getUserByMobile(input.mobile);
+      if (existing) {
+        return res.status(400).json({ message: "رقم الجوال مسجل مسبقاً" });
+      }
+      const hashedPassword = await hashPassword(input.password);
+      const user = await storage.createUser({ ...input, password: hashedPassword });
+      req.login(user, (err) => {
+        if (err) return res.status(500).json({ message: "فشل تسجيل الدخول" });
+        res.status(201).json(user);
+      });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        res.status(400).json({ message: err.errors[0].message });
+      } else {
+        res.status(500).json({ message: "خطأ في الخادم" });
+      }
+    }
+  });
+
+  app.post(api.auth.login.path, passport.authenticate("local"), (req, res) => {
+    res.json(req.user);
+  });
+
+  app.post(api.auth.logout.path, (req, res) => {
+    req.logout((err) => {
+      if (err) return res.status(500).json({ message: "فشل تسجيل الخروج" });
+      res.sendStatus(200);
+    });
+  });
+
+  app.get(api.auth.me.path, (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    res.json(req.user);
+  });
+
+  // ==================== USER ROUTES ====================
+  app.patch(api.users.togglePrivacy.path, async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const input = api.users.togglePrivacy.input.parse(req.body);
+    const user = await storage.updateUserPrivacy((req.user as any).id, input.isPublicDonor);
+    res.json(user);
+  });
+
+  // ==================== DONATION ROUTES ====================
+  app.post(api.donations.create.path, async (req, res) => {
+    try {
+      const { amount, type, donorName } = req.body;
+      const geideaRef = randomBytes(8).toString("hex");
+      const userId = req.isAuthenticated() ? (req.user as any).id : undefined;
+
+      const donation = await storage.createDonation({
+        amount,
+        type,
+        donorName,
+        userId,
+        geideaRef,
+        status: "pending"
+      });
+
+      // Return callback URL for mock payment
+      const callbackUrl = `/api/donations/callback?ref=${geideaRef}&status=success`;
+      res.json({ redirectUrl: callbackUrl, donationId: donation.id });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إنشاء التبرع" });
+    }
+  });
+
+  app.get(api.donations.callback.path, async (req, res) => {
+    const { ref, status } = req.query;
+    if (typeof ref !== 'string' || typeof status !== 'string') {
+      return res.status(400).send("طلب غير صالح");
+    }
+
+    const donation = await storage.updateDonationStatus(ref, status);
+    
+    if (donation && donation.userId && status === 'success') {
+      await storage.updateUserTotalDonations(String(donation.userId), Number(donation.amount));
+      
+      // Create certificate
+      await db.collection("certificates").insertOne({
+        donationId: donation.id,
+        userId: donation.userId,
+        donorName: donation.donorName || (req.user as any)?.name || "فاعل خير", 
+        amount: donation.amount,
+        type: donation.type,
+        certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
+        createdAt: new Date()
+      });
+    }
+
+    res.redirect("/?payment=success");
+  });
+
+  app.get(api.donations.list.path, async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const donations = await storage.getDonations((req.user as any).id);
+    res.json(donations);
+  });
+
+  // ==================== CERTIFICATES ROUTES ====================
+  app.get("/api/certificates", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    try {
+      const userId = (req.user as any).id;
+      const certs = await db.collection("certificates")
+        .find({ userId: new ObjectId(userId) })
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(certs.map((c: any) => ({ ...c, id: c._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الشهادات" });
+    }
+  });
+
+  app.get("/api/certificates/:id", async (req, res) => {
+    try {
+      const cert = await db.collection("certificates").findOne({ _id: new ObjectId(String(req.params.id)) });
+      if (!cert) return res.status(404).json({ message: "الشهادة غير موجودة" });
+      res.json({ ...cert, id: cert._id.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الشهادة" });
+    }
+  });
+
+  // ==================== BANK TRANSFER ROUTES ====================
+  app.post("/api/bank-transfers", upload.single("file"), async (req, res) => {
+    try {
+      const { amount, type, bankName, transferDate, donorName, donorPhone } = req.body;
+      const receiptImage = req.file ? `/uploads/${req.file.filename}` : req.body.receiptImage;
+      
+      const transfer = await db.collection("bank_transfers").insertOne({
+        amount,
+        type,
+        bankName,
+        transferDate,
+        receiptImage,
+        donorName,
+        donorPhone,
+        userId: req.isAuthenticated() ? new ObjectId((req.user as any).id) : null,
+        status: "pending",
+        createdAt: new Date()
+      });
+      
+      res.status(201).json({ id: transfer.insertedId, message: "تم استلام إيصال التحويل بنجاح" });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حفظ إيصال التحويل" });
+    }
+  });
+
+  app.get("/api/bank-transfers", requireRole("admin", "accountant", "manager"), async (req, res) => {
+    try {
+      const transfers = await db.collection("bank_transfers")
+        .find({})
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(transfers.map((t: any) => ({ ...t, id: t._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب التحويلات" });
+    }
+  });
+
+  app.patch("/api/bank-transfers/:id", requireRole("admin", "accountant", "manager"), async (req, res) => {
+    try {
+      const { status, notes } = req.body;
+      const transferId = String(req.params.id);
+      
+      await db.collection("bank_transfers").updateOne(
+        { _id: new ObjectId(transferId) },
+        { $set: { status, notes, reviewedBy: (req.user as any).id, reviewedAt: new Date() } }
+      );
+
+      if (status === "approved") {
+        const transfer = await db.collection("bank_transfers").findOne({ _id: new ObjectId(transferId) });
+        if (transfer) {
+          const geideaRef = `BANK-${randomBytes(8).toString("hex")}`;
+          await donationsCollection.insertOne({
+            amount: transfer.amount,
+            type: transfer.type,
+            userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
+            donorName: transfer.donorName || null,
+            geideaRef,
+            status: "success",
+            paymentMethod: "bank_transfer",
+            createdAt: new Date()
+          });
+          
+          if (transfer.userId) {
+            const userId = new ObjectId(String(transfer.userId));
+            await usersCollection.updateOne(
+              { _id: userId },
+              { $inc: { totalDonations: Number(transfer.amount) } }
+            );
+          }
+
+          await db.collection("certificates").insertOne({
+            donationId: null,
+            userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
+            donorName: transfer.donorName || "فاعل خير",
+            amount: transfer.amount,
+            type: transfer.type,
+            certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
+            createdAt: new Date()
+          });
+        }
+      }
+      
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error updating bank transfer:", err);
+      res.status(500).json({ message: "خطأ في تحديث التحويل" });
+    }
+  });
+
+  // ==================== ROLES MANAGEMENT ====================
+  app.get("/api/roles", requireRole("admin"), async (req, res) => {
+    try {
+      const roles = await db.collection("roles").find({}).toArray();
+      res.json(roles.map((r: any) => ({ ...r, id: r._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الأدوار" });
+    }
+  });
+
+  app.post("/api/roles", requireRole("admin"), async (req, res) => {
+    try {
+      const { name, nameAr, permissions } = req.body;
+      const result = await db.collection("roles").insertOne({
+        name,
+        nameAr,
+        permissions,
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId, name, nameAr, permissions });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إنشاء الدور" });
+    }
+  });
+
+  app.delete("/api/roles/:id", requireRole("admin"), async (req, res) => {
+    try {
+      await db.collection("roles").deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الدور" });
+    }
+  });
+
+  // ==================== EMPLOYEES MANAGEMENT ====================
+  app.get("/api/employees", requireRole("admin"), async (req, res) => {
+    try {
+      const employees = await usersCollection.find({ role: { $ne: "user" } }).toArray();
+      res.json(employees.map((e: any) => ({ ...e, id: e._id.toString(), password: undefined })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الموظفين" });
+    }
+  });
+
+  app.post("/api/employees", requireRole("admin"), async (req, res) => {
+    try {
+      const { name, mobile, password, role, department } = req.body;
+      const existing = await storage.getUserByMobile(mobile);
+      if (existing) {
+        return res.status(400).json({ message: "رقم الجوال مسجل مسبقاً" });
+      }
+      
+      const hashedPassword = await hashPassword(password);
+      const result = await usersCollection.insertOne({
+        name,
+        mobile,
+        password: hashedPassword,
+        role,
+        department,
+        isPublicDonor: false,
+        totalDonations: "0",
+        createdAt: new Date()
+      });
+      
+      res.status(201).json({ id: result.insertedId, name, mobile, role, department });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إضافة الموظف" });
+    }
+  });
+
+  app.patch("/api/employees/:id", requireRole("admin"), async (req, res) => {
+    try {
+      const { name, role, department, isActive } = req.body;
+      await usersCollection.updateOne(
+        { _id: new ObjectId(String(req.params.id)) },
+        { $set: { name, role, department, isActive, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الموظف" });
+    }
+  });
+
+  app.delete("/api/employees/:id", requireRole("admin"), async (req, res) => {
+    try {
+      await usersCollection.deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الموظف" });
+    }
+  });
+
+  // ==================== DELIVERY ORDERS ====================
+  app.get("/api/delivery-orders", requireRole("admin", "delivery", "manager"), async (req, res) => {
+    try {
+      const user = req.user as any;
+      const query = user.role === "delivery" ? { assignedTo: new ObjectId(user.id) } : {};
+      const orders = await db.collection("delivery_orders")
+        .find(query)
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(orders.map((o: any) => ({ ...o, id: o._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الطلبات" });
+    }
+  });
+
+  app.post("/api/delivery-orders", requireRole("admin", "accountant", "manager"), async (req, res) => {
+    try {
+      const { beneficiaryName, beneficiaryPhone, beneficiaryAddress, items, notes, assignedTo } = req.body;
+      const result = await db.collection("delivery_orders").insertOne({
+        beneficiaryName,
+        beneficiaryPhone,
+        beneficiaryAddress,
+        items,
+        notes,
+        assignedTo: assignedTo ? new ObjectId(assignedTo) : null,
+        status: "pending",
+        createdBy: new ObjectId((req.user as any).id),
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إنشاء الطلب" });
+    }
+  });
+
+  app.patch("/api/delivery-orders/:id", requireRole("admin", "delivery", "manager"), async (req, res) => {
+    try {
+      const { status, deliveryImage, deliveryNotes, assignedTo } = req.body;
+      const updateData: any = { updatedAt: new Date() };
+      
+      if (status) updateData.status = status;
+      if (deliveryImage) updateData.deliveryImage = deliveryImage;
+      if (deliveryNotes) updateData.deliveryNotes = deliveryNotes;
+      if (assignedTo) updateData.assignedTo = new ObjectId(String(assignedTo));
+      if (status === "delivered") updateData.deliveredAt = new Date();
+      
+      await db.collection("delivery_orders").updateOne(
+        { _id: new ObjectId(String(req.params.id)) },
+        { $set: updateData }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الطلب" });
+    }
+  });
+
+  // ==================== SERVICES/PROGRAMS ====================
+  app.get("/api/services", async (req, res) => {
+    try {
+      const services = await db.collection("services").find({ isActive: true }).toArray();
+      res.json(services.map((s: any) => ({ ...s, id: s._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الخدمات" });
+    }
+  });
+
+  app.get("/api/services/:slug", async (req, res) => {
+    try {
+      const service = await db.collection("services").findOne({ slug: req.params.slug });
+      if (!service) return res.status(404).json({ message: "الخدمة غير موجودة" });
+      res.json({ ...service, id: service._id.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الخدمة" });
+    }
+  });
+
+  app.post("/api/services", requireRole("admin", "editor"), async (req, res) => {
+    try {
+      const { title, titleEn, slug, description, descriptionEn, icon, image, targetAmount, currentAmount, isActive } = req.body;
+      const result = await db.collection("services").insertOne({
+        title,
+        titleEn,
+        slug,
+        description,
+        descriptionEn,
+        icon,
+        image,
+        targetAmount: targetAmount || 0,
+        currentAmount: currentAmount || 0,
+        isActive: isActive !== false,
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إنشاء الخدمة" });
+    }
+  });
+
+  app.put("/api/services/:id", requireRole("admin", "editor"), async (req, res) => {
+    try {
+      const { title, titleEn, slug, description, descriptionEn, icon, image, targetAmount, currentAmount, isActive } = req.body;
+      await db.collection("services").updateOne(
+        { _id: new ObjectId(String(req.params.id)) },
+        { $set: { title, titleEn, slug, description, descriptionEn, icon, image, targetAmount, currentAmount, isActive, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الخدمة" });
+    }
+  });
+
+  // ==================== ADMIN STATS ====================
+  app.get(api.admin.getStats.path, requireRole("admin", "accountant", "manager"), async (req, res) => {
+    try {
+      const donations = await donationsCollection.find({ status: "success" }).toArray();
+      const totalDonations = donations.reduce((sum: number, d: any) => sum + Number(d.amount), 0);
+      
+      const stats = await db.collection("system_stats").findOne({});
+      const totalOrganizations = stats?.totalOrganizations || 0;
+      const totalBeneficiaries = stats?.totalBeneficiaries || 0;
+      const feePercentage = Number(stats?.employee_fees_percentage || 10);
+      
+      const employeeFees = (totalDonations * feePercentage) / 100;
+      const netDonations = totalDonations - employeeFees;
+
+      res.json({
+        totalDonations: String(totalDonations),
+        totalOrganizations,
+        totalBeneficiaries,
+        employeeFees: String(employeeFees),
+        netDonations: String(netDonations),
+      });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الإحصائيات" });
+    }
+  });
+
+  app.patch(api.admin.updateSettings.path, requireRole("admin"), async (req, res) => {
+    try {
+      const input = req.body;
+      await db.collection("system_stats").updateOne(
+        {},
+        { $set: { ...input, updatedAt: new Date() } },
+        { upsert: true }
+      );
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الإعدادات" });
+    }
+  });
+
+  // ==================== LEADERBOARD ====================
+  app.get(api.leaderboard.list.path, async (req, res) => {
+    const topDonors = await storage.getTopDonors();
+    res.json(topDonors.map((d: any) => ({ ...d, totalDonations: String(d.totalDonations) })));
+  });
+
+  // ==================== CONTENT MANAGEMENT ====================
+  app.get("/api/content/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const content = await db.collection("content").findOne({ slug });
+      if (!content) {
+        return res.json({ slug, title: "", titleEn: "", content: "", contentEn: "" });
+      }
+      res.json({ ...content, id: content._id?.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب المحتوى" });
+    }
+  });
+
+  app.put("/api/content/:slug", requireRole("admin", "editor"), async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const { title, titleEn, content: contentText, contentEn, imageUrl, videoUrl, metaDescription, metaDescriptionEn } = req.body;
+      await db.collection("content").updateOne(
+        { slug },
+        { 
+          $set: { 
+            title, 
+            titleEn, 
+            content: contentText, 
+            contentEn, 
+            imageUrl, 
+            videoUrl, 
+            metaDescription, 
+            metaDescriptionEn, 
+            updatedAt: new Date() 
+          } 
+        },
+        { upsert: true }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث المحتوى" });
+    }
+  });
+
+  // ==================== JOBS MANAGEMENT ====================
+  app.get("/api/jobs", async (req, res) => {
+    try {
+      const jobs = await db.collection("jobs").find({}).toArray();
+      res.json(jobs.map((j: any) => ({ ...j, id: j._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الوظائف" });
+    }
+  });
+
+  app.post("/api/jobs", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const job = req.body;
+      const result = await db.collection("jobs").insertOne({
+        ...job,
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إضافة الوظيفة" });
+    }
+  });
+
+  app.put("/api/jobs/:id", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const update = req.body;
+      await db.collection("jobs").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { ...update, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الوظيفة" });
+    }
+  });
+
+  app.delete("/api/jobs/:id", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.collection("jobs").deleteOne({ _id: new ObjectId(id) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الوظيفة" });
+    }
+  });
+
+  // ==================== FILE UPLOAD ====================
+  app.post("/api/upload", upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "لم يتم اختيار ملف" });
+      }
+      const fileUrl = `/uploads/${req.file.filename}`;
+      res.json({ url: fileUrl, fileName: req.file.filename });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في رفع الملف" });
+    }
+  });
+
+  app.get("/api/uploads/:id", async (req, res) => {
+    try {
+      const uploadId = String(req.params.id);
+      const upload = await db.collection("uploads").findOne({ _id: new ObjectId(uploadId) });
+      if (!upload) return res.status(404).json({ message: "الملف غير موجود" });
+      const base64Data = upload.image.replace(/^data:image\/\w+;base64,/, "");
+      const buffer = Buffer.from(base64Data, "base64");
+      res.set("Content-Type", "image/png");
+      res.send(buffer);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الملف" });
+    }
+  });
+
+  // ==================== SITE SETTINGS ====================
+  app.get("/api/settings", async (req, res) => {
+    try {
+      const settings = await db.collection("settings").findOne({});
+      res.json(settings || {});
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الإعدادات" });
+    }
+  });
+
+  app.put("/api/settings", requireRole("admin"), async (req, res) => {
+    try {
+      await db.collection("settings").updateOne(
+        {},
+        { $set: { ...req.body, updatedAt: new Date() } },
+        { upsert: true }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حفظ الإعدادات" });
+    }
+  });
+
+  return httpServer;
+}
