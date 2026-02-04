@@ -1,9 +1,7 @@
-const CACHE_NAME = 'tuwaiq-v1';
+const CACHE_NAME = 'tuwaiq-v2';
 const urlsToCache = [
-  '/',
   '/manifest.json',
-  '/images/logo.jpeg',
-  '/favicon.png'
+  '/images/logo.jpeg'
 ];
 
 // Install event

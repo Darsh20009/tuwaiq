@@ -18,8 +18,9 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   Settings, Users, Building, DollarSign, Percent, TrendingUp, Loader2,
   FileText, UserPlus, Truck, MessageSquare, Building2, CheckCircle2,
-  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image
+  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload
 } from "lucide-react";
+import { FileUpload } from "@/components/FileUpload";
 
 // Job Management Tab
 function JobManagement() {
@@ -322,7 +323,7 @@ function ContentManagement() {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>العنوان (عربي)</Label>
               <Input
@@ -331,36 +332,49 @@ function ContentManagement() {
               />
             </div>
             <div className="space-y-2">
-              <Label>رابط الفيديو (اختياري)</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={content.videoUrl}
-                  onChange={e => setContent(c => ({ ...c, videoUrl: e.target.value }))}
-                  placeholder="رابط فيديو MP4..."
-                />
-                <Button size="icon" variant="outline" onClick={() => {
-                  const url = prompt("أدخل رابط الفيديو:");
-                  if (url) setContent(c => ({ ...c, videoUrl: url }));
-                }}>
-                  <RefreshCw className="h-4 w-4" />
-                </Button>
-              </div>
+              <Label>العنوان (إنجليزي)</Label>
+              <Input
+                value={content.titleEn}
+                onChange={e => setContent(c => ({ ...c, titleEn: e.target.value }))}
+                dir="ltr"
+              />
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>رابط الصورة</Label>
-              <div className="flex gap-2">
+              <Label>رفع صورة</Label>
+              <FileUpload 
+                currentUrl={content.imageUrl}
+                onUpload={(url) => setContent(c => ({ ...c, imageUrl: url }))}
+                accept="image/*"
+                label="اختر صورة"
+              />
+              {content.imageUrl && (
                 <Input
                   value={content.imageUrl}
                   onChange={e => setContent(c => ({ ...c, imageUrl: e.target.value }))}
-                  placeholder="https://..."
+                  placeholder="أو أدخل رابط الصورة..."
+                  className="text-xs"
                 />
-                <Button size="icon" variant="outline" onClick={() => {
-                  const url = prompt("أدخل رابط الصورة:");
-                  if (url) setContent(c => ({ ...c, imageUrl: url }));
-                }}>
-                  <Image className="h-4 w-4" />
-                </Button>
-              </div>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label>رفع فيديو</Label>
+              <FileUpload 
+                currentUrl={content.videoUrl}
+                onUpload={(url) => setContent(c => ({ ...c, videoUrl: url }))}
+                accept="video/*"
+                label="اختر فيديو"
+              />
+              {content.videoUrl && (
+                <Input
+                  value={content.videoUrl}
+                  onChange={e => setContent(c => ({ ...c, videoUrl: e.target.value }))}
+                  placeholder="أو أدخل رابط الفيديو..."
+                  className="text-xs"
+                />
+              )}
             </div>
           </div>
           
