@@ -683,6 +683,69 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== JOB APPLICATIONS ====================
+  app.get("/api/job-applications", requireRole("admin"), async (req, res) => {
+    try {
+      const applications = await db.collection("job_applications")
+        .find({})
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(applications);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب طلبات التوظيف" });
+    }
+  });
+
+  app.post("/api/job-applications", async (req, res) => {
+    try {
+      const { name, email, phone, jobId, jobTitle, resumeUrl, coverLetter } = req.body;
+      const application = {
+        name,
+        email,
+        phone,
+        jobId,
+        jobTitle,
+        resumeUrl,
+        coverLetter,
+        status: "pending",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      const result = await db.collection("job_applications").insertOne(application);
+      res.json({ ...application, id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إرسال طلب التوظيف" });
+    }
+  });
+
+  app.put("/api/job-applications/:id/status", requireRole("admin"), async (req, res) => {
+    try {
+      const { status } = req.body;
+      const id = String(req.params.id);
+      const validStatuses = ["pending", "reviewed", "accepted", "rejected"];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: "حالة غير صالحة" });
+      }
+      await db.collection("job_applications").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { status, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الحالة" });
+    }
+  });
+
+  app.delete("/api/job-applications/:id", requireRole("admin"), async (req, res) => {
+    try {
+      const id = String(req.params.id);
+      await db.collection("job_applications").deleteOne({ _id: new ObjectId(id) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الطلب" });
+    }
+  });
+
   // ==================== FILE UPLOAD ====================
   app.post("/api/upload", upload.single("file"), async (req, res) => {
     try {

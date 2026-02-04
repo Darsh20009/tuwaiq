@@ -28,6 +28,8 @@ function JobManagement() {
   const queryClient = useQueryClient();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingJob, setEditingJob] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [newJob, setNewJob] = useState({ 
     title: "", 
     titleEn: "", 
@@ -121,9 +123,18 @@ function JobManagement() {
     setShowAddDialog(true);
   };
 
+  const filteredJobs = jobs?.filter((job: any) => {
+    const matchesSearch = job.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          job.department?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === "all" || 
+                          (filterStatus === "active" && job.isActive) ||
+                          (filterStatus === "inactive" && !job.isActive);
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h3 className="text-lg font-bold">إدارة الوظائف</h3>
         <Dialog open={showAddDialog} onOpenChange={(open) => {
           setShowAddDialog(open);
@@ -187,34 +198,246 @@ function JobManagement() {
         </Dialog>
       </div>
 
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex-1">
+          <Input 
+            placeholder="البحث عن وظيفة..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+        </div>
+        <Select value={filterStatus} onValueChange={setFilterStatus}>
+          <SelectTrigger className="w-full sm:w-[150px]">
+            <SelectValue placeholder="الحالة" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">الكل</SelectItem>
+            <SelectItem value="active">نشط</SelectItem>
+            <SelectItem value="inactive">غير نشط</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-8">
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          {filteredJobs?.map((job: any) => (
+            <Card key={job.id} className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-bold text-lg">{job.title}</p>
+                      <Badge variant={job.isActive ? "default" : "secondary"} className="text-xs">
+                        {job.isActive ? "نشط" : "غير نشط"}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{job.department}</p>
+                    {job.description && (
+                      <p className="text-sm text-gray-600 mt-2 line-clamp-2">{job.description}</p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => handleEdit(job)}>
+                      <Edit className="w-4 h-4 ml-1" />
+                      تعديل
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-destructive hover:text-destructive" onClick={() => deleteMutation.mutate(job.id)}>
+                      <Trash2 className="w-4 h-4 ml-1" />
+                      حذف
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {(!filteredJobs || filteredJobs.length === 0) && (
+            <div className="text-center py-8">
+              <Building2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-2" />
+              <p className="text-muted-foreground">لا توجد وظائف</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Job Applications Management Tab
+function JobApplicationsManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [viewingApplication, setViewingApplication] = useState<any>(null);
+
+  const { data: applications, isLoading } = useQuery({
+    queryKey: ['/api/job-applications'],
+    queryFn: async () => {
+      const res = await fetch('/api/job-applications', { credentials: 'include' });
+      return res.json();
+    }
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const res = await fetch(`/api/job-applications/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "تم التحديث", description: "تم تحديث حالة الطلب" });
+      queryClient.invalidateQueries({ queryKey: ['/api/job-applications'] });
+    }
+  });
+
+  const filteredApplications = applications?.filter((app: any) => 
+    selectedStatus === "all" || app.status === selectedStatus
+  );
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'pending': return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">قيد المراجعة</Badge>;
+      case 'reviewed': return <Badge variant="secondary" className="bg-blue-100 text-blue-800">تمت المراجعة</Badge>;
+      case 'accepted': return <Badge className="bg-green-100 text-green-800">مقبول</Badge>;
+      case 'rejected': return <Badge variant="destructive">مرفوض</Badge>;
+      default: return <Badge variant="secondary">غير محدد</Badge>;
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h3 className="text-lg font-bold">طلبات التوظيف</h3>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="تصفية حسب الحالة" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">جميع الطلبات</SelectItem>
+            <SelectItem value="pending">قيد المراجعة</SelectItem>
+            <SelectItem value="reviewed">تمت المراجعة</SelectItem>
+            <SelectItem value="accepted">مقبول</SelectItem>
+            <SelectItem value="rejected">مرفوض</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {isLoading ? (
         <div className="flex justify-center py-8">
           <Loader2 className="animate-spin" />
         </div>
       ) : (
         <div className="space-y-3">
-          {jobs?.map((job: any) => (
-            <Card key={job.id}>
-              <CardContent className="p-4 flex items-center justify-between">
-                <div>
-                  <p className="font-bold">{job.title}</p>
-                  <p className="text-sm text-muted-foreground">{job.department}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={job.isActive ? "default" : "secondary"}>
-                    {job.isActive ? "نشط" : "غير نشط"}
-                  </Badge>
-                  <Button variant="ghost" size="icon" onClick={() => handleEdit(job)}>
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(job.id)}>
-                    <Trash2 className="w-4 h-4 text-destructive" />
-                  </Button>
+          {filteredApplications?.map((app: any) => (
+            <Card key={app.id} className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex-1">
+                    <p className="font-bold text-lg">{app.name}</p>
+                    <p className="text-sm text-muted-foreground">{app.email}</p>
+                    <p className="text-sm text-muted-foreground">{app.phone}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      الوظيفة: {app.jobTitle || 'غير محدد'}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {getStatusBadge(app.status)}
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm" onClick={() => setViewingApplication(app)}>
+                          <Eye className="w-4 h-4 ml-1" />
+                          عرض
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle>تفاصيل طلب التوظيف</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-muted-foreground">الاسم</Label>
+                              <p className="font-medium">{app.name}</p>
+                            </div>
+                            <div>
+                              <Label className="text-muted-foreground">البريد الإلكتروني</Label>
+                              <p className="font-medium">{app.email}</p>
+                            </div>
+                            <div>
+                              <Label className="text-muted-foreground">رقم الجوال</Label>
+                              <p className="font-medium">{app.phone}</p>
+                            </div>
+                            <div>
+                              <Label className="text-muted-foreground">الوظيفة المتقدم لها</Label>
+                              <p className="font-medium">{app.jobTitle || 'غير محدد'}</p>
+                            </div>
+                          </div>
+                          {app.resumeUrl && (
+                            <div>
+                              <Label className="text-muted-foreground">السيرة الذاتية</Label>
+                              <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" 
+                                className="flex items-center gap-2 text-primary hover:underline mt-1">
+                                <FileText className="w-4 h-4" />
+                                عرض السيرة الذاتية
+                              </a>
+                            </div>
+                          )}
+                          {app.coverLetter && (
+                            <div>
+                              <Label className="text-muted-foreground">رسالة التقديم</Label>
+                              <p className="mt-1 text-sm bg-muted p-3 rounded-lg">{app.coverLetter}</p>
+                            </div>
+                          )}
+                          <div className="pt-4 border-t">
+                            <Label className="text-muted-foreground mb-2 block">تحديث الحالة</Label>
+                            <div className="flex flex-wrap gap-2">
+                              <Button 
+                                size="sm" 
+                                variant={app.status === 'reviewed' ? 'default' : 'outline'}
+                                onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'reviewed' })}
+                              >
+                                <Clock className="w-4 h-4 ml-1" />
+                                تمت المراجعة
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant={app.status === 'accepted' ? 'default' : 'outline'}
+                                className="bg-green-600 hover:bg-green-700"
+                                onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'accepted' })}
+                              >
+                                <CheckCircle2 className="w-4 h-4 ml-1" />
+                                قبول
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant={app.status === 'rejected' ? 'destructive' : 'outline'}
+                                onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'rejected' })}
+                              >
+                                <XCircle className="w-4 h-4 ml-1" />
+                                رفض
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           ))}
-          {(!jobs || jobs.length === 0) && <p className="text-center text-muted-foreground py-8">لا توجد وظائف</p>}
+          {(!filteredApplications || filteredApplications.length === 0) && (
+            <p className="text-center text-muted-foreground py-8">لا توجد طلبات توظيف</p>
+          )}
         </div>
       )}
     </div>
@@ -889,188 +1112,249 @@ export default function Admin() {
   const isEditor = user.role === "editor";
   const isManager = user.role === "manager";
 
+  const [activeTab, setActiveTab] = useState(isAdmin ? "content" : "transfers");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const menuItems = [
+    { id: "content", label: "إدارة المحتوى", icon: FileText, roles: ["admin"] },
+    { id: "jobs", label: "إدارة الوظائف", icon: Building2, roles: ["admin"] },
+    { id: "applications", label: "طلبات التوظيف", icon: UserPlus, roles: ["admin"] },
+    { id: "employees", label: "إدارة الموظفين", icon: Users, roles: ["admin"] },
+    { id: "transfers", label: "التحويلات البنكية", icon: Truck, roles: ["admin", "accountant"] },
+    { id: "messages", label: "رسائل التواصل", icon: MessageSquare, roles: ["admin"] },
+    { id: "settings", label: "الإعدادات", icon: Settings, roles: ["admin"] },
+  ];
+
+  const filteredMenuItems = menuItems.filter(item => 
+    item.roles.includes(user.role || "")
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-muted/30">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto space-y-6">
-          
-          {/* Header */}
-          <div className="flex items-center justify-between">
+      <main className="flex-1 flex">
+        {/* Sidebar */}
+        <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-l border-gray-200 shadow-sm transition-all duration-300 hidden md:block`}>
+          <div className="p-4 border-b border-gray-100">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-brand flex items-center justify-center shadow-lg">
-                <Settings className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-md">
+                <Settings className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold font-heading">لوحة التحكم</h1>
-                <p className="text-muted-foreground text-sm">مرحباً {user.name}</p>
-              </div>
+              {sidebarOpen && (
+                <div>
+                  <h2 className="font-bold text-lg">لوحة التحكم</h2>
+                  <p className="text-xs text-muted-foreground">{user.name}</p>
+                </div>
+              )}
             </div>
-            <Badge variant="outline" className="text-lg px-4 py-2">
-              {user.role === "admin" ? "مدير النظام" : 
-               user.role === "accountant" ? "محاسب" : 
-               user.role === "delivery" ? "مندوب توصيل" : 
-               user.role === "editor" ? "محرر محتوى" : "مدير فرع"}
+          </div>
+          
+          <nav className="p-3 space-y-1">
+            {filteredMenuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                  activeTab === item.id
+                    ? 'bg-gradient-brand text-white shadow-md'
+                    : 'hover:bg-gray-100 text-gray-700'
+                }`}
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                {sidebarOpen && <span className="font-medium">{item.label}</span>}
+              </button>
+            ))}
+          </nav>
+
+          <div className="absolute bottom-4 left-4 right-4">
+            <Badge variant="outline" className={`${sidebarOpen ? 'w-full justify-center' : 'w-10 h-10'} py-2`}>
+              {sidebarOpen ? (
+                user.role === "admin" ? "مدير النظام" : 
+                user.role === "accountant" ? "محاسب" : 
+                user.role === "delivery" ? "مندوب توصيل" : 
+                user.role === "editor" ? "محرر محتوى" : "مدير فرع"
+              ) : (
+                <Settings className="w-4 h-4" />
+              )}
             </Badge>
           </div>
+        </aside>
 
+        {/* Mobile Header */}
+        <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white border-b shadow-sm p-3">
+          <Select value={activeTab} onValueChange={setActiveTab}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {filteredMenuItems.map((item) => (
+                <SelectItem key={item.id} value={item.id}>
+                  <span className="flex items-center gap-2">
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-4 md:p-8 md:pt-8 pt-20 overflow-auto">
+          <div className="max-w-5xl mx-auto space-y-6">
+          
           {/* Stats Cards - Only for admin/accountant/manager */}
           {(isAdmin || isAccountant || isManager) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="border-0 shadow-lg">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
-                  <DollarSign className="h-5 w-5 text-primary" />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6 md:pb-2">
+                  <CardTitle className="text-xs md:text-sm font-medium">إجمالي التبرعات</CardTitle>
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <DollarSign className="h-4 w-4 text-primary" />
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{Number(stats?.totalDonations || 0).toLocaleString()} ريال</div>
+                <CardContent className="p-3 md:p-6 pt-0 md:pt-0">
+                  <div className="text-lg md:text-2xl font-bold">{Number(stats?.totalDonations || 0).toLocaleString()} <span className="text-xs font-normal">ريال</span></div>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">صافي التبرعات</CardTitle>
-                  <TrendingUp className="h-5 w-5 text-green-500" />
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6 md:pb-2">
+                  <CardTitle className="text-xs md:text-sm font-medium">صافي التبرعات</CardTitle>
+                  <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                    <TrendingUp className="h-4 w-4 text-green-500" />
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-green-600">{Number(stats?.netDonations || 0).toLocaleString()} ريال</div>
+                <CardContent className="p-3 md:p-6 pt-0 md:pt-0">
+                  <div className="text-lg md:text-2xl font-bold text-green-600">{Number(stats?.netDonations || 0).toLocaleString()} <span className="text-xs font-normal">ريال</span></div>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">المستفيدون</CardTitle>
-                  <Users className="h-5 w-5 text-blue-500" />
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6 md:pb-2">
+                  <CardTitle className="text-xs md:text-sm font-medium">المستفيدون</CardTitle>
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <Users className="h-4 w-4 text-blue-500" />
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stats?.totalBeneficiaries?.toLocaleString() || 0}</div>
+                <CardContent className="p-3 md:p-6 pt-0 md:pt-0">
+                  <div className="text-lg md:text-2xl font-bold">{stats?.totalBeneficiaries?.toLocaleString() || 0}</div>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">الشركاء</CardTitle>
-                  <Building className="h-5 w-5 text-amber-500" />
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6 md:pb-2">
+                  <CardTitle className="text-xs md:text-sm font-medium">الشركاء</CardTitle>
+                  <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+                    <Building className="h-4 w-4 text-amber-500" />
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stats?.totalOrganizations || 0}</div>
+                <CardContent className="p-3 md:p-6 pt-0 md:pt-0">
+                  <div className="text-lg md:text-2xl font-bold">{stats?.totalOrganizations || 0}</div>
                 </CardContent>
               </Card>
             </div>
           )}
 
-          {/* Tabs */}
-          <Tabs defaultValue={isAdmin ? "content" : "transfers"} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-2 bg-muted/50 p-1 h-auto">
-              {isAdmin && <TabsTrigger value="content" className="gap-2 py-2"><FileText className="w-4 h-4" /> <span className="hidden sm:inline">المحتوى</span></TabsTrigger>}
-              {isAdmin && <TabsTrigger value="jobs" className="gap-2 py-2"><Building2 className="w-4 h-4" /> <span className="hidden sm:inline">الوظائف</span></TabsTrigger>}
-              {isAdmin && <TabsTrigger value="employees" className="gap-2 py-2"><Users className="w-4 h-4" /> <span className="hidden sm:inline">الموظفين</span></TabsTrigger>}
-              {(isAdmin || isAccountant) && <TabsTrigger value="transfers" className="gap-2 py-2"><Building2 className="w-4 h-4" /> <span className="hidden sm:inline">التحويلات</span></TabsTrigger>}
-              {isAdmin && <TabsTrigger value="messages" className="gap-2 py-2"><MessageSquare className="w-4 h-4" /> <span className="hidden sm:inline">الرسائل</span></TabsTrigger>}
-              {isAdmin && <TabsTrigger value="settings" className="gap-2 py-2"><Settings className="w-4 h-4" /> <span className="hidden sm:inline">الإعدادات</span></TabsTrigger>}
-            </TabsList>
+          {/* Content Sections based on activeTab */}
+          {activeTab === "content" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <ContentManagement />
+              </CardContent>
+            </Card>
+          )}
 
-            {isAdmin && (
-              <TabsContent value="content">
-                <Card className="border-0 shadow-lg">
-                  <CardContent className="p-6">
-                    <ContentManagement />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+          {activeTab === "jobs" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <JobManagement />
+              </CardContent>
+            </Card>
+          )}
 
-            {isAdmin && (
-              <TabsContent value="jobs">
-                <Card className="border-0 shadow-lg">
-                  <CardContent className="p-6">
-                    <JobManagement />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+          {activeTab === "applications" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <JobApplicationsManagement />
+              </CardContent>
+            </Card>
+          )}
 
-            {isAdmin && (
-              <TabsContent value="employees">
-                <Card className="border-0 shadow-lg">
-                  <CardContent className="p-6">
-                    <EmployeesManagement />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+          {activeTab === "employees" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <EmployeesManagement />
+              </CardContent>
+            </Card>
+          )}
 
-            {(isAdmin || isAccountant) && (
-              <TabsContent value="transfers">
-                <Card className="border-0 shadow-lg">
-                  <CardContent className="p-6">
-                    <BankTransfersManagement />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+          {activeTab === "transfers" && (isAdmin || isAccountant) && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <BankTransfersManagement />
+              </CardContent>
+            </Card>
+          )}
 
-            {isAdmin && (
-              <TabsContent value="messages">
-                <Card className="border-0 shadow-lg">
-                  <CardContent className="p-6">
-                    <ContactMessages />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+          {activeTab === "messages" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <ContactMessages />
+              </CardContent>
+            </Card>
+          )}
 
-            {isAdmin && (
-              <TabsContent value="settings">
-                <Card className="border-0 shadow-lg">
-                  <CardHeader>
-                    <CardTitle>إعدادات النظام</CardTitle>
-                    <CardDescription>تحديث بيانات الجمعية والإحصائيات العامة</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="space-y-2">
-                        <Label>عدد المنظمات المستفيدة</Label>
-                        <Input
-                          type="number"
-                          value={settings.totalOrganizations}
-                          onChange={(e) => setSettings(s => ({ ...s, totalOrganizations: Number(e.target.value) }))}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>عدد المستفيدين</Label>
-                        <Input
-                          type="number"
-                          value={settings.totalBeneficiaries}
-                          onChange={(e) => setSettings(s => ({ ...s, totalBeneficiaries: Number(e.target.value) }))}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>نسبة رسوم الموظفين (%)</Label>
-                        <Input
-                          type="number"
-                          min={0}
-                          max={100}
-                          value={settings.employeeFeesPercentage}
-                          onChange={(e) => setSettings(s => ({ ...s, employeeFeesPercentage: Number(e.target.value) }))}
-                        />
-                      </div>
-                    </div>
+          {activeTab === "settings" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle>إعدادات النظام</CardTitle>
+                <CardDescription>تحديث بيانات الجمعية والإحصائيات العامة</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label>عدد المنظمات المستفيدة</Label>
+                    <Input
+                      type="number"
+                      value={settings.totalOrganizations}
+                      onChange={(e) => setSettings(s => ({ ...s, totalOrganizations: Number(e.target.value) }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>عدد المستفيدين</Label>
+                    <Input
+                      type="number"
+                      value={settings.totalBeneficiaries}
+                      onChange={(e) => setSettings(s => ({ ...s, totalBeneficiaries: Number(e.target.value) }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>نسبة رسوم الموظفين (%)</Label>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={settings.employeeFeesPercentage}
+                      onChange={(e) => setSettings(s => ({ ...s, employeeFeesPercentage: Number(e.target.value) }))}
+                    />
+                  </div>
+                </div>
 
-                    <Button 
-                      onClick={() => updateMutation.mutate(settings)} 
-                      disabled={updateMutation.isPending}
-                      className="bg-gradient-brand"
-                    >
-                      {updateMutation.isPending ? <Loader2 className="animate-spin ml-2" /> : null}
-                      حفظ التغييرات
-                    </Button>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
-          </Tabs>
+                <Button 
+                  onClick={() => updateMutation.mutate(settings)} 
+                  disabled={updateMutation.isPending}
+                  className="bg-gradient-brand"
+                >
+                  {updateMutation.isPending ? <Loader2 className="animate-spin ml-2" /> : null}
+                  حفظ التغييرات
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
+          </div>
         </div>
       </main>
       
