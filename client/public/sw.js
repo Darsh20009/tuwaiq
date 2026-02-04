@@ -1,11 +1,12 @@
-const CACHE_NAME = 'tuwaiq-v2';
+const CACHE_NAME = 'tuwaiq-v3';
 const urlsToCache = [
   '/manifest.json',
   '/images/logo.jpeg'
 ];
 
-// Install event
+// Install event - skip waiting to activate immediately
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -15,32 +16,55 @@ self.addEventListener('install', event => {
   );
 });
 
-// Fetch event
+// Fetch event - network first, then cache for static assets only
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  
+  // Skip caching for API requests and HTML pages
+  if (url.pathname.startsWith('/api') || 
+      event.request.mode === 'navigate' ||
+      event.request.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
+  // For static assets, try network first, then cache
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        if (response) {
-          return response;
+        // Cache successful responses
+        if (response && response.status === 200) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        return fetch(event.request);
-      }
-    )
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache if network fails
+        return caches.match(event.request);
+      })
   );
 });
 
-// Activate event
+// Activate event - clean old caches and take control
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      // Clean old caches
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheWhitelist.indexOf(cacheName) === -1) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      // Take control of all clients immediately
+      self.clients.claim()
+    ])
   );
 });
