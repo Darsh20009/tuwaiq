@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import logo from "@assets/targeted_element_1770060379720.png";
+import logo from "@assets/image_1770243307526.png";
 
 export function SplashScreen({ onFinish }: { onFinish: () => void }) {
   const [loading, setLoading] = useState(0);
