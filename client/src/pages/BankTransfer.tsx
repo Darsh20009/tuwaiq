@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Upload, Building2, CreditCard, CheckCircle2, Copy, Image, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -38,20 +38,30 @@ export default function BankTransfer() {
     type: initialType,
     bankName: "",
     transferDate: "",
-    receiptImage: "",
     notes: ""
   });
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [receiptPreview, setReceiptPreview] = useState<string>("");
   
   const { data: bankAccounts } = useQuery<any[]>({
     queryKey: ['/api/bank-accounts'],
   });
   
   const submitMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: { formData: typeof formData, file: File }) => {
+      const submitFormData = new FormData();
+      submitFormData.append('donorName', data.formData.donorName);
+      submitFormData.append('donorPhone', data.formData.donorPhone);
+      submitFormData.append('amount', data.formData.amount);
+      submitFormData.append('type', data.formData.type);
+      submitFormData.append('bankName', data.formData.bankName);
+      submitFormData.append('transferDate', data.formData.transferDate);
+      submitFormData.append('notes', data.formData.notes);
+      submitFormData.append('file', data.file);
+      
       const res = await fetch('/api/bank-transfers', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: submitFormData
       });
       if (!res.ok) throw new Error('Failed to submit');
       return res.json();
@@ -68,9 +78,10 @@ export default function BankTransfer() {
         type: "",
         bankName: "",
         transferDate: "",
-        receiptImage: "",
         notes: ""
       });
+      setReceiptFile(null);
+      setReceiptPreview("");
     },
     onError: () => {
       toast({
@@ -84,9 +95,10 @@ export default function BankTransfer() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setReceiptFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, receiptImage: reader.result as string }));
+        setReceiptPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -100,7 +112,7 @@ export default function BankTransfer() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.amount || !formData.type || !formData.receiptImage) {
+    if (!formData.amount || !formData.type || !receiptFile) {
       toast({
         title: "بيانات ناقصة",
         description: "الرجاء تعبئة جميع الحقول المطلوبة",
@@ -109,7 +121,7 @@ export default function BankTransfer() {
       return;
     }
     
-    submitMutation.mutate(formData);
+    submitMutation.mutate({ formData, file: receiptFile });
   };
 
   return (
@@ -322,12 +334,12 @@ export default function BankTransfer() {
                       <div
                         onClick={() => fileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors
-                          ${formData.receiptImage ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'}`}
+                          ${receiptPreview ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'}`}
                       >
-                        {formData.receiptImage ? (
+                        {receiptPreview ? (
                           <div className="space-y-4">
                             <img
-                              src={formData.receiptImage}
+                              src={receiptPreview}
                               alt="Receipt"
                               className="max-h-48 mx-auto rounded-lg shadow-md"
                             />
