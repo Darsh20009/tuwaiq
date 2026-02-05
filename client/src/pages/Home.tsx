@@ -68,7 +68,7 @@ function HeroSlider() {
   ] : BANNERS;
 
   return (
-    <div className="relative w-full h-[50vh] min-h-[400px] md:h-[550px] overflow-hidden group">
+    <div className="relative w-full h-[50vh] min-h-[400px] md:h-[550px] overflow-hidden group min-h-screen-ios">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}

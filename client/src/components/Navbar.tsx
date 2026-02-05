@@ -28,7 +28,7 @@ export function Navbar() {
   const isActive = (path: string) => location === path;
 
   return (
-    <nav className="sticky top-0 z-50 w-full font-heading">
+    <nav className="sticky top-0 z-50 w-full font-heading safe-top">
       {/* Top Bar - Simplified for mobile */}
       <div className="bg-gradient-to-l from-primary to-teal-600 text-white overflow-hidden">
         <div className="container mx-auto px-4">
