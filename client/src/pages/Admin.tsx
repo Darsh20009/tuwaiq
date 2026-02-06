@@ -1183,11 +1183,24 @@ function BankTransfersManagement() {
                 
                 {transfer.receiptImage && (
                   <div className="mt-4">
-                    <img
-                      src={transfer.receiptImage}
-                      alt="Receipt"
-                      className="max-h-32 rounded-lg border"
-                    />
+                    <Label className="text-muted-foreground mb-2 block">إيصال التحويل</Label>
+                    <div className="border rounded-lg overflow-hidden bg-muted/50">
+                      <img
+                        src={transfer.receiptImage}
+                        alt="Receipt"
+                        className="max-h-64 h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => window.open(transfer.receiptImage, '_blank')}
+                      />
+                    </div>
+                    <Button 
+                      variant="link" 
+                      size="sm" 
+                      className="mt-2 w-full"
+                      onClick={() => window.open(transfer.receiptImage, '_blank')}
+                    >
+                      <Eye className="w-4 h-4 ml-1" />
+                      عرض بحجم كامل
+                    </Button>
                   </div>
                 )}
               </CardContent>

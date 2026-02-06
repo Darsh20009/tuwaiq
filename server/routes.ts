@@ -299,16 +299,17 @@ export async function registerRoutes(
       const { status, notes } = req.body;
       const transferId = String(req.params.id);
       
-      await db.collection("bank_transfers").updateOne(
+      const updateResult = await db.collection("bank_transfers").findOneAndUpdate(
         { _id: new ObjectId(transferId) },
-        { $set: { status, notes, reviewedBy: (req.user as any).id, reviewedAt: new Date() } }
+        { $set: { status, notes, reviewedBy: (req.user as any).id, reviewedAt: new Date() } },
+        { returnDocument: 'after' }
       );
 
       if (status === "approved") {
-        const transfer = await db.collection("bank_transfers").findOne({ _id: new ObjectId(transferId) });
+        const transfer = updateResult;
         if (transfer) {
           const geideaRef = `BANK-${randomBytes(8).toString("hex")}`;
-          await donationsCollection.insertOne({
+          const donationResult = await donationsCollection.insertOne({
             amount: transfer.amount,
             type: transfer.type,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
@@ -327,13 +328,28 @@ export async function registerRoutes(
             );
           }
 
+          // Create Certificate
           await db.collection("certificates").insertOne({
-            donationId: null,
+            donationId: donationResult.insertedId,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
             donorName: transfer.donorName || "فاعل خير",
             amount: transfer.amount,
             type: transfer.type,
             certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
+            createdAt: new Date()
+          });
+
+          // Create Invoice
+          await db.collection("invoices").insertOne({
+            donationId: donationResult.insertedId,
+            userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
+            donorName: transfer.donorName || "فاعل خير",
+            donorPhone: transfer.donorPhone || "",
+            amount: transfer.amount,
+            type: transfer.type,
+            paymentMethod: "bank_transfer",
+            transferId: new ObjectId(transferId),
+            invoiceNumber: `INV-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
             createdAt: new Date()
           });
         }
@@ -343,6 +359,31 @@ export async function registerRoutes(
     } catch (err) {
       console.error("Error updating bank transfer:", err);
       res.status(500).json({ message: "خطأ في تحديث التحويل" });
+    }
+  });
+
+  // ==================== INVOICES ROUTES ====================
+  app.get("/api/invoices", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    try {
+      const userId = (req.user as any).id;
+      const invoices = await db.collection("invoices")
+        .find({ userId: new ObjectId(userId) })
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(invoices.map((i: any) => ({ ...i, id: i._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الفواتير" });
+    }
+  });
+
+  app.get("/api/invoices/:id", async (req, res) => {
+    try {
+      const invoice = await db.collection("invoices").findOne({ _id: new ObjectId(String(req.params.id)) });
+      if (!invoice) return res.status(404).json({ message: "الفاتورة غير موجودة" });
+      res.json({ ...invoice, id: invoice._id.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الفاتورة" });
     }
   });
 
