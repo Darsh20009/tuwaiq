@@ -1193,7 +1193,7 @@ function BankTransfersManagement() {
                       />
                     </div>
                     <Button 
-                      variant="link" 
+                      variant="ghost" 
                       size="sm" 
                       className="mt-2 w-full"
                       onClick={() => window.open(transfer.receiptImage, '_blank')}

@@ -330,7 +330,7 @@ export async function registerRoutes(
 
           // Create Certificate
           await db.collection("certificates").insertOne({
-            donationId: donationResult.insertedId,
+            donationId: donationResult.insertedId as any,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
             donorName: transfer.donorName || "فاعل خير",
             amount: transfer.amount,
@@ -341,7 +341,7 @@ export async function registerRoutes(
 
           // Create Invoice
           await db.collection("invoices").insertOne({
-            donationId: donationResult.insertedId,
+            donationId: donationResult.insertedId as any,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
             donorName: transfer.donorName || "فاعل خير",
             donorPhone: transfer.donorPhone || "",
