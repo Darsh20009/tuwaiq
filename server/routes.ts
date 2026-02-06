@@ -820,6 +820,8 @@ export async function registerRoutes(
   });
 
   // ==================== FILE UPLOAD ====================
+  app.use("/uploads", express.static(uploadDir));
+
   app.post("/api/upload", upload.single("file"), async (req, res) => {
     try {
       if (!req.file) {
