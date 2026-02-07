@@ -188,7 +188,7 @@ export class MongoStorage implements IStorage {
   }
 
   async getDonations(userId: string): Promise<Donation[]> {
-    const cursor = donationsCollection.find({ userId: new ObjectId(userId) });
+    const cursor = donationsCollection.find({ userId: new ObjectId(userId) }).sort({ createdAt: -1 });
     const docs = await cursor.toArray();
     return docs.map(d => this.toDonation(d));
   }

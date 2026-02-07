@@ -123,6 +123,10 @@ export default function BankTransfer() {
     
     submitMutation.mutate({ formData, file: receiptFile }, {
       onSuccess: () => {
+        toast({
+          title: "تم بنجاح",
+          description: "تم استلام إيصال التحويل وسيتم مراجعته قريباً",
+        });
         setLocation("/profile");
       }
     });

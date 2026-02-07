@@ -232,7 +232,7 @@ export async function registerRoutes(
       await db.collection("certificates").insertOne({
         _id: certId,
         donationId: donation.id,
-        userId: donation.userId,
+        userId: donation.userId ? new ObjectId(String(donation.userId)) : null,
         donorName: donation.donorName || "فاعل خير", 
         amount: donation.amount,
         type: donation.type,
@@ -242,7 +242,7 @@ export async function registerRoutes(
 
       await db.collection("invoices").insertOne({
         donationId: donation.id,
-        userId: donation.userId,
+        userId: donation.userId ? new ObjectId(String(donation.userId)) : null,
         donorName: donation.donorName || "فاعل خير",
         amount: donation.amount,
         type: donation.type,
@@ -337,27 +337,32 @@ export async function registerRoutes(
       if (status === "approved") {
         const transfer = updateResult;
         if (transfer) {
-          const geideaRef = `BANK-${randomBytes(8).toString("hex")}`;
-          const donation = await storage.createDonation({
-            amount: transfer.amount,
-            type: transfer.type,
-            userId: transfer.userId ? String(transfer.userId) : null,
-            donorName: transfer.donorName || null,
-            geideaRef,
-            status: "confirmed",
-            paymentMethod: "bank_transfer",
-          });
-          
-          // Create Certificate
-          await db.collection("certificates").insertOne({
-            donationId: donation.id,
-            userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
-            donorName: transfer.donorName || "فاعل خير",
-            amount: transfer.amount,
-            type: transfer.type,
-            certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
-            createdAt: new Date()
-          });
+      const geideaRef = `BANK-${randomBytes(8).toString("hex")}`;
+      const donation = await storage.createDonation({
+        amount: transfer.amount,
+        type: transfer.type,
+        userId: transfer.userId ? String(transfer.userId) : null,
+        donorName: transfer.donorName || null,
+        geideaRef,
+        status: "confirmed",
+        paymentMethod: "bank_transfer",
+      });
+      
+      // Update user total donations and points manually as well to be sure
+      if (transfer.userId) {
+        await storage.updateUserTotalDonations(String(transfer.userId), Number(transfer.amount));
+      }
+
+      // Create Certificate
+      await db.collection("certificates").insertOne({
+        donationId: donation.id,
+        userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
+        donorName: transfer.donorName || "فاعل خير",
+        amount: transfer.amount,
+        type: transfer.type,
+        certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
+        createdAt: new Date()
+      });
 
           // Create Invoice
           await db.collection("invoices").insertOne({
