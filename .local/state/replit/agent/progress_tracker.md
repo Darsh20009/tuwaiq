@@ -5,3 +5,4 @@
 [x] 5. تحسين استجابة الموقع لشاشات iPhone وإصلاح تداخل العناصر.
 [x] 6. Configure MONGODB_URI secret and verify database connection
 [x] 7. Fix workflow configuration and confirm app starts successfully
+[x] 8. Set MONGODB_URI secret and verify app starts with database connected
