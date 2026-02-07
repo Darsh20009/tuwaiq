@@ -11,17 +11,11 @@ export const users = pgTable("users", {
   role: text("role").default("user"), // "user" or "admin"
   isPublicDonor: boolean("is_public_donor").default(true),
   totalDonations: numeric("total_donations").default("0"),
+  points: integer("points").default(0),
+  bankName: text("bank_name"),
+  iban: text("iban"),
   createdAt: timestamp("created_at").defaultNow(),
 });
-
-export const systemStats = pgTable("system_stats", {
-  id: serial("id").primaryKey(),
-  totalOrganizations: integer("total_organizations").default(0),
-  totalBeneficiaries: integer("total_beneficiaries").default(0),
-  employeeFeesPercentage: numeric("employee_fees_percentage").default("10"),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
 
 export const donations = pgTable("donations", {
   id: serial("id").primaryKey(),
@@ -29,8 +23,11 @@ export const donations = pgTable("donations", {
   donorName: text("donor_name"), // Added for guest donations
   amount: numeric("amount").notNull(),
   type: text("type").notNull(), // e.g., "general", "zakat", "waqf"
+  paymentMethod: text("payment_method").default("online"), // online, bank_transfer
+  bankTransferPhoto: text("bank_transfer_photo"),
   geideaRef: text("geidea_ref"),
-  status: text("status").default("pending"), // pending, success, failed
+  status: text("status").default("pending"), // pending, confirmed, rejected
+  pointsEarned: integer("points_earned").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

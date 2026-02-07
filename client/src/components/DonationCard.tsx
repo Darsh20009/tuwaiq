@@ -39,12 +39,17 @@ export function DonationCard() {
   });
 
   const onSubmit = async (data: any) => {
-    if (paymentMethod === "transfer") {
-      setLocation(`/bank-transfer?amount=${data.amount}&type=${data.type}&donorName=${encodeURIComponent(data.donorName || "")}`);
-      return;
-    }
-    
     try {
+      if (paymentMethod === "transfer") {
+        await donate({
+          ...data,
+          paymentMethod: "bank_transfer",
+          status: "pending"
+        });
+        setLocation(`/bank-transfer?amount=${data.amount}&type=${data.type}&donorName=${encodeURIComponent(data.donorName || "")}`);
+        return;
+      }
+      
       await donate(data);
     } catch (error) {
       // Error handling is done in the hook

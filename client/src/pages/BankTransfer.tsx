@@ -121,7 +121,11 @@ export default function BankTransfer() {
       return;
     }
     
-    submitMutation.mutate({ formData, file: receiptFile });
+    submitMutation.mutate({ formData, file: receiptFile }, {
+      onSuccess: () => {
+        setLocation("/profile");
+      }
+    });
   };
 
   return (

@@ -179,23 +179,39 @@ export async function registerRoutes(
   // ==================== DONATION ROUTES ====================
   app.post(api.donations.create.path, async (req, res) => {
     try {
-      const { amount, type, donorName } = req.body;
+      const { amount, type, donorName, paymentMethod, bankTransferPhoto } = req.body;
       const geideaRef = randomBytes(8).toString("hex");
       const userId = req.isAuthenticated() ? (req.user as any).id : undefined;
+      const user = req.isAuthenticated() ? req.user as any : null;
+
+      // Auto-fill donor name from user profile if available
+      const finalDonorName = donorName || user?.name || "فاعل خير";
 
       const donation = await storage.createDonation({
         amount,
         type,
-        donorName,
+        donorName: finalDonorName,
         userId,
         geideaRef,
+        paymentMethod: paymentMethod || "online",
+        bankTransferPhoto: bankTransferPhoto || null,
         status: "pending"
       });
+
+      // If bank transfer, don't redirect to payment gateway
+      if (paymentMethod === "bank_transfer") {
+        return res.json({ 
+          success: true, 
+          message: "تم استلام طلب التبرع بنجاح، سيتم مراجعته قريباً",
+          donationId: donation.id 
+        });
+      }
 
       // Return callback URL for mock payment
       const callbackUrl = `/api/donations/callback?ref=${geideaRef}&status=success`;
       res.json({ redirectUrl: callbackUrl, donationId: donation.id });
     } catch (err) {
+      console.error("Donation creation error:", err);
       res.status(500).json({ message: "خطأ في إنشاء التبرع" });
     }
   });
@@ -206,24 +222,37 @@ export async function registerRoutes(
       return res.status(400).send("طلب غير صالح");
     }
 
-    const donation = await storage.updateDonationStatus(ref, status);
+    const donation = await storage.updateDonationStatus(ref, status === 'success' ? 'confirmed' : 'failed');
     
     if (donation && donation.userId && status === 'success') {
-      await storage.updateUserTotalDonations(String(donation.userId), Number(donation.amount));
+      // Points and total donations are now updated in storage.updateDonationStatus
       
-      // Create certificate
+      // Create certificate and invoice
+      const certId = new ObjectId();
       await db.collection("certificates").insertOne({
+        _id: certId,
         donationId: donation.id,
         userId: donation.userId,
-        donorName: donation.donorName || (req.user as any)?.name || "فاعل خير", 
+        donorName: donation.donorName || "فاعل خير", 
         amount: donation.amount,
         type: donation.type,
         certificateNumber: `TQ-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
         createdAt: new Date()
       });
+
+      await db.collection("invoices").insertOne({
+        donationId: donation.id,
+        userId: donation.userId,
+        donorName: donation.donorName || "فاعل خير",
+        amount: donation.amount,
+        type: donation.type,
+        paymentMethod: (donation as any).paymentMethod || "online",
+        invoiceNumber: `INV-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
+        createdAt: new Date()
+      });
     }
 
-    res.redirect("/?payment=success");
+    res.redirect("/profile?payment=success");
   });
 
   app.get(api.donations.list.path, async (req, res) => {
@@ -309,28 +338,19 @@ export async function registerRoutes(
         const transfer = updateResult;
         if (transfer) {
           const geideaRef = `BANK-${randomBytes(8).toString("hex")}`;
-          const donationResult = await donationsCollection.insertOne({
+          const donation = await storage.createDonation({
             amount: transfer.amount,
             type: transfer.type,
-            userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
+            userId: transfer.userId ? String(transfer.userId) : null,
             donorName: transfer.donorName || null,
             geideaRef,
-            status: "success",
+            status: "confirmed",
             paymentMethod: "bank_transfer",
-            createdAt: new Date()
           });
           
-          if (transfer.userId) {
-            const userId = new ObjectId(String(transfer.userId));
-            await usersCollection.updateOne(
-              { _id: userId },
-              { $inc: { totalDonations: Number(transfer.amount) } }
-            );
-          }
-
           // Create Certificate
           await db.collection("certificates").insertOne({
-            donationId: donationResult.insertedId as any,
+            donationId: donation.id,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
             donorName: transfer.donorName || "فاعل خير",
             amount: transfer.amount,
@@ -341,7 +361,7 @@ export async function registerRoutes(
 
           // Create Invoice
           await db.collection("invoices").insertOne({
-            donationId: donationResult.insertedId as any,
+            donationId: donation.id,
             userId: transfer.userId ? new ObjectId(String(transfer.userId)) : null,
             donorName: transfer.donorName || "فاعل خير",
             donorPhone: transfer.donorPhone || "",
@@ -352,6 +372,12 @@ export async function registerRoutes(
             invoiceNumber: `INV-${Date.now()}-${randomBytes(4).toString("hex").toUpperCase()}`,
             createdAt: new Date()
           });
+
+          // Update user total donations and points (already handled in storage.updateDonationStatus or createDonation if status is confirmed)
+          // Since we manually set status: "confirmed" in createDonation, we should call storage.updateUserTotalDonations
+          if (transfer.userId) {
+            await storage.updateUserTotalDonations(String(transfer.userId), Number(transfer.amount));
+          }
         }
       }
       

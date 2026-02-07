@@ -4,14 +4,21 @@ import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { User, Shield, Heart } from "lucide-react";
+import { User, Shield, Heart, Coins, History, CheckCircle2, Clock, XCircle, FileText, Award } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { Donation } from "@shared/schema";
 
 export default function Profile() {
   const { user, isLoading, togglePrivacy } = useAuth();
   const [, setLocation] = useLocation();
+
+  const { data: donations } = useQuery<Donation[]>({
+    queryKey: ["/api/donations"],
+    enabled: !!user,
+  });
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -40,7 +47,7 @@ export default function Profile() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
@@ -53,15 +60,88 @@ export default function Profile() {
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">نقاط العطاء</CardTitle>
+                <Coins className="h-4 w-4 text-yellow-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold font-mono">{user.points || 0}</div>
+                <p className="text-xs text-muted-foreground">10 نقاط لكل 1 ريال</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">عدد المساهمات</CardTitle>
                 <User className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold font-mono">--</div>
+                <div className="text-2xl font-bold font-mono">{donations?.length || 0}</div>
                 <p className="text-xs text-muted-foreground">عملية تبرع</p>
               </CardContent>
             </Card>
           </div>
+
+          {/* Donation History */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <History className="w-5 h-5 text-primary" />
+                سجل التبرعات
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {!donations || donations.length === 0 ? (
+                  <p className="text-center text-muted-foreground py-8">لا يوجد تبرعات سابقة</p>
+                ) : (
+                  donations.map((donation: any) => (
+                    <div key={donation.id} className="flex items-center justify-between p-4 rounded-xl border bg-card hover:bg-accent/5 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className={`p-2 rounded-lg ${
+                          donation.status === 'confirmed' ? 'bg-green-100 text-green-700' : 
+                          donation.status === 'rejected' ? 'bg-red-100 text-red-700' : 
+                          'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {donation.status === 'confirmed' ? <CheckCircle2 className="w-5 h-5" /> : 
+                           donation.status === 'rejected' ? <XCircle className="w-5 h-5" /> : 
+                           <Clock className="w-5 h-5" />}
+                        </div>
+                        <div>
+                          <p className="font-bold">{donation.amount} SAR</p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(donation.createdAt).toLocaleDateString('ar-SA')} - {
+                              donation.type === 'zakat' ? 'زكاة' : 
+                              donation.type === 'waqf' ? 'وقف' : 'عام'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          donation.status === 'confirmed' ? 'bg-green-100 text-green-700' : 
+                          donation.status === 'rejected' ? 'bg-red-100 text-red-700' : 
+                          'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {donation.status === 'confirmed' ? 'مؤكد' : 
+                           donation.status === 'rejected' ? 'مرفوض' : 'قيد الانتظار'}
+                        </span>
+                        {donation.status === 'confirmed' && (
+                          <div className="flex gap-1">
+                            <Button size="icon" variant="ghost" className="h-8 w-8" title="الفاتورة">
+                              <FileText className="h-4 w-4" />
+                            </Button>
+                            <Button size="icon" variant="ghost" className="h-8 w-8" title="الشهادة">
+                              <Award className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Settings */}
           <Card>

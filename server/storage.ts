@@ -145,17 +145,26 @@ export class MongoStorage implements IStorage {
   async updateUserTotalDonations(id: string, amount: number): Promise<void> {
     const user = await usersCollection.findOne({ _id: new ObjectId(id) });
     const currentTotal = Number(user?.totalDonations || 0);
+    const currentPoints = Number(user?.points || 0);
+    const earnedPoints = amount * 10;
     await usersCollection.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { totalDonations: String(currentTotal + amount) } }
+      { 
+        $set: { 
+          totalDonations: String(currentTotal + amount),
+          points: currentPoints + earnedPoints
+        } 
+      }
     );
   }
 
   async createDonation(donation: any): Promise<Donation> {
+    const pointsEarned = Number(donation.amount) * 10;
     const doc = { 
       ...donation, 
       userId: donation.userId ? new ObjectId(donation.userId) : null,
       donorName: donation.donorName || null,
+      pointsEarned,
       createdAt: new Date()
     };
     const res = await donationsCollection.insertOne(doc);
@@ -164,7 +173,16 @@ export class MongoStorage implements IStorage {
   }
 
   async updateDonationStatus(geideaRef: string, status: string): Promise<Donation | undefined> {
+    const donation = await donationsCollection.findOne({ geideaRef });
+    if (!donation) return undefined;
+
     await donationsCollection.updateOne({ geideaRef }, { $set: { status } });
+    
+    // If confirmed, update user total donations and points
+    if (status === "confirmed" && donation.userId) {
+      await this.updateUserTotalDonations(donation.userId.toString(), Number(donation.amount));
+    }
+
     const doc = await donationsCollection.findOne({ geideaRef });
     return doc ? this.toDonation(doc) : undefined;
   }
