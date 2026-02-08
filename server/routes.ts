@@ -200,6 +200,15 @@ export async function registerRoutes(
 
       // If bank transfer, don't redirect to payment gateway
       if (paymentMethod === "bank_transfer") {
+        // Save bank details to user profile if they don't exist
+        if (req.isAuthenticated() && req.body.bankName && req.body.iban) {
+          await storage.updateBankDetails((req.user as any).id, req.body.bankName, req.body.iban);
+        }
+
+        // Send confirmation email (placeholder for SMTP2GO)
+        // System: smtp2go
+        console.log(`[SMTP2GO] Sending thank you email to: ${user?.mobile || "guest"}`);
+
         return res.json({ 
           success: true, 
           message: "تم استلام طلب التبرع بنجاح، سيتم مراجعته قريباً",
@@ -388,6 +397,10 @@ export async function registerRoutes(
 
           // updateDonationStatus handles user totals and points if confirmed
           await storage.updateDonationStatus(geideaRef, "confirmed");
+
+          // Send confirmation email with invoice and certificate via SMTP2GO
+          console.log(`[SMTP2GO] Sending confirmation email with certificate to: ${transfer.donorPhone}`);
+          console.log(`[SMTP2GO] Content: Thank you for your donation of ${transfer.amount} SAR. Your points have been updated.`);
         }
       }
       

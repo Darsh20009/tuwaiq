@@ -35,6 +35,8 @@ export function DonationCard() {
       amount: "100",
       type: "general",
       donorName: user?.name || "",
+      bankName: user?.bankName || "",
+      iban: user?.iban || "",
     },
   });
 
@@ -46,7 +48,7 @@ export function DonationCard() {
           paymentMethod: "bank_transfer",
           status: "pending"
         });
-        setLocation(`/bank-transfer?amount=${data.amount}&type=${data.type}&donorName=${encodeURIComponent(data.donorName || "")}`);
+        setLocation(`/bank-transfer?amount=${data.amount}&type=${data.type}&donorName=${encodeURIComponent(data.donorName || "")}&bankName=${encodeURIComponent(data.bankName || "")}&iban=${encodeURIComponent(data.iban || "")}`);
         return;
       }
       

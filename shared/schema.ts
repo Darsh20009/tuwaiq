@@ -116,6 +116,9 @@ export const insertUserSchema = createInsertSchema(users).pick({
 export const insertDonationSchema = createInsertSchema(donations).pick({
   amount: true,
   type: true,
+  paymentMethod: true,
+  bankTransferPhoto: true,
+  donorName: true,
 });
 
 export type User = typeof users.$inferSelect;

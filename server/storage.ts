@@ -146,7 +146,7 @@ export class MongoStorage implements IStorage {
     const user = await usersCollection.findOne({ _id: new ObjectId(id) });
     const currentTotal = Number(user?.totalDonations || 0);
     const currentPoints = Number(user?.points || 0);
-    const earnedPoints = amount * 10;
+    const earnedPoints = Math.floor(amount * 10);
     await usersCollection.updateOne(
       { _id: new ObjectId(id) },
       { 
@@ -155,6 +155,13 @@ export class MongoStorage implements IStorage {
           points: currentPoints + earnedPoints
         } 
       }
+    );
+  }
+
+  async updateBankDetails(id: string, bankName: string, iban: string): Promise<void> {
+    await usersCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { bankName, iban } }
     );
   }
 

@@ -29,15 +29,18 @@ export default function BankTransfer() {
   const initialAmount = searchParams.get("amount") || "";
   const initialType = searchParams.get("type") || "";
   const donorNameParam = searchParams.get("donorName");
-  const initialDonorName = donorNameParam ? decodeURIComponent(donorNameParam) : "";
+  const initialDonorName = donorNameParam ? decodeURIComponent(donorNameParam) : user?.name || "";
+  const initialBankName = searchParams.get("bankName") ? decodeURIComponent(searchParams.get("bankName")!) : user?.bankName || "";
+  const initialIban = searchParams.get("iban") ? decodeURIComponent(searchParams.get("iban")!) : user?.iban || "";
 
   const [formData, setFormData] = useState({
     donorName: initialDonorName,
-    donorPhone: "",
+    donorPhone: user?.mobile || "",
     amount: initialAmount,
     type: initialType,
-    bankName: "",
-    transferDate: "",
+    bankName: initialBankName,
+    iban: initialIban,
+    transferDate: new Date().toISOString().split('T')[0],
     notes: ""
   });
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
