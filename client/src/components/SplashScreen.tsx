@@ -23,154 +23,115 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
+      transition={{ duration: 1, ease: "easeInOut" }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[#041a11]"
     >
-      {/* Layered Background with Logo Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0d3320] via-[#1a4a35] to-[#0a2818]" />
+      {/* Luxurious Gold/Emerald Gradient Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#0d3320] via-[#041a11] to-[#020d08]" />
       
-      {/* Large Background Logo - Watermark Style */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-          animate={{ opacity: 0.06, scale: 1.3, rotate: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative w-[150vw] h-[150vw] md:w-[80vw] md:h-[80vw]"
-        >
-          <img 
-            src={logo} 
-            alt="" 
-            className="w-full h-full object-contain filter blur-[1px]"
-          />
-        </motion.div>
-      </div>
-      
-      {/* Decorative Geometric Patterns */}
+      {/* Animated Light Rays */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          className="absolute top-0 left-0 w-full h-full"
-          style={{
-            backgroundImage: `radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 40%),
-                              radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 35%)`
+        <motion.div
+          animate={{ 
+            opacity: [0.1, 0.3, 0.1],
+            scale: [1, 1.1, 1],
+            rotate: [0, 5, 0]
           }}
-        />
-        <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="absolute top-0 left-0 w-2/3 h-1 bg-gradient-to-r from-emerald-400/50 to-transparent"
-        />
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="absolute bottom-0 right-0 w-2/3 h-1 bg-gradient-to-l from-emerald-400/50 to-transparent"
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute -inset-[100%] bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(16,185,129,0.1)_180deg,transparent_360deg)]"
         />
       </div>
 
+      {/* Decorative Gold Border Elements */}
+      <div className="absolute inset-12 border border-emerald-500/10 rounded-[2rem] pointer-events-none" />
+      <div className="absolute inset-16 border border-emerald-500/5 rounded-[1.5rem] pointer-events-none" />
+
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center space-y-8 max-w-lg w-full px-6">
-        {/* Floating Logo with Glow */}
+      <div className="relative z-10 flex flex-col items-center space-y-12">
+        {/* Centered Logo with Premium Effects */}
         <motion.div
-          initial={{ scale: 0.5, opacity: 0, y: 30 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
+          initial={{ scale: 0.8, opacity: 0, filter: "blur(10px)" }}
+          animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="relative group"
         >
-          {/* Outer Glow Ring */}
-          <motion.div
-            animate={{ 
-              boxShadow: [
-                "0 0 60px 20px rgba(16,185,129,0.2)",
-                "0 0 80px 30px rgba(16,185,129,0.3)",
-                "0 0 60px 20px rgba(16,185,129,0.2)"
-              ]
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 rounded-full"
-          />
+          {/* Multi-layered Glow */}
+          <div className="absolute -inset-8 bg-emerald-500/20 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
+          <div className="absolute -inset-4 bg-emerald-400/10 rounded-full blur-2xl" />
           
-          {/* Logo Container */}
-          <div className="relative bg-white rounded-full p-5 shadow-2xl">
-            <img 
-              src={logo} 
-              alt="جمعية طويق" 
-              className="w-28 h-28 md:w-36 md:h-36 object-contain"
-            />
+          {/* Logo with White/Gold Frame */}
+          <div className="relative p-1 rounded-full bg-gradient-to-b from-emerald-400/30 to-transparent">
+            <div className="bg-white rounded-full p-6 shadow-[0_0_50px_rgba(0,0,0,0.3)]">
+              <motion.img 
+                src={logo} 
+                alt="طويق" 
+                className="w-32 h-32 md:w-44 md:h-44 object-contain"
+                animate={{ 
+                  filter: ["brightness(1)", "brightness(1.1)", "brightness(1)"]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+            </div>
           </div>
         </motion.div>
 
-        {/* Organization Name */}
-        <div className="text-center space-y-2">
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-white font-heading"
+        {/* Text Typography */}
+        <div className="text-center space-y-4">
+          <motion.div
+            initial={{ opacity: 0, letterSpacing: "0.2em" }}
+            animate={{ opacity: 1, letterSpacing: "0.1em" }}
+            transition={{ delay: 0.5, duration: 1 }}
           >
-            جمعية طويق
-          </motion.h1>
-          <motion.p
+            <h1 className="text-5xl md:text-7xl font-bold text-white font-heading tracking-widest drop-shadow-2xl">
+              طويق
+            </h1>
+          </motion.div>
+          
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-emerald-200/80 text-lg md:text-xl font-medium"
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="flex items-center justify-center gap-4"
           >
-            للخدمات الإنسانية
-          </motion.p>
+            <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-emerald-500/50" />
+            <span className="text-emerald-400 text-xl md:text-2xl font-light tracking-[0.3em] uppercase">
+              الخدمات الإنسانية
+            </span>
+            <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-emerald-500/50" />
+          </motion.div>
         </div>
 
-        {/* Elegant Loading Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="w-full max-w-xs pt-6"
-        >
-          <div className="relative h-1.5 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+        {/* Minimalist Loading */}
+        <div className="w-64 space-y-3">
+          <div className="h-[2px] w-full bg-white/5 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${loading}%` }}
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-400 rounded-full"
-              style={{
-                boxShadow: "0 0 20px rgba(16,185,129,0.6), 0 0 40px rgba(16,185,129,0.3)"
-              }}
+              className="h-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600"
             />
           </div>
-          
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-center text-emerald-200/50 text-sm mt-3 font-medium"
+          <motion.p 
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-center text-emerald-500/40 text-[10px] tracking-[0.2em] font-medium"
           >
-            جاري التحميل...
+            جاري تهيئة النظام
           </motion.p>
-        </motion.div>
+        </div>
 
-        {/* Quran Verse */}
+        {/* Quran Verse with Premium Styling */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 1 }}
-          className="pt-8"
+          transition={{ delay: 1.2, duration: 1 }}
+          className="pt-4"
         >
-          <p className="text-white/40 text-sm text-center leading-relaxed max-w-sm">
+          <p className="text-emerald-100/30 text-sm text-center italic font-serif leading-relaxed max-w-xs">
             ﴿ وَمَا تُقَدِّمُوا لِأَنفُسِكُم مِّنْ خَيْرٍ تَجِدُوهُ عِندَ اللَّهِ ﴾
           </p>
         </motion.div>
       </div>
-
-      {/* Bottom Accent */}
-      <motion.div 
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
-        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"
-      />
     </motion.div>
+
   );
 }
