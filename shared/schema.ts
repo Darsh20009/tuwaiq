@@ -111,10 +111,13 @@ export type InsertContent = z.infer<typeof insertContentSchema>;
 
 export const insertUserSchema = createInsertSchema(users).pick({
   name: true,
+  email: true,
   mobile: true,
+  phone: true,
   password: true,
+  address: true,
   isPublicDonor: true,
-  role: true,
+  verifiedFlag: true,
 });
 
 export const insertDonationSchema = createInsertSchema(donations).pick({
