@@ -6,15 +6,19 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  email: text("email").unique(),
   mobile: text("mobile").notNull().unique(),
+  phone: text("phone"),
   password: text("password").notNull(),
-  role: text("role").default("user"), // "user" or "admin"
+  address: text("address"),
   isPublicDonor: boolean("is_public_donor").default(true),
   totalDonations: numeric("total_donations").default("0"),
   points: integer("points").default(0),
+  verifiedFlag: boolean("verified_flag").default(false),
   bankName: text("bank_name"),
   iban: text("iban"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const donations = pgTable("donations", {
