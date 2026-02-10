@@ -4,25 +4,62 @@ import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { User, Shield, Heart, Coins, History, CheckCircle2, Clock, XCircle, FileText, Award } from "lucide-react";
+import { User, Shield, Heart, Coins, History, CheckCircle2, Clock, XCircle, FileText, Award, Edit2, Save, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Donation } from "@shared/schema";
+import { Input } from "@/components/ui/input";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Profile() {
   const { user, isLoading, togglePrivacy } = useAuth();
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({
+    name: "",
+    email: "",
+  });
 
   const { data: donations } = useQuery<Donation[]>({
     queryKey: ["/api/donations"],
     enabled: !!user,
   });
 
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: { name: string; email: string }) => {
+      const res = await apiRequest("PATCH", "/api/user/profile", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+      setIsEditing(false);
+      toast({
+        title: "تم التحديث",
+        description: "تم حفظ التعديلات بنجاح",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "خطأ",
+        description: error.message || "فشل في تحديث الملف الشخصي",
+        variant: "destructive",
+      });
+    },
+  });
+
   useEffect(() => {
     if (!isLoading && !user) {
       setLocation("/login");
+    }
+    if (user) {
+      setEditData({
+        name: user.name || "",
+        email: user.email || "",
+      });
     }
   }, [user, isLoading, setLocation]);
 
@@ -36,13 +73,65 @@ export default function Profile() {
         <div className="max-w-2xl mx-auto space-y-8">
           
           {/* Header */}
-          <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold">
-              {user.name.charAt(0)}
+          <div className="flex items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="flex items-center gap-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold">
+                {user.name.charAt(0)}
+              </div>
+              {isEditing ? (
+                <div className="space-y-3 flex-1 min-w-[200px]">
+                  <div className="space-y-1">
+                    <Label htmlFor="edit-name">الاسم</Label>
+                    <Input 
+                      id="edit-name" 
+                      value={editData.name} 
+                      onChange={(e) => setEditData(p => ({ ...p, name: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="edit-email">البريد الإلكتروني</Label>
+                    <Input 
+                      id="edit-email" 
+                      type="email"
+                      value={editData.email} 
+                      onChange={(e) => setEditData(p => ({ ...p, email: e.target.value }))}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h1 className="text-2xl font-bold font-heading">{user.name}</h1>
+                  <p className="text-muted-foreground font-mono" dir="ltr">{user.mobile}</p>
+                  {user.email && <p className="text-sm text-muted-foreground">{user.email}</p>}
+                </div>
+              )}
             </div>
-            <div>
-              <h1 className="text-2xl font-bold font-heading">{user.name}</h1>
-              <p className="text-muted-foreground font-mono" dir="ltr">{user.mobile}</p>
+            
+            <div className="flex flex-col gap-2">
+              {isEditing ? (
+                <>
+                  <Button 
+                    size="sm" 
+                    className="gap-2" 
+                    onClick={() => updateProfileMutation.mutate(editData)}
+                    disabled={updateProfileMutation.isPending}
+                  >
+                    <Save className="w-4 h-4" /> حفظ
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="gap-2" 
+                    onClick={() => setIsEditing(false)}
+                  >
+                    <X className="w-4 h-4" /> إلغاء
+                  </Button>
+                </>
+              ) : (
+                <Button size="sm" variant="outline" className="gap-2" onClick={() => setIsEditing(true)}>
+                  <Edit2 className="w-4 h-4" /> تعديل
+                </Button>
+              )}
             </div>
           </div>
 

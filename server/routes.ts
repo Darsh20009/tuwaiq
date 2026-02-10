@@ -175,6 +175,24 @@ export async function registerRoutes(
   });
 
   // ==================== USER ROUTES ====================
+  app.patch("/api/user/profile", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    try {
+      const { name, email } = req.body;
+      const userId = (req.user as any).id;
+      
+      await usersCollection.updateOne(
+        { _id: new ObjectId(String(userId)) },
+        { $set: { name, email, updatedAt: new Date() } }
+      );
+      
+      const updatedUser = await storage.getUser(userId);
+      res.json(updatedUser);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الملف الشخصي" });
+    }
+  });
+
   app.patch(api.users.togglePrivacy.path, async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const input = api.users.togglePrivacy.input.parse(req.body);
