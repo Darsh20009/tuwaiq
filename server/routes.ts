@@ -133,9 +133,15 @@ export async function registerRoutes(
   app.post(api.auth.register.path, async (req, res) => {
     try {
       const input = api.auth.register.input.parse(req.body);
-      const existing = await storage.getUserByMobile(input.mobile);
-      if (existing) {
+      const existingMobile = await storage.getUserByMobile(input.mobile);
+      if (existingMobile) {
         return res.status(400).json({ message: "رقم الجوال مسجل مسبقاً" });
+      }
+      if (input.email) {
+        const existingEmail = await usersCollection.findOne({ email: input.email });
+        if (existingEmail) {
+          return res.status(400).json({ message: "البريد الإلكتروني مسجل مسبقاً" });
+        }
       }
       const hashedPassword = await hashPassword(input.password);
       const user = await storage.createUser({ ...input, password: hashedPassword });

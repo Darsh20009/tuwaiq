@@ -100,7 +100,7 @@ export default function Login() {
             <Tabs defaultValue="login" onValueChange={(v) => setIsLogin(v === "login")} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8">
                 <TabsTrigger value="login">دخول</TabsTrigger>
-                <TabsTrigger value="register">تسجيل</TabsTrigger>
+                <TabsTrigger value="register" onClick={() => setLocation("/register")}>تسجيل</TabsTrigger>
               </TabsList>
               
               <TabsContent value="login">
