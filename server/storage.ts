@@ -33,6 +33,9 @@ export interface IStorage {
   createExperience(exp: InsertExperience): Promise<Experience>;
   updateExperience(id: string, exp: Partial<InsertExperience>): Promise<void>;
   deleteExperience(id: string): Promise<void>;
+  
+  // Bank transfer email field
+  updateBankTransferEmail(id: string, email: string): Promise<void>;
 }
 
 export class MongoStorage implements IStorage {
@@ -118,6 +121,13 @@ export class MongoStorage implements IStorage {
 
   async deleteExperience(id: string): Promise<void> {
     await experiencesCollection.deleteOne({ _id: new ObjectId(id) });
+  }
+
+  async updateBankTransferEmail(id: string, email: string): Promise<void> {
+    await db.collection("bank_transfers").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { donorEmail: email } }
+    );
   }
 
   async getUser(id: string): Promise<User | undefined> {

@@ -15,12 +15,90 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import { 
   Settings, Users, Building, DollarSign, Percent, TrendingUp, Loader2,
   FileText, UserPlus, Truck, MessageSquare, Building2, CheckCircle2,
-  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload
+  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload, Mail
 } from "lucide-react";
 import { FileUpload } from "@/components/FileUpload";
+
+function EmailPanel() {
+  const [to, setTo] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const { toast } = useToast();
+
+  const sendEmailMutation = useMutation({
+    mutationFn: async (data: { to: string; subject: string; message: string }) => {
+      await apiRequest("POST", "/api/admin/send-email", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "تم الإرسال",
+        description: "تم إرسال البريد الإلكتروني بنجاح",
+      });
+      setTo("");
+      setSubject("");
+      setMessage("");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "فشل الإرسال",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Mail className="h-5 w-5" />
+            إرسال بريد إلكتروني
+          </CardTitle>
+          <CardDescription>إرسال رسائل بريدية للعملاء والمستفيدين</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>إلى (البريد الإلكتروني)</Label>
+            <Input 
+              placeholder="example@mail.com" 
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>الموضوع</Label>
+            <Input 
+              placeholder="موضوع الرسالة" 
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>الرسالة</Label>
+            <Textarea 
+              placeholder="اكتب رسالتك هنا..." 
+              className="min-h-[200px]"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <Button 
+            className="w-full bg-gradient-brand" 
+            onClick={() => sendEmailMutation.mutate({ to, subject, message })}
+            disabled={sendEmailMutation.isPending || !to || !subject || !message}
+          >
+            {sendEmailMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "إرسال الآن"}
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
 
 // Job Management Tab
 function JobManagement() {
@@ -1419,6 +1497,7 @@ export default function Admin() {
     { id: "employees", label: "إدارة الموظفين", icon: Users, roles: ["admin"] },
     { id: "transfers", label: "التحويلات البنكية", icon: Truck, roles: ["admin", "accountant"] },
     { id: "messages", label: "رسائل التواصل", icon: MessageSquare, roles: ["admin"] },
+    { id: "email", label: "البريد الإلكتروني", icon: Mail, roles: ["admin"] },
     { id: "settings", label: "الإعدادات", icon: Settings, roles: ["admin"] },
   ];
 
