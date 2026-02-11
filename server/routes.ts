@@ -14,6 +14,7 @@ import { ObjectId } from "mongodb";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { sendEmail, emailTemplates } from "./mail";
 
 const scryptAsync = promisify(scrypt);
 
@@ -229,9 +230,15 @@ export async function registerRoutes(
           await storage.updateBankDetails((req.user as any).id, req.body.bankName, req.body.iban);
         }
 
-        // Send confirmation email (placeholder for SMTP2GO)
-        // System: smtp2go
-        console.log(`[SMTP2GO] Sending thank you email to: ${user?.mobile || "guest"}`);
+        // Send confirmation email
+        if (user?.email) {
+          const template = emailTemplates.donationReceived(finalDonorName, String(amount));
+          await sendEmail({
+            to: user.email,
+            subject: template.subject,
+            html: template.html
+          });
+        }
 
         return res.json({ 
           success: true, 
@@ -423,8 +430,14 @@ export async function registerRoutes(
           await storage.updateDonationStatus(geideaRef, "confirmed");
 
           // Send confirmation email with invoice and certificate via SMTP2GO
-          console.log(`[SMTP2GO] Sending confirmation email with certificate to: ${transfer.donorPhone}`);
-          console.log(`[SMTP2GO] Content: Thank you for your donation of ${transfer.amount} SAR. Your points have been updated.`);
+          if (transfer.donorEmail || (transfer.userId && (await storage.getUser(transfer.userId))?.email)) {
+            const email = transfer.donorEmail || (await storage.getUser(transfer.userId))?.email;
+            await sendEmail({
+              to: email,
+              subject: "تم تأكيد تبرعكم - منصة طويق",
+              html: `<h3>تم تأكيد تبرعكم بنجاح</h3><p>شكراً لكم على تبرعكم بمبلغ <strong>${transfer.amount}</strong> ريال سعودي. تم تحديث نقاطكم في المنصة.</p>`
+            });
+          }
         }
       }
       
@@ -432,6 +445,30 @@ export async function registerRoutes(
     } catch (err) {
       console.error("Error updating bank transfer:", err);
       res.status(500).json({ message: "خطأ في تحديث التحويل" });
+    }
+  });
+
+  // ==================== ADMIN EMAIL ROUTES ====================
+  app.post("/api/admin/send-email", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const { to, subject, message } = req.body;
+      if (!to || !subject || !message) {
+        return res.status(400).json({ message: "جميع الحقول مطلوبة" });
+      }
+
+      const result = await sendEmail({
+        to,
+        subject,
+        html: `<div dir="rtl">${message}</div>`
+      });
+
+      if (result.success) {
+        res.json({ message: "تم إرسال البريد بنجاح" });
+      } else {
+        res.status(500).json({ message: "فشل إرسال البريد" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في الخادم" });
     }
   });
 
