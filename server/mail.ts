@@ -4,10 +4,23 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "mail.smtp2go.com",
   port: parseInt(process.env.SMTP_PORT || "587"),
+  secure: process.env.SMTP_PORT === "465", // Use secure for port 465
   auth: {
     user: process.env.SMTP_USER || "tuwaiq",
     pass: process.env.SMTP_PASS || "tuwaiq123",
   },
+  tls: {
+    rejectUnauthorized: false // Often needed for SMTP servers like SMTP2GO on some networks
+  }
+});
+
+// Verification step
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("SMTP connection error:", error);
+  } else {
+    console.log("SMTP server is ready to take messages");
+  }
 });
 
 export async function sendEmail({ to, subject, text, html }: { to: string; subject: string; text?: string; html?: string }) {
