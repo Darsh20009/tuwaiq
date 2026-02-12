@@ -1538,6 +1538,57 @@ function SystemSettings({ stats, updateMutation }: { stats: any, updateMutation:
 }
 
 // Main Admin Component
+function UserManagement() {
+  const { data: users, isLoading } = useQuery({
+    queryKey: ['/api/employees'],
+    queryFn: async () => {
+      const res = await fetch('/api/employees', { credentials: 'include' });
+      return res.json();
+    }
+  });
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>إدارة المستخدمين والأدوار</CardTitle>
+        <CardDescription>إدارة صلاحيات الموظفين والمسؤولين</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {users?.map((user: any) => (
+            <div key={user.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+              <div>
+                <p className="font-bold">{user.name}</p>
+                <p className="text-sm text-muted-foreground">{user.mobile}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline">{user.role}</Badge>
+                <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RolesManagement() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>إدارة الصلاحيات</CardTitle>
+        <CardDescription>تحديد مستويات الوصول للأدوار المختلفة</CardDescription>
+      </CardHeader>
+      <CardContent className="h-[200px] flex items-center justify-center border-2 border-dashed rounded-lg bg-muted/30">
+        <p className="text-muted-foreground">قيد التطوير...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function Admin() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -1612,6 +1663,7 @@ export default function Admin() {
     { id: "jobs", label: "إدارة الوظائف", icon: Building2, roles: ["admin"] },
     { id: "applications", label: "طلبات التوظيف", icon: UserPlus, roles: ["admin"] },
     { id: "employees", label: "إدارة الموظفين", icon: Users, roles: ["admin"] },
+    { id: "roles", label: "إدارة الأدوار", icon: Settings, roles: ["admin"] },
     { id: "transfers", label: "التحويلات البنكية", icon: Truck, roles: ["admin", "accountant"] },
     { id: "messages", label: "رسائل التواصل", icon: MessageSquare, roles: ["admin"] },
     { id: "emails", label: "البريد الإلكتروني", icon: Mail, roles: ["admin"] },
@@ -1786,7 +1838,18 @@ export default function Admin() {
           {activeTab === "employees" && isAdmin && (
             <Card className="border-0 shadow-lg">
               <CardContent className="p-4 md:p-6">
-                <EmployeesManagement />
+                <UserManagement />
+                <div className="mt-8">
+                  <EmployeesManagement />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {activeTab === "roles" && isAdmin && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-4 md:p-6">
+                <RolesManagement />
               </CardContent>
             </Card>
           )}
