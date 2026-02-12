@@ -42,8 +42,9 @@ build = ["npm", "run", "build"]
 [userenv]
 
 [userenv.shared]
-SMTP_PASS = "api-8F7AC24E891D4EC6A3856043ABBDD95FSMTP2GO"
+SMTP_PASS = "tuwaiq123"
 SMTP_USER = "tuwaiq"
 SMTP_HOST = "mail.smtp2go.com"
 SMTP_PORT = "587"
 SMTP_FROM = "noreply@tuwaiq-sa.online"
+SMTP2GO_API_KEY = "api-8F7AC24E891D4EC6A3856043ABBDD95FSMTP2GO"
