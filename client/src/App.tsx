@@ -48,6 +48,8 @@ import {
 
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
+import AdminEmails from "@/pages/admin/emails";
+
 function Router() {
   return (
     <Switch>
@@ -58,6 +60,7 @@ function Router() {
       <Route path="/profile" component={Profile} />
       <Route path="/donate" component={Donate} />
       <Route path="/admin" component={Admin} />
+      <Route path="/admin/emails" component={AdminEmails} />
       <Route path="/api/donations/callback" component={GeideaCallback} />
       
       {/* Services */}
