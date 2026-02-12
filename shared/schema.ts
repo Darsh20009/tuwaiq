@@ -17,8 +17,21 @@ export const users = pgTable("users", {
   verifiedFlag: boolean("verified_flag").default(false),
   bankName: text("bank_name"),
   iban: text("iban"),
+  branchId: integer("branch_id"),
+  role: text("role").default("user"), // user, admin, employee
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const branches = pgTable("branches", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  city: text("city").notNull(),
+  address: text("address").notNull(),
+  lat: numeric("lat"),
+  lng: numeric("lng"),
+  phone: text("phone"),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const donations = pgTable("donations", {
@@ -32,10 +45,20 @@ export const donations = pgTable("donations", {
   geideaRef: text("geidea_ref"),
   status: text("status").default("pending"), // pending, confirmed, rejected
   pointsEarned: integer("points_earned").default(0),
+  branchId: integer("branch_id").references(() => branches.id),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
+  donations: many(donations),
+  branch: one(branches, {
+    fields: [users.branchId],
+    references: [branches.id],
+  }),
+}));
+
+export const branchesRelations = relations(branches, ({ many }) => ({
+  users: many(users),
   donations: many(donations),
 }));
 
@@ -43,6 +66,10 @@ export const donationsRelations = relations(donations, ({ one }) => ({
   user: one(users, {
     fields: [donations.userId],
     references: [users.id],
+  }),
+  branch: one(branches, {
+    fields: [donations.branchId],
+    references: [branches.id],
   }),
 }));
 
@@ -85,6 +112,14 @@ export const experiences = pgTable("experiences", {
   periodEn: text("period_en"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const insertBranchSchema = createInsertSchema(branches).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type Branch = typeof branches.$inferSelect;
+export type InsertBranch = z.infer<typeof insertBranchSchema>;
 
 export const insertJobSchema = createInsertSchema(jobs).omit({
   id: true,
