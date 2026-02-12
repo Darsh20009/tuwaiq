@@ -1497,7 +1497,7 @@ export default function Admin() {
     { id: "employees", label: "إدارة الموظفين", icon: Users, roles: ["admin"] },
     { id: "transfers", label: "التحويلات البنكية", icon: Truck, roles: ["admin", "accountant"] },
     { id: "messages", label: "رسائل التواصل", icon: MessageSquare, roles: ["admin"] },
-    { id: "email", label: "البريد الإلكتروني", icon: Mail, roles: ["admin"] },
+    { id: "emails", label: "البريد الإلكتروني", icon: Mail, roles: ["admin"] },
     { id: "settings", label: "الإعدادات", icon: Settings, roles: ["admin"] },
   ];
 

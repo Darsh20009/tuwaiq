@@ -481,7 +481,7 @@ export async function registerRoutes(
       const result = await sendEmail({
         to,
         subject,
-        html: `<div dir="rtl">${message}</div>`
+        html: `<div dir="rtl" style="font-family: Arial, sans-serif; padding: 20px;">${message}</div>`
       });
 
       if (result.success) {
