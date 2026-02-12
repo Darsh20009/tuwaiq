@@ -1682,6 +1682,9 @@ export default function Admin() {
             </Card>
           )}
 
+          {activeTab === "emails" && isAdmin && (
+            <EmailPanel />
+          )}
           {activeTab === "messages" && isAdmin && (
             <Card className="border-0 shadow-lg">
               <CardContent className="p-4 md:p-6">
