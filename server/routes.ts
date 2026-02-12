@@ -146,6 +146,17 @@ export async function registerRoutes(
       }
       const hashedPassword = await hashPassword(input.password);
       const user = await storage.createUser({ ...input, password: hashedPassword });
+      
+      // Send welcome email
+      if (user.email) {
+        const template = emailTemplates.welcome(user.name);
+        await sendEmail({
+          to: user.email,
+          subject: template.subject,
+          html: template.html
+        });
+      }
+
       req.login(user, (err) => {
         if (err) return res.status(500).json({ message: "فشل تسجيل الدخول" });
         res.status(201).json(user);
@@ -267,6 +278,17 @@ export async function registerRoutes(
     if (donation && donation.userId && status === 'success') {
       // Points and total donations are now updated in storage.updateDonationStatus
       
+      // Get user for email
+      const user = await storage.getUser(donation.userId);
+      if (user?.email) {
+        const template = emailTemplates.donationReceived(donation.donorName || user.name || "فاعل خير", String(donation.amount));
+        await sendEmail({
+          to: user.email,
+          subject: template.subject,
+          html: template.html
+        });
+      }
+
       // Create certificate and invoice
       const certId = new ObjectId();
       await db.collection("certificates").insertOne({
