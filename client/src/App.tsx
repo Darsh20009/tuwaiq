@@ -50,6 +50,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 import AdminEmails from "@/pages/admin/emails";
 import EmployeeDashboard from "@/pages/employee/Dashboard";
+import EmployeeTransfers from "@/pages/employee/Transfers";
+import EmployeeApplications from "@/pages/employee/Applications";
 
 function Router() {
   return (
@@ -63,6 +65,8 @@ function Router() {
       <Route path="/admin" component={Admin} />
       <Route path="/admin/emails" component={AdminEmails} />
       <Route path="/employee" component={EmployeeDashboard} />
+      <Route path="/employee/transfers" component={EmployeeTransfers} />
+      <Route path="/employee/applications" component={EmployeeApplications} />
       <Route path="/api/donations/callback" component={GeideaCallback} />
       
       {/* Services */}
