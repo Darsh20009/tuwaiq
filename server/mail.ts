@@ -14,7 +14,7 @@ export async function sendEmail({ to, subject, text, html }: { to: string; subje
   try {
     const from = process.env.SMTP_FROM || "noreply@tuwaiq-sa.online";
     const info = await transporter.sendMail({
-      from: `"Twaq Humanitarian" <${from}>`,
+      from: `"Tuwaiq Association" <${from}>`,
       to,
       subject,
       text,
