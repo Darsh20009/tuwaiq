@@ -1,9 +1,9 @@
 import { ObjectId } from "mongodb";
-import { usersCollection, donationsCollection, contentCollection, jobsCollection, experiencesCollection } from "./db";
+import { usersCollection, donationsCollection, contentCollection, jobsCollection, experiencesCollection, branchesCollection } from "./db";
 import { 
   type User, type InsertUser, type Donation, type InsertDonation, 
   type Content, type InsertContent, type Job, type InsertJob, 
-  type Experience, type InsertExperience 
+  type Experience, type InsertExperience, type Branch, type InsertBranch
 } from "@shared/schema";
 
 export interface IStorage {
@@ -33,6 +33,13 @@ export interface IStorage {
   createExperience(exp: InsertExperience): Promise<Experience>;
   updateExperience(id: string, exp: Partial<InsertExperience>): Promise<void>;
   deleteExperience(id: string): Promise<void>;
+
+  // Branches
+  getBranches(): Promise<Branch[]>;
+  getBranch(id: string): Promise<Branch | undefined>;
+  createBranch(branch: InsertBranch): Promise<Branch>;
+  updateBranch(id: string, branch: Partial<InsertBranch>): Promise<void>;
+  deleteBranch(id: string): Promise<void>;
   
   // Bank transfer email field
   updateBankTransferEmail(id: string, email: string): Promise<void>;
@@ -56,6 +63,10 @@ export class MongoStorage implements IStorage {
   }
 
   private toExperience(doc: any): Experience {
+    return { ...doc, id: doc._id.toString() };
+  }
+
+  private toBranch(doc: any): Branch {
     return { ...doc, id: doc._id.toString() };
   }
 
@@ -121,6 +132,32 @@ export class MongoStorage implements IStorage {
 
   async deleteExperience(id: string): Promise<void> {
     await experiencesCollection.deleteOne({ _id: new ObjectId(id) });
+  }
+
+  // Branch methods
+  async getBranches(): Promise<Branch[]> {
+    const cursor = branchesCollection.find({});
+    const docs = await cursor.toArray();
+    return docs.map(d => this.toBranch(d));
+  }
+
+  async getBranch(id: string): Promise<Branch | undefined> {
+    const doc = await branchesCollection.findOne({ _id: new ObjectId(id) });
+    return doc ? this.toBranch(doc) : undefined;
+  }
+
+  async createBranch(branch: InsertBranch): Promise<Branch> {
+    const res = await branchesCollection.insertOne({ ...branch, createdAt: new Date() });
+    const doc = await branchesCollection.findOne({ _id: res.insertedId });
+    return this.toBranch(doc);
+  }
+
+  async updateBranch(id: string, branch: Partial<InsertBranch>): Promise<void> {
+    await branchesCollection.updateOne({ _id: new ObjectId(id) }, { $set: branch });
+  }
+
+  async deleteBranch(id: string): Promise<void> {
+    await branchesCollection.deleteOne({ _id: new ObjectId(id) });
   }
 
   async updateBankTransferEmail(id: string, email: string): Promise<void> {

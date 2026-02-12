@@ -11,6 +11,7 @@ export const donationsCollection = db.collection("donations");
 export const contentCollection = db.collection("content");
 export const jobsCollection = db.collection("jobs");
 export const experiencesCollection = db.collection("experiences");
+export const branchesCollection = db.collection("branches");
 
 // Connection helper
 export async function connectToMongo() {
