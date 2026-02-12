@@ -48,8 +48,12 @@ export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, on
   const [, setLocation] = useLocation();
 
   const handleLogout = async () => {
-    await logout();
-    setLocation("/");
+    try {
+      await logout();
+      setLocation("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

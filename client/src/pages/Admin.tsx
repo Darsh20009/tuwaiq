@@ -32,55 +32,110 @@ function StatsPanel() {
     }
   });
 
+  const { data: donations } = useQuery({
+    queryKey: ['/api/donations'],
+    queryFn: async () => {
+      const res = await fetch('/api/donations', { credentials: 'include' });
+      return res.json();
+    }
+  });
+
+  const recentDonations = donations?.slice(0, 5) || [];
+
   if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
-          <DollarSign className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats?.totalDonations || 0} ر.س</div>
-          <p className="text-xs text-muted-foreground mt-1">+12% من الشهر الماضي</p>
-        </CardContent>
-      </Card>
-      
-      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-200">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">المستفيدين</CardTitle>
-          <Heart className="h-4 w-4 text-emerald-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats?.beneficiariesCount || 0}</div>
-          <p className="text-xs text-muted-foreground mt-1">حالات نشطة حالياً</p>
-        </CardContent>
-      </Card>
+    <div className="grid gap-6">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
+            <DollarSign className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.totalDonations || 0} ر.س</div>
+            <p className="text-xs text-muted-foreground mt-1">+12% من الشهر الماضي</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-200">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">المستفيدين</CardTitle>
+            <Heart className="h-4 w-4 text-emerald-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.beneficiariesCount || 0}</div>
+            <p className="text-xs text-muted-foreground mt-1">حالات نشطة حالياً</p>
+          </CardContent>
+        </Card>
 
-      <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">طلبات التوظيف</CardTitle>
-          <UserPlus className="h-4 w-4 text-purple-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats?.applicationsCount || 0}</div>
-          <p className="text-xs text-muted-foreground mt-1">طلبات جديدة هذا الإسبوع</p>
-        </CardContent>
-      </Card>
+        <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">طلبات التوظيف</CardTitle>
+            <UserPlus className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.applicationsCount || 0}</div>
+            <p className="text-xs text-muted-foreground mt-1">طلبات جديدة هذا الإسبوع</p>
+          </CardContent>
+        </Card>
 
-      <Card className="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-amber-200">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">نسبة الإنجاز</CardTitle>
-          <TrendingUp className="h-4 w-4 text-amber-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">84%</div>
-          <div className="w-full bg-amber-200 rounded-full h-1.5 mt-3">
-            <div className="bg-amber-600 h-1.5 rounded-full" style={{ width: '84%' }}></div>
-          </div>
-        </CardContent>
-      </Card>
+        <Card className="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-amber-200">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">نسبة الإنجاز</CardTitle>
+            <TrendingUp className="h-4 w-4 text-amber-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">84%</div>
+            <div className="w-full bg-amber-200 rounded-full h-1.5 mt-3">
+              <div className="bg-amber-600 h-1.5 rounded-full" style={{ width: '84%' }}></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>آخر التبرعات</CardTitle>
+            <CardDescription>عرض أحدث العمليات المالية المستلمة</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {recentDonations.length > 0 ? (
+              <div className="space-y-4">
+                {recentDonations.map((donation: any) => (
+                  <div key={donation.id} className="flex items-center justify-between border-b pb-2 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                        <DollarSign className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{donation.donorName || "متبرع فاعل خير"}</p>
+                        <p className="text-xs text-muted-foreground">{new Date(donation.createdAt).toLocaleDateString('ar-SA')}</p>
+                      </div>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-blue-600">{donation.amount} ر.س</p>
+                      <Badge variant="outline" className="text-[10px]">{donation.type}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-muted-foreground py-8">لا توجد تبرعات حديثة</p>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>نشاطات قادمة</CardTitle>
+            <CardDescription>الفعاليات والبرامج المجدولة</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-muted-foreground py-8">لا توجد فعاليات مجدولة</p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
