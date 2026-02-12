@@ -1,27 +1,89 @@
 import { useState, useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@shared/routes";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { 
   Settings, Users, Building, DollarSign, Percent, TrendingUp, Loader2,
   FileText, UserPlus, Truck, MessageSquare, Building2, CheckCircle2,
-  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload, Mail
+  XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload, Mail,
+  Heart, HeartHandshake, LayoutDashboard
 } from "lucide-react";
 import { FileUpload } from "@/components/FileUpload";
+import { AdminSidebar } from "@/components/AdminSidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+
+function StatsPanel() {
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['/api/admin/stats'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/stats', { credentials: 'include' });
+      return res.json();
+    }
+  });
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
+
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
+          <DollarSign className="h-4 w-4 text-blue-600" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{stats?.totalDonations || 0} ر.س</div>
+          <p className="text-xs text-muted-foreground mt-1">+12% من الشهر الماضي</p>
+        </CardContent>
+      </Card>
+      
+      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-200">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-sm font-medium">المستفيدين</CardTitle>
+          <Heart className="h-4 w-4 text-emerald-600" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{stats?.beneficiariesCount || 0}</div>
+          <p className="text-xs text-muted-foreground mt-1">حالات نشطة حالياً</p>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-sm font-medium">طلبات التوظيف</CardTitle>
+          <UserPlus className="h-4 w-4 text-purple-600" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{stats?.applicationsCount || 0}</div>
+          <p className="text-xs text-muted-foreground mt-1">طلبات جديدة هذا الإسبوع</p>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-amber-200">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-sm font-medium">نسبة الإنجاز</CardTitle>
+          <TrendingUp className="h-4 w-4 text-amber-600" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">84%</div>
+          <div className="w-full bg-amber-200 rounded-full h-1.5 mt-3">
+            <div className="bg-amber-600 h-1.5 rounded-full" style={{ width: '84%' }}></div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
 
 function EmailPanel() {
   const [to, setTo] = useState("");
