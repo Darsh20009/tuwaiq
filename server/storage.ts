@@ -1,5 +1,5 @@
-import { ObjectId } from "mongodb";
-import { usersCollection, donationsCollection, contentCollection, jobsCollection, experiencesCollection, branchesCollection } from "./db";
+import { ObjectId, type Db } from "mongodb";
+import { db, usersCollection, donationsCollection, contentCollection, jobsCollection, experiencesCollection, branchesCollection } from "./db";
 import { 
   type User, type InsertUser, type Donation, type InsertDonation, 
   type Content, type InsertContent, type Job, type InsertJob, 
@@ -161,7 +161,8 @@ export class MongoStorage implements IStorage {
   }
 
   async updateBankTransferEmail(id: string, email: string): Promise<void> {
-    await db.collection("bank_transfers").updateOne(
+    const database = (usersCollection as any).db as Db;
+    await database.collection("bank_transfers").updateOne(
       { _id: new ObjectId(id) },
       { $set: { donorEmail: email } }
     );

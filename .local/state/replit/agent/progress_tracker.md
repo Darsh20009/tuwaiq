@@ -6,3 +6,5 @@
 [x] 6. Configure MONGODB_URI secret and verify database connection
 [x] 7. Fix workflow configuration and confirm app starts successfully
 [x] 8. Set MONGODB_URI secret and verify app starts with database connected
+[x] 9. إضافة واجهة إدارة المحتوى في لوحة الإدارة
+[x] 10. إصلاح إرسال البريد الإلكتروني وتحديث إعدادات SMTP

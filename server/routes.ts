@@ -279,7 +279,7 @@ export async function registerRoutes(
       // Points and total donations are now updated in storage.updateDonationStatus
       
       // Get user for email
-      const user = await storage.getUser(donation.userId);
+      const user = await storage.getUser(String(donation.userId));
       if (user?.email) {
         const template = emailTemplates.donationReceived(donation.donorName || user.name || "فاعل خير", String(donation.amount));
         await sendEmail({
@@ -509,7 +509,7 @@ export async function registerRoutes(
 
   app.put("/api/admin/content/:slug", requireRole("admin", "manager"), async (req, res) => {
     try {
-      const { slug } = req.params;
+      const slug = String(req.params.slug);
       const content = await storage.updateContent(slug, req.body);
       res.json(content);
     } catch (err) {
@@ -860,7 +860,7 @@ export async function registerRoutes(
       const { id } = req.params;
       const update = req.body;
       await db.collection("jobs").updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(String(id)) },
         { $set: { ...update, updatedAt: new Date() } }
       );
       res.json({ success: true });
@@ -872,7 +872,7 @@ export async function registerRoutes(
   app.delete("/api/jobs/:id", requireRole("admin", "manager"), async (req, res) => {
     try {
       const { id } = req.params;
-      await db.collection("jobs").deleteOne({ _id: new ObjectId(id) });
+      await db.collection("jobs").deleteOne({ _id: new ObjectId(String(id)) });
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في حذف الوظيفة" });
@@ -928,7 +928,7 @@ export async function registerRoutes(
       const id = String(req.params.id);
       const { title, titleEn, content, contentEn, summary, summaryEn, imageUrl, category, isPublished } = req.body;
       await db.collection("news").updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(String(id)) },
         { 
           $set: { 
             title, titleEn, content, contentEn, summary, summaryEn, 
@@ -945,7 +945,7 @@ export async function registerRoutes(
   app.delete("/api/news/:id", requireRole("admin"), async (req, res) => {
     try {
       const id = String(req.params.id);
-      await db.collection("news").deleteOne({ _id: new ObjectId(id) });
+      await db.collection("news").deleteOne({ _id: new ObjectId(String(id)) });
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في حذف الخبر" });
@@ -996,7 +996,7 @@ export async function registerRoutes(
         return res.status(400).json({ message: "حالة غير صالحة" });
       }
       await db.collection("job_applications").updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(String(id)) },
         { $set: { status, updatedAt: new Date() } }
       );
       res.json({ success: true });
@@ -1008,7 +1008,7 @@ export async function registerRoutes(
   app.delete("/api/job-applications/:id", requireRole("admin"), async (req, res) => {
     try {
       const id = String(req.params.id);
-      await db.collection("job_applications").deleteOne({ _id: new ObjectId(id) });
+      await db.collection("job_applications").deleteOne({ _id: new ObjectId(String(id)) });
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في حذف الطلب" });
