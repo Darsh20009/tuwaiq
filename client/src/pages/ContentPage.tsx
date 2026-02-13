@@ -262,7 +262,65 @@ export function DisclosurePage() {
 }
 
 export function NewsPage() {
-  return <ContentPage title="الأخبار" slug="news" />;
+  const { data: news, isLoading } = useQuery<any[]>({
+    queryKey: ['/api/admin/content'],
+  });
+
+  const newsItems = news?.filter(item => item.slug.startsWith('news-')) || [];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      <main className="flex-1">
+        <div className="bg-gradient-to-l from-primary to-teal-600 text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold font-heading">آخر الأخبار</h1>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12">
+          {isLoading ? (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+              {[1, 2, 3].map(i => <Skeleton key={i} className="h-64 w-full" />)}
+            </div>
+          ) : newsItems.length > 0 ? (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+              {newsItems.map((item: any) => (
+                <Card key={item.slug} className="overflow-hidden hover:shadow-lg transition-shadow border-primary/10">
+                  {item.imageUrl && (
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={item.imageUrl} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <CardHeader>
+                    <CardTitle className="text-xl font-bold line-clamp-2">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div 
+                      className="text-muted-foreground line-clamp-3 mb-4" 
+                      dangerouslySetInnerHTML={{ __html: item.content }}
+                    />
+                    <Link href={`/news/${item.slug}`}>
+                      <Button variant="outline" className="w-full">اقرأ المزيد</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-muted/30 rounded-lg border-2 border-dashed">
+              <p className="text-xl text-muted-foreground">لا توجد أخبار حالياً</p>
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 export function BlogPage() {

@@ -603,13 +603,16 @@ export async function registerRoutes(
 
   app.post("/api/job-applications", async (req, res) => {
     try {
+      console.log("Receiving job application:", req.body);
       const result = await db.collection("job_applications").insertOne({
         ...req.body,
         status: "pending",
         createdAt: new Date()
       });
+      console.log("Job application saved with ID:", result.insertedId);
       res.status(201).json({ id: result.insertedId });
     } catch (err) {
+      console.error("Error in job application:", err);
       res.status(500).json({ message: "خطأ في تقديم الطلب" });
     }
   });

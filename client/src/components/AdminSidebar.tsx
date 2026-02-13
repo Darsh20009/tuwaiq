@@ -33,7 +33,8 @@ import { Button } from "@/components/ui/button";
   const menuItems = [
     { title: "الإحصائيات", icon: LayoutDashboard, tab: "stats" },
     { title: "التبرعات", icon: DollarSign, tab: "donations" },
-    { title: "إدارة الأخبار", icon: FileText, tab: "news" },
+    { title: "إدارة الأخبار", icon: Newspaper, tab: "news" },
+    { title: "التحكم في الصفحات", icon: FileText, tab: "pages" },
     { title: "إدارة المحتوى", icon: ImageIcon, tab: "content" },
     { title: "إدارة الوظائف", icon: Briefcase, tab: "jobs" },
     { title: "طلبات التوظيف", icon: UserCheck, tab: "job-applications" },
