@@ -4,6 +4,7 @@ import { CheckCircle, Clock, FileText, UserCheck, CreditCard, Activity, ArrowUpR
 import { Link } from "wouter";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { EmployeeSidebar } from "@/components/EmployeeSidebar";
+import { Badge } from "@/components/ui/badge";
 // import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function EmployeeDashboard() {

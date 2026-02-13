@@ -498,9 +498,21 @@ export async function registerRoutes(
   });
 
   // ==================== CONTENT MANAGEMENT ====================
-  app.get("/api/admin/content", requireRole("admin", "manager"), async (req, res) => {
+  app.get("/api/admin/content", async (req, res) => {
     try {
       const content = await storage.getAllContent();
+      res.json(content);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب المحتوى" });
+    }
+  });
+
+  app.get("/api/content/:slug", async (req, res) => {
+    try {
+      const content = await storage.getContent(req.params.slug);
+      if (!content) {
+        return res.json({ slug: req.params.slug, title: "", content: "" });
+      }
       res.json(content);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب المحتوى" });
@@ -514,6 +526,68 @@ export async function registerRoutes(
       res.json(content);
     } catch (err) {
       res.status(500).json({ message: "خطأ في تحديث المحتوى" });
+    }
+  });
+
+  // ==================== JOBS MANAGEMENT ====================
+  app.get("/api/jobs", async (req, res) => {
+    try {
+      const jobs = await storage.getJobs();
+      res.json(jobs);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الوظائف" });
+    }
+  });
+
+  app.post("/api/jobs", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const job = await storage.createJob(req.body);
+      res.status(201).json(job);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إنشاء الوظيفة" });
+    }
+  });
+
+  app.put("/api/jobs/:id", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const jobId = String(req.params.id);
+      await storage.updateJob(jobId, req.body);
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الوظيفة" });
+    }
+  });
+
+  app.delete("/api/jobs/:id", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const jobId = String(req.params.id);
+      await storage.deleteJob(jobId);
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الوظيفة" });
+    }
+  });
+
+  // ==================== JOB APPLICATIONS ====================
+  app.get("/api/job-applications", requireRole("admin", "manager", "employee"), async (req, res) => {
+    try {
+      const applications = await db.collection("job_applications").find({}).sort({ createdAt: -1 }).toArray();
+      res.json(applications.map((a: any) => ({ ...a, id: a._id.toString() })));
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الطلبات" });
+    }
+  });
+
+  app.post("/api/job-applications", async (req, res) => {
+    try {
+      const result = await db.collection("job_applications").insertOne({
+        ...req.body,
+        status: "pending",
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تقديم الطلب" });
     }
   });
 
