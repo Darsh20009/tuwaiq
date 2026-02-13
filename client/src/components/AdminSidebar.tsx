@@ -30,18 +30,17 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
-const menuItems = [
-  { title: "لوحة التحكم", icon: LayoutDashboard, url: "/admin", tab: "stats" },
-  { title: "التبرعات", icon: DollarSign, url: "/admin", tab: "donations" },
-  { title: "المستفيدين", icon: Heart, url: "/admin", tab: "beneficiaries" },
-  { title: "الوظائف", icon: Briefcase, url: "/admin", tab: "jobs" },
-  { title: "طلبات التوظيف", icon: UserCheck, url: "/admin", tab: "job-applications" },
-  { title: "الأخبار", icon: Newspaper, url: "/admin", tab: "news" },
-  { title: "الصور", icon: ImageIcon, url: "/admin", tab: "gallery" },
-  { title: "الرسائل", icon: Mail, url: "/admin", tab: "emails" },
-  { title: "المستخدمين", icon: Users, url: "/admin", tab: "users" },
-  { title: "الإعدادات", icon: Settings, url: "/admin", tab: "settings" },
-];
+  const menuItems = [
+    { title: "الإحصائيات", icon: LayoutDashboard, tab: "stats" },
+    { title: "التبرعات", icon: DollarSign, tab: "donations" },
+    { title: "إدارة الأخبار", icon: FileText, tab: "news" },
+    { title: "إدارة المحتوى", icon: ImageIcon, tab: "content" },
+    { title: "إدارة الوظائف", icon: Briefcase, tab: "jobs" },
+    { title: "طلبات التوظيف", icon: UserCheck, tab: "job-applications" },
+    { title: "إدارة المستخدمين", icon: Users, tab: "users" },
+    { title: "البريد الإلكتروني", icon: Mail, tab: "emails" },
+    { title: "الإعدادات", icon: Settings, tab: "settings" },
+  ];
 
 export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, onTabChange: (tab: string) => void }) {
   const { user, logout } = useAuth();
