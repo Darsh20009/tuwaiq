@@ -6,11 +6,11 @@ const transporter = nodemailer.createTransport({
   port: parseInt(process.env.SMTP_PORT || "587"),
   secure: process.env.SMTP_PORT === "465", // Use secure for port 465
   auth: {
-    user: process.env.SMTP_USER || "tuwaiq",
-    pass: process.env.SMTP_PASS || "tuwaiq123",
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
   tls: {
-    rejectUnauthorized: false // Often needed for SMTP servers like SMTP2GO on some networks
+    rejectUnauthorized: false
   }
 });
 

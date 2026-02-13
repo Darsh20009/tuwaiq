@@ -478,6 +478,7 @@ export async function registerRoutes(
         return res.status(400).json({ message: "جميع الحقول مطلوبة" });
       }
 
+      console.log(`Attempting to send admin email to: ${to}`);
       const result = await sendEmail({
         to,
         subject,
@@ -487,10 +488,32 @@ export async function registerRoutes(
       if (result.success) {
         res.json({ message: "تم إرسال البريد بنجاح" });
       } else {
-        res.status(500).json({ message: "فشل إرسال البريد" });
+        console.error("Admin email sending failed:", result.error);
+        res.status(500).json({ message: "فشل إرسال البريد", error: String(result.error) });
       }
     } catch (err) {
+      console.error("Admin email route error:", err);
       res.status(500).json({ message: "خطأ في الخادم" });
+    }
+  });
+
+  // ==================== CONTENT MANAGEMENT ====================
+  app.get("/api/admin/content", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const content = await storage.getAllContent();
+      res.json(content);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب المحتوى" });
+    }
+  });
+
+  app.put("/api/admin/content/:slug", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const content = await storage.updateContent(slug, req.body);
+      res.json(content);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث المحتوى" });
     }
   });
 

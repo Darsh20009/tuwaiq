@@ -199,7 +199,8 @@ export class MongoStorage implements IStorage {
       { 
         $set: { 
           totalDonations: String(currentTotal + amount),
-          points: currentPoints + earnedPoints
+          points: currentPoints + earnedPoints,
+          updatedAt: new Date()
         } 
       }
     );
