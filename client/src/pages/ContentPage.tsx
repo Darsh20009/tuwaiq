@@ -4,6 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+
 interface ContentPageProps {
   title: string;
   slug: string;
@@ -111,11 +114,115 @@ export function BeneficiariesPage() {
 }
 
 export function JobsPage() {
-  return <ContentPage title="إعلانات الوظائف" slug="jobs" />;
+  const { data: jobs, isLoading } = useQuery<any[]>({
+    queryKey: ['/api/jobs'],
+  });
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      <main className="flex-1">
+        <div className="bg-gradient-to-l from-primary to-teal-600 text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold font-heading">الوظائف المتاحة</h1>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12">
+          {isLoading ? (
+            <div className="grid gap-6 max-w-4xl mx-auto">
+              {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full" />)}
+            </div>
+          ) : jobs && jobs.length > 0 ? (
+            <div className="grid gap-6 max-w-4xl mx-auto">
+              {jobs.filter(j => j.isActive).map((job: any) => (
+                <Card key={job.id} className="hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-xl font-bold">{job.title}</CardTitle>
+                        <p className="text-sm text-muted-foreground mt-1">{job.department}</p>
+                      </div>
+                      <Link href="/apply-job">
+                        <Button>التقديم الآن</Button>
+                      </Link>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground line-clamp-2">{job.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-xl text-muted-foreground">لا توجد وظائف شاغرة حالياً</p>
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 export function ApplyJobPage() {
-  return <ContentPage title="التقدم للتوظيف" slug="apply-job" />;
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      <main className="flex-1">
+        <div className="bg-gradient-to-l from-primary to-teal-600 text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold font-heading">تقديم طلب توظيف</h1>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12">
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="p-8">
+              <form className="space-y-4" onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const data = Object.fromEntries(formData.entries());
+                try {
+                  const res = await fetch('/api/job-applications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                  });
+                  if (res.ok) {
+                    alert('تم تقديم طلبك بنجاح');
+                    window.location.href = '/';
+                  }
+                } catch (err) {
+                  alert('حدث خطأ أثناء تقديم الطلب');
+                }
+              }}>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">الاسم الكامل</label>
+                  <input name="name" className="w-full p-2 border rounded" required />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">البريد الإلكتروني</label>
+                  <input name="email" type="email" className="w-full p-2 border rounded" required />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">رقم الجوال</label>
+                  <input name="phone" className="w-full p-2 border rounded" required />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">لماذا ترغب بالانضمام إلينا؟</label>
+                  <textarea name="message" className="w-full p-2 border rounded h-32" required></textarea>
+                </div>
+                <Button type="submit" className="w-full">إرسال الطلب</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 export function VolunteerPage() {

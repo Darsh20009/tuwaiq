@@ -869,16 +869,143 @@ function SettingsManagement() {
 }
 
 function NewsManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [editingNews, setEditingNews] = useState<any>(null);
+  const [newNews, setNewNews] = useState({ title: "", content: "", imageUrl: "", slug: "news-" });
+
+  const { data: newsItems, isLoading } = useQuery({
+    queryKey: ['/api/admin/content'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/content', { credentials: 'include' });
+      const data = await res.json();
+      return Array.isArray(data) ? data.filter((item: any) => item.slug.startsWith('news-')) : [];
+    }
+  });
+
+  const addMutation = useMutation({
+    mutationFn: async (news: any) => {
+      await apiRequest("POST", "/api/admin/content", news);
+    },
+    onSuccess: () => {
+      toast({ title: "تمت الإضافة", description: "تم إضافة الخبر بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
+      setShowAddDialog(false);
+      setNewNews({ title: "", content: "", imageUrl: "", slug: "news-" });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async (news: any) => {
+      await apiRequest("PUT", `/api/admin/content/${news.slug}`, news);
+    },
+    onSuccess: () => {
+      toast({ title: "تم التحديث", description: "تم تحديث الخبر بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
+      setEditingNews(null);
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (slug: string) => {
+      await apiRequest("DELETE", `/api/admin/content/${slug}`);
+    },
+    onSuccess: () => {
+      toast({ title: "تم الحذف", description: "تم حذف الخبر بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
+    }
+  });
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>إدارة الأخبار</CardTitle>
-        <CardDescription>إضافة وتعديل أخبار الجمعية</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground">قيد التطوير...</p>
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-bold">إدارة الأخبار</h3>
+        <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-brand">
+          <Plus className="w-4 h-4 ml-2" />
+          إضافة خبر
+        </Button>
+      </div>
+
+      <div className="grid gap-4">
+        {newsItems?.map((news: any) => (
+          <Card key={news.slug}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{news.title}</CardTitle>
+              <div className="flex gap-2">
+                <Button variant="ghost" size="sm" onClick={() => {
+                  setEditingNews(news);
+                }}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(news.slug)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-xs text-muted-foreground line-clamp-2" dangerouslySetInnerHTML={{ __html: news.content }} />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>إضافة خبر جديد</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>العنوان</Label>
+              <Input value={newNews.title} onChange={e => setNewNews({...newNews, title: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <Label>المعرف (Slug)</Label>
+              <Input value={newNews.slug} onChange={e => setNewNews({...newNews, slug: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <Label>رابط الصورة</Label>
+              <Input value={newNews.imageUrl} onChange={e => setNewNews({...newNews, imageUrl: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <Label>المحتوى (HTML)</Label>
+              <Textarea className="min-h-[200px]" value={newNews.content} onChange={e => setNewNews({...newNews, content: e.target.value})} />
+            </div>
+            <Button className="w-full" onClick={() => addMutation.mutate(newNews)} disabled={addMutation.isPending}>
+              حفظ
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!editingNews} onOpenChange={() => setEditingNews(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>تعديل الخبر</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>العنوان</Label>
+              <Input value={editingNews?.title} onChange={e => setEditingNews({...editingNews, title: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <Label>رابط الصورة</Label>
+              <Input value={editingNews?.imageUrl} onChange={e => setEditingNews({...editingNews, imageUrl: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <Label>المحتوى (HTML)</Label>
+              <Textarea className="min-h-[200px]" value={editingNews?.content} onChange={e => setEditingNews({...editingNews, content: e.target.value})} />
+            </div>
+            <Button className="w-full" onClick={() => updateMutation.mutate(editingNews)} disabled={updateMutation.isPending}>
+              تحديث
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
 
