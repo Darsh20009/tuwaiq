@@ -69,7 +69,7 @@ export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, on
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-[#1c1d21] text-[#e6e9ed]">
         <SidebarGroup>
           <SidebarGroupLabel>القائمة الرئيسية</SidebarGroupLabel>
           <SidebarGroupContent>
