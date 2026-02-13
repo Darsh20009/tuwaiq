@@ -570,6 +570,47 @@ function CTASection() {
   );
 }
 
+function NewsSection() {
+  const { data: news } = useQuery({
+    queryKey: ['/api/admin/content'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/content');
+      const data = await res.json();
+      return Array.isArray(data) ? data.filter((c: any) => c.slug.startsWith('news-')) : [];
+    }
+  });
+
+  if (!news || news.length === 0) return null;
+
+  return (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold font-heading text-gradient mb-4">آخر الأخبار والفعاليات</h2>
+          <p className="text-muted-foreground">تابع آخر مستجدات جمعية طويق ومشاريعها</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {news.slice(0, 3).map((item: any) => (
+            <Card key={item.slug} className="overflow-hidden hover-elevate border-0 shadow-lg">
+              {item.imageUrl && (
+                <div className="h-48 overflow-hidden">
+                  <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform hover:scale-105 duration-500" />
+                </div>
+              )}
+              <CardHeader>
+                <CardTitle className="text-xl">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-muted-foreground text-sm line-clamp-3 mb-4" dangerouslySetInnerHTML={{ __html: item.content }} />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -579,6 +620,7 @@ export default function Home() {
         <HeroSlider />
         <ServicesSection />
         <AboutSection />
+        <NewsSection />
         <StatsSection />
         <TopDonorsSection />
         <CTASection />

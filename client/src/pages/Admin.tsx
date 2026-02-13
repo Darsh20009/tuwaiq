@@ -144,6 +144,8 @@ function ContentManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editingContent, setEditingContent] = useState<any>(null);
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newContent, setNewContent] = useState({ slug: "news-", title: "", content: "", imageUrl: "" });
   
   const { data: contents, isLoading } = useQuery({
     queryKey: ['/api/admin/content'],
@@ -164,12 +166,38 @@ function ContentManagement() {
     }
   });
 
+  const addMutation = useMutation({
+    mutationFn: async (content: any) => {
+      await apiRequest("POST", "/api/admin/content", content);
+    },
+    onSuccess: () => {
+      toast({ title: "تمت الإضافة", description: "تم إضافة المحتوى بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
+      setShowAddDialog(false);
+      setNewContent({ slug: "news-", title: "", content: "", imageUrl: "" });
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (slug: string) => {
+      await apiRequest("DELETE", `/api/admin/content/${slug}`);
+    },
+    onSuccess: () => {
+      toast({ title: "تم الحذف", description: "تم حذف المحتوى بنجاح" });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
+    }
+  });
+
   if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold">إدارة محتوى الصفحات</h3>
+        <h3 className="text-lg font-bold">إدارة محتوى الصفحات والأخبار</h3>
+        <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-brand">
+          <Plus className="w-4 h-4 ml-2" />
+          إضافة خبر جديد
+        </Button>
       </div>
       
       <div className="grid gap-4">
@@ -177,9 +205,16 @@ function ContentManagement() {
           <Card key={content.slug}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{content.slug}</CardTitle>
-              <Button variant="ghost" size="sm" onClick={() => setEditingContent(content)}>
-                <Edit className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="ghost" size="sm" onClick={() => setEditingContent(content)}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+                {content.slug.startsWith('news-') && (
+                  <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(content.slug)}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                )}
+              </div>
             </CardHeader>
             <CardContent>
               <p className="text-sm font-bold">{content.title}</p>
@@ -189,10 +224,56 @@ function ContentManagement() {
         ))}
       </div>
 
+      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>إضافة محتوى جديد</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>المعرف (Slug) - ابدأ بـ news- للأخبار</Label>
+              <Input 
+                value={newContent.slug} 
+                onChange={e => setNewContent({...newContent, slug: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>العنوان</Label>
+              <Input 
+                value={newContent.title} 
+                onChange={e => setNewContent({...newContent, title: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>رابط الصورة</Label>
+              <Input 
+                value={newContent.imageUrl} 
+                onChange={e => setNewContent({...newContent, imageUrl: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>المحتوى (HTML)</Label>
+              <Textarea 
+                className="min-h-[200px]"
+                value={newContent.content} 
+                onChange={e => setNewContent({...newContent, content: e.target.value})}
+              />
+            </div>
+            <Button 
+              className="w-full" 
+              onClick={() => addMutation.mutate(newContent)}
+              disabled={addMutation.isPending}
+            >
+              {addMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "إضافة الآن"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={!!editingContent} onOpenChange={() => setEditingContent(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>تعديل صفحة: {editingContent?.slug}</DialogTitle>
+            <DialogTitle>تعديل: {editingContent?.slug}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">

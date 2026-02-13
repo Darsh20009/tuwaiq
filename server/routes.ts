@@ -529,6 +529,29 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/admin/content", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      // For MongoDB content collection
+      const result = await db.collection("content").insertOne({
+        ...req.body,
+        createdAt: new Date()
+      });
+      res.status(201).json({ id: result.insertedId });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إضافة المحتوى" });
+    }
+  });
+
+  app.delete("/api/admin/content/:slug", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const slug = String(req.params.slug);
+      await db.collection("content").deleteOne({ slug });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف المحتوى" });
+    }
+  });
+
   // ==================== JOBS MANAGEMENT ====================
   app.get("/api/jobs", async (req, res) => {
     try {
