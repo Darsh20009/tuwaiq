@@ -22,7 +22,7 @@ import {
 import { FileUpload } from "@/components/FileUpload";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { ThemeToggle } from "@/components/ThemeToggle";
+// import { ThemeToggle } from "@/components/ThemeToggle";
 
 function StatsPanel() {
   const { data: stats, isLoading } = useQuery({
@@ -847,7 +847,7 @@ export default function Admin() {
               <SidebarTrigger />
               <h1 className="text-xl font-bold text-primary">لوحة الإدارة</h1>
             </div>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </header>
 
           <main className="flex-1 overflow-y-auto p-4 md:p-8">

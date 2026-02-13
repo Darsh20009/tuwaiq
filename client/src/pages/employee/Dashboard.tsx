@@ -4,7 +4,7 @@ import { CheckCircle, Clock, FileText, UserCheck, CreditCard, Activity, ArrowUpR
 import { Link } from "wouter";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { EmployeeSidebar } from "@/components/EmployeeSidebar";
-import { ThemeToggle } from "@/components/ThemeToggle";
+// import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function EmployeeDashboard() {
   const { data: donations } = useQuery<any[]>({ queryKey: ["/api/donations"] });
@@ -33,7 +33,7 @@ export default function EmployeeDashboard() {
               <SidebarTrigger />
               <h1 className="text-xl font-bold text-primary">لوحة إنجاز المهام</h1>
             </div>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </header>
           
           <main className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
