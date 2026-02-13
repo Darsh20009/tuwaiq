@@ -8,3 +8,4 @@
 [x] 8. Set MONGODB_URI secret and verify app starts with database connected
 [x] 9. إضافة واجهة إدارة المحتوى في لوحة الإدارة
 [x] 10. إصلاح إرسال البريد الإلكتروني وتحديث إعدادات SMTP
+[x] 11. Fix workflow startup (tsx not found) and verify app runs correctly
