@@ -76,7 +76,7 @@ function HomeJobs() {
   if (activeJobs.length === 0) return null;
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -89,14 +89,15 @@ function HomeJobs() {
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {activeJobs.map((job) => (
-            <Card key={job.id} className="border-primary/10 hover:border-primary/30 transition-colors">
+            <Card key={job.id} className="border-primary/10 hover:border-primary/30 transition-colors group hover-elevate overflow-hidden">
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary group-hover:scale-110 transition-transform">
                   <Briefcase className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{job.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{job.department}</p>
-                <Link href="/apply">
+                <div className="text-sm text-muted-foreground line-clamp-2 mb-4" dangerouslySetInnerHTML={{ __html: job.description }} />
+                <Link href={`/jobs?apply=${job.id}`}>
                   <Button className="w-full">قدم الآن</Button>
                 </Link>
               </CardContent>

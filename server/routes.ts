@@ -601,19 +601,27 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/job-applications", async (req, res) => {
+  app.patch("/api/job-applications/:id/status", requireRole("admin", "manager", "employee"), async (req, res) => {
     try {
-      console.log("Receiving job application:", req.body);
-      const result = await db.collection("job_applications").insertOne({
-        ...req.body,
-        status: "pending",
-        createdAt: new Date()
-      });
-      console.log("Job application saved with ID:", result.insertedId);
-      res.status(201).json({ id: result.insertedId });
+      const { status, notes } = req.body;
+      const applicationId = String(req.params.id);
+      await db.collection("job_applications").updateOne(
+        { _id: new ObjectId(applicationId) },
+        { $set: { status, notes, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
     } catch (err) {
-      console.error("Error in job application:", err);
-      res.status(500).json({ message: "خطأ في تقديم الطلب" });
+      res.status(500).json({ message: "خطأ في تحديث حالة الطلب" });
+    }
+  });
+
+  app.delete("/api/job-applications/:id", requireRole("admin", "manager"), async (req, res) => {
+    try {
+      const applicationId = String(req.params.id);
+      await db.collection("job_applications").deleteOne({ _id: new ObjectId(applicationId) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الطلب" });
     }
   });
 
