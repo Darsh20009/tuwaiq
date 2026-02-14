@@ -594,10 +594,26 @@ export async function registerRoutes(
   // ==================== JOB APPLICATIONS ====================
   app.get("/api/job-applications", requireRole("admin", "manager", "employee"), async (req, res) => {
     try {
-      const applications = await db.collection("job_applications").find({}).sort({ createdAt: -1 }).toArray();
-      res.json(applications.map((a: any) => ({ ...a, id: a._id.toString() })));
+      const applications = await storage.getJobApplications();
+      res.json(applications);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الطلبات" });
+    }
+  });
+
+  app.post("/api/job-applications", upload.single("cv"), async (req, res) => {
+    try {
+      const cvUrl = req.file ? `/uploads/${req.file.filename}` : null;
+      const data = {
+        ...req.body,
+        cvUrl,
+        customAnswers: req.body.customAnswers ? JSON.parse(req.body.customAnswers) : []
+      };
+      const application = await storage.createJobApplication(data);
+      res.status(201).json(application);
+    } catch (err) {
+      console.error("Job application error:", err);
+      res.status(500).json({ message: "حدث خطأ أثناء تقديم الطلب" });
     }
   });
 
@@ -605,11 +621,12 @@ export async function registerRoutes(
     try {
       const { status, notes } = req.body;
       const applicationId = String(req.params.id);
-      await db.collection("job_applications").updateOne(
-        { _id: new ObjectId(applicationId) },
-        { $set: { status, notes, updatedAt: new Date() } }
-      );
+      await storage.updateJobApplicationStatus(applicationId, status, notes);
       res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث حالة الطلب" });
+    }
+  });
     } catch (err) {
       res.status(500).json({ message: "خطأ في تحديث حالة الطلب" });
     }

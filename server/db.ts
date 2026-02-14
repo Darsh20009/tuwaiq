@@ -12,6 +12,7 @@ export const contentCollection = db.collection("content");
 export const jobsCollection = db.collection("jobs");
 export const experiencesCollection = db.collection("experiences");
 export const branchesCollection = db.collection("branches");
+export const jobApplicationsCollection = db.collection("job_applications");
 
 // Connection helper
 export async function connectToMongo() {

@@ -3,7 +3,8 @@ import { db, usersCollection, donationsCollection, contentCollection, jobsCollec
 import { 
   type User, type InsertUser, type Donation, type InsertDonation, 
   type Content, type InsertContent, type Job, type InsertJob, 
-  type Experience, type InsertExperience, type Branch, type InsertBranch
+  type Experience, type InsertExperience, type Branch, type InsertBranch,
+  type JobApplication, type InsertJobApplication
 } from "@shared/schema";
 
 export interface IStorage {
@@ -27,6 +28,11 @@ export interface IStorage {
   createJob(job: InsertJob): Promise<Job>;
   updateJob(id: string, job: Partial<InsertJob>): Promise<void>;
   deleteJob(id: string): Promise<void>;
+
+  // Job Applications
+  getJobApplications(): Promise<JobApplication[]>;
+  createJobApplication(app: InsertJobApplication): Promise<JobApplication>;
+  updateJobApplicationStatus(id: string, status: string, notes?: string): Promise<void>;
 
   // Experiences
   getExperiences(): Promise<Experience[]>;
@@ -67,6 +73,10 @@ export class MongoStorage implements IStorage {
   }
 
   private toBranch(doc: any): Branch {
+    return { ...doc, id: doc._id.toString() };
+  }
+
+  private toJobApplication(doc: any): JobApplication {
     return { ...doc, id: doc._id.toString() };
   }
 
@@ -111,6 +121,34 @@ export class MongoStorage implements IStorage {
 
   async deleteJob(id: string): Promise<void> {
     await jobsCollection.deleteOne({ _id: new ObjectId(id) });
+  }
+
+  // Job Application methods
+  async getJobApplications(): Promise<JobApplication[]> {
+    const database = (jobsCollection as any).db as Db;
+    const cursor = database.collection("job_applications").find({}).sort({ createdAt: -1 });
+    const docs = await cursor.toArray();
+    return docs.map(d => this.toJobApplication(d));
+  }
+
+  async createJobApplication(app: InsertJobApplication): Promise<JobApplication> {
+    const database = (jobsCollection as any).db as Db;
+    const res = await database.collection("job_applications").insertOne({
+      ...app,
+      status: "pending",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+    const doc = await database.collection("job_applications").findOne({ _id: res.insertedId });
+    return this.toJobApplication(doc);
+  }
+
+  async updateJobApplicationStatus(id: string, status: string, notes?: string): Promise<void> {
+    const database = (jobsCollection as any).db as Db;
+    await database.collection("job_applications").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status, notes, updatedAt: new Date() } }
+    );
   }
 
   // Experience methods

@@ -96,8 +96,25 @@ export const jobs = pgTable("jobs", {
   descriptionEn: text("description_en"),
   requirements: text("requirements").notNull(),
   requirementsEn: text("requirements_en"),
+  customQuestions: text("custom_questions").array(),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const jobApplications = pgTable("job_applications", {
+  id: serial("id").primaryKey(),
+  jobId: text("job_id"), // Using text to store MongoDB ObjectId string
+  jobTitle: text("job_title").notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  message: text("message").notNull(),
+  cvUrl: text("cv_url"),
+  customAnswers: text("custom_answers").array(),
+  status: text("status").default("pending"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const experiences = pgTable("experiences", {
@@ -126,6 +143,12 @@ export const insertJobSchema = createInsertSchema(jobs).omit({
   createdAt: true,
 });
 
+export const insertJobApplicationSchema = createInsertSchema(jobApplications).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertExperienceSchema = createInsertSchema(experiences).omit({
   id: true,
   createdAt: true,
@@ -133,6 +156,8 @@ export const insertExperienceSchema = createInsertSchema(experiences).omit({
 
 export type Job = typeof jobs.$inferSelect;
 export type InsertJob = z.infer<typeof insertJobSchema>;
+export type JobApplication = typeof jobApplications.$inferSelect;
+export type InsertJobApplication = z.infer<typeof insertJobApplicationSchema>;
 export type Experience = typeof experiences.$inferSelect;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 
