@@ -191,12 +191,22 @@ export function ApplyJobPage() {
               <form className="space-y-4" onSubmit={async (e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
-                const data = Object.fromEntries(formData.entries());
+                const selectedJob = jobs?.find(j => j.title === formData.get('jobTitle'));
+                formData.append('jobId', String(selectedJob?.id || ''));
+                
+                // Collect custom answers
+                const customAnswers: string[] = [];
+                if (selectedJob?.customQuestions) {
+                  selectedJob.customQuestions.forEach((_: string, i: number) => {
+                    customAnswers.push(formData.get(`customAnswer_${i}`) as string);
+                  });
+                }
+                formData.append('customAnswers', JSON.stringify(customAnswers));
+
                 try {
                   const res = await fetch('/api/job-applications', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: formData
                   });
                   if (res.ok) {
                     alert('تم تقديم طلبك بنجاح');
@@ -208,7 +218,23 @@ export function ApplyJobPage() {
               }}>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">الوظيفة المتقدم لها</label>
-                  <select name="jobTitle" className="w-full p-2 border rounded" required>
+                  <select 
+                    name="jobTitle" 
+                    className="w-full p-2 border rounded" 
+                    required
+                    onChange={(e) => {
+                      const job = jobs?.find(j => j.title === e.target.value);
+                      const questionsDiv = document.getElementById('custom-questions-container');
+                      if (questionsDiv) {
+                        questionsDiv.innerHTML = (job?.customQuestions || []).map((q: string, i: number) => `
+                          <div class="space-y-2 mt-4">
+                            <label class="text-sm font-medium">${q}</label>
+                            <input name="customAnswer_${i}" class="w-full p-2 border rounded" required />
+                          </div>
+                        `).join('');
+                      }
+                    }}
+                  >
                     <option value="">اختر الوظيفة</option>
                     {jobs?.filter((j: any) => j.isActive).map((job: any) => (
                       <option key={job.id} value={job.title}>{job.title}</option>
@@ -227,6 +253,11 @@ export function ApplyJobPage() {
                   <label className="text-sm font-medium">رقم الجوال</label>
                   <input name="phone" className="w-full p-2 border rounded" required />
                 </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">السيرة الذاتية (CV)</label>
+                  <input type="file" name="cv" accept=".pdf,.doc,.docx" className="w-full p-2 border rounded" required />
+                </div>
+                <div id="custom-questions-container"></div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">لماذا ترغب بالانضمام إلينا؟</label>
                   <textarea name="message" className="w-full p-2 border rounded h-32" required></textarea>
