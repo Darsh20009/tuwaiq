@@ -9,3 +9,6 @@
 [x] 9. إضافة واجهة إدارة المحتوى في لوحة الإدارة
 [x] 10. إصلاح إرسال البريد الإلكتروني وتحديث إعدادات SMTP
 [x] 11. Fix workflow startup (tsx not found) and verify app runs correctly
+[x] 12. Fix PartnersSection undefined error and missing CardHeader/CardTitle imports in Home.tsx
+[x] 13. Fix Button variant "link" type error in Home.tsx
+[x] 14. Verify app starts and renders correctly after all fixes

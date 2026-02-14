@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft, Award, Heart, ShieldCheck, Users, ArrowLeft, Target, Eye, Handshake, Droplet, Utensils, Moon, Building2, Phone, Newspaper, Briefcase, Loader2 } from "lucide-react";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 
@@ -48,7 +48,7 @@ function HomeNews() {
                 <h3 className="text-xl font-bold mb-3 line-clamp-1">{item.title}</h3>
                 <div className="text-sm text-muted-foreground line-clamp-2 mb-4" dangerouslySetInnerHTML={{ __html: item.content }} />
                 <Link href={`/news/${item.slug}`}>
-                  <Button variant="link" className="p-0 text-primary group-hover:translate-x-[-4px] transition-transform">
+                  <Button variant="ghost" className="p-0 text-primary group-hover:translate-x-[-4px] transition-transform">
                     اقرأ المزيد <ArrowLeft className="w-4 h-4 mr-2" />
                   </Button>
                 </Link>
@@ -723,7 +723,6 @@ export default function Home() {
         <HomeJobs />
         <TopDonorsSection />
         <CTASection />
-        <PartnersSection />
       </main>
 
       <Footer />
