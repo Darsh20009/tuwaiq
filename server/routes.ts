@@ -627,10 +627,6 @@ export async function registerRoutes(
       res.status(500).json({ message: "خطأ في تحديث حالة الطلب" });
     }
   });
-    } catch (err) {
-      res.status(500).json({ message: "خطأ في تحديث حالة الطلب" });
-    }
-  });
 
   app.delete("/api/job-applications/:id", requireRole("admin", "manager"), async (req, res) => {
     try {
