@@ -71,18 +71,18 @@ export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, on
       </SidebarHeader>
       <SidebarContent className="bg-[#1c1d21] text-[#e6e9ed]">
         <SidebarGroup>
-          <SidebarGroupLabel>القائمة الرئيسية</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupLabel className="text-primary/70 font-bold px-4">القائمة الرئيسية</SidebarGroupLabel>
+          <SidebarGroupContent className="px-2">
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.tab}>
+                <SidebarMenuItem key={item.tab} className="mb-1">
                   <SidebarMenuButton
                     onClick={() => onTabChange(item.tab)}
                     isActive={activeTab === item.tab}
-                    className="w-full justify-start gap-3"
+                    className="w-full justify-start gap-3 rounded-xl transition-all data-[active=true]:bg-primary data-[active=true]:text-white hover:bg-white/5"
                   >
-                    <item.icon className="w-5 h-5" />
-                    <span>{item.title}</span>
+                    <item.icon className={`w-5 h-5 ${activeTab === item.tab ? 'text-white' : 'text-primary'}`} />
+                    <span className="font-medium">{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

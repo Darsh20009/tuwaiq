@@ -17,7 +17,7 @@ import {
   Settings, Users, Building, DollarSign, Percent, TrendingUp, Loader2,
   FileText, UserPlus, Truck, MessageSquare, Building2, CheckCircle2,
   XCircle, Clock, Edit, Trash2, Eye, Plus, RefreshCw, Image, Upload, Mail,
-  Heart, HeartHandshake, LayoutDashboard
+  Heart, HeartHandshake, LayoutDashboard, Activity
 } from "lucide-react";
 import { FileUpload } from "@/components/FileUpload";
 import { AdminSidebar } from "@/components/AdminSidebar";
@@ -47,92 +47,131 @@ function StatsPanel() {
   return (
     <div className="grid gap-6">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover-elevate bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200">
+        <Card className="hover-elevate bg-white dark:bg-card border-blue-100 dark:border-blue-900 shadow-sm overflow-hidden group">
+          <div className="h-1 w-full bg-blue-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">إجمالي التبرعات</CardTitle>
-            <DollarSign className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground">إجمالي التبرعات</CardTitle>
+            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:scale-110 transition-transform">
+              <DollarSign className="h-4 w-4 text-blue-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalDonations || 0} ر.س</div>
-            <p className="text-xs text-muted-foreground mt-1">+12% من الشهر الماضي</p>
+            <div className="text-3xl font-black text-blue-600">{stats?.totalDonations || 0} ر.س</div>
+            <div className="flex items-center gap-1 mt-2">
+              <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-700 border-blue-100">+12%</Badge>
+              <span className="text-[10px] text-muted-foreground">نمو هذا الشهر</span>
+            </div>
           </CardContent>
         </Card>
         
-        <Card className="hover-elevate bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-200">
+        <Card className="hover-elevate bg-white dark:bg-card border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden group">
+          <div className="h-1 w-full bg-emerald-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">المستفيدين</CardTitle>
-            <Heart className="h-4 w-4 text-emerald-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground">المستفيدين</CardTitle>
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg group-hover:scale-110 transition-transform">
+              <Heart className="h-4 w-4 text-emerald-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.beneficiariesCount || 0}</div>
-            <p className="text-xs text-muted-foreground mt-1">حالات نشطة حالياً</p>
+            <div className="text-3xl font-black text-emerald-600">{stats?.beneficiariesCount || 0}</div>
+            <div className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
+              <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+              <span>حالات مكتملة الدعم</span>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="hover-elevate bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200">
+        <Card className="hover-elevate bg-white dark:bg-card border-purple-100 dark:border-purple-900 shadow-sm overflow-hidden group">
+          <div className="h-1 w-full bg-purple-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">طلبات التوظيف</CardTitle>
-            <UserPlus className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground">طلبات التوظيف</CardTitle>
+            <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg group-hover:scale-110 transition-transform">
+              <UserPlus className="h-4 w-4 text-purple-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.applicationsCount || 0}</div>
-            <p className="text-xs text-muted-foreground mt-1">طلبات جديدة هذا الإسبوع</p>
+            <div className="text-3xl font-black text-purple-600">{stats?.applicationsCount || 0}</div>
+            <div className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
+              <Clock className="w-3 h-3 text-purple-500" />
+              <span>بانتظار المراجعة</span>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="hover-elevate bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-amber-200">
+        <Card className="hover-elevate bg-white dark:bg-card border-amber-100 dark:border-amber-900 shadow-sm overflow-hidden group">
+          <div className="h-1 w-full bg-amber-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">نسبة الإنجاز</CardTitle>
-            <TrendingUp className="h-4 w-4 text-amber-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground">نسبة الإنجاز</CardTitle>
+            <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg group-hover:scale-110 transition-transform">
+              <TrendingUp className="h-4 w-4 text-amber-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">84%</div>
-            <div className="w-full bg-amber-200 rounded-full h-1.5 mt-3">
-              <div className="bg-amber-600 h-1.5 rounded-full" style={{ width: '84%' }}></div>
+            <div className="text-3xl font-black text-amber-600">84%</div>
+            <div className="w-full bg-muted rounded-full h-1.5 mt-3">
+              <div className="bg-amber-500 h-1.5 rounded-full transition-all duration-1000" style={{ width: '84%' }}></div>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>آخر التبرعات</CardTitle>
+        <Card className="border-0 shadow-md">
+          <CardHeader className="border-b bg-muted/5">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <DollarSign className="w-5 h-5 text-primary" />
+              آخر التبرعات
+            </CardTitle>
             <CardDescription>عرض أحدث العمليات المالية المستلمة</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {recentDonations.length > 0 ? (
-              <div className="space-y-4">
+              <div className="divide-y">
                 {recentDonations.map((donation: any) => (
-                  <div key={donation.id} className="flex items-center justify-between border-b pb-2 last:border-0 last:pb-0">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                        <DollarSign className="w-4 h-4 text-blue-600" />
+                  <div key={donation.id} className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shrink-0">
+                        <HeartHandshake className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">{donation.donorName || "متبرع فاعل خير"}</p>
+                        <p className="text-sm font-bold">{donation.donorName || "متبرع فاعل خير"}</p>
                         <p className="text-xs text-muted-foreground">{new Date(donation.createdAt).toLocaleDateString('ar-SA')}</p>
                       </div>
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-bold text-blue-600">{donation.amount} ر.س</p>
-                      <Badge variant="outline" className="text-[10px]">{donation.type}</Badge>
+                      <p className="text-sm font-black text-blue-600">{donation.amount} ر.س</p>
+                      <Badge variant="secondary" className="text-[10px] py-0">{donation.type}</Badge>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground py-8">لا توجد تبرعات حديثة</p>
+              <div className="p-12 text-center text-muted-foreground">
+                <div className="w-16 h-16 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center opacity-20">
+                  <DollarSign className="w-8 h-8" />
+                </div>
+                <p>لا توجد تبرعات حديثة</p>
+              </div>
             )}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>نشاطات قادمة</CardTitle>
+        
+        <Card className="border-0 shadow-md">
+          <CardHeader className="border-b bg-muted/5">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Activity className="w-5 h-5 text-primary" />
+              نشاطات قادمة
+            </CardTitle>
             <CardDescription>الفعاليات والبرامج المجدولة</CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-center text-muted-foreground py-8">لا توجد فعاليات مجدولة</p>
+          <CardContent className="p-0 flex items-center justify-center min-h-[300px]">
+            <div className="text-center text-muted-foreground p-8">
+              <div className="w-16 h-16 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center opacity-20">
+                <Clock className="w-8 h-8" />
+              </div>
+              <p>لا توجد فعاليات مجدولة</p>
+              <Button variant="outline" size="sm" className="mt-4">إضافة فعالية</Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -192,34 +231,44 @@ function ContentManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold">إدارة محتوى الصفحات والأخبار</h3>
-        <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-brand">
+      <div className="flex items-center justify-between bg-white dark:bg-card p-4 rounded-xl shadow-sm border border-primary/10">
+        <div>
+          <h3 className="text-xl font-black text-primary">إدارة المحتوى</h3>
+          <p className="text-sm text-muted-foreground">تعديل الصفحات والأخبار والمدونات</p>
+        </div>
+        <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-brand shadow-md hover:scale-105 transition-transform">
           <Plus className="w-4 h-4 ml-2" />
           إضافة خبر جديد
         </Button>
       </div>
       
-      <div className="grid gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         {contents?.map((content: any) => (
-          <Card key={content.slug}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{content.slug}</CardTitle>
-              <div className="flex gap-2">
-                <Button variant="ghost" size="sm" onClick={() => setEditingContent(content)}>
-                  <Edit className="h-4 w-4" />
-                </Button>
-                {content.slug.startsWith('news-') && (
-                  <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(content.slug)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                )}
+          <Card key={content.slug} className="group hover:shadow-md transition-all border-primary/5 overflow-hidden">
+            <div className="flex">
+              {content.imageUrl && (
+                <div className="w-24 sm:w-32 h-auto overflow-hidden shrink-0 bg-muted">
+                  <img src={content.imageUrl} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                </div>
+              )}
+              <div className="flex-1 p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <Badge variant="outline" className="text-[10px] font-mono">{content.slug}</Badge>
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-primary/10 text-primary" onClick={() => setEditingContent(content)}>
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    {content.slug.startsWith('news-') && (
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-destructive/10 text-destructive" onClick={() => deleteMutation.mutate(content.slug)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm font-bold line-clamp-1">{content.title}</p>
+                <div className="text-xs text-muted-foreground line-clamp-2 mt-1 opacity-70" dangerouslySetInnerHTML={{ __html: content.content }} />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm font-bold">{content.title}</p>
-              <div className="text-xs text-muted-foreground line-clamp-2 mt-1" dangerouslySetInnerHTML={{ __html: content.content }} />
-            </CardContent>
+            </div>
           </Card>
         ))}
       </div>
