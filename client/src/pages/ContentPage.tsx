@@ -167,6 +167,14 @@ export function JobsPage() {
 }
 
 export function ApplyJobPage() {
+  const { data: jobs } = useQuery<any[]>({
+    queryKey: ['/api/jobs'],
+    queryFn: async () => {
+      const res = await fetch('/api/jobs');
+      return res.json();
+    }
+  });
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -198,6 +206,15 @@ export function ApplyJobPage() {
                   alert('حدث خطأ أثناء تقديم الطلب');
                 }
               }}>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">الوظيفة المتقدم لها</label>
+                  <select name="jobTitle" className="w-full p-2 border rounded" required>
+                    <option value="">اختر الوظيفة</option>
+                    {jobs?.filter((j: any) => j.isActive).map((job: any) => (
+                      <option key={job.id} value={job.title}>{job.title}</option>
+                    ))}
+                  </select>
+                </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">الاسم الكامل</label>
                   <input name="name" className="w-full p-2 border rounded" required />
@@ -264,6 +281,10 @@ export function DisclosurePage() {
 export function NewsPage() {
   const { data: news, isLoading } = useQuery<any[]>({
     queryKey: ['/api/admin/content'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/content');
+      return res.json();
+    }
   });
 
   const newsItems = news?.filter(item => item.slug.startsWith('news-')) || [];

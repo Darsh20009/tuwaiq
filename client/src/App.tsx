@@ -107,6 +107,7 @@ function Router() {
       
       {/* Other Pages */}
       <Route path="/news" component={NewsPage} />
+      <Route path="/news/:slug" component={(props: any) => <ContentPage title="خبر" slug={props.params.slug} />} />
       <Route path="/bank-accounts" component={BankAccounts} />
       <Route path="/contact" component={Contact} />
       <Route path="/blog" component={BlogPage} />

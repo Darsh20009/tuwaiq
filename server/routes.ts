@@ -555,8 +555,8 @@ export async function registerRoutes(
   // ==================== JOBS MANAGEMENT ====================
   app.get("/api/jobs", async (req, res) => {
     try {
-      const jobs = await storage.getJobs();
-      res.json(jobs);
+      const jobs = await db.collection("jobs").find({}).sort({ createdAt: -1 }).toArray();
+      res.json(jobs.map((j: any) => ({ ...j, id: j._id.toString() })));
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الوظائف" });
     }

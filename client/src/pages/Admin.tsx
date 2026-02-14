@@ -179,12 +179,17 @@ function StatsPanel() {
   );
 }
 
-function ContentManagement() {
+function ContentManagement({ filter }: { filter?: "news" | "pages" }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editingContent, setEditingContent] = useState<any>(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [newContent, setNewContent] = useState({ slug: "news-", title: "", content: "", imageUrl: "" });
+  const [newContent, setNewContent] = useState({ 
+    slug: filter === "news" ? "news-" : "", 
+    title: "", 
+    content: "", 
+    imageUrl: "" 
+  });
   
   const { data: contents, isLoading } = useQuery({
     queryKey: ['/api/admin/content'],
@@ -192,6 +197,12 @@ function ContentManagement() {
       const res = await fetch('/api/admin/content', { credentials: 'include' });
       return res.json();
     }
+  });
+
+  const filteredContents = contents?.filter((c: any) => {
+    if (filter === "news") return c.slug.startsWith("news-");
+    if (filter === "pages") return !c.slug.startsWith("news-");
+    return true;
   });
 
   const updateMutation = useMutation({
@@ -213,7 +224,12 @@ function ContentManagement() {
       toast({ title: "تمت الإضافة", description: "تم إضافة المحتوى بنجاح" });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/content'] });
       setShowAddDialog(false);
-      setNewContent({ slug: "news-", title: "", content: "", imageUrl: "" });
+      setNewContent({ 
+        slug: filter === "news" ? "news-" : "", 
+        title: "", 
+        content: "", 
+        imageUrl: "" 
+      });
     }
   });
 
@@ -233,17 +249,21 @@ function ContentManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between bg-white dark:bg-card p-4 rounded-xl shadow-sm border border-primary/10">
         <div>
-          <h3 className="text-xl font-black text-primary">إدارة المحتوى</h3>
-          <p className="text-sm text-muted-foreground">تعديل الصفحات والأخبار والمدونات</p>
+          <h3 className="text-xl font-black text-primary">
+            {filter === "news" ? "إدارة الأخبار" : "التحكم في الصفحات"}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {filter === "news" ? "تعديل وإضافة أخبار الجمعية" : "تعديل محتوى صفحات الموقع"}
+          </p>
         </div>
         <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-brand shadow-md hover:scale-105 transition-transform">
           <Plus className="w-4 h-4 ml-2" />
-          إضافة خبر جديد
+          {filter === "news" ? "إضافة خبر جديد" : "إضافة صفحة جديدة"}
         </Button>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2">
-        {contents?.map((content: any) => (
+        {filteredContents?.map((content: any) => (
           <Card key={content.slug} className="group hover:shadow-md transition-all border-primary/5 overflow-hidden">
             <div className="flex">
               {content.imageUrl && (
@@ -258,11 +278,9 @@ function ContentManagement() {
                     <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-primary/10 text-primary" onClick={() => setEditingContent(content)}>
                       <Edit className="h-4 w-4" />
                     </Button>
-                    {content.slug.startsWith('news-') && (
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-destructive/10 text-destructive" onClick={() => deleteMutation.mutate(content.slug)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-destructive/10 text-destructive" onClick={() => deleteMutation.mutate(content.slug)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
                 <p className="text-sm font-bold line-clamp-1">{content.title}</p>
@@ -1093,15 +1111,14 @@ export default function Admin() {
           <main className="flex-1 overflow-y-auto p-4 md:p-8">
             <div className="max-w-6xl mx-auto space-y-8">
               {activeTab === "stats" && <StatsPanel />}
-              {activeTab === "news" && isAdmin && <NewsManagement />}
-              {activeTab === "content" && isAdmin && <ContentManagement />}
+              {activeTab === "news" && isAdmin && <ContentManagement filter="news" />}
+              {activeTab === "pages" && isAdmin && <ContentManagement filter="pages" />}
               {activeTab === "jobs" && isAdmin && <JobManagement />}
               {activeTab === "job-applications" && isAdmin && <JobApplicationsManagement />}
               {activeTab === "users" && isAdmin && <UserManagement />}
               {activeTab === "emails" && isAdmin && <EmailPanel />}
               {activeTab === "settings" && isAdmin && <SettingsManagement />}
               {activeTab === "donations" && (isAdmin || isAccountant) && <BankTransfersManagement />}
-              {activeTab === "pages" && isAdmin && <ContentManagement />}
             </div>
           </main>
         </SidebarInset>
