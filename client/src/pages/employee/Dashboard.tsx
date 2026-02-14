@@ -38,53 +38,79 @@ export default function EmployeeDashboard() {
           </header>
           
           <main className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
+            <div className="bg-white dark:bg-card p-6 rounded-2xl shadow-sm border border-primary/5 flex items-center justify-between mb-8 overflow-hidden relative">
+              <div className="relative z-10">
+                <h2 className="text-2xl font-black text-primary mb-1">مرحباً بك مجدداً</h2>
+                <p className="text-muted-foreground font-medium">لديك {pendingTransfers.length + pendingApps.length} مهام جديدة تتطلب انتباهك اليوم.</p>
+              </div>
+              <div className="w-32 h-32 bg-primary/5 rounded-full absolute -left-8 -top-8 flex items-center justify-center rotate-12">
+                <Activity className="w-16 h-16 text-primary/20" />
+              </div>
+            </div>
+
             {/* Task Overview */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              <Card className="hover-elevate bg-gradient-to-br from-amber-500/10 to-white border-amber-200 shadow-sm">
+              <Card className="hover-elevate bg-white dark:bg-card border-amber-100 dark:border-amber-900 shadow-sm overflow-hidden group">
+                <div className="h-1.5 w-full bg-amber-500" />
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-bold">تحويلات بانتظار التأكيد</CardTitle>
-                  <CreditCard className="h-4 w-4 text-amber-600" />
+                  <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">تحويلات بانتظار التأكيد</CardTitle>
+                  <div className="p-2.5 bg-amber-50 dark:bg-amber-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+                    <CreditCard className="h-5 w-5 text-amber-600" />
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-black text-amber-600">{pendingTransfers.length}</div>
-                  <Link href="/employee/transfers" className="text-xs text-primary font-bold hover:underline flex items-center gap-1 mt-2">
+                  <div className="text-4xl font-black text-amber-600 tracking-tight">{pendingTransfers.length}</div>
+                  <Link href="/employee/transfers" className="text-xs text-primary font-black hover:underline flex items-center gap-1 mt-4 bg-primary/5 p-2 rounded-lg w-fit transition-colors hover:bg-primary/10">
                     عرض الطلبات <ArrowUpRight className="h-3 w-3" />
                   </Link>
                 </CardContent>
               </Card>
 
-              <Card className="hover-elevate bg-gradient-to-br from-blue-500/10 to-white border-blue-200 shadow-sm">
+              <Card className="hover-elevate bg-white dark:bg-card border-blue-100 dark:border-blue-900 shadow-sm overflow-hidden group">
+                <div className="h-1.5 w-full bg-blue-500" />
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-bold">طلبات توظيف جديدة</CardTitle>
-                  <UserCheck className="h-4 w-4 text-blue-600" />
+                  <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">طلبات توظيف جديدة</CardTitle>
+                  <div className="p-2.5 bg-blue-50 dark:bg-blue-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+                    <UserCheck className="h-5 w-5 text-blue-600" />
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-black text-blue-600">{pendingApps.length}</div>
-                  <Link href="/employee/applications" className="text-xs text-primary font-bold hover:underline flex items-center gap-1 mt-2">
+                  <div className="text-4xl font-black text-blue-600 tracking-tight">{pendingApps.length}</div>
+                  <Link href="/employee/applications" className="text-xs text-primary font-black hover:underline flex items-center gap-1 mt-4 bg-primary/5 p-2 rounded-lg w-fit transition-colors hover:bg-primary/10">
                     مراجعة السير <ArrowUpRight className="h-3 w-3" />
                   </Link>
                 </CardContent>
               </Card>
 
-              <Card className="hover-elevate bg-gradient-to-br from-emerald-500/10 to-white border-emerald-200 shadow-sm">
+              <Card className="hover-elevate bg-white dark:bg-card border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden group">
+                <div className="h-1.5 w-full bg-emerald-500" />
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-bold">حالات مستفيدة نشطة</CardTitle>
-                  <Heart className="h-4 w-4 text-emerald-600" />
+                  <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">حالات مستفيدة نشطة</CardTitle>
+                  <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+                    <Heart className="h-5 w-5 text-emerald-600" />
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-black text-emerald-600">24</div>
-                  <p className="text-xs text-muted-foreground mt-2 font-medium">تحديث الأسبوع الحالي</p>
+                  <div className="text-4xl font-black text-emerald-600 tracking-tight">24</div>
+                  <p className="text-[10px] text-muted-foreground mt-4 font-bold flex items-center gap-1">
+                    <Activity className="w-3 h-3" /> تحديث الأسبوع الحالي
+                  </p>
                 </CardContent>
               </Card>
 
-              <Card className="hover-elevate bg-gradient-to-br from-purple-500/10 to-white border-purple-200 shadow-sm">
+              <Card className="hover-elevate bg-white dark:bg-card border-purple-100 dark:border-purple-900 shadow-sm overflow-hidden group">
+                <div className="h-1.5 w-full bg-purple-500" />
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-bold">المهام المنجزة</CardTitle>
-                  <CheckCircle className="h-4 w-4 text-purple-600" />
+                  <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">المهام المنجزة</CardTitle>
+                  <div className="p-2.5 bg-purple-50 dark:bg-purple-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+                    <CheckCircle className="h-5 w-5 text-purple-600" />
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-black text-purple-600">156</div>
-                  <p className="text-xs text-muted-foreground mt-2 font-medium">إجمالي الإنجاز هذا الشهر</p>
+                  <div className="text-4xl font-black text-purple-600 tracking-tight">156</div>
+                  <p className="text-[10px] text-muted-foreground mt-4 font-bold flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" /> إجمالي الإنجاز هذا الشهر
+                  </p>
                 </CardContent>
               </Card>
             </div>

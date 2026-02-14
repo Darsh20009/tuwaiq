@@ -36,12 +36,15 @@ import { Button } from "@/components/ui/button";
     { title: "إدارة الأخبار", icon: Newspaper, tab: "news" },
     { title: "التحكم في الصفحات", icon: FileText, tab: "pages" },
     { title: "إدارة المحتوى", icon: ImageIcon, tab: "content" },
+    { title: "التحويلات البنكية", icon: CreditCard, tab: "bank-transfers" },
     { title: "إدارة الوظائف", icon: Briefcase, tab: "jobs" },
     { title: "طلبات التوظيف", icon: UserCheck, tab: "job-applications" },
     { title: "إدارة المستخدمين", icon: Users, tab: "users" },
     { title: "البريد الإلكتروني", icon: Mail, tab: "emails" },
     { title: "الإعدادات", icon: Settings, tab: "settings" },
   ];
+
+import { CreditCard } from "lucide-react";
 
 export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, onTabChange: (tab: string) => void }) {
   const { user, logout } = useAuth();

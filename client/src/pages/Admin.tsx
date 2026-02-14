@@ -47,69 +47,90 @@ function StatsPanel() {
   return (
     <div className="grid gap-6">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover-elevate bg-white dark:bg-card border-blue-100 dark:border-blue-900 shadow-sm overflow-hidden group">
-          <div className="h-1 w-full bg-blue-500" />
+        <Card className="hover-elevate bg-white dark:bg-card border-blue-100 dark:border-blue-900 shadow-sm overflow-hidden group relative">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <DollarSign className="h-24 w-24 text-blue-600" />
+          </div>
+          <div className="h-1.5 w-full bg-blue-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">إجمالي التبرعات</CardTitle>
-            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:scale-110 transition-transform">
-              <DollarSign className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">إجمالي التبرعات</CardTitle>
+            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+              <DollarSign className="h-5 w-5 text-blue-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-blue-600">{stats?.totalDonations || 0} ر.س</div>
-            <div className="flex items-center gap-1 mt-2">
-              <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-700 border-blue-100">+12%</Badge>
-              <span className="text-[10px] text-muted-foreground">نمو هذا الشهر</span>
+            <div className="text-4xl font-black text-blue-600 tracking-tight">{stats?.totalDonations || 0} ر.س</div>
+            <div className="flex items-center gap-2 mt-3">
+              <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-full border border-blue-100 dark:border-blue-800">
+                <TrendingUp className="w-3 h-3 text-blue-600" />
+                <span className="text-[10px] font-bold text-blue-700">+12%</span>
+              </div>
+              <span className="text-[10px] text-muted-foreground font-medium">نمو مستمر</span>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="hover-elevate bg-white dark:bg-card border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden group">
-          <div className="h-1 w-full bg-emerald-500" />
+        <Card className="hover-elevate bg-white dark:bg-card border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden group relative">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Heart className="h-24 w-24 text-emerald-600" />
+          </div>
+          <div className="h-1.5 w-full bg-emerald-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">المستفيدين</CardTitle>
-            <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg group-hover:scale-110 transition-transform">
-              <Heart className="h-4 w-4 text-emerald-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">المستفيدين</CardTitle>
+            <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+              <Heart className="h-5 w-5 text-emerald-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-emerald-600">{stats?.beneficiariesCount || 0}</div>
-            <div className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
-              <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-              <span>حالات مكتملة الدعم</span>
+            <div className="text-4xl font-black text-emerald-600 tracking-tight">{stats?.beneficiariesCount || 0}</div>
+            <div className="flex items-center gap-2 mt-3 text-[10px] text-muted-foreground font-medium">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>حالات مكتملة الدعم بنجاح</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover-elevate bg-white dark:bg-card border-purple-100 dark:border-purple-900 shadow-sm overflow-hidden group">
-          <div className="h-1 w-full bg-purple-500" />
+        <Card className="hover-elevate bg-white dark:bg-card border-purple-100 dark:border-purple-900 shadow-sm overflow-hidden group relative">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <UserPlus className="h-24 w-24 text-purple-600" />
+          </div>
+          <div className="h-1.5 w-full bg-purple-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">طلبات التوظيف</CardTitle>
-            <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg group-hover:scale-110 transition-transform">
-              <UserPlus className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">طلبات التوظيف</CardTitle>
+            <div className="p-2.5 bg-purple-50 dark:bg-purple-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+              <UserPlus className="h-5 w-5 text-purple-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-purple-600">{stats?.applicationsCount || 0}</div>
-            <div className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
+            <div className="text-4xl font-black text-purple-600 tracking-tight">{stats?.applicationsCount || 0}</div>
+            <div className="flex items-center gap-2 mt-3 text-[10px] text-muted-foreground font-medium">
               <Clock className="w-3 h-3 text-purple-500" />
-              <span>بانتظار المراجعة</span>
+              <span>طلبات جديدة بانتظار المراجعة</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover-elevate bg-white dark:bg-card border-amber-100 dark:border-amber-900 shadow-sm overflow-hidden group">
-          <div className="h-1 w-full bg-amber-500" />
+        <Card className="hover-elevate bg-white dark:bg-card border-amber-100 dark:border-amber-900 shadow-sm overflow-hidden group relative">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Activity className="h-24 w-24 text-amber-600" />
+          </div>
+          <div className="h-1.5 w-full bg-amber-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">نسبة الإنجاز</CardTitle>
-            <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg group-hover:scale-110 transition-transform">
-              <TrendingUp className="h-4 w-4 text-amber-600" />
+            <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">كفاءة العمليات</CardTitle>
+            <div className="p-2.5 bg-amber-50 dark:bg-amber-900/30 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
+              <Activity className="h-5 w-5 text-amber-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-amber-600">84%</div>
-            <div className="w-full bg-muted rounded-full h-1.5 mt-3">
-              <div className="bg-amber-500 h-1.5 rounded-full transition-all duration-1000" style={{ width: '84%' }}></div>
+            <div className="text-4xl font-black text-amber-600 tracking-tight">92%</div>
+            <div className="mt-4 space-y-1">
+              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                <div className="bg-amber-500 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(245,158,11,0.5)]" style={{ width: '92%' }}></div>
+              </div>
+              <div className="flex justify-between text-[10px] text-muted-foreground font-bold">
+                <span>أداء متميز</span>
+                <span>الهدف 100%</span>
+              </div>
             </div>
           </CardContent>
         </Card>
