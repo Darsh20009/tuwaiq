@@ -1119,6 +1119,7 @@ export default function Admin() {
               {activeTab === "emails" && isAdmin && <EmailPanel />}
               {activeTab === "settings" && isAdmin && <SettingsManagement />}
               {activeTab === "donations" && (isAdmin || isAccountant) && <BankTransfersManagement />}
+              {activeTab === "content" && isAdmin && <ContentManagement />}
             </div>
           </main>
         </SidebarInset>

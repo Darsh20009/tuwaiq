@@ -5,10 +5,108 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ChevronRight, ChevronLeft, Award, Heart, ShieldCheck, Users, ArrowLeft, Target, Eye, Handshake, Droplet, Utensils, Moon, Building2, Phone } from "lucide-react";
+import { ChevronRight, ChevronLeft, Award, Heart, ShieldCheck, Users, ArrowLeft, Target, Eye, Handshake, Droplet, Utensils, Moon, Building2, Phone, Newspaper, Briefcase, Loader2 } from "lucide-react";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
 import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
+import { Badge } from "@/components/ui/badge";
+
+function HomeNews() {
+  const { data: news, isLoading } = useQuery<any[]>({
+    queryKey: ['/api/admin/content'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/content');
+      return res.json();
+    }
+  });
+
+  const newsItems = news?.filter(item => item.slug.startsWith('news-')).slice(0, 3) || [];
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
+  if (newsItems.length === 0) return null;
+
+  return (
+    <section className="py-16 bg-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-primary mb-2">آخر الأخبار</h2>
+            <p className="text-muted-foreground">تابع أحدث مستجدات وأنشطة الجمعية</p>
+          </div>
+          <Link href="/news">
+            <Button variant="outline">عرض الكل</Button>
+          </Link>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {newsItems.map((item) => (
+            <Card key={item.slug} className="group hover-elevate overflow-hidden border-primary/5">
+              <div className="aspect-video overflow-hidden">
+                <img src={item.imageUrl || "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80"} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <CardContent className="p-6">
+                <Badge variant="secondary" className="mb-2">خبر</Badge>
+                <h3 className="text-xl font-bold mb-3 line-clamp-1">{item.title}</h3>
+                <div className="text-sm text-muted-foreground line-clamp-2 mb-4" dangerouslySetInnerHTML={{ __html: item.content }} />
+                <Link href={`/news/${item.slug}`}>
+                  <Button variant="link" className="p-0 text-primary group-hover:translate-x-[-4px] transition-transform">
+                    اقرأ المزيد <ArrowLeft className="w-4 h-4 mr-2" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HomeJobs() {
+  const { data: jobs, isLoading } = useQuery<any[]>({
+    queryKey: ['/api/jobs'],
+    queryFn: async () => {
+      const res = await fetch('/api/jobs');
+      return res.json();
+    }
+  });
+
+  const activeJobs = jobs?.filter(j => j.isActive).slice(0, 3) || [];
+
+  if (isLoading) return null;
+  if (activeJobs.length === 0) return null;
+
+  return (
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-primary mb-2">فرص التوظيف</h2>
+            <p className="text-muted-foreground">كن جزءاً من فريق عطاء تواق</p>
+          </div>
+          <Link href="/jobs">
+            <Button variant="outline">كافة الوظائف</Button>
+          </Link>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {activeJobs.map((job) => (
+            <Card key={job.id} className="border-primary/10 hover:border-primary/30 transition-colors">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                  <Briefcase className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{job.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{job.department}</p>
+                <Link href="/apply">
+                  <Button className="w-full">قدم الآن</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 // Banner Images - Using gradient backgrounds with text
 const BANNERS = [
@@ -618,12 +716,14 @@ export default function Home() {
       
       <main className="flex-1">
         <HeroSlider />
+        <StatsSection />
+        <HomeNews />
         <ServicesSection />
         <AboutSection />
-        <NewsSection />
-        <StatsSection />
+        <HomeJobs />
         <TopDonorsSection />
         <CTASection />
+        <PartnersSection />
       </main>
 
       <Footer />
