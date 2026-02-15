@@ -42,7 +42,7 @@ const employeeItems = [
 ];
 
 export function AppSidebar() {
-  const { user, logoutMutation } = useAuth();
+  const { user, logoutMutation } = (useAuth() as any);
   const [, setLocation] = useLocation();
   const location = window.location.pathname;
 
