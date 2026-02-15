@@ -44,6 +44,7 @@ import {
   DisclosurePage,
   NewsPage,
   BlogPage,
+  ContentPage,
 } from "@/pages/ContentPage";
 
 import { WhatsAppButton } from "@/components/WhatsAppButton";

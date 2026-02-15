@@ -43,7 +43,8 @@ const employeeItems = [
 
 export function AppSidebar() {
   const { user, logoutMutation } = useAuth();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
+  const location = window.location.pathname;
 
   const items = user?.role === "admin" ? adminItems : employeeItems;
 

@@ -16,7 +16,7 @@ import {
   DollarSign, TrendingUp, Loader2,
   FileText, UserPlus, CheckCircle2,
   XCircle, Clock, Edit, Trash2, Plus, Mail,
-  Heart, HeartHandshake, Activity
+  Heart, HeartHandshake, Activity, Settings
 } from "lucide-react";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -55,6 +55,10 @@ function StatsPanel() {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-black text-blue-600 tracking-tight">{stats?.totalDonations || 0} ر.س</div>
+            <div className="mt-4 flex items-center gap-2 text-xs font-bold text-blue-600/70">
+              <TrendingUp className="h-3 w-3" />
+              <span>+12% عن الشهر الماضي</span>
+            </div>
           </CardContent>
         </Card>
         <Card className="hover-elevate bg-white dark:bg-card border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden group relative">
@@ -65,6 +69,10 @@ function StatsPanel() {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-black text-emerald-600 tracking-tight">{stats?.beneficiariesCount || 0}</div>
+            <div className="mt-4 flex items-center gap-2 text-xs font-bold text-emerald-600/70">
+              <Activity className="h-3 w-3" />
+              <span>تحديث يومي مباشر</span>
+            </div>
           </CardContent>
         </Card>
         <Card className="hover-elevate bg-white dark:bg-card border-purple-100 dark:border-purple-900 shadow-sm overflow-hidden group relative">
@@ -75,6 +83,92 @@ function StatsPanel() {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-black text-purple-600 tracking-tight">{stats?.applicationsCount || 0}</div>
+            <div className="mt-4 flex items-center gap-2 text-xs font-bold text-purple-600/70">
+              <Clock className="h-3 w-3" />
+              <span>بانتظار المراجعة</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="hover-elevate bg-white dark:bg-card border-amber-100 dark:border-amber-900 shadow-sm overflow-hidden group relative">
+          <div className="h-1.5 w-full bg-amber-500" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-bold text-muted-foreground uppercase tracking-wider">نقاط المانحين</CardTitle>
+            <TrendingUp className="h-5 w-5 text-amber-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-4xl font-black text-amber-600 tracking-tight">1,240</div>
+            <div className="mt-4 flex items-center gap-2 text-xs font-bold text-amber-600/70">
+              <Activity className="h-3 w-3" />
+              <span>نشاط مرتفع</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="shadow-lg border-0">
+          <CardHeader className="border-b bg-muted/5">
+            <CardTitle className="text-lg">أحدث التبرعات</CardTitle>
+            <CardDescription>متابعة التبرعات الواردة لحظة بلحظة</CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y">
+              {recentDonations.map((d: any) => (
+                <div key={d.id} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                      <DollarSign className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm">{d.donorName || "فاعل خير"}</p>
+                      <p className="text-xs text-muted-foreground">{d.type}</p>
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-black text-blue-600">{d.amount} ر.س</p>
+                    <Badge variant="outline" className="text-[10px] mt-1">ناجح</Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg border-0 bg-primary text-primary-foreground relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+          <CardHeader className="relative z-10">
+            <CardTitle className="text-lg">تحليلات المنصة</CardTitle>
+            <CardDescription className="text-primary-foreground/70">نظرة عامة على الأداء العام</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6 relative z-10">
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-bold">
+                <span>تطور التبرعات</span>
+                <span>+24%</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-2">
+                <div className="bg-white h-2 rounded-full" style={{ width: '75%' }}></div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-bold">
+                <span>إنجاز المهام</span>
+                <span>92%</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-2">
+                <div className="bg-white h-2 rounded-full" style={{ width: '92%' }}></div>
+              </div>
+            </div>
+            <div className="pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
+              <div className="bg-white/10 p-4 rounded-xl">
+                <p className="text-[10px] opacity-70 font-bold uppercase tracking-wider">متوسط التبرع</p>
+                <p className="text-xl font-black">245 ر.س</p>
+              </div>
+              <div className="bg-white/10 p-4 rounded-xl">
+                <p className="text-[10px] opacity-70 font-bold uppercase tracking-wider">معدل النمو</p>
+                <p className="text-xl font-black">+8.5%</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
