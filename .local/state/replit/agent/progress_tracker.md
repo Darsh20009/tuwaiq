@@ -13,3 +13,4 @@
 [x] 13. Fix Button variant "link" type error in Home.tsx
 [x] 14. Verify app starts and renders correctly after all fixes
 [x] 15. Fix workflow command to use npx tsx and confirm app starts with MongoDB connected
+[x] 16. Fix workflow configuration with proper webview output type and verify app runs
