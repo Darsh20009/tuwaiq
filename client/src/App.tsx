@@ -53,6 +53,9 @@ import EmployeeDashboard from "@/pages/employee/Dashboard";
 import EmployeeTransfers from "@/pages/employee/Transfers";
 import EmployeeApplications from "@/pages/employee/Applications";
 
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+
 function Router() {
   return (
     <Switch>
@@ -62,11 +65,61 @@ function Router() {
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/profile" component={Profile} />
       <Route path="/donate" component={Donate} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/admin/emails" component={AdminEmails} />
-      <Route path="/employee" component={EmployeeDashboard} />
-      <Route path="/employee/transfers" component={EmployeeTransfers} />
-      <Route path="/employee/applications" component={EmployeeApplications} />
+      
+      {/* Admin Protected Routes */}
+      <Route path="/admin">
+        <SidebarProvider>
+          <div className="flex h-screen w-full" dir="rtl">
+            <AppSidebar />
+            <main className="flex-1 overflow-y-auto bg-muted/20">
+              <Admin />
+            </main>
+          </div>
+        </SidebarProvider>
+      </Route>
+      <Route path="/admin/emails">
+        <SidebarProvider>
+          <div className="flex h-screen w-full" dir="rtl">
+            <AppSidebar />
+            <main className="flex-1 overflow-y-auto bg-muted/20">
+              <AdminEmails />
+            </main>
+          </div>
+        </SidebarProvider>
+      </Route>
+
+      {/* Employee Protected Routes */}
+      <Route path="/employee">
+        <SidebarProvider>
+          <div className="flex h-screen w-full" dir="rtl">
+            <AppSidebar />
+            <main className="flex-1 overflow-y-auto bg-muted/20">
+              <EmployeeDashboard />
+            </main>
+          </div>
+        </SidebarProvider>
+      </Route>
+      <Route path="/employee/transfers">
+        <SidebarProvider>
+          <div className="flex h-screen w-full" dir="rtl">
+            <AppSidebar />
+            <main className="flex-1 overflow-y-auto bg-muted/20">
+              <EmployeeTransfers />
+            </main>
+          </div>
+        </SidebarProvider>
+      </Route>
+      <Route path="/employee/applications">
+        <SidebarProvider>
+          <div className="flex h-screen w-full" dir="rtl">
+            <AppSidebar />
+            <main className="flex-1 overflow-y-auto bg-muted/20">
+              <EmployeeApplications />
+            </main>
+          </div>
+        </SidebarProvider>
+      </Route>
+      
       <Route path="/api/donations/callback" component={GeideaCallback} />
       
       {/* Services */}

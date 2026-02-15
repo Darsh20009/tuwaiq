@@ -275,50 +275,64 @@ export default function AdminPage() {
   const { user } = useAuth();
   
   return (
-    <div className="min-h-screen flex flex-col bg-background" dir="rtl">
-      <Navbar />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 font-heading text-center">لوحة التحكم</h1>
-        
-        <Tabs defaultValue="stats" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger value="stats">الإحصائيات</TabsTrigger>
-            <TabsTrigger value="jobs">الوظائف</TabsTrigger>
-            <TabsTrigger value="applications">الطلبات</TabsTrigger>
-            <TabsTrigger value="content">المحتوى</TabsTrigger>
-          </TabsList>
+    <div className="p-6 space-y-8" dir="rtl">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold font-heading">لوحة التحكم</h1>
+          <p className="text-muted-foreground mt-1">مرحباً بك مجدداً، {user?.name}</p>
+        </div>
+        <SidebarTrigger />
+      </div>
+      
+      <Tabs defaultValue="stats" className="w-full">
+        <TabsList className="grid w-fit grid-cols-4 mb-8 bg-card border">
+          <TabsTrigger value="stats" className="px-8">الإحصائيات</TabsTrigger>
+          <TabsTrigger value="jobs" className="px-8">الوظائف</TabsTrigger>
+          <TabsTrigger value="applications" className="px-8">الطلبات</TabsTrigger>
+          <TabsTrigger value="content" className="px-8">المحتوى</TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="stats">
-            <StatsPanel />
-          </TabsContent>
+        <TabsContent value="stats" className="mt-0">
+          <StatsPanel />
+        </TabsContent>
 
-          <TabsContent value="jobs">
-            <JobManagement />
-          </TabsContent>
+        <TabsContent value="jobs" className="mt-0">
+          <JobManagement />
+        </TabsContent>
 
-          <TabsContent value="applications">
-            <ApplicationManagement />
-          </TabsContent>
+        <TabsContent value="applications" className="mt-0">
+          <ApplicationManagement />
+        </TabsContent>
 
-          <TabsContent value="content">
-            <div className="grid gap-6 md:grid-cols-2">
-              <Card>
-                <CardHeader><CardTitle>إدارة الصفحات</CardTitle></CardHeader>
-                <CardContent>
-                  <Button asChild className="w-full"><a href="/admin/content">فتح الإدارة</a></Button>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader><CardTitle>إدارة البريد</CardTitle></CardHeader>
-                <CardContent>
-                  <Button asChild className="w-full"><a href="/admin/emails">فتح الإدارة</a></Button>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </main>
-      <Footer />
+        <TabsContent value="content" className="mt-0">
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card className="hover-elevate">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-primary" />
+                  إدارة الصفحات
+                </CardTitle>
+                <CardDescription>تعديل محتوى الموقع والصفحات الثابتة</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button asChild className="w-full"><a href="/admin/content">فتح الإدارة</a></Button>
+              </CardContent>
+            </Card>
+            <Card className="hover-elevate">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Mail className="h-5 w-5 text-primary" />
+                  إدارة البريد
+                </CardTitle>
+                <CardDescription>إدارة الرسائل البريدية المسجلة في الموقع</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button asChild className="w-full"><a href="/admin/emails">فتح الإدارة</a></Button>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
