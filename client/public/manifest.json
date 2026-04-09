@@ -3,6 +3,7 @@
   "short_name": "طويق",
   "description": "بصمتكم تصنع الفرق.. طويق للخدمات الإنسانية وجهتكم للعطاء",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#3F9E6C",
   "theme_color": "#3F9E6C",
@@ -11,25 +12,25 @@
   "dir": "rtl",
   "shortcuts": [
     {
-      "name": "لوحة الإدارة",
-      "short_name": "الإدارة",
-      "description": "نظام إدارة الجمعية",
-      "url": "/admin",
-      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "التبرع الآن",
+      "name": "تبرع الآن",
       "short_name": "تبرع",
       "description": "تبرع لدعم المحتاجين",
       "url": "/donate",
-      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "بوابة الموظفين",
-      "short_name": "موظفون",
-      "description": "لوحة الموظفين",
-      "url": "/employee",
-      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96" }]
+      "name": "مشاريعنا",
+      "short_name": "مشاريع",
+      "description": "تصفح حملاتنا الخيرية",
+      "url": "/campaigns",
+      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "تواصل معنا",
+      "short_name": "تواصل",
+      "description": "للاستفسار والتواصل",
+      "url": "/contact",
+      "icons": [{ "src": "/images/icon-96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
   "icons": [
@@ -82,19 +83,5 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["charity", "social", "humanitarian"],
-  "screenshots": [
-    {
-      "src": "/images/screenshot-wide.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/images/screenshot-narrow.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+  "categories": ["charity", "social", "humanitarian"]
 }

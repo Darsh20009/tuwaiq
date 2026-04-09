@@ -52,8 +52,21 @@ declare module "http" {
 // ── Apple Pay domain verification (must be served before any auth/security middleware) ──
 app.use("/.well-known", express.static(path.join(process.cwd(), "client/public/.well-known"), {
   dotfiles: "allow",
-  setHeaders: (res) => { res.setHeader("Content-Type", "text/plain"); },
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith("assetlinks.json")) {
+      res.setHeader("Content-Type", "application/json");
+    } else {
+      res.setHeader("Content-Type", "text/plain");
+    }
+  },
 }));
+
+// ── Digital Asset Links (Google Play Store TWA verification) ──────────────────
+app.get("/.well-known/assetlinks.json", (_req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.sendFile(path.join(process.cwd(), "client/public/.well-known/assetlinks.json"));
+});
 // Explicit routes for both filename variants Apple may request
 app.get("/.well-known/apple-developer-merchantid-domain-association", (_req, res) => {
   res.setHeader("Content-Type", "text/plain");
