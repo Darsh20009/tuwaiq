@@ -11,7 +11,7 @@ const SITE_DESC_DEFAULT =
   "جمعية طويق للخدمات الإنسانية — جمعية خيرية سعودية مرخصة في الرياض، تُقدّم برامج سقيا الماء وإطعام الجائع وإفطار الصائم والسلة الرمضانية وكفالة الأسر والحالات الخاصة. تبرّع الآن وكن شريكاً في صنع الفرق.";
 
 const KEYWORDS_BASE =
-  "جمعية طويق, جمعية طويق للخدمات الإنسانية, طويق للخدمات الإنسانية, طويق للخدمات الإنسانيه, جمعية طويق الانسانية, جمعية طويق للخدمات الانسانية, طويق الخيرية, جمعية طويق الخيرية, tuwaiq association, tuwaiq humanitarian";
+  "جمعية طويق, طويق, جمعية طويق للخدمات الإنسانية, طويق للخدمات الإنسانية, طويق للخدمات الإنسانيه, جمعية طويق الانسانية, جمعية طويق للخدمات الانسانية, طويق الخيرية, جمعية طويق الخيرية, طويق للخدمات, جمعية طويق الرياض, tuwaiq association, tuwaiq humanitarian, tuwaiq charity, جمعية خيرية رياض";
 
 // Static SEO data per route
 const STATIC_SEO: Record<string, { title: string; description: string; image: string; keywords?: string }> = {
@@ -207,6 +207,15 @@ function buildOrganizationSchema(baseUrl: string): string {
         "sameAs": [
           "https://twitter.com/tuwaiq_2o3o",
           "https://x.com/tuwaiq_2o3o",
+          "https://instagram.com/tuwaiq_2o3o",
+          "https://www.instagram.com/tuwaiq_2o3o",
+          "https://facebook.com/tuwaiq_2o3o",
+          "https://www.facebook.com/tuwaiq_2o3o",
+          "https://youtube.com/@tuwaiq_2o3o",
+          "https://www.youtube.com/@tuwaiq_2o3o",
+          "https://snapchat.com/add/tuwaiq_2o3o",
+          "https://tiktok.com/@tuwaiq_2o3o",
+          "https://www.tiktok.com/@tuwaiq_2o3o",
         ],
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
@@ -327,7 +336,7 @@ function buildHomeFAQSchema(baseUrl: string): string {
         "name": "ما رقم هاتف جمعية طويق للتواصل؟",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "رقم التواصل مع جمعية طويق للخدمات الإنسانية: 0505793012 — أو تواصل معنا عبر الموقع الرسمي.",
+          "text": "رقم التواصل مع جمعية طويق للخدمات الإنسانية: 0505793012 — أو تواصل معنا عبر الموقع الرسمي tuwaiqassociation.sa",
         },
       },
       {
@@ -336,6 +345,30 @@ function buildHomeFAQSchema(baseUrl: string): string {
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "يقع مقر جمعية طويق للخدمات الإنسانية في الرياض — العريجاء الوسطى، شارع يزيد بن أبي سفيان، المملكة العربية السعودية.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "ما هو موقع طويق الخيرية؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "الموقع الرسمي لجمعية طويق (طويق الخيرية، طويق للخدمات الإنسانية) هو tuwaiqassociation.sa — يمكنك التبرع وتتبع حملاتنا الخيرية مباشرة من الموقع.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "هل جمعية طويق معتمدة رسمياً في السعودية؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نعم، جمعية طويق للخدمات الإنسانية جمعية أهلية سعودية مرخصة رسمياً برقم تصريح 1000820300 من الجهات السعودية المختصة.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "ما الفرق بين جمعية طويق وطويق للخدمات الإنسانية؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "جمعية طويق وطويق للخدمات الإنسانية وطويق الخيرية وجمعية طويق الإنسانية — كلها أسماء تشير إلى نفس الجمعية الخيرية: جمعية طويق للخدمات الإنسانية، ومقرها الرياض، المملكة العربية السعودية.",
         },
       },
     ],
