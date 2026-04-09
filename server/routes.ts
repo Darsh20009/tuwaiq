@@ -2905,6 +2905,102 @@ export async function registerRoutes(
     }
   });
 
+  // ─── App Files Upload / Download ────────────────────────────────────────────
+  const APP_FILES_DIR = path.resolve("uploads/app-files");
+  if (!fs.existsSync(APP_FILES_DIR)) fs.mkdirSync(APP_FILES_DIR, { recursive: true });
+
+  const appFileStorage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, APP_FILES_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const platform = ext === ".apk" ? "android" : "ios";
+      cb(null, `tuwaiq-${platform}${ext}`);
+    },
+  });
+
+  const appFileUpload = multer({
+    storage: appFileStorage,
+    limits: { fileSize: 200 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      if ([".apk", ".ipa", ".aab"].includes(ext)) cb(null, true);
+      else cb(new Error("نوع الملف غير مدعوم. يرجى رفع ملف .apk أو .ipa فقط"));
+    },
+  });
+
+  function getFileInfo(platform: "android" | "ios") {
+    const exts = platform === "android" ? [".apk", ".aab"] : [".ipa"];
+    for (const ext of exts) {
+      const filePath = path.join(APP_FILES_DIR, `tuwaiq-${platform}${ext}`);
+      if (fs.existsSync(filePath)) {
+        const stat = fs.statSync(filePath);
+        return {
+          exists: true,
+          filename: `tuwaiq-${platform}${ext}`,
+          size: stat.size,
+          uploadedAt: stat.mtime.toISOString(),
+          ext,
+        };
+      }
+    }
+    return { exists: false };
+  }
+
+  app.post("/api/admin/app-files/upload", (req: Request, res: Response, next: NextFunction) => {
+    if (!(req as any).isAuthenticated?.() || !["admin", "superadmin"].includes((req as any).user?.role)) {
+      return res.status(403).json({ message: "غير مصرح" });
+    }
+    appFileUpload.single("file")(req, res, (err) => {
+      if (err) return res.status(400).json({ message: err.message });
+      if (!req.file) return res.status(400).json({ message: "لم يتم رفع ملف" });
+      const ext = path.extname(req.file.originalname).toLowerCase();
+      const platform = ext === ".ipa" ? "ios" : "android";
+      res.json({
+        message: "تم رفع الملف بنجاح",
+        platform,
+        filename: req.file.filename,
+        size: req.file.size,
+      });
+    });
+  });
+
+  app.get("/api/app-files/info", (req: Request, res: Response) => {
+    res.json({
+      android: getFileInfo("android"),
+      ios: getFileInfo("ios"),
+    });
+  });
+
+  app.get("/api/app-files/download/:platform", (req: Request, res: Response) => {
+    const { platform } = req.params;
+    if (platform !== "android" && platform !== "ios") {
+      return res.status(400).json({ message: "منصة غير صحيحة" });
+    }
+    const info = getFileInfo(platform as "android" | "ios");
+    if (!info.exists || !info.filename) {
+      return res.status(404).json({ message: "الملف غير موجود بعد" });
+    }
+    const filePath = path.join(APP_FILES_DIR, info.filename);
+    const mimeType = info.ext === ".apk" ? "application/vnd.android.package-archive"
+      : info.ext === ".aab" ? "application/x-authorware-bin"
+      : "application/octet-stream";
+    res.setHeader("Content-Disposition", `attachment; filename="${info.filename}"`);
+    res.setHeader("Content-Type", mimeType);
+    res.sendFile(filePath);
+  });
+
+  app.delete("/api/admin/app-files/:platform", (req: Request, res: Response) => {
+    if (!(req as any).isAuthenticated?.() || !["admin", "superadmin"].includes((req as any).user?.role)) {
+      return res.status(403).json({ message: "غير مصرح" });
+    }
+    const { platform } = req.params;
+    if (platform !== "android" && platform !== "ios") return res.status(400).json({ message: "منصة غير صحيحة" });
+    const info = getFileInfo(platform as "android" | "ios");
+    if (!info.exists || !info.filename) return res.status(404).json({ message: "الملف غير موجود" });
+    fs.unlinkSync(path.join(APP_FILES_DIR, info.filename));
+    res.json({ message: "تم الحذف" });
+  });
+
   return httpServer;
 }
 

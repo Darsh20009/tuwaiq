@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircle, Clock, FileText, UserCheck, CreditCard, Activity, ArrowUpRight, Heart, TrendingUp, Sparkles, Zap } from "lucide-react";
+import { CheckCircle, Clock, FileText, UserCheck, CreditCard, Activity, ArrowUpRight, Heart, TrendingUp, Sparkles, Zap, Download, Smartphone, Apple, HardDrive } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
+import { SiGoogleplay } from "react-icons/si";
 
 function MiniStatCard({ label, value, icon: Icon, gradient, href }: any) {
   return (
@@ -259,7 +261,109 @@ export default function EmployeeDashboard() {
             ))}
           </div>
         </div>
+
+        {/* ── App Download Section ── */}
+        <AppDownloadSection />
       </div>
+    </div>
+  );
+}
+
+function formatBytes(bytes: number) {
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function AppDownloadSection() {
+  const { data: fileInfo } = useQuery<{ android: any; ios: any }>({
+    queryKey: ["/api/app-files/info"],
+  });
+
+  const apps = [
+    {
+      platform: "android" as const,
+      label: "تطبيق Android",
+      sublabel: "ملف APK / AAB",
+      icon: SiGoogleplay,
+      gradient: "from-[#01875f] to-[#005c42]",
+      accent: "#01875f",
+      info: fileInfo?.android,
+    },
+    {
+      platform: "ios" as const,
+      label: "تطبيق iOS",
+      sublabel: "ملف IPA لأجهزة Apple",
+      icon: Apple,
+      gradient: "from-[#555] to-[#222]",
+      accent: "#555",
+      info: fileInfo?.ios,
+    },
+  ];
+
+  const anyAvailable = apps.some((a) => a.info?.exists);
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-5">
+        <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
+        <h2 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+          <Download className="h-3.5 w-3.5 text-primary" />
+          تحميل تطبيق الجمعية
+        </h2>
+        <div className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
+      </div>
+
+      {!anyAvailable && !fileInfo ? (
+        <div className="rounded-2xl border border-dashed border-border/60 p-8 text-center text-muted-foreground">
+          <Smartphone className="h-10 w-10 mx-auto mb-3 opacity-20" />
+          <p className="text-sm font-bold">لا توجد ملفات تطبيق بعد</p>
+          <p className="text-xs mt-1">سيضيف المدير ملفات التطبيق قريباً</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {apps.map(({ platform, label, sublabel, icon: Icon, gradient, accent, info }) => (
+            <div key={platform}
+              className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${gradient} p-5 shadow-lg`}
+              data-testid={`app-card-${platform}`}>
+              <div className="absolute -left-6 -top-6 w-28 h-28 rounded-full bg-white/10 blur-xl" />
+              <div className="relative z-10 flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center shrink-0 shadow">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-black text-white text-base leading-tight">{label}</p>
+                    <p className="text-white/60 text-[11px] mt-0.5">{sublabel}</p>
+                    {info?.exists ? (
+                      <p className="text-white/50 text-[10px] mt-1 flex items-center gap-1">
+                        <HardDrive className="w-3 h-3" />
+                        {formatBytes(info.size)} · {new Date(info.uploadedAt).toLocaleDateString("ar-SA", { month: "short", day: "numeric" })}
+                      </p>
+                    ) : (
+                      <p className="text-white/40 text-[10px] mt-1">غير متاح حالياً</p>
+                    )}
+                  </div>
+                </div>
+                {info?.exists ? (
+                  <a href={`/api/app-files/download/${platform}`} download data-testid={`btn-download-${platform}`}>
+                    <Button size="sm"
+                      className="h-9 px-4 text-xs font-bold gap-1.5 bg-white hover:bg-white/90 shrink-0"
+                      style={{ color: accent }}>
+                      <Download className="w-3.5 h-3.5" />
+                      تحميل
+                    </Button>
+                  </a>
+                ) : (
+                  <Button size="sm" disabled
+                    className="h-9 px-4 text-xs font-bold bg-white/20 text-white/50 cursor-not-allowed shrink-0">
+                    قريباً
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

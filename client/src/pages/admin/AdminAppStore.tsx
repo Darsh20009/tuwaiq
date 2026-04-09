@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,10 @@ import {
   CheckCircle2, XCircle, AlertTriangle, ExternalLink, Copy, Download,
   Smartphone, Apple, Globe, Shield, Image, FileText, Star, ChevronRight,
   MonitorSmartphone, Zap, Package, Lock, Users, MessageSquare, ClipboardList,
+  Upload, Trash2, HardDrive, CloudUpload,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SiGoogleplay } from "react-icons/si";
 import { cn } from "@/lib/utils";
 
@@ -203,6 +205,200 @@ function scoreOf(items: CheckItem[]) {
   return Math.round((pass / items.length) * 100);
 }
 
+// ─── App Files Upload Panel ──────────────────────────────────────────────────
+
+function formatBytes(bytes: number) {
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function UploadCard({
+  platform, label, icon: Icon, accent, accept, fileInfo, onUploadDone,
+}: {
+  platform: "android" | "ios";
+  label: string;
+  icon: React.ComponentType<any>;
+  accent: string;
+  accept: string;
+  fileInfo: any;
+  onUploadDone: () => void;
+}) {
+  const { toast } = useToast();
+  const qc = useQueryClient();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dragging, setDragging] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const upload = async (file: File) => {
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/admin/app-files/upload", { method: "POST", body: fd, credentials: "include" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.message);
+      toast({ title: `✅ تم رفع ${label} بنجاح`, description: `الحجم: ${formatBytes(json.size)}` });
+      qc.invalidateQueries({ queryKey: ["/api/app-files/info"] });
+      onUploadDone();
+    } catch (e: any) {
+      toast({ title: "خطأ في الرفع", description: e.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const deleteMut = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/admin/app-files/${platform}`, { method: "DELETE", credentials: "include" });
+      if (!res.ok) throw new Error((await res.json()).message);
+    },
+    onSuccess: () => {
+      toast({ title: "تم الحذف" });
+      qc.invalidateQueries({ queryKey: ["/api/app-files/info"] });
+    },
+    onError: (e: any) => toast({ title: "خطأ", description: e.message, variant: "destructive" }),
+  });
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) upload(file);
+  };
+
+  return (
+    <Card className={cn("overflow-hidden border-2 transition-all", dragging ? "border-dashed scale-[1.01]" : "border-transparent")}
+      style={{ borderColor: dragging ? accent : undefined }}>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Icon className="w-5 h-5" style={{ color: accent }} />
+            {label}
+          </CardTitle>
+          {fileInfo?.exists && (
+            <a href={`/api/app-files/download/${platform}`} download>
+              <Button size="sm" variant="outline" className="h-7 px-3 text-xs gap-1.5" data-testid={`btn-download-${platform}`}>
+                <Download className="w-3.5 h-3.5" />تحميل
+              </Button>
+            </a>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {fileInfo?.exists ? (
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: accent + "20" }}>
+              <HardDrive className="w-5 h-5" style={{ color: accent }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-gray-800 truncate">{fileInfo.filename}</p>
+              <p className="text-xs text-gray-500">
+                {formatBytes(fileInfo.size)} · {new Date(fileInfo.uploadedAt).toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" })}
+              </p>
+            </div>
+            <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-50 shrink-0"
+              onClick={() => deleteMut.mutate()} disabled={deleteMut.isPending} data-testid={`btn-delete-${platform}`}>
+              <Trash2 className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-dashed border-gray-200">
+            <XCircle className="w-5 h-5 text-gray-300 shrink-0" />
+            <p className="text-xs text-gray-400">لم يُرفع ملف بعد</p>
+          </div>
+        )}
+
+        <div
+          className={cn("relative rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all",
+            dragging ? "bg-emerald-50 border-emerald-400" : "border-gray-200 hover:border-gray-300 hover:bg-gray-50")}
+          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={handleDrop}
+          onClick={() => inputRef.current?.click()}
+          data-testid={`dropzone-${platform}`}
+        >
+          <input ref={inputRef} type="file" accept={accept} className="hidden"
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = ""; }} />
+          {uploading ? (
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-8 h-8 border-3 border-t-transparent rounded-full animate-spin" style={{ borderColor: accent, borderTopColor: "transparent" }} />
+              <p className="text-xs text-gray-500">جارٍ الرفع...</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <Upload className="w-8 h-8 text-gray-300" />
+              <p className="text-sm font-bold text-gray-600">اسحب الملف هنا أو اضغط للاختيار</p>
+              <p className="text-xs text-gray-400">{accept.split(",").join(" / ")} — بحد أقصى 200 ميغابايت</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function AppFilesUploadPanel() {
+  const { data: fileInfo, refetch } = useQuery<{ android: any; ios: any }>({
+    queryKey: ["/api/app-files/info"],
+  });
+
+  return (
+    <div className="space-y-4">
+      <Card className="border-emerald-200 bg-emerald-50/60">
+        <CardContent className="pt-4 pb-3">
+          <div className="flex items-start gap-3">
+            <CloudUpload className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-emerald-900 text-sm">كيف يعمل النظام؟</p>
+              <ol className="text-emerald-800 text-xs mt-1.5 space-y-1 list-decimal list-inside leading-relaxed">
+                <li>أنشئ ملف APK (Android) من <a href="https://www.pwabuilder.com" target="_blank" rel="noopener noreferrer" className="underline font-bold">pwabuilder.com</a> باستخدام رابط الموقع المنشور</li>
+                <li>أنشئ ملف IPA (iOS) من Xcode باستخدام WKWebView أو Capacitor على جهاز Mac</li>
+                <li>ارفع الملفين هنا — سيظهران فوراً في لوحة الموظفين للتحميل</li>
+              </ol>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <UploadCard
+          platform="android"
+          label="تطبيق Android (APK / AAB)"
+          icon={SiGoogleplay as any}
+          accent="#01875f"
+          accept=".apk,.aab"
+          fileInfo={fileInfo?.android}
+          onUploadDone={refetch}
+        />
+        <UploadCard
+          platform="ios"
+          label="تطبيق iOS (IPA)"
+          icon={Apple}
+          accent="#555555"
+          accept=".ipa"
+          fileInfo={fileInfo?.ios}
+          onUploadDone={refetch}
+        />
+      </div>
+
+      <Card className="border-amber-200 bg-amber-50/60">
+        <CardContent className="pt-4 pb-3">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-amber-800 text-sm">ملاحظة مهمة</p>
+              <p className="text-amber-700 text-xs mt-1">
+                ملفات APK المثبّتة مباشرة (خارج متجر Play) تتطلب تفعيل "السماح بمصادر غير معروفة" في إعدادات الجهاز.
+                يُنصح برفع ملف AAB على Google Play Console للنشر الرسمي.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function AdminAppStore() {
@@ -271,12 +467,18 @@ export default function AdminAppStore() {
         </div>
 
         {/* Main tabs */}
-        <Tabs defaultValue="pwa" dir="rtl">
-          <TabsList className="w-full grid grid-cols-3 h-10">
+        <Tabs defaultValue="files" dir="rtl">
+          <TabsList className="w-full grid grid-cols-4 h-10">
+            <TabsTrigger value="files" className="text-xs font-bold gap-1.5"><CloudUpload className="w-3.5 h-3.5" />ملفات التطبيق</TabsTrigger>
             <TabsTrigger value="pwa" className="text-xs font-bold gap-1.5"><Zap className="w-3.5 h-3.5" />PWA جاهزية</TabsTrigger>
             <TabsTrigger value="google" className="text-xs font-bold gap-1.5"><SiGoogleplay className="w-3.5 h-3.5" />Google Play</TabsTrigger>
             <TabsTrigger value="apple" className="text-xs font-bold gap-1.5"><Apple className="w-3.5 h-3.5" />App Store</TabsTrigger>
           </TabsList>
+
+          {/* ── Files Upload Tab ── */}
+          <TabsContent value="files" className="mt-4 space-y-4">
+            <AppFilesUploadPanel />
+          </TabsContent>
 
           {/* ── PWA Tab ── */}
           <TabsContent value="pwa" className="mt-4 space-y-4">
