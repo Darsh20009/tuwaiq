@@ -185,45 +185,73 @@ function BackBar() {
   );
 }
 
+function AuthGuard({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+  React.useEffect(() => {
+    if (!isLoading && !user) {
+      setLocation("/login");
+    }
+  }, [isLoading, user, setLocation]);
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background" dir="rtl">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <p className="text-muted-foreground text-sm font-medium">جاري التحقق من الهوية...</p>
+        </div>
+      </div>
+    );
+  }
+  if (!user) return null;
+  return <>{children}</>;
+}
+
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen w-full" dir="rtl">
-        <SidebarErrorBoundary><AppSidebar /></SidebarErrorBoundary>
-        <main className="flex-1 overflow-y-auto bg-muted/20">
-          <BackBar />
-          <PageErrorBoundary>{children}</PageErrorBoundary>
-        </main>
-      </div>
-    </SidebarProvider>
+    <AuthGuard>
+      <SidebarProvider>
+        <div className="flex h-screen w-full" dir="rtl">
+          <SidebarErrorBoundary><AppSidebar /></SidebarErrorBoundary>
+          <main className="flex-1 overflow-y-auto bg-muted/20">
+            <BackBar />
+            <PageErrorBoundary>{children}</PageErrorBoundary>
+          </main>
+        </div>
+      </SidebarProvider>
+    </AuthGuard>
   );
 }
 
 function EmployeeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen w-full" dir="rtl">
-        <SidebarErrorBoundary><AppSidebar /></SidebarErrorBoundary>
-        <main className="flex-1 overflow-y-auto bg-muted/20">
-          <BackBar />
-          <PageErrorBoundary>{children}</PageErrorBoundary>
-        </main>
-      </div>
-    </SidebarProvider>
+    <AuthGuard>
+      <SidebarProvider>
+        <div className="flex h-screen w-full" dir="rtl">
+          <SidebarErrorBoundary><AppSidebar /></SidebarErrorBoundary>
+          <main className="flex-1 overflow-y-auto bg-muted/20">
+            <BackBar />
+            <PageErrorBoundary>{children}</PageErrorBoundary>
+          </main>
+        </div>
+      </SidebarProvider>
+    </AuthGuard>
   );
 }
 
 function DeliveryLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen w-full" dir="rtl">
-        <DeliverySidebar />
-        <main className="flex-1 overflow-y-auto bg-muted/20">
-          <BackBar />
-          <PageErrorBoundary>{children}</PageErrorBoundary>
-        </main>
-      </div>
-    </SidebarProvider>
+    <AuthGuard>
+      <SidebarProvider>
+        <div className="flex h-screen w-full" dir="rtl">
+          <DeliverySidebar />
+          <main className="flex-1 overflow-y-auto bg-muted/20">
+            <BackBar />
+            <PageErrorBoundary>{children}</PageErrorBoundary>
+          </main>
+        </div>
+      </SidebarProvider>
+    </AuthGuard>
   );
 }
 

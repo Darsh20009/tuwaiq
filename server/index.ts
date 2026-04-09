@@ -221,24 +221,6 @@ app.get("/api/health", (_req, res) => {
 (async () => {
   const port = parseInt(process.env.PORT || "5000", 10);
 
-  // ── Fix 502 / SIGKILL from reverse proxy keepalive mismatch ─────────────
-  // Must be set BEFORE listen() so they are in effect from the first request.
-  // Render recommends ≥120s. headersTimeout MUST be > keepAliveTimeout.
-  httpServer.keepAliveTimeout = 120_000;
-  httpServer.headersTimeout  = 121_000;
-
-  // ── Start listening IMMEDIATELY so Render's health probe succeeds ─────────
-  // MongoDB connects in the background — routes that need the DB will work
-  // once the connection resolves (typically <2s on warm Atlas cluster).
-  httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
-    log(`serving on port ${port}`);
-  });
-
-  // Connect both MongoDB native driver (for legacy routes) and Mongoose (for new modules)
-  await connectToMongo();
-  await connectMongoose();
-  _dbReady = true;
-
   // =====================
   // Session + Passport (must be before ALL routes so req.isAuthenticated() works everywhere)
   // =====================
@@ -300,6 +282,11 @@ app.get("/api/health", (_req, res) => {
   // Setup WebSocket
   setupWebSocket(httpServer);
 
+  // ── Connect to MongoDB (required for routes below) ─────────────────────────
+  await connectToMongo();
+  await connectMongoose();
+  _dbReady = true;
+
   // =====================
   // Legacy Routes (CMS, HR, Admin, etc.)
   // =====================
@@ -316,6 +303,15 @@ app.get("/api/health", (_req, res) => {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
   }
+
+  // ── Start listening — after ALL middleware & routes are registered ─────────
+  // keepAliveTimeout/headersTimeout MUST be set before listen().
+  // Render recommends ≥120s; headersTimeout MUST be > keepAliveTimeout.
+  httpServer.keepAliveTimeout = 120_000;
+  httpServer.headersTimeout  = 121_000;
+  httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
+    log(`serving on port ${port}`);
+  });
 
   // ── Recurring Donations Scheduler ─────────────────────────────────────────
   // Runs every hour: generates Al Rajhi payment links for due recurring donations
