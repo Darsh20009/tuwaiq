@@ -51,10 +51,13 @@ export function requestId(req: Request, res: Response, next: NextFunction) {
 
 // ─── 3. Security headers beyond Helmet (PCI DSS 6.4.1) ──────────────────────
 
-export function additionalSecurityHeaders(_req: Request, res: Response, next: NextFunction) {
-  // Prevent browsers from caching sensitive API responses
-  res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Pragma", "no-cache");
+export function additionalSecurityHeaders(req: Request, res: Response, next: NextFunction) {
+  // Cache-Control: no-store only on API routes — NOT on static assets/pages
+  // (applying no-store globally kills browser caching of JS/CSS/images → slow site)
+  if (req.path.startsWith("/api/")) {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Pragma", "no-cache");
+  }
   // Prohibit older IE from guessing content type
   res.setHeader("X-Content-Type-Options", "nosniff");
   // X-Frame-Options removed — frame-ancestors in CSP controls embedding
