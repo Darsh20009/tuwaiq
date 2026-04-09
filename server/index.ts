@@ -80,13 +80,23 @@ app.get("/.well-known/apple-developer-merchantid-domain-association.txt", (_req,
 // ── Favicon & PWA icons (explicit routes to guarantee correct Content-Type) ───
 app.get("/favicon.ico", (_req, res) => {
   res.setHeader("Content-Type", "image/png");
-  res.setHeader("Cache-Control", "public, max-age=604800");
+  res.setHeader("Cache-Control", "public, max-age=86400");
   res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
 });
 app.get("/favicon.png", (_req, res) => {
   res.setHeader("Content-Type", "image/png");
-  res.setHeader("Cache-Control", "public, max-age=604800");
+  res.setHeader("Cache-Control", "public, max-age=86400");
   res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
+});
+app.get("/favicon-32.png", (_req, res) => {
+  res.setHeader("Content-Type", "image/png");
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.sendFile(path.join(process.cwd(), "client/public/favicon-32.png"));
+});
+app.get("/favicon-16.png", (_req, res) => {
+  res.setHeader("Content-Type", "image/png");
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.sendFile(path.join(process.cwd(), "client/public/favicon-16.png"));
 });
 // Explicit routes for all PWA icons — ensures Content-Type is always image/png
 const PWA_ICON_SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
