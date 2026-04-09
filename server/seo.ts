@@ -149,9 +149,9 @@ function buildOrganizationSchema(baseUrl: string): string {
         "url": baseUrl,
         "logo": {
           "@type": "ImageObject",
-          "url": `${baseUrl}/images/logo.jpeg`,
-          "width": 512,
-          "height": 512,
+          "url": `${baseUrl}/favicon.png`,
+          "width": 128,
+          "height": 128,
         },
         "image": `${baseUrl}/images/og-banner1.png`,
         "description": SITE_DESC_DEFAULT,

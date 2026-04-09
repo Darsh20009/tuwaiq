@@ -64,6 +64,18 @@ app.get("/.well-known/apple-developer-merchantid-domain-association.txt", (_req,
   res.sendFile(path.join(process.cwd(), "client/public/.well-known/apple-developer-merchantid-domain-association.txt"));
 });
 
+// ── Favicon (must be before SPA fallback and SEO middleware) ──────────────────
+app.get("/favicon.ico", (_req, res) => {
+  res.setHeader("Content-Type", "image/png");
+  res.setHeader("Cache-Control", "public, max-age=604800");
+  res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
+});
+app.get("/favicon.png", (_req, res) => {
+  res.setHeader("Content-Type", "image/png");
+  res.setHeader("Cache-Control", "public, max-age=604800");
+  res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
+});
+
 // ── PCI DSS Security hardening ────────────────────────────────────────────────
 app.use(enforceHttps);
 app.use(requestId);
