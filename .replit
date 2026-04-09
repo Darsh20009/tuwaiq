@@ -27,7 +27,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "NODE_ENV=development npx --no-install tsx server/index.ts"
+args = "node -e \"const fs=require('fs');try{const c=fs.readFileSync('tsconfig.json','utf8');const i=c.indexOf('{');if(i>0){fs.writeFileSync('tsconfig.json',c.slice(i));console.log('[auto-fix] tsconfig.json repaired');}}catch(e){}\" && NODE_ENV=development npx --no-install tsx server/index.ts"
 waitForPort = 5000
 
 [[ports]]

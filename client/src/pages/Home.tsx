@@ -60,6 +60,7 @@ const FALLBACK_SLIDES: Slide[] = [
 ];
 
 const SLIDE_DURATION = 7000;
+const BANNER_PLACEHOLDER = "/images/banner-placeholder.png";
 
 function HeroSlider({
   slides,
@@ -77,12 +78,30 @@ function HeroSlider({
   videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
 }) {
   const total = slides.length;
+  const [placeholderVisible, setPlaceholderVisible] = useState(true);
 
   return (
     <div
       className="relative w-full overflow-hidden group select-none"
       style={{ height: "calc(100svh - 109px)", minHeight: "340px", maxHeight: "680px" }}
     >
+      {/* ── Placeholder image shown immediately before videos load ── */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          opacity: placeholderVisible ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out",
+          backgroundColor: "#0f2819",
+        }}
+      >
+        <img
+          src={BANNER_PLACEHOLDER}
+          alt="جمعية طويق للخدمات الإنسانية"
+          className="absolute inset-0 w-full h-full object-contain bg-white"
+          draggable={false}
+        />
+      </div>
+
       {slides.map((s, i) => (
         <div
           key={i}
@@ -107,6 +126,8 @@ function HeroSlider({
               preload="auto"
               {...(i === 0 ? { "fetchpriority": "high" } as any : {})}
               className="absolute inset-0 w-full h-full object-cover"
+              onCanPlay={i === 0 ? () => setPlaceholderVisible(false) : undefined}
+              onPlaying={i === 0 ? () => setPlaceholderVisible(false) : undefined}
             />
           )}
           {s.mediaType === "image" && (
@@ -117,6 +138,7 @@ function HeroSlider({
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover"
               draggable={false}
+              onLoad={i === 0 ? () => setPlaceholderVisible(false) : undefined}
             />
           )}
           <div
