@@ -37,17 +37,6 @@ type Slide = {
 const FALLBACK_SLIDES: Slide[] = [
   {
     mediaType: "video",
-    mediaUrl: vidBanner1,
-    posterUrl: imgHeroVolunteer,
-    title: "معاً نصنع الأثر",
-    subtitle: "جمعية طويق للخدمات الإنسانية — شريككم في العطاء",
-    primaryLink: "/donate",
-    primaryLabel: "تبرع الآن",
-    secondaryLink: "/about",
-    secondaryLabel: "تعرف علينا",
-  },
-  {
-    mediaType: "video",
     mediaUrl: vidBanner2,
     posterUrl: imgHero2,
     title: "كل ريال يصل لمستحقه",
@@ -56,6 +45,17 @@ const FALLBACK_SLIDES: Slide[] = [
     primaryLabel: "تبرع الآن",
     secondaryLink: "/bank-transfer",
     secondaryLabel: "تحويل بنكي",
+  },
+  {
+    mediaType: "video",
+    mediaUrl: vidBanner1,
+    posterUrl: imgHeroVolunteer,
+    title: "معاً نصنع الأثر",
+    subtitle: "جمعية طويق للخدمات الإنسانية — شريككم في العطاء",
+    primaryLink: "/donate",
+    primaryLabel: "تبرع الآن",
+    secondaryLink: "/about",
+    secondaryLabel: "تعرف علينا",
   },
 ];
 
@@ -255,7 +255,8 @@ function HeroSection() {
     staleTime: 60000,
   });
 
-  const slides: Slide[] = (apiSlides && apiSlides.length > 0) ? apiSlides : FALLBACK_SLIDES;
+  const videoSlides = apiSlides?.filter((s: Slide) => s.mediaType === "video") ?? [];
+  const slides: Slide[] = videoSlides.length > 0 ? videoSlides : FALLBACK_SLIDES;
 
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);

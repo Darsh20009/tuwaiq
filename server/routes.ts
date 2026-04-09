@@ -1761,11 +1761,11 @@ export async function registerRoutes(
   // ===========================================================================
 
   // ==================== SLIDER MANAGEMENT ====================
-  // Public: get active slider items
+  // Public: get active slider items (videos only)
   app.get("/api/slider", async (req: Request, res: Response) => {
     try {
       const items = await sliderItemsCollection
-        .find({ isActive: true })
+        .find({ isActive: true, mediaType: "video" })
         .sort({ order: 1, createdAt: 1 })
         .toArray();
       res.json(items.map((d: any) => ({ ...d, id: d._id.toString() })));
