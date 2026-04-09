@@ -106,5 +106,21 @@
       "purpose": "maskable"
     }
   ],
-  "categories": ["charity", "social", "humanitarian"]
+  "categories": ["charity", "social", "humanitarian"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-wide.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "الصفحة الرئيسية — جمعية طويق للخدمات الإنسانية"
+    },
+    {
+      "src": "/images/screenshot-narrow.jpg",
+      "sizes": "390x844",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "الصفحة الرئيسية على الجوال"
+    }
+  ]
 }

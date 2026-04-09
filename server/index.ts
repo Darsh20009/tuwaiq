@@ -89,7 +89,6 @@ app.get("/favicon.png", (_req, res) => {
   res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
 });
 // Explicit routes for all PWA icons — ensures Content-Type is always image/png
-// even if the underlying HTTP server guesses wrong from the file extension.
 const PWA_ICON_SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
 for (const size of PWA_ICON_SIZES) {
   app.get(`/images/icon-${size}.png`, (_req, res) => {
@@ -98,6 +97,17 @@ for (const size of PWA_ICON_SIZES) {
     res.sendFile(path.join(process.cwd(), `client/public/images/icon-${size}.png`));
   });
 }
+// Explicit routes for PWA screenshots — ensures Content-Type is image/jpeg
+app.get("/images/screenshot-wide.jpg", (_req, res) => {
+  res.setHeader("Content-Type", "image/jpeg");
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.sendFile(path.join(process.cwd(), "client/public/images/screenshot-wide.jpg"));
+});
+app.get("/images/screenshot-narrow.jpg", (_req, res) => {
+  res.setHeader("Content-Type", "image/jpeg");
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.sendFile(path.join(process.cwd(), "client/public/images/screenshot-narrow.jpg"));
+});
 
 // ── PCI DSS Security hardening ────────────────────────────────────────────────
 app.use(enforceHttps);
