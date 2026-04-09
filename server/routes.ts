@@ -1015,6 +1015,25 @@ export async function registerRoutes(
     }
   });
 
+  // Public lightweight news endpoint — returns only news-* slugs with stripped content
+  app.get("/api/news", async (req, res) => {
+    try {
+      const all = await storage.getAllContent();
+      const news = all
+        .filter((c: any) => c.slug?.startsWith("news-"))
+        .map((c: any) => ({
+          slug: c.slug,
+          title: c.title || "",
+          imageUrl: c.imageUrl || "",
+          updatedAt: c.updatedAt,
+          content: (c.content || "").slice(0, 300),
+        }));
+      res.json(news);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الأخبار" });
+    }
+  });
+
   app.get("/api/content/:slug", async (req, res) => {
     try {
       const content = await storage.getContent(req.params.slug);

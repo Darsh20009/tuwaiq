@@ -123,8 +123,7 @@ function HeroSlider({
               loop
               playsInline
               autoPlay={i === 0}
-              preload="auto"
-              {...(i === 0 ? { "fetchpriority": "high" } as any : {})}
+              preload={i === current ? "auto" : "none"}
               className="absolute inset-0 w-full h-full object-cover"
               onCanPlay={i === 0 ? () => setPlaceholderVisible(false) : undefined}
               onPlaying={i === 0 ? () => setPlaceholderVisible(false) : undefined}
@@ -663,11 +662,10 @@ function LeaderboardSection() {
 
 function NewsSection() {
   const { data: news } = useQuery({
-    queryKey: ["/api/admin/content"],
+    queryKey: ["/api/news"],
     queryFn: async () => {
-      const r = await fetch("/api/admin/content");
-      const d = await r.json();
-      return Array.isArray(d) ? d.filter((c: any) => c.slug?.startsWith("news-")) : [];
+      const r = await fetch("/api/news");
+      return r.ok ? r.json() : [];
     },
   });
 
