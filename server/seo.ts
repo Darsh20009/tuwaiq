@@ -492,6 +492,7 @@ function buildHtml(params: {
 
 export function createSEOMiddleware(db: Db) {
   return async (req: Request, res: Response, next: NextFunction) => {
+    try {
     if (req.method !== "GET") return next();
     if (req.path.startsWith("/api/")) return next();
     if (req.path.startsWith("/assets/")) return next();
@@ -507,9 +508,13 @@ export function createSEOMiddleware(db: Db) {
 
     let seoData: { title: string; description: string; image: string; keywords?: string } | null = null;
 
+    const DB_TIMEOUT = 3000; // 3 seconds max per DB query — prevent hanging on slow connections
+    const withTimeout = <T>(promise: Promise<T>): Promise<T | null> =>
+      Promise.race([promise, new Promise<null>((resolve) => setTimeout(() => resolve(null), DB_TIMEOUT))]);
+
     // 1. DB overrides first
     try {
-      const dbOverride = await db.collection("seo_overrides").findOne({ path });
+      const dbOverride = await withTimeout(db.collection("seo_overrides").findOne({ path }));
       if (dbOverride?.title) {
         seoData = {
           title: dbOverride.title,
@@ -525,7 +530,7 @@ export function createSEOMiddleware(db: Db) {
       const serviceMatch = path.match(/^\/services\/(.+)$/);
       if (serviceMatch) {
         try {
-          const service = await db.collection("services").findOne({ slug: serviceMatch[1] });
+          const service = await withTimeout(db.collection("services").findOne({ slug: serviceMatch[1] }));
           if (service) {
             seoData = {
               title: `${service.title} | ${SITE_NAME}`,
@@ -547,7 +552,7 @@ export function createSEOMiddleware(db: Db) {
       const campaignMatch = path.match(/^\/campaigns\/(.+)$/);
       if (campaignMatch) {
         try {
-          const campaign = await db.collection("campaigns").findOne({ slug: campaignMatch[1] });
+          const campaign = await withTimeout(db.collection("campaigns").findOne({ slug: campaignMatch[1] }));
           if (campaign) {
             const name = campaign.name || campaign.title;
             seoData = {
@@ -568,7 +573,7 @@ export function createSEOMiddleware(db: Db) {
       const contentMatch = path.match(/^\/(?:news|content|page)\/(.+)$/);
       if (contentMatch) {
         try {
-          const article = await db.collection("content").findOne({ slug: contentMatch[1] });
+          const article = await withTimeout(db.collection("content").findOne({ slug: contentMatch[1] }));
           if (article) {
             seoData = {
               title: `${article.title} | ${SITE_NAME}`,
@@ -613,6 +618,11 @@ export function createSEOMiddleware(db: Db) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
     res.status(200).send(html);
+    } catch (err) {
+      // On any unexpected error, fall through to normal Express handling
+      console.error("[SEO middleware] unexpected error:", (err as any)?.message);
+      next();
+    }
   };
 }
 

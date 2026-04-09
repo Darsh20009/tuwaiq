@@ -39,6 +39,14 @@ import { setupWebSocket } from "./core/websocket";
 import { createSEOMiddleware, registerSEORoutes, registerSitemapRoute } from "./seo";
 import { db } from "./db";
 
+// ── Global crash-guards: prevent unhandled errors from killing the server ──────
+process.on("uncaughtException", (err) => {
+  console.error("[FATAL] uncaughtException — keeping server alive:", err.message, err.stack);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[FATAL] unhandledRejection — keeping server alive:", reason);
+});
+
 const app = express();
 app.set("trust proxy", 1);
 const httpServer = createServer(app);
@@ -48,6 +56,11 @@ declare module "http" {
     rawBody: unknown;
   }
 }
+
+// ── Health check — proxy/load-balancer uses this to verify the server is alive ─
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: "ok", ts: Date.now() });
+});
 
 // ── Apple Pay domain verification (must be served before any auth/security middleware) ──
 app.use("/.well-known", express.static(path.join(process.cwd(), "client/public/.well-known"), {
@@ -296,6 +309,12 @@ app.use((req, res, next) => {
       log(`serving on port ${port}`);
     },
   );
+
+  // ── Fix 502 from reverse proxy keepalive mismatch ─────────────────────────
+  // Node default keepAliveTimeout=5s; most proxies (Nginx/Cloudflare) use 60–120s.
+  // Mismatch causes the proxy to reuse a half-closed socket → 502.
+  httpServer.keepAliveTimeout = 65000; // 65s — above typical 60s proxy timeout
+  httpServer.headersTimeout = 66000;   // Must be > keepAliveTimeout
 
   // ── Recurring Donations Scheduler ─────────────────────────────────────────
   // Runs every hour: generates Al Rajhi payment links for due recurring donations
