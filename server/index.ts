@@ -151,9 +151,11 @@ app.use(
         connectSrc: ["'self'", "https:", ...(process.env.NODE_ENV !== "production" ? ["ws:", "wss:"] : [])],
         frameSrc: ["'self'", "https://payment.alrajhibank.com.sa", "https://digitalpayments.alrajhibank.com.sa", "https://accounts.google.com"],
         formAction: ["'self'", "https://securepayments.alrajhibank.com.sa", "https://digitalpayments.alrajhibank.com.sa", "https:"],
+        frameAncestors: ["*"], // Allow embedding in any iframe
       },
     },
     crossOriginEmbedderPolicy: false,
+    frameguard: false, // Disable X-Frame-Options — frameAncestors CSP handles it
   })
 );
 

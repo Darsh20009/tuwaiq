@@ -57,8 +57,7 @@ export function additionalSecurityHeaders(_req: Request, res: Response, next: Ne
   res.setHeader("Pragma", "no-cache");
   // Prohibit older IE from guessing content type
   res.setHeader("X-Content-Type-Options", "nosniff");
-  // Prevent clickjacking (belt+suspenders with helmet)
-  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  // X-Frame-Options removed — frame-ancestors in CSP controls embedding
   // Enforce HTTPS in production
   if (process.env.NODE_ENV === "production") {
     res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
