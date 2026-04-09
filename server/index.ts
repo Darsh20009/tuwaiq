@@ -57,11 +57,6 @@ declare module "http" {
   }
 }
 
-// ── Health check — proxy/load-balancer uses this to verify the server is alive ─
-app.get("/api/health", (_req, res) => {
-  res.status(200).json({ status: "ok", ts: Date.now() });
-});
-
 // ── Apple Pay domain verification (must be served before any auth/security middleware) ──
 app.use("/.well-known", express.static(path.join(process.cwd(), "client/public/.well-known"), {
   dotfiles: "allow",
@@ -217,10 +212,32 @@ app.use((req, res, next) => {
   next();
 });
 
+// ── Track DB readiness so routes can guard against pre-init requests ──────────
+let _dbReady = false;
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: _dbReady ? "ok" : "starting", ts: Date.now() });
+});
+
 (async () => {
+  const port = parseInt(process.env.PORT || "5000", 10);
+
+  // ── Fix 502 / SIGKILL from reverse proxy keepalive mismatch ─────────────
+  // Must be set BEFORE listen() so they are in effect from the first request.
+  // Render recommends ≥120s. headersTimeout MUST be > keepAliveTimeout.
+  httpServer.keepAliveTimeout = 120_000;
+  httpServer.headersTimeout  = 121_000;
+
+  // ── Start listening IMMEDIATELY so Render's health probe succeeds ─────────
+  // MongoDB connects in the background — routes that need the DB will work
+  // once the connection resolves (typically <2s on warm Atlas cluster).
+  httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
+    log(`serving on port ${port}`);
+  });
+
   // Connect both MongoDB native driver (for legacy routes) and Mongoose (for new modules)
   await connectToMongo();
   await connectMongoose();
+  _dbReady = true;
 
   // =====================
   // Session + Passport (must be before ALL routes so req.isAuthenticated() works everywhere)
@@ -299,24 +316,6 @@ app.use((req, res, next) => {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
   }
-
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
-
-  // ── Fix 502 from reverse proxy keepalive mismatch ─────────────────────────
-  // Node default keepAliveTimeout=5s; most proxies (Nginx/Cloudflare) use 60–120s.
-  // Mismatch causes the proxy to reuse a half-closed socket → 502.
-  httpServer.keepAliveTimeout = 65000; // 65s — above typical 60s proxy timeout
-  httpServer.headersTimeout = 66000;   // Must be > keepAliveTimeout
 
   // ── Recurring Donations Scheduler ─────────────────────────────────────────
   // Runs every hour: generates Al Rajhi payment links for due recurring donations
