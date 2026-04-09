@@ -118,7 +118,6 @@ function HeroSlider({
             <video
               ref={(el) => { videoRefs.current[i] = el; }}
               src={s.mediaUrl}
-              poster={s.posterUrl || imgHeroVolunteer}
               muted
               loop
               playsInline
