@@ -77,7 +77,7 @@ app.get("/.well-known/apple-developer-merchantid-domain-association.txt", (_req,
   res.sendFile(path.join(process.cwd(), "client/public/.well-known/apple-developer-merchantid-domain-association.txt"));
 });
 
-// ── Favicon (must be before SPA fallback and SEO middleware) ──────────────────
+// ── Favicon & PWA icons (explicit routes to guarantee correct Content-Type) ───
 app.get("/favicon.ico", (_req, res) => {
   res.setHeader("Content-Type", "image/png");
   res.setHeader("Cache-Control", "public, max-age=604800");
@@ -88,6 +88,16 @@ app.get("/favicon.png", (_req, res) => {
   res.setHeader("Cache-Control", "public, max-age=604800");
   res.sendFile(path.join(process.cwd(), "client/public/favicon.png"));
 });
+// Explicit routes for all PWA icons — ensures Content-Type is always image/png
+// even if the underlying HTTP server guesses wrong from the file extension.
+const PWA_ICON_SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
+for (const size of PWA_ICON_SIZES) {
+  app.get(`/images/icon-${size}.png`, (_req, res) => {
+    res.setHeader("Content-Type", "image/png");
+    res.setHeader("Cache-Control", "public, max-age=604800");
+    res.sendFile(path.join(process.cwd(), `client/public/images/icon-${size}.png`));
+  });
+}
 
 // ── PCI DSS Security hardening ────────────────────────────────────────────────
 app.use(enforceHttps);
