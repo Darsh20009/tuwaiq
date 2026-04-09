@@ -1,0 +1,101 @@
+Dear @'tuwaikassociation@gmail.com'
+
+ 
+
+Hope this email finds you well.
+
+ 
+
+Below error only occurred when the integration is not as per integration specifications.
+
+Kindly share plain as well as encrypted request to verify from our end.
+
+ 
+
+Also note – aes should aes-256 HEX.
+
+ 
+
+Also please find below end to end integration process for your reference.
+
+Note – below samples are test environment, you need to use live end point url.
+
+ 
+
+Send payment request to API - https://digitalpayments.alrajhibank.com.sa/pg/payment/hosted.htm
+
+ 
+
+[{"id":"tranportal id","password":"tranportal password","action":"1","currencyCode":"682","errorURL":"www.failure.com","responseURL":"www.success.com","trackId":"ssjhskkkhw441155","amt":"400.00"}]
+
+ 
+
+Make Encrypted request as per below :
+
+[{"id":" tranportal id,"trandata":"7B106A660D05F353CD6E45C2F213AA69EB6415386B41E7ACC6981D521024BCB720B247A1BFCA94A7081A99C1A8AAFBA37DEE66F5CE0881A1C11F88233899CD910EDE8443A1A98B11AF3C9E42DAD82EDCC46941697058BA0A5D5E389EA226DE6084819F3D084BDBAFD96BB5D1EAA693FC3AA57FE87CF92E6161231BE7C1EF4D2962D4778FFA652930997AC1BEBC0078B758BB7800946C9F7A5C02ECC70BB7C82F06E1BC2786569FDF2B813FBB35A70E66E731BBACC154DE9632496DA333C1C9451FC5642D0F3BFCA8ADCA267C3D6DA82B","errorURL":"www.failure.com","responseURL":"www.success.com"}]
+
+  
+
+Initial response from payment gateway :
+
+ 
+
+[
+
+    {
+
+        "result": "600202533178503778:https://digitalpayments.alrajhibank.com.sa/pg/paymentpage.htm
+
+        "status": "1"
+
+    }
+
+]
+
+ 
+
+Merchant need to frame above URL as per below format to redirect customer on Alarajhi bank payment page :
+
+ 
+
+https://digitalpayments.alrajhibank.com.sa/pg/paymentpage.htm?PaymentID=600202533178503778
+
+ 
+
+Please find below sample online web site for encryption and decryption.
+
+AES Encryption and Decryption Online
+
+ 
+
+
+
+ Also sometime above web site is not working as expected.
+
+Kindly use another website as anycript.com and use the same above configuration for encryption logic
+
+Postman print screen for your reference:
+
+ 
+
+ Below is sample postman print screen, as you need to use URL as https://securepayments.neoleap.com.sa/pg/payment/hosted.htm
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+.		Rahul Dalvi
+Senior Integration Specialist
+M +966549475195
+E rdalvi.c@neoleap.com.sa 
+ 
+
+This Email and any files transmitted may contain confidential and/or privileged information and is intended solely for the addressee(s) named. If you have received this information in error, or are being posted by accident, please notify the sender by return Email, do not redistribute this email message, delete it immediately and keep no copies of it. All opinions and/or views expressed in this email are solely those of the author and do not necessarily represent those of Neoleap. Any purchase order, purchase advice or legal commitment is only valid once backed by the signed hardcopy by the authorized person from Neoleap.
+

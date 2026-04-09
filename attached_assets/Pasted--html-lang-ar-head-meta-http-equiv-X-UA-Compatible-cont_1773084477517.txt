@@ -1,0 +1,553 @@
+<html lang="ar"><head>
+    
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#f2eae3">
+  <meta name="theme-color" content="#f2eae3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#30506c" media="(prefers-color-scheme: dark)">
+
+  <meta name="msapplication-TileColor" content="#f2eae3">
+  <meta name="msapplication-TileImage" content="https://taseel.org.sa/media/main/fi_taseel_icon.webp">
+  <meta property="business:contact_data:website" content="https://taseel.org.sa/">
+    <meta property="og:locale" content="ar_AR">
+  <meta property="og:locale:alternate" content="en_US">
+      <title>جمعية تأصيل التعليمية</title>
+    <meta name="description" content="جمعيـة تعليمية مؤسسية تُعنى بتأصيل وتمهير الطلاب وتمكين الكفاءات والمنظمات بمنهجيات وأدوات حديثـة لتعميق الأثر العلميِّ في المجتمـع.">
+    <meta name="keywords" content="جمعيـة,تعليمية,مؤسسية,تُعنى,بتأصيل,وتمهير,الطلاب,وتمكين,الكفاءات,والمنظمات,بمنهجيات,وأدوات,حديثـة,لتعميق,الأثر,العلميِّ,في,المجتمـع.">
+        <link rel="canonical" href="https://taseel.org.sa">  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://taseel.org.sa/sitemap.xml">
+  <link rel="icon shortcut" href="https://taseel.org.sa/media/main/fi_taseel_icon.webp">
+  <link rel="apple-touch-icon" href="https://taseel.org.sa/media/main/fi_taseel_icon.webp">
+  <link rel="apple-touch-icon-precomposed" href="https://taseel.org.sa/media/main/fi_taseel_icon.webp">
+  <link rel="fluid-icon" href="https://taseel.org.sa/media/main/fi_taseel_icon.webp">
+    <script type="text/javascript">
+  var SITE_ROOT='https://taseel.org.sa/',SYSNAME='taseel',CP_ROOT='pub',ROOT='https://taseel.org.sa/',SITE_PATH='',_VER='0.45';
+</script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "جمعية تأصيل التعليمية",
+      "url": "https://taseel.org.sa/",
+      "logo": "https://taseel.org.sa/media/main/logo_taseel_logo2.webp"
+    }
+  </script>
+<link rel="stylesheet" href="https://taseel.org.sa/lib/css/style.css?v=0.45">
+<link rel="stylesheet" href="https://taseel.org.sa/theme/style.css?v=0.45">
+<style>:root {
+  --bg_color: #fbf7f4;
+  --txt_color: #000000;
+  --link_color: #304f6d;
+  --btn_color: #30506c;
+  --btn_txt_color: #fafafa;
+  --imp_btn_color: #c4966b;
+  --imp_btn_txt_color: #ffffff;
+  --nav_color: #f2eae3;
+  --nav_txt_color: #30506c;
+  --cats_color: #e2e8ee;
+  --cats_txt_color: #304f6d;
+}
+@font-face{font-family:'disaq'; src:url('/lib/fonts/rayat/arabic.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC; }
+@font-face{font-family:'disaq';src:url('/lib/fonts/rayat/latin.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+</style>
+    <link rel="stylesheet" href="https://taseel.org.sa/theme/clear/clear.css?v=0.45">
+  <style>
+    figure.media{text-align:center;margin: 5px;}
+    figure.media iframe{width: 100%; height: 50vh; border-radius: 8px;}
+    .oembedinit img { border-radius: 12px; margin: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,.3);vertical-align: middle;height:auto;}
+    .oembedinit { position:relative; }
+    .oembedinit::after { content: '▶'; display: block; position: absolute; z-index: 2; font-size: 30px; color: #fff; background: rgba(0,0,0,.3); padding: 6px 20px 0px 25px; border-radius: 10px;top: 0; right: 50%; transform: translateX(50%); }
+    .oembedinit:hover::after { background:#f00; }
+  </style><style id="hb-stylesheet"></style></head>
+  <body rel="canonical" class="_home _home_start ready" scrolled="120.80000305175781" scrolled_k="0" scrolled_qk="0" scrolled_h="100">
+    <style media="screen">
+  body::before { POSITION: FIXED; TOP: 0; RIGHT: 0; LEFT: 0; BOTTOM: 0;
+    BACKGROUND: #fff url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9Ii0xIC0xIDQwIDQwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0cm9rZT0iI2FhYSI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxIDEpIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+PGNpcmNsZSBzdHJva2Utb3BhY2l0eT0iLjUiIGN4PSIxOCIgY3k9IjE4IiByPSIxOCIvPjxwYXRoIGQ9Ik0zNiAxOGMwLTkuOTQtOC4wNi0xOC0xOC0xOCIgc3Ryb2tlLXdpZHRoPSIyIj48YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZnJvbT0iMCAxOCAxOCIgdG89IjM2MCAxOCAxOCIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L3BhdGg+PC9nPjwvZz48L3N2Zz4NCg==') no-repeat center center;
+    color:#aaa;
+    Z-INDEX: 99; CONTENT: 'جمعية تأصيل التعليمية'; ALIGN-ITEMS: CENTER; TEXT-ALIGN: CENTER; LINE-HEIGHT: 100VH; FONT-WEIGHT: BOLD; FONT-SIZE: 20PX; background-size: 60px; padding-top: 80px; }
+  .btn i,[ico]::before{ max-width: 30px; max-height: 30px;overflow: hidden;}
+  .top_menu_icon::before{ max-width: 50px;max-height: 41px;overflow: hidden;}
+  opencart > i,opencart > i:after{ max-width: 50px;max-height: 50px;overflow: hidden;}
+</style>
+                  <header class="clear warp">
+      <i class="fright pc_hide top_menu_icon" onclick="_s('.top_menu').toggle('slide')" ico="menu"></i>
+      <a href="https://taseel.org.sa/" class="logolink" aria-label="جمعية تأصيل التعليمية"><logo fright="" style="background-image:url(https://taseel.org.sa/media/main/logo_taseel_logo2.webp);"></logo></a>
+      <!-- <i onclick="_('html').classList.toggle('nightmood');" style="padding:4px;color:#fa0;background:#eee;border-radius:5px;">nightlight_round</i> -->
+
+
+      <htools>
+              </htools>
+      <opencart class="cart fleft binded"><i></i> <prase>سلة التبرعات</prase><num class="empty">0</num></opencart>
+      <supermemu>
+        <a href="https://taseel.org.sa/c/0/all" class="donatelink btn" ico="spa">مشروعاتنا</a>
+<a href="https://taseel.org.sa/gift/new" class="egiftlink btn" ico="try">إهداء</a><a href="https://taseel.org.sa/orders/donate" class="btn popup donatebtn popuped" popid="donate" ico="flash_on"><b>تبرع</b><prase>سريع</prase></a>
+      </supermemu>
+    </header>
+    <nav class="top_menu menu warp"><close onclick="_s('.top_menu').toggle('slide')"></close><box>
+      <ul class="pages"> <i fs20="" mob_hide="">home</i>
+  <li><a class="homelink" href="https://taseel.org.sa/" aria-label="البداية">الرئيسية</a></li>
+  <li hassubmenu="" false="" class="">
+      <a ico="business" aria-label="من نحن" href="https://taseel.org.sa/من-نحن" data_id="1">من نحن<i opensub=""></i></a><ul><li false="" class="">
+      <a ico="groups_2" aria-label="أعضاء الجمعية العمومية" href="https://taseel.org.sa/p2/أعضاء-الجمعية-العمومية" data_id="2">أعضاء الجمعية العمومية</a></li><li false="" class="">
+      <a ico="groups_2" aria-label="أعضاء مجلس الإدارة" href="https://taseel.org.sa/p12/أعضاء-مجلس-الإدارة" data_id="12">أعضاء مجلس الإدارة</a></li><li false="" class="">
+      <a ico="interpreter_mode" aria-label="اللجان الفرعية" href="https://taseel.org.sa/p29/اللجان-الفرعية" data_id="29">اللجان الفرعية</a></li><li false="" class="">
+      <a ico="groups" aria-label="فريق العمل" href="https://taseel.org.sa/p18/فريق-العمل" data_id="18">فريق العمل</a></li></ul></li><li false="" class="">
+      <a ico="" aria-label="فرص التبرع" href="https://taseel.org.sa/p35/فرص-التبرع" data_id="35">فرص التبرع</a></li><li false="" class="">
+      <a ico="folder_special" aria-label="البرامج" href="https://taseel.org.sa/p5/البرامج" data_id="5">البرامج</a></li><li true="" class="impo_page">
+      <a ico="switch_access_shortcut_add" aria-label="أثر الفقيد" href="https://taseel.org.sa/p37/أثر-الفقيد" data_id="37">أثر الفقيد</a></li><li false="" class="">
+      <a ico="newspaper" aria-label="أخبارنا" href="https://taseel.org.sa/p6/أخبارنا" data_id="6">أخبارنا</a></li><li false="" class="">
+      <a ico="bar_chart" aria-label="التقارير" href="https://taseel.org.sa/p34/التقارير" data_id="34">التقارير</a></li><li hassubmenu="" false="" class="">
+      <a ico="article" aria-label="الحوكمة" href="https://taseel.org.sa/Governance" data_id="20">الحوكمة<i opensub=""></i></a><ul><li false="" class="">
+      <a ico="bookmark_added" aria-label="الإفصاح" href="https://taseel.org.sa/Disclosure" data_id="19">الإفصاح</a></li><li hassubmenu="" false="" class="">
+      <a ico="view_kanban" aria-label="التقارير" href="https://taseel.org.sa/p7/التقارير" data_id="7">التقارير<i opensub=""></i></a><ul><li false="" class="">
+      <a ico="summarize" aria-label="القوائم المالية" href="https://taseel.org.sa/p31/القوائم-المالية" data_id="31">القوائم المالية</a></li><li false="" class="">
+      <a ico="feed" aria-label="التقارير السنوية" href="https://taseel.org.sa/p30/التقارير-السنوية" data_id="30">التقارير السنوية</a></li><li false="" class="">
+      <a ico="leaderboard" aria-label="تقرير قياس الرضا" href="https://taseel.org.sa/p32/تقرير-قياس-الرضا" data_id="32">تقرير قياس الرضا</a></li><li false="" class="">
+      <a ico="content_copy" aria-label="تقرير التغذية الراجعة" href="https://taseel.org.sa/p25/تقرير-التغذية-الراجعة" data_id="25">تقرير التغذية الراجعة</a></li></ul></li><li hassubmenu="" false="" class="">
+      <a ico="mouse" aria-label="الخدمات" href="https://taseel.org.sa/p3/الخدمات" data_id="3">الخدمات<i opensub=""></i></a><ul><li false="" class="">
+      <a ico="pan_tool" aria-label="التطوع" href="https://taseel.org.sa/p28/التطوع" data_id="28">التطوع</a></li><li false="" class="">
+      <a ico="manage_accounts" aria-label="الوظائف" href="https://taseel.org.sa/p27/الوظائف" data_id="27">الوظائف</a></li><li false="" class="">
+      <a ico="person_add" aria-label="طلب العضوية" href="https://taseel.org.sa/p26/طلب-العضوية" data_id="26">طلب العضوية</a></li></ul></li><li hassubmenu="" false="" class="">
+      <a ico="task" aria-label="قياس الرضا" href="https://taseel.org.sa/p8/قياس-الرضا" data_id="8">قياس الرضا<i opensub=""></i></a><ul><li false="" class="">
+      <a ico="contacts" aria-label="الموظفين" href="https://taseel.org.sa/p24/الموظفين" data_id="24">الموظفين</a></li><li false="" class="">
+      <a ico="person" aria-label="المستفيدين" href="https://taseel.org.sa/p13/المستفيدين" data_id="13">المستفيدين</a></li></ul></li><li false="" class="">
+      <a ico="assignment" aria-label="التراخيص" href="https://taseel.org.sa/register" data_id="23">التراخيص</a></li><li false="" class="">
+      <a ico="policy" aria-label="الأنظمة واللوائح" href="https://taseel.org.sa/p4/الأنظمة-واللوائح" data_id="4">الأنظمة واللوائح</a></li><li false="" class="">
+      <a ico="home_work" aria-label="الاستثمار والتملك" href="https://taseel.org.sa/ownership" data_id="22">الاستثمار والتملك</a></li><li false="" class="">
+      <a ico="task" aria-label="محاضر الاجتماعات" href="https://taseel.org.sa/Minutes" data_id="21">محاضر الاجتماعات</a></li></ul></li><li false="" class="">
+      <a ico="alternate_email" aria-label="اتصل بنا" href="https://taseel.org.sa/p9/اتصل-بنا" data_id="9">اتصل بنا</a></li>      </ul>
+      <btns class="fleft flex">
+          <a class="login popup popuped" popid="login" href="https://taseel.org.sa/clients/otp_login" onclick="localStorage.redirect='/';"><i>person</i> <prase>دخول الداعمين</prase></a>
+      </btns>
+    </box></nav>
+            <form method="post" class="search binded" res_target="searchresult" id="search_head" jex_target="https://taseel.org.sa/home/search">
+      <inputbox>
+        <input type="search" name="search" value="" class="fs13 noborder a2ed" placeholder="بحث">
+        <button type="submit" class="noborder mi" style="padding:4px;">search</button>
+      </inputbox>
+      <searchresult></searchresult>
+    </form>
+    <script src="https://taseel.org.sa/lib/js/jq.js"></script>
+<script src="https://taseel.org.sa/lib/js/toast.js?v0.45" type="text/javascript"></script><link href="https://taseel.org.sa/lib/css/toast.css?v0.45" type="text/css" rel="stylesheet"><script src="https://taseel.org.sa/lib/js/oembed.js?v0.45" type="text/javascript"></script><script src="https://taseel.org.sa/lib/js/s2.js?v=0.45" type="text/javascript"></script><link href="https://taseel.org.sa/lib/css/s2.css?v=0.45" type="text/css" rel="stylesheet"><script type="text/javascript" src="https://taseel.org.sa/lib/js/mind.js?v=0.45"></script>
+<script type="text/javascript" src="https://taseel.org.sa/lib/js/shop.js?v=0.45"></script>
+<script src="https://taseel.org.sa/theme/donate/donate.js?v=0.45" charset="utf-8"></script>    <div class="main home_start">
+
+<h1 justseo="">جمعية تأصيل التعليمية</h1>
+<p justseo="">جمعيـة تعليمية مؤسسية تُعنى بتأصيل وتمهير الطلاب وتمكين الكفاءات والمنظمات بمنهجيات وأدوات حديثـة لتعميق الأثر العلميِّ في المجتمـع.</p>
+<script src="https://taseel.org.sa/lib/js/splide.js?v0.45" type="text/javascript"></script>  <section class="splide ads-container wide splide--loop splide--rtl splide--draggable is-active is-initialized is-overflow" aria-label="الإعلانات" nostyle="padding-bottom:10px;;overflow: hidden;" id="splide01" aria-roledescription="carousel">
+    <div class="splide__track splide__track--loop splide__track--rtl splide__track--draggable" id="splide01-track" style="padding-right: 0px; padding-left: 0px;" aria-live="off" aria-atomic="true" aria-busy="false">
+      <ul class="splide__list" id="splide01-list" role="presentation" style="transform: translateX(662.937px);">
+        <li class="splide__slide pc splide__slide--clone" id="splide01-clone01" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a href="https://taseel.disaq.sa/p/1/#share" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752145340_للكفالة اضغط.webp" width="100%" style="height:50vh;min-height:50vh" alt="إنجازات ">
+                                </a>
+                            </li><li class="splide__slide pc splide__slide--clone is-active" id="splide01-clone02" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true"><a href="https://taseel.org.sa/#" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752484720_قالوا عنا بنر عرضي.webp" width="100%" style="height:50vh;min-height:50vh" alt="قالوا عنا">
+                                </a>
+                            </li><li class="splide__slide pc splide__slide--clone" id="splide01-clone03" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true"><a href="https://taseel.org.sa/#" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1764752863_1764752615-ترخيص-جمع-تبرعات.webp" width="100%" style="height:50vh;min-height:50vh" alt="ترخيص جمع التبرعات">
+                                </a>
+                            </li><li class="splide__slide pc is-prev" id="splide01-slide01" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a href="https://taseel.disaq.sa/p/1/#share" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752145340_للكفالة اضغط.webp" width="100%" style="height:50vh;min-height:50vh" alt="إنجازات ">
+                                </a>
+                            </li><li class="splide__slide pc is-active" id="splide01-slide02" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3"><a href="https://taseel.org.sa/#" $blank="">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752484720_قالوا عنا بنر عرضي.webp" width="100%" style="height:50vh;min-height:50vh" alt="قالوا عنا">
+                                </a>
+                            </li><li class="splide__slide pc is-next" id="splide01-slide03" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true"><a href="https://taseel.org.sa/#" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1764752863_1764752615-ترخيص-جمع-تبرعات.webp" width="100%" style="height:50vh;min-height:50vh" alt="ترخيص جمع التبرعات">
+                                </a>
+                            </li>      <li class="splide__slide pc splide__slide--clone" id="splide01-clone04" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a href="https://taseel.disaq.sa/p/1/#share" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752145340_للكفالة اضغط.webp" width="100%" style="height:50vh;min-height:50vh" alt="إنجازات ">
+                                </a>
+                            </li><li class="splide__slide pc splide__slide--clone is-active" id="splide01-clone05" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true"><a href="https://taseel.org.sa/#" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1752484720_قالوا عنا بنر عرضي.webp" width="100%" style="height:50vh;min-height:50vh" alt="قالوا عنا">
+                                </a>
+                            </li><li class="splide__slide pc splide__slide--clone" id="splide01-clone06" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true"><a href="https://taseel.org.sa/#" $blank="" tabindex="-1">
+                <img src="https://taseel.org.sa/media/ads_photos//AD1764752863_1764752615-ترخيص-جمع-تبرعات.webp" width="100%" style="height:50vh;min-height:50vh" alt="ترخيص جمع التبرعات">
+                                </a>
+                            </li></ul>
+    </div>
+    <div class="splide__progress"><div class="splide__progress__bar" style="width: 54.18%;"></div></div>
+  <ul class="splide__pagination splide__pagination--rtl" role="tablist" aria-label="Select a slide to show"><li role="presentation"><button class="splide__pagination__page" type="button" role="tab" aria-controls="splide01-slide01" aria-label="Go to slide 1" tabindex="-1"></button></li><li role="presentation"><button class="splide__pagination__page is-active" type="button" role="tab" aria-controls="splide01-slide02" aria-label="Go to slide 2" aria-selected="true"></button></li><li role="presentation"><button class="splide__pagination__page" type="button" role="tab" aria-controls="splide01-slide03" aria-label="Go to slide 3" tabindex="-1"></button></li></ul></section>
+  <script type="text/javascript">
+    var ads=new Splide( '.ads-container' ,{
+          type       : 'loop',
+          autoplay   : 'play',
+          direction  : 'rtl',
+          lazyLoad   : 'nearby',
+          // trimSpace  : 'move',
+          arrows :false,
+          updateOnMove :true,
+          focus    : 'center',
+          autoWidth :true,
+          autoHeight :true,
+          // perPage    : 2,
+          breakpoints: {
+            // 640: { height: '6rem', },
+          },
+        } ).mount();
+  </script>
+<prodlist class="clear latestProducts">
+  <h2 class="title">جديد مشروعاتنا</h2>
+  <c class="pc-20 mob-50"><product class=" pb_1" quantity="unlimited">
+      <a class="popup popuped" popid="prodshow" href="https://taseel.org.sa/p/221/دعاة-الهدى">
+        <picture class="thumb">
+      <img src="https://taseel.org.sa/media/prods/221/17718787410.webp" alt="مشروع دعاة الهدىقال من دعا إلى هدى كان له مثل أجور من تبعهندعم المعلمين المباشرين لطلاب العلم حول العالم لمدة عام كامللتستمر رسالة العلم والهداية بلا توقف بدعمك تكون شريكا في كل قلب يهتديوكل علم ينشر وكل أجر يجزى به الداعية والمتبع بإذن الله" loading="lazy" width="100%" height="150px" style="object-fit: cover;">
+      <goal><progress class="w100" value="43" max="100" rate="43%" style="--rate:43%;"></progress><d>تم جمع <br>23,142 <curr><b curr="SAR"></b></curr></d><d>المتبقي<br>30,858 <curr><b curr="SAR"></b></curr></d></goal>    </picture>
+
+    <name>دعاة الهدى </name>
+  </a>
+        <price initprice="1050" changable="">حدد القيمة :</price>
+      <prices ptarget="1"><label><input class="hide a2ed" name="oprice_1" type="radio" value="150" pricechng="-900"><num>كفالة يوم</num></label><label><input class="hide a2ed" name="oprice_1" type="radio" value="450" pricechng="-600"><num>كفالة ثلاث أيام</num></label><label><input class="hide a2ed" name="oprice_1" type="radio" value="1050" pricechng="0"><num>كفالة أسبوع</num></label><label><input class="hide a2ed" name="oprice_1" type="radio" value="2250" pricechng="1200"><num>كفالة نصف شهر</num></label><label><input class="hide a2ed" name="oprice_1" type="radio" value="4500" pricechng="3450"><num>كفالة شهر</num></label><label><input class="hide a2ed" name="oprice_1" type="radio" value="9000" pricechng="7950"><num>كفالة شهرين</num></label></prices>  <add2cart has_price_options="" pid="221" openprice="" class="w100 ">
+    <i class="plus eved">add</i>
+    <input qu="" type="text" pattern="\d*" step="5" value="1050" max="500" placeholder="عدد" inputmode="numeric" class="a2ed">
+    <i class="minus eved">remove</i>
+    <curr> <b curr="SAR"></b></curr>
+    <flex class="w100">
+      <add class="eved"><phrase>تبرع</phrase></add>
+            <a class="qr_btn popup popuped" popid="qr_code" ico="qr_code" href="https://taseel.org.sa/home/auther/qr">تبرع بأمان</a>      <a class="popup popuped" popid="share" ico="share" href="https://taseel.org.sa/products/share/221"></a>
+          </flex>
+  </add2cart>
+    </product></c>
+<c class="pc-20 mob-50"><product class=" pb_2" quantity="unlimited">
+      <a class="popup popuped" popid="prodshow" href="https://taseel.org.sa/p/93/ميراث-صدقة-جارية-وعلم-ينتفع-به">
+        <picture class="thumb">
+      <img src="https://taseel.org.sa/media/prods/93/17715266930.webp" alt="مشروع ميراثليس دعما عابرا بل امتداد أثرهو كفالة لطالب علم يتبرع العلم الشرعيليحمله فهما ويبلغه تعليما ويورثه للأجيال من بعدهسهمك هنا لا يطعم يوما بل يبني عالماويجعل لك نصيبا في كل علم يتعلم وكل خير يعلمهذا ميراثك الذي يبقى" loading="lazy" width="100%" height="150px" style="object-fit: cover;">
+          </picture>
+
+    <name>ميراث - صدقة جارية وعلم ينتفع به</name>
+  </a>
+        <price initprice="65" changable="">حدد القيمة :</price>
+      <prices ptarget="2"><label><input class="hide a2ed" name="oprice_2" type="radio" value="65" pricechng="0"><num>كفالة طالب لمدة سنة</num></label><label><input class="hide a2ed" name="oprice_2" type="radio" value="130" pricechng="65"><num>كفالة طالبين لمدة سنة</num></label><label><input class="hide a2ed" name="oprice_2" type="radio" value="195" pricechng="130"><num>كفالة 3 طلاب لمدة سنة</num></label><label><input class="hide a2ed" name="oprice_2" type="radio" value="325" pricechng="260"><num>كفالة 5 طلاب لمدة سنة</num></label><label><input class="hide a2ed" name="oprice_2" type="radio" value="650" pricechng="585"><num>كفالة 10 طلاب لمدة سنة</num></label></prices>  <add2cart has_price_options="" pid="93" openprice="" class="w100 ">
+    <i class="plus eved">add</i>
+    <input qu="" type="text" pattern="\d*" step="5" value="65" max="500" placeholder="عدد" inputmode="numeric" class="a2ed">
+    <i class="minus eved">remove</i>
+    <curr> <b curr="SAR"></b></curr>
+    <flex class="w100">
+      <add class="eved"><phrase>تبرع</phrase></add>
+            <a class="qr_btn popup popuped" popid="qr_code" ico="qr_code" href="https://taseel.org.sa/home/auther/qr">تبرع بأمان</a>      <a class="popup popuped" popid="share" ico="share" href="https://taseel.org.sa/products/share/93"></a>
+          </flex>
+  </add2cart>
+    </product></c>
+<c class="pc-20 mob-50"><product class=" pb_3" quantity="unlimited">
+      <a class="popup popuped" popid="prodshow" href="https://taseel.org.sa/p/3/خماسية-البركة">
+        <picture class="thumb">
+      <img src="https://taseel.org.sa/media/prods/3/17678558920.webp" alt="مساهمتك في هذا المشروع المبارك تصرف في1 تعليم تفسير كتاب الله عز وجل2 تعليم الحديث النبوي الشريف3 تعليم العقيدة الصحيحة4 تعليم الفقه وأحكام الدين5 نشر العلم الشرعي" loading="lazy" width="100%" height="150px" style="object-fit: cover;">
+          </picture>
+
+    <name>خماسية البركة </name>
+  </a>
+        <price initprice="100" changable="">حدد القيمة :</price>
+      <prices ptarget="3"><label><input class="hide a2ed" name="oprice_3" type="radio" value="55" pricechng="-45"><num>55 سهم الفرد</num></label><label><input class="hide a2ed" name="oprice_3" type="radio" value="165" pricechng="65"><num>165 لك ولوالديك</num></label><label><input class="hide a2ed" name="oprice_3" type="radio" value="500" pricechng="400"><num>500 لك ولعائلتك</num></label></prices>  <add2cart has_price_options="" pid="3" openprice="" class="w100 ">
+    <i class="plus eved">add</i>
+    <input qu="" type="text" pattern="\d*" step="5" value="100" max="500" placeholder="عدد" inputmode="numeric" class="a2ed">
+    <i class="minus eved">remove</i>
+    <curr> <b curr="SAR"></b></curr>
+    <flex class="w100">
+      <add class="eved"><phrase>تبرع</phrase></add>
+            <a class="qr_btn popup popuped" popid="qr_code" ico="qr_code" href="https://taseel.org.sa/home/auther/qr">تبرع بأمان</a>      <a class="popup popuped" popid="share" ico="share" href="https://taseel.org.sa/products/share/3"></a>
+          </flex>
+  </add2cart>
+    </product></c>
+  <trans class="center w100 pad10">
+    <a href="https://taseel.org.sa/c/0/list" class="more-prods">المزيد <i ico="south_west"></i></a>  </trans>
+</prodlist>
+  <link rel="stylesheet" href="https://taseel.org.sa//sections/posts/pub/css/list.css?v=0.45">
+  <div class="posts_list wide">
+    <div class="pl_head">
+      <h2 ico="article" class="center">جديدنا</h2>
+      <center class="latestposts_hint">
+        
+        احصل على جديدنا جمعية تأصيل التعليمية,<br>
+        يمكنك الحصول على الجديد والمستجدات هنا :
+              </center>
+    </div>
+    <div class="latestposts splide splide--loop splide--rtl splide--draggable is-active is-initialized is-overflow" id="splide02" role="region" aria-roledescription="carousel">
+        <div class="splide__arrows splide__arrows--rtl"><button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide" aria-controls="splide02-track"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" focusable="false"><path d="m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z"></path></svg></button><button class="splide__arrow splide__arrow--next" type="button" aria-label="Go to first slide" aria-controls="splide02-track"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" focusable="false"><path d="m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z"></path></svg></button></div><div class="posts splide__track splide__track--loop splide__track--rtl splide__track--draggable" id="splide02-track" style="padding-right: 0px; padding-left: 0px;" aria-live="off" aria-atomic="true" aria-busy="false">
+          <ul class="splide__list grid_posts" id="splide02-list" role="presentation" style="transform: translateX(4351.5px);">
+                      <li class="splide__slide splide__slide--clone" id="splide02-clone01" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n7/توقيع-شراكة-مع-متحف-دار-النفائس-والمخطوطات" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/7/17721157910.webp" alt="توقيع شراكة مع متحف دار النفائس والمخطوطات." width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    توقيع شراكة مع متحف دار النفائس والمخطوطات.                </h3>
+                <hint>
+                  <desc>في إطار السعي لتحقيق التكامل المعرفي وخدمة التراث العلمي بما يسهم في تعزيز الهوية العلمية والثقافية  وقعت جمعية تأصيل شراكة مع متحف دار النفائس والمخطوطات</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li><li class="splide__slide splide__slide--clone" id="splide02-clone02" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n5/حفل-رحلة-أثر" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/5/17713191170.webp" alt="حفل رحلة أثر" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    حفل رحلة أثر                </h3>
+                <hint>
+                  <desc>أقامت جمعية تأصيل في مساء بهيج حفلها السنوي ليحكي مسيرة عام حافل بالإنجازnbspجاء ذلك بحضور جمع من الشركاء والوجهاء والداعمين وقادات القطاع في المنطقةاستعرض الحفل أبرز منجزات العام والقصص الملهمة التي صنعت أثرا حقيقيا في المجتمعفي أجواء تجسد لغة الفخر</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li><li class="splide__slide splide__slide--clone is-active" id="splide02-clone03" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n3/عقد-شراكة-مع-جامعة-المستقبل" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/3/17682071920.webp" alt="عقد شراكة مع جامعة المستقبل" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    عقد شراكة مع جامعة المستقبل                </h3>
+                <hint>
+                  <desc>في إطار سعيها لخدمة التعليم في شتى مجالته وحرصا على تفعيل التعاون المشترك مع الجهات ذات التخصص nbspوقعت جمعية تأصيل التعليمية شراكة مع جامعة المستقبلnbsp</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li><li class="splide__slide" id="splide02-slide01" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n7/توقيع-شراكة-مع-متحف-دار-النفائس-والمخطوطات" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/7/17721157910.webp" alt="توقيع شراكة مع متحف دار النفائس والمخطوطات." width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    توقيع شراكة مع متحف دار النفائس والمخطوطات.                </h3>
+                <hint>
+                  <desc>في إطار السعي لتحقيق التكامل المعرفي وخدمة التراث العلمي بما يسهم في تعزيز الهوية العلمية والثقافية  وقعت جمعية تأصيل شراكة مع متحف دار النفائس والمخطوطات</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li>
+                      <li class="splide__slide is-prev" id="splide02-slide02" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n5/حفل-رحلة-أثر" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/5/17713191170.webp" alt="حفل رحلة أثر" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    حفل رحلة أثر                </h3>
+                <hint>
+                  <desc>أقامت جمعية تأصيل في مساء بهيج حفلها السنوي ليحكي مسيرة عام حافل بالإنجازnbspجاء ذلك بحضور جمع من الشركاء والوجهاء والداعمين وقادات القطاع في المنطقةاستعرض الحفل أبرز منجزات العام والقصص الملهمة التي صنعت أثرا حقيقيا في المجتمعفي أجواء تجسد لغة الفخر</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li>
+                      <li class="splide__slide is-active is-visible" id="splide02-slide03" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3"><a class="post w100 flex-pc" href="https://taseel.org.sa/n3/عقد-شراكة-مع-جامعة-المستقبل">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/3/17682071920.webp" alt="عقد شراكة مع جامعة المستقبل" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    عقد شراكة مع جامعة المستقبل                </h3>
+                <hint>
+                  <desc>في إطار سعيها لخدمة التعليم في شتى مجالته وحرصا على تفعيل التعاون المشترك مع الجهات ذات التخصص nbspوقعت جمعية تأصيل التعليمية شراكة مع جامعة المستقبلnbsp</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li>
+                  <li class="splide__slide splide__slide--clone is-next" id="splide02-clone04" role="tabpanel" aria-roledescription="slide" aria-label="1 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n7/توقيع-شراكة-مع-متحف-دار-النفائس-والمخطوطات" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/7/17721157910.webp" alt="توقيع شراكة مع متحف دار النفائس والمخطوطات." width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    توقيع شراكة مع متحف دار النفائس والمخطوطات.                </h3>
+                <hint>
+                  <desc>في إطار السعي لتحقيق التكامل المعرفي وخدمة التراث العلمي بما يسهم في تعزيز الهوية العلمية والثقافية  وقعت جمعية تأصيل شراكة مع متحف دار النفائس والمخطوطات</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li><li class="splide__slide splide__slide--clone" id="splide02-clone05" role="tabpanel" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n5/حفل-رحلة-أثر" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/5/17713191170.webp" alt="حفل رحلة أثر" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    حفل رحلة أثر                </h3>
+                <hint>
+                  <desc>أقامت جمعية تأصيل في مساء بهيج حفلها السنوي ليحكي مسيرة عام حافل بالإنجازnbspجاء ذلك بحضور جمع من الشركاء والوجهاء والداعمين وقادات القطاع في المنطقةاستعرض الحفل أبرز منجزات العام والقصص الملهمة التي صنعت أثرا حقيقيا في المجتمعفي أجواء تجسد لغة الفخر</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li><li class="splide__slide splide__slide--clone is-active" id="splide02-clone06" role="tabpanel" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true"><a class="post w100 flex-pc" href="https://taseel.org.sa/n3/عقد-شراكة-مع-جامعة-المستقبل" tabindex="-1">
+              <post>
+                                  <picture class="thumb">
+                    <img class="" src="https://taseel.org.sa/media/posts/3/17682071920.webp" alt="عقد شراكة مع جامعة المستقبل" loading="lazy" width="300px" height="250px">
+                  </picture>
+                                <h3>
+                                    عقد شراكة مع جامعة المستقبل                </h3>
+                <hint>
+                  <desc>في إطار سعيها لخدمة التعليم في شتى مجالته وحرصا على تفعيل التعاون المشترك مع الجهات ذات التخصص nbspوقعت جمعية تأصيل التعليمية شراكة مع جامعة المستقبلnbsp</desc>
+                  <btn fleft="">تتمة القراءة</btn>
+                </hint>
+              </post>
+            </a></li></ul>
+      </div>
+      <div class="clear"></div>
+    <ul class="splide__pagination splide__pagination--rtl" role="tablist" aria-label="Select a slide to show"><li role="presentation"><button class="splide__pagination__page" type="button" role="tab" aria-controls="splide02-slide01" aria-label="Go to slide 1" tabindex="-1"></button></li><li role="presentation"><button class="splide__pagination__page" type="button" role="tab" aria-controls="splide02-slide02" aria-label="Go to slide 2" tabindex="-1"></button></li><li role="presentation"><button class="splide__pagination__page is-active" type="button" role="tab" aria-controls="splide02-slide03" aria-label="Go to slide 3" aria-selected="true"></button></li></ul></div>
+    <more><a class="btn" href="https://taseel.org.sa/posts/list">المزيد من جديدنا</a></more>
+  </div>
+  <script type="text/javascript">
+  var ads=new Splide( '.latestposts' ,{
+        type       : 'loop',
+        autoplay   : 'play',
+        direction  : 'rtl',
+        lazyLoad   : 'nearby',
+        // trimSpace  : 'move',
+        arrows :true,
+        updateOnMove :true,
+        focus    : 'center',
+        autoWidth :true,
+        autoHeight :true,
+        perPage    : 2,
+        breakpoints: {
+          // 640: { height: '6rem', },
+        },
+      } ).mount();
+  </script>
+    <link rel="stylesheet" href="https://taseel.org.sa//sections/pages/pub/css/view.css?v=0.45">
+         <slid page_14="" wide=""> <script src="https://taseel.org.sa/lib/js/cardslide.js?v0.45" type="text/javascript"></script><link href="https://taseel.org.sa/lib/css/cardslide.css?v0.45" type="text/css" rel="stylesheet"><style>.stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin: 80px auto;
+    list-style: none;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.stat {
+    width: 280px;
+    height: 250px; /* زدنا الارتفاع قليلاً لراحة العين */
+    background: #f8f9fa; /* خلفية فاتحة جداً لتعطي فخامة */
+    border-radius: 30px;
+    text-align: center;
+    padding: 30px 20px;
+    color: #333; /* نص داكن للتباين مع الخلفية الفاتحة */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+    animation: fadeUp 1s ease forwards;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* حاوية الأيقونة الدائرية */
+.icon-bg {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.stat i { font-size: 45px; }
+
+/* تخصيص الألوان لكل فئة (أيقونة + خلفيتها) */
+.program .icon-bg { background: rgba(201, 160, 106, 0.15); }
+.program i { color: #c9a06a; }
+
+.user .icon-bg { background: rgba(91, 127, 158, 0.15); }
+.user i { color: #5b7f9e; }
+
+.partner .icon-bg { background: rgba(47, 79, 111, 0.15); }
+.partner i { color: #2f4f6f; }
+
+.volunteer .icon-bg { background: rgba(201, 160, 106, 0.15); }
+.volunteer i { color: #c9a06a; }
+
+/* تأثيرات الحركة */
+.stat:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
+.stat:hover .icon-bg {
+    transform: scale(1.1);
+}
+
+.label {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.number {
+    font-size: 36px;
+    font-weight: 800;
+    color: #2f4f6f;
+    animation: bounceIn 1.5s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}</style>
+<div class="box pagebox page_14 wide" aria-label="التميز في أرقام">
+  <div class="flex-pc fwrap clear">
+    <h1 class="title" ico="insights">
+            التميز في أرقام    </h1>
+        <article class="pageinner pc-80">
+      <div class="page_view trans">
+        <ul class="stats"><li class="stat program"><div class="icon-bg"><i class="material-icons">auto_stories</i></div><div class="label">برنامج تعليمي</div><div class="number">+25</div></li><li class="stat user"><div class="icon-bg"><i class="material-icons">diversity_3</i></div><div class="label">مستفيد مباشر</div><div class="number">140,000</div></li><li class="stat partner"><div class="icon-bg"><i class="material-icons">handshake</i></div><div class="label">شريك نجاح</div><div class="number">+30</div></li><li class="stat volunteer"><div class="icon-bg"><i class="material-icons">volunteer_activism</i></div><div class="label">متطوع فاعل</div><div class="number">70</div></li></ul>              </div>
+          </article>
+</div>
+</div>
+ </slid>
+         <slid page_10="" wide=""> <style>.page_10 {
+    background: url(https://taseel.org.sa/media/storage/videos/bg01.webp) no-repeat center !important;
+    background-size: cover !important;border-radius:0;
+  	blockquote{background: rgb(255 255 255 / 12%) !important;max-width: 800px;}
+  	.title{color:#fff;}
+  	.page_view { display: flex ; flex-wrap: wrap; justify-content: center;}
+}</style>
+<div class="box pagebox page_10 wide" aria-label="قالو عنا">
+  <div class="flex-pc fwrap clear">
+    <h1 class="title">
+            قالو عنا    </h1>
+        <article class="pageinner pc-80">
+      <div class="page_view trans">
+        <ul class="cardslider"><li class="active" style="transform: none; z-index: 1; filter: none; opacity: 1;"><img class="image_resized image-style-align-right" style="aspect-ratio:454/481;width:200px;" src="https://taseel.org.sa//media/editor/1762838377.webp" width="454" height="481">وأشار سموه إلى جهود الجمعية التي تسهم في نشر العلم والتعليم ونشر المعرفة من خلال توظيف أحدث الوسائل والتطبيقات الحديثة في هذا المجال، مشيدًا سموه برسالة الجمعية في تأصيل العلم الشرعي وإيصاله إلى مختلف طلاب العلم.&nbsp;<br><strong>سمو: أمير منطقة القصيم</strong></li><li style="transform: translateX(120px) scale(0.8) perspective(16px) rotateY(-1deg); z-index: -1; filter: blur(5px); opacity: 0.6;"><img class="image_resized image-style-align-right image" style="aspect-ratio:800/905;width:200px;" src="https://taseel.org.sa//media/editor/1762837018.webp" width="800" height="905">فأحثُ أخواني ذوي الخير والمال واليسار أن يشاركوا بتعليم العلم بأموالهم؛ فمن لم يتمكَّن أن يُشارك بعلمه أو وقته وبدنه فليشارك بماله، سواء كانت المُساهمة من أموال الصدقات، أو الأوقاف والوصايا أو غير ذلك، وهذه المُشاركة داخلة في الحض على العلم وتعلمه.&nbsp;<br><strong>أ.د. خالد بن علي المشيقح</strong></li><button class="next">&gt;</button> <button class="prev">&lt;</button></ul>              </div>
+          </article>
+</div>
+</div>
+ </slid>
+    <script type="text/javascript" src="https://taseel.org.sa/sections/pages/pub/js/view.js"></script>
+  <script type="text/javascript">
+    _s('.top_menu a').addEvents('click',function(e){  var a=e.target;
+      if(a.getAttribute('data_id') && _('[page_'+a.getAttribute('data_id')+']')){ e.preventDefault(); _('[page_'+a.getAttribute('data_id')+']').scrollIntoView(); return false; }
+    });
+  </script>
+<link rel="stylesheet" href="https://taseel.org.sa/sections/home/pub/css/start.css?0.45" '="" charset="utf-8"><link rel="stylesheet" href="https://taseel.org.sa/theme/custom.css?v=0.45_4400"><hr>
+</div>
+<socials><wrap>
+<a aria-label="whatsapp" class="social ico-whatsapp fright" target="_blank" href="https://wa.me/966530966222"> <socialname>واتساب</socialname></a><a aria-label="email" class="social email fright" target="_blank" href="mailto:info@taseel.org.sa" ico="mail"><socialname>ايميل</socialname></a><a aria-label="callUs" class="social call fright" target="_blank" href="tel:530966222" ico="stay_current_portrait"><socialname>اتصال</socialname></a><a aria-label="twitter" class="social ico-twitter" target="_blank" href="https://www.twitter.com/j_taseel"> <socialname>@j_taseel</socialname></a><a aria-label="snapchat" class="social ico-snapchat" target="_blank" href="https://www.snapchat.com/add/j_taseel"> <socialname>j_taseel</socialname></a><a aria-label="instagram" class="social ico-instagram" target="_blank" href="https://www.instagram.com/j_taseel"> <socialname>j_taseel</socialname></a><a aria-label="youtube" class="social ico-youtube" target="_blank" href="https://www.youtube.com/channel/UCesW3v-OaRqJqPdqACBaj2w"> <socialname>channel/UCesW3v-OaRqJqPdqACBaj2w</socialname></a></wrap></socials>
+<footer> <wrap class="clear">
+<a aria-label="المساعدة" href="https://taseel.org.sa/support/start" class="popup getHelpBtn popuped" popid="getHelp" ico="chat"><txt>المساعدة</txt></a>
+<about class="pc-40 right">
+  <img src="https://taseel.org.sa/media/main/fi_taseel_icon.webp" style="width:50px;height:50px;" alt="logomark" class="favicon">
+  <ib fs20="">جمعية تأصيل التعليمية</ib>  <ib>ترخيص رقم 1815</ib>  <blockquote class="mr5">جمعيـة تعليمية مؤسسية تُعنى بتأصيل وتمهير الطلاب وتمكين الكفاءات والمنظمات بمنهجيات وأدوات حديثـة لتعميق الأثر العلميِّ في المجتمـع.</blockquote>
+  <ib class="ml10" ico="public">المملكة العربية السعودية,بريدة</ib>
+  <br><ib ico="location_on">حي الجزيرة</ib>
+</about>
+<ul class="menu pc-60">
+  <li false="" class="">
+      <a ico="business" aria-label="من نحن" href="https://taseel.org.sa/من-نحن" data_id="1">من نحن</a></li><li false="" class="">
+      <a ico="" aria-label="فرص التبرع" href="https://taseel.org.sa/p35/فرص-التبرع" data_id="35">فرص التبرع</a></li><li false="" class="">
+      <a ico="folder_special" aria-label="البرامج" href="https://taseel.org.sa/p5/البرامج" data_id="5">البرامج</a></li><li false="" class="">
+      <a ico="newspaper" aria-label="أخبارنا" href="https://taseel.org.sa/p6/أخبارنا" data_id="6">أخبارنا</a></li><li false="" class="">
+      <a ico="content_paste" aria-label="سياسة الخصوصية" href="https://taseel.org.sa/p33/سياسة-الخصوصية" data_id="33">سياسة الخصوصية</a></li><li false="" class="">
+      <a ico="alternate_email" aria-label="اتصل بنا" href="https://taseel.org.sa/p9/اتصل-بنا" data_id="9">اتصل بنا</a></li>  </ul>
+<hr>
+  <a class="auther popup popuped" popid="auther" href="https://taseel.org.sa/home/auther"><img src="https://taseel.org.sa/media/main/auther_logo.svg?v=1761638464" width="200px" height="100px" alt="جهة الترخيص"></a>
+  <div class="payways">
+          <pway><thumb style="background-image: url(https://taseel.org.sa/media/main/pw-creditcard.webp)"></thumb>بطاقات الدفع</pway>
+      </div>
+<div class="rights fright">
+    2026 © <b>جمعية تأصيل التعليمية</b>
+</div>
+<ib style="opacity:0.4;font-weight:normal;font-size:11px;display:inline-block !important;">&gt; تطوير <a href="https://disaq.sa" target="_blank">/ ديسق</a></ib>
+</wrap></footer>
+
+
+</body></html>

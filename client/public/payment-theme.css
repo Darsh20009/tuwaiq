@@ -1,0 +1,249 @@
+/* ═══════════════════════════════════════════════════════════════
+   جمعية طويق للخدمات الإنسانية — تخصيص بوابة دفع الراجحي
+   Al Rajhi iPayPipe Custom CSS Theme
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+/* ─── Global reset & font ─── */
+* {
+  font-family: 'Cairo', 'Segoe UI', Arial, sans-serif !important;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0a2a1a 0%, #0d3322 50%, #113d28 100%) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  direction: rtl;
+}
+
+/* ─── Main payment container ─── */
+#payment-form,
+.payment-container,
+.pg-container,
+form[id*="payment"],
+.main-content {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35) !important;
+  max-width: 480px !important;
+  margin: 20px auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+}
+
+/* ─── Header / Logo area ─── */
+.pg-header,
+.header,
+#header,
+.logo-area {
+  background: linear-gradient(135deg, #0a2a1a, #1a5c38) !important;
+  padding: 24px 30px !important;
+  text-align: center !important;
+  border-radius: 0 !important;
+}
+
+.pg-header img,
+.header img,
+.logo-area img {
+  max-height: 60px !important;
+  filter: brightness(0) invert(1) !important;
+}
+
+/* ─── Form body ─── */
+.form-body,
+.pg-body,
+.content-area {
+  padding: 28px 30px !important;
+}
+
+/* ─── Labels ─── */
+label,
+.field-label,
+.input-label {
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  color: #374151 !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+/* ─── Input fields ─── */
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+input[type="password"],
+select,
+.form-control,
+.input-field {
+  width: 100% !important;
+  height: 48px !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  font-family: 'Cairo', sans-serif !important;
+  color: #111827 !important;
+  background: #f9fafb !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  outline: none !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+select:focus,
+.form-control:focus {
+  border-color: #3F9E6C !important;
+  box-shadow: 0 0 0 4px rgba(63, 158, 108, 0.12) !important;
+  background: #ffffff !important;
+}
+
+/* ─── Pay / Submit button ─── */
+input[type="submit"],
+button[type="submit"],
+.btn-pay,
+.submit-btn,
+.pg-button,
+#submitBtn {
+  background: linear-gradient(135deg, #3F9E6C, #2d7a52) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 14px !important;
+  width: 100% !important;
+  height: 52px !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  font-family: 'Cairo', sans-serif !important;
+  cursor: pointer !important;
+  transition: transform 0.15s, box-shadow 0.15s !important;
+  box-shadow: 0 6px 20px rgba(63, 158, 108, 0.35) !important;
+  letter-spacing: 0.5px !important;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+.btn-pay:hover,
+.submit-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 28px rgba(63, 158, 108, 0.45) !important;
+}
+
+/* ─── Cancel / Back button ─── */
+.btn-cancel,
+.cancel-btn,
+a.back-link {
+  background: transparent !important;
+  color: #6b7280 !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 14px !important;
+  width: 100% !important;
+  height: 48px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  display: block !important;
+  line-height: 44px !important;
+  margin-top: 10px !important;
+  text-decoration: none !important;
+}
+
+/* ─── Card number field with icon ─── */
+.card-field,
+.card-number-wrapper {
+  position: relative !important;
+}
+
+/* ─── Payment methods badges ─── */
+.payment-methods,
+.card-brands,
+.pg-brands {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  margin: 12px 0 !important;
+  justify-content: flex-end !important;
+}
+
+.payment-methods img,
+.card-brands img {
+  height: 28px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 2px 4px !important;
+  background: #fff !important;
+}
+
+/* ─── Amount display ─── */
+.amount-display,
+.order-total,
+.pg-amount {
+  background: linear-gradient(135deg, #f0faf5, #e6f7ed) !important;
+  border: 2px solid #bbf0d4 !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  margin: 0 0 20px !important;
+  text-align: center !important;
+}
+
+.amount-display .amount,
+.order-total .total,
+.pg-amount .value {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  color: #1a5c38 !important;
+}
+
+.amount-display .currency,
+.pg-amount .currency {
+  font-size: 14px !important;
+  color: #3F9E6C !important;
+  font-weight: 700 !important;
+}
+
+/* ─── Error messages ─── */
+.error-msg,
+.field-error,
+.alert-danger,
+.pg-error {
+  color: #dc2626 !important;
+  background: #fef2f2 !important;
+  border: 1.5px solid #fecaca !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin: 6px 0 !important;
+}
+
+/* ─── Security badge ─── */
+.security-badge,
+.pg-secure,
+.ssl-badge {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  color: #6b7280 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 16px !important;
+  border-top: 1px solid #f3f4f6 !important;
+}
+
+/* ─── Footer ─── */
+.pg-footer,
+.payment-footer {
+  background: #f9fafb !important;
+  padding: 14px 20px !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  color: #9ca3af !important;
+  border-top: 1px solid #f0f0f0 !important;
+}

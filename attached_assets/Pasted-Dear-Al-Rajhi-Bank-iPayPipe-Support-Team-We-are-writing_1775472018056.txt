@@ -1,0 +1,71 @@
+Dear Al Rajhi Bank iPayPipe Support Team,
+
+We are writing regarding three topics for our iPayPipe integration at Tuwaiq Association for Humanitarian Services (جمعية طويق للخدمات الإنسانية).
+
+Topic 1 – Activate Samsung Pay
+We would like to enable Samsung Pay as a payment method on our iPayPipe payment page.
+
+Please advise on the steps required to activate Samsung Pay for our merchant account
+Are any additional agreements or configurations needed on your side?
+Will it appear automatically on the payment page once activated, or do we need to make changes in our integration?
+Topic 2 – Tokenization with Apple Pay & Samsung Pay Support
+Following our recent conversation, we understand that iPayPipe offers a tokenization / hosted fields solution that allows customers to enter card details directly on our website — without redirection — while card data is handled securely on Al Rajhi servers, removing the need for full PCI DSS certification.
+
+We would like to implement this and have the following questions:
+
+General Tokenization:
+
+Please provide the technical API documentation for the tokenization feature
+Does it use an embedded iFrame or a JavaScript SDK on our page?
+What is the API endpoint to generate a token from card data?
+How do we use the token to initiate a charge from our backend server?
+Are any additional merchant settings or agreements required to enable this?
+Is it available in a sandbox/test environment first?
+Apple Pay & Samsung Pay via Tokenization:
+
+We would also like to understand how Apple Pay and Samsung Pay fit into the tokenization flow:
+
+Does the tokenization solution support Apple Pay and Samsung Pay as input methods (i.e., can the customer pay using their wallet instead of manually entering card details)?
+If yes, does each wallet (Apple Pay / Samsung Pay) require separate activation or certificates (e.g., Apple Pay requires a merchant domain verification file)?
+What is the payment flow for wallet payments — does the tokenization API handle the wallet token automatically, or do we need separate API calls?
+Are there any additional fees or agreements for enabling Apple Pay or Samsung Pay through the tokenization feature?
+Topic 3 – Callback Issue (15 Pending Transactions Since April 4)
+As shared in our previous email, we have 15 real transactions stuck in pending status since April 4, 2026. Our server is receiving POST callbacks from your gateway, but:
+
+All fields (auth, ref, amt, result) arrive as empty strings
+Only paymentid and encrypted trandata are populated
+The trandata cannot be decrypted successfully on our end
+The last working transaction was:
+
+Payment ID: 700202609323710717 | 1 SAR | April 3, 2026 ✅
+Unresolved transactions (April 4–6, 2026) — all customers completed payment:
+
+Al Rajhi Payment ID	Amount	Date (UTC)
+700202609635241382	550 SAR	2026-04-06
+700202609633163301	500 SAR	2026-04-06
+700202609631804068	5,000 SAR	2026-04-06
+700202609620807142	100 SAR	2026-04-06
+700202609679385510	5,000 SAR	2026-04-06
+700202609613137294	12,000 SAR	2026-04-05
+700202609511321309	500 SAR	2026-04-05
+700202609588836447	12,000 SAR	2026-04-05
+700202609510967805	500 SAR	2026-04-05
+700202609589670773	500 SAR	2026-04-05
+700202609510299707	100 SAR	2026-04-05
+700202609509567049	350 SAR	2026-04-05
+700202609595709837	100 SAR	2026-04-05
+700202609551542406	500 SAR	2026-04-04
+700202609519137382	100 SAR	2026-04-04
+Total amount at risk: 37,900 SAR
+
+Please confirm:
+
+Are these transactions captured/successful on your side?
+Did anything change after April 3 in your callback format or encryption?
+Can you please manually trigger the callbacks for the above transactions, or share the final status for each?
+Our callback URL: https://d8d17c53-1390-46bd-a100-ee2127158600-00-36wxzy84cf2p7.kirk.replit.dev/api/donations/rajhi-callback
+
+We appreciate your prompt response on all three topics.
+
+Best regards,
+

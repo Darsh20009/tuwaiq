@@ -1,0 +1,173 @@
+<head><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+
+    
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="google-site-verification" content="sBtO8lO8mP-uhXzfSWACwglKFfAVNSXffD7DF_UBL3o">
+<meta name="facebook-domain-verification" content="6hznv36latc7ty6scwvn3njd634mal">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
+
+<link rel="apple-touch-icon" href="/assets/ico/pwa.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/assets/ico/pwa_152.png">
+<link rel="canonical" href="https://ehsan.sa/">
+<meta name="description" content="إحسان؛ منصة وطنية للعمل الخيري، تسهل عملية التبرع للفئات الأشد احتياجاً بسهولة وأمان وموثوقية.">
+<meta name="keywords" content="تبرع,إحسان,فرجت,أضحية,أضاحي,زكاة,صدقة,كفارة,إغاثة,هدية,عقيقة">
+<meta name="theme-color" content="#ffffff">
+
+
+<meta name="apple-itunes-app" content="app-id=1602515092">
+<meta name="keywords" content="تبرع, تبرعات, موقع تبرعات, برنامج تبرعات, تبرع اون لاين, منصة تبرع, تبرع صدقة جارية, اهداء تبرع, موقع تبرع, تبرعات خيرية, تبرع احسان, تبرع بالدم, سقيا الماء, متجر تبرع, جمعية تبرع, تبرع جمعية خيرية, تبرع يومي, تبرع شهري, تبرع دوري, تبرع وقف, تطبيق تبرع, تبرع رسائل, رسالة تبرع, تبرع سريع, تبرع عام, تبرع محتاج, تبرع فقير, استقطاع تبرع, تبرع باسم شخص, بطاقات تبرع, استقطاع شهري, زكاة الفطر,الزكاة و الدخل,مصلحة الزكاة والدخل,طريقة حساب الزكاة,حكم الزكاة,زكاة المال,زكاة الذهب,حساب الزكاة,حكم زكاة الفطر,حساب زكاة المال,تعريف الزكاة,مقدار الزكاة,حاسبة الزكاة,كفالة يتيم,كفالة اليتيم,صدقة يتيم,تبرع يتيم,كافل اليتيم,فضل كفالة اليتيم,كفالة يتيم شهرياً,طريقة كفالة يتيم,احسان كفالة يتيم,كيف اكفل يتيم,جمعية كفالة يتيم,شروط كفالة اليتيم,كفالة أرملة,كفالة أرامل,جمعية كفالة أرملة,كفالة مطلقة,كفالة الأيتام, صدقة جارية, تبرع صدقة جارية, أفضل الصدقة, صدقة الفطر, أنواع الصدقة الجارية, ماهي الصدقة, طرق الصدقة اليومية, حفر بئر صدقة جارية, صدقة جارية للمرحوم, أنواع الصدقات, صدقة سقيا الماء, وقف الصدقة الجارية, اهداء صدقة جارية, ماهي الصدقة, صدقة جارية للميت, كفاره, ما هي كفارة اليمين, ما هي كفارة يمين, قيمة الكفارة, كفارة صيام, كفارة الكذب, دفع كفارة اليمين, كفارة صيام رمضان, كفارة المجلس, اطعام عشرة مساكين, أنواع الكفارة, كم كفارة اليمين, اخراج كفارة اليمين, كم سعر كفارة اليمين, حساب كفارة يمين, جمعية كفارة يمين, جمعية خيرية كفارة, شروط كفارة اليمين, تسديد كفارة يمين, اطعام مسكين, اطعام ستين مسكين, طعام مسكين">
+
+
+<!-- Share Meta Tags -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:url" content="/">
+<meta property="og:site_name" content="منصة إحسان">
+<meta property="og:title" content="الصفحة الرئيسية - منصة إحسان">
+<meta property="og:image" content="https://ehsansocialimages.s3.me-south-1.amazonaws.com/social-global.png">
+<meta property="og:description" content="إحسان؛ منصة وطنية للعمل الخيري، تسهل عملية التبرع للفئات الأشد احتياجاً بسهولة وأمان وموثوقية.">
+
+<!-- <meta property="fb:app_id" content="123456"> -->
+<meta property="al:ios:app_name" content="Ehsan | إحسان">
+<meta property="al:ios:app_store_id" content="1602515092">
+<meta property="al:android:app_name" content="Ehsan | إحسان">
+<meta property="al:android:package" content="sa.gov.sdaia.ehsan">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="http://ehsan.sa">
+<meta name="twitter:site" content="@EhsanSA">
+<meta name="twitter:creator" content="@EhsanSA">
+<meta property="twitter:url" content="/">
+<meta property="twitter:image" content="https://ehsansocialimages.s3.me-south-1.amazonaws.com/social-global.png">
+<meta name="twitter:title" content="الصفحة الرئيسية - منصة إحسان">
+<meta name="twitter:description" content="إحسان؛ منصة وطنية للعمل الخيري، تسهل عملية التبرع للفئات الأشد احتياجاً بسهولة وأمان وموثوقية.">
+
+
+<meta name="twitter:app:country" content="SA">
+<meta name="twitter:app:id:iphone" content="1602515092">
+<meta name="twitter:app:id:ipad" content="1602515092">
+<meta name="twitter:app:name:iphone" content="Ehsan | إحسان">
+<meta name="twitter:app:name:ipad" content="Ehsan | إحسان">
+<meta name="twitter:app:url:iphone" content="https://apps.apple.com/us/app/ehsan-%D8%A5%D8%AD%D8%B3%D8%A7%D9%86/id1602515092">
+<meta name="twitter:app:url:ipad" content="https://apps.apple.com/us/app/ehsan-%D8%A5%D8%AD%D8%B3%D8%A7%D9%86/id1602515092">
+
+<meta name="twitter:app:name:googleplay" content="Ehsan | إحسان">
+<meta name="twitter:app:id:googleplay" content="sa.gov.sdaia.ehsan">
+<meta name="twitter:app:url:googleplay" content="https://play.google.com/store/apps/details?id=sa.gov.sdaia.ehsan">
+
+
+<script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/652bbb94/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script src="/src/js/elastic-apm-rum.umd.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-TB8ZLSD"></script><script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Ehsan|&#x625;&#x62D;&#x633;&#x627;&#x646;",
+      "operatingSystem":[ "ANDROID","IOS"],
+      "applicationCategory": "DonationApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "SAR"
+      }
+    }
+</script>
+
+<script type="application/ld+json">
+
+    { "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Ehsan|&#x625;&#x62D;&#x633;&#x627;&#x646;",
+        "url": "https://ehsan.sa/",
+        "logo": "https://ehsan.sa/assets/images/ehsan-logo-slogan.svg",
+            "parentOrganization": {
+        "@type": "Organization",
+        "name": "SDAIA|&#x633;&#x62F;&#x627;&#x64A;&#x627;",
+        "url": "https://sdaia.gov.sa/",
+        "logo": "https://sdaia.gov.sa/imgs/SDAIA_logo.svg"}
+    }
+    
+</script>
+
+    
+    <title>الصفحة الرئيسية - منصة إحسان </title>
+
+    
+
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="x-antiforgery-name" content="x-antiforgery-token">
+    <meta name="x-antiforgery-token" content="CfDJ8F6blf7zzxRDpkFRMPt9Y59uBLdIBMJlRVnBrNsCSUgl9xlAZAID4pjoiQiRZbsPMkXdlWymVbJy8cZhVmHn23hNCPzn-CTImrLjThHrBgrw0W7SNY8GfpXvb4XSRpgFsesXMVwo-YuW4L-j0NphpFY">
+
+    <link rel="merchant-validation" href="/applepay/validate">
+    <link rel="applePay-payment" href="/applepay/payment">
+
+    
+<link rel="stylesheet" href="/ehsan-ui/css/style.css">
+<link rel="stylesheet" href="/ehsan-ui/css/aosstyle.css">
+<link rel="stylesheet" href="/static/css/fontawesome.css">
+
+
+    
+
+    <!-- Google Tag Manager -->
+    <script src="/src/js/elastic-apm-rum.umd.js"></script>
+    <script>
+
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TB8ZLSD');
+    </script>
+    <!-- End Google Tag Manager -->
+    <script>
+        (function (d, s) {
+          const host = location.hostname;
+          const isLocal =
+            host === 'localhost' || host === '127.0.0.1' || host === '::1' || /\.local$/.test(host);
+
+          if (isLocal) { console.info('Elastic APM not loaded in local development.'); return; }
+
+          var j = d.createElement(s),
+              t = d.getElementsByTagName(s)[0];
+          j.src = '/src/js/elastic-apm-rum.umd.js';
+          j.onload = function () {
+            elasticApm.init({
+              serviceName: 'Ehsan-FrontEnd',
+              serverUrl: 'https://apm.unocm.sdaia.gov.sa',
+              serviceVersion: '5.14.0',
+              environment: 'Production',
+              breakdownMetrics: true,
+              propagateTracestate: true
+            });
+          };
+          t.parentNode.insertBefore(j, t);
+        })(document, 'script');
+    </script>
+
+    <script>
+
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/; SameSite=Strict; Secure`;
+        }
+
+       
+
+    </script>
+
+   
+</head>

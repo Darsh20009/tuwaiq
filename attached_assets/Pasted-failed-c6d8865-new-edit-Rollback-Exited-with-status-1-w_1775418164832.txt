@@ -1,0 +1,182 @@
+failed
+c6d8865
+new edit
+
+Rollback
+Exited with status 1 while building your code.
+Read our docs for common ways to troubleshoot your deploy.
+
+All logs
+Search
+Search
+
+Apr 5, 10:36 PM - 10:39 PM
+GMT+3
+
+
+
+==> Downloading cache...
+==> Cloning from https://github.com/Darsh20009/tuwaiq
+==> Checking out commit c6d886591ded3e8f06eb16bf381d25926ec04c32 in branch main
+==> Downloaded 322MB in 3s. Extraction took 6s.
+==> Using Node.js version 22.22.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Running build command 'npm install; npm run build'...
+added 1 package, and audited 637 packages in 2s
+97 packages are looking for funding
+  run `npm fund` for details
+15 vulnerabilities (2 low, 5 moderate, 7 high, 1 critical)
+To address issues that do not require attention, run:
+  npm audit fix
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+Some issues need review, and may require choosing
+a different dependency.
+Run `npm audit` for details.
+> rest-express@1.0.0 build
+> tsx script/build.ts
+building client...
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 3913 modules transformed.
+✗ Build failed in 6.60s
+client/src/pages/CaseFormPage.tsx (12:7): "default" is not exported by "client/src/components/Navbar.tsx", imported by "client/src/pages/CaseFormPage.tsx".
+file: /opt/render/project/src/client/src/pages/CaseFormPage.tsx:12:7
+10:   CheckCircle, MapPin, Loader2, Upload, AlertCircle, ChevronRight, Image, Video, Mic, FileText
+11: } from "lucide-react";
+12: import Navbar from "@/components/Navbar";
+           ^
+13: import Footer from "@/components/Footer";
+    at getRollupError (file:///opt/render/project/src/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///opt/render/project/src/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:16994:16)
+    at Module.traceVariable (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:17450:29)
+    at ModuleScope.findVariable (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:15113:39)
+    at FunctionScope.findVariable (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:5674:38)
+    at FunctionBodyScope.findVariable (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:5674:38)
+    at TrackingScope.findVariable (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:5674:38)
+    at Identifier.bind (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:5448:40)
+    at CallExpression.bind (/opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:2813:28) {
+  binding: 'default',
+  code: 'MISSING_EXPORT',
+  exporter: '/opt/render/project/src/client/src/components/Navbar.tsx',
+  id: '/opt/render/project/src/client/src/pages/CaseFormPage.tsx',
+  url: 'https://rollupjs.org/troubleshooting/#error-name-is-not-exported-by-module',
+  pos: 535,
+  loc: {
+    column: 7,
+    file: '/opt/render/project/src/client/src/pages/CaseFormPage.tsx',
+    line: 12
+  },
+  frame: '10:   CheckCircle, MapPin, Loader2, Upload, AlertCircle, ChevronRight, Image, Video, Mic, FileText\n' +
+    '11: } from "lucide-react";\n' +
+    '12: import Navbar from "@/components/Navbar";\n' +
+    '           ^\n' +
+    '13: import Footer from "@/components/Footer";',
+  watchFiles: [
+    '/opt/render/project/src/client/index.html',
+    '/opt/render/project/src/client/src/main.tsx',
+    '/opt/render/project/src/package.json',
+    '/opt/render/project/src/node_modules/react/jsx-runtime.js',
+    '/opt/render/project/src/node_modules/react-dom/client.js',
+    '/opt/render/project/src/client/src/App.tsx',
+    '/opt/render/project/src/client/src/index.css',
+    '/opt/render/project/src/node_modules/react/cjs/react-jsx-runtime.production.min.js',
+    '/opt/render/project/src/node_modules/react-dom/index.js',
+    '/opt/render/project/src/node_modules/react/index.js',
+    '/opt/render/project/src/node_modules/react-dom/cjs/react-dom.production.min.js',
+    '/opt/render/project/src/client/src/lib/queryClient.ts',
+    '/opt/render/project/src/node_modules/@tanstack/react-query/build/modern/index.js',
+    '/opt/render/project/src/client/src/components/ui/tooltip.tsx',
+    '/opt/render/project/src/node_modules/wouter/src/index.js',
+    '/opt/render/project/src/client/src/components/ui/toaster.tsx',
+    '/opt/render/project/src/client/src/pages/not-found.tsx',
+    '/opt/render/project/src/client/src/pages/Leaderboard.tsx',
+    '/opt/render/project/src/client/src/pages/Home.tsx',
+    '/opt/render/project/src/client/src/pages/Register.tsx',
+    '/opt/render/project/src/client/src/pages/Login.tsx',
+    '/opt/render/project/src/client/src/pages/Donate.tsx',
+    '/opt/render/project/src/client/src/pages/SetupPassword.tsx',
+    '/opt/render/project/src/node_modules/lucide-react/dist/esm/lucide-react.js',
+    '/opt/render/project/src/client/src/pages/admin/AdminContent.tsx',
+    '/opt/render/project/src/client/src/pages/Profile.tsx',
+    '/opt/render/project/src/client/src/pages/Admin.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminDonations.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminSettings.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminPages.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminUsers.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminTransfers.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminCampaigns.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminJobs.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminNews.tsx',
+    '/opt/render/project/src/client/src/pages/PaymentResult.tsx',
+    '/opt/render/project/src/client/src/pages/PaymentGatewayDone.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminApplications.tsx',
+    '/opt/render/project/src/client/src/contexts/payment-context.tsx',
+    '/opt/render/project/src/client/src/pages/SimulationPayment.tsx',
+    '/opt/render/project/src/client/src/components/MountainLoader.tsx',
+    '/opt/render/project/src/client/src/components/PushNotificationPrompt.tsx',
+    '/opt/render/project/src/client/src/components/PaymentOverlay.tsx',
+    '/opt/render/project/src/client/src/pages/BankAccounts.tsx',
+    '/opt/render/project/src/client/src/pages/Contact.tsx',
+    '/opt/render/project/src/client/src/pages/Goals.tsx',
+    '/opt/render/project/src/client/src/pages/Services.tsx',
+    '/opt/render/project/src/client/src/pages/Vision.tsx',
+    '/opt/render/project/src/client/src/pages/Certificates.tsx',
+    '/opt/render/project/src/client/src/pages/BankTransfer.tsx',
+    '/opt/render/project/src/client/src/pages/Founders.tsx',
+    '/opt/render/project/src/client/src/pages/ServiceDetail.tsx',
+    '/opt/render/project/src/client/src/pages/campaigns/CampaignDetail.tsx',
+    '/opt/render/project/src/client/src/pages/campaigns/Campaigns.tsx',
+    '/opt/render/project/src/client/src/pages/DonationSuccess.tsx',
+    '/opt/render/project/src/client/src/pages/Impact.tsx',
+    '/opt/render/project/src/client/src/pages/PrivacyPolicy.tsx',
+    '/opt/render/project/src/client/src/pages/Notifications.tsx',
+    '/opt/render/project/src/client/src/pages/ContentPage.tsx',
+    '/opt/render/project/src/client/src/components/WhatsAppButton.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminAnalytics.tsx',
+    '/opt/render/project/src/client/src/pages/admin/PosterGenerator.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminEmails.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminAttendance.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminStockMovements.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminLeave.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminNotifications.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminDeliveries.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminProducts.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminBeneficiaries.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminAI.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminQirox.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminSEO.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminSlider.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminCases.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Attendance.tsx',
+    '/opt/render/project/src/client/src/pages/CaseFormPage.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Transfers.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Dashboard.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Applications.tsx',
+    '/opt/render/project/src/client/src/pages/employee/LeaveRequests.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Chat.tsx',
+    '/opt/render/project/src/client/src/pages/employee/ProgrammerDashboard.tsx',
+    '/opt/render/project/src/client/src/pages/employee/AccountantDashboard.tsx',
+    '/opt/render/project/src/client/src/pages/employee/SalesDashboard.tsx',
+    '/opt/render/project/src/client/src/pages/employee/InternalMail.tsx',
+    '/opt/render/project/src/client/src/pages/employee/Cases.tsx',
+    '/opt/render/project/src/client/src/pages/delivery/DeliveryOrders.tsx',
+    '/opt/render/project/src/client/src/components/AppSidebar.tsx',
+    '/opt/render/project/src/client/src/components/ui/sidebar.tsx',
+    '/opt/render/project/src/client/src/components/DeliverySidebar.tsx',
+    '/opt/render/project/src/client/src/hooks/use-auth.ts',
+    '/opt/render/project/src/client/src/components/BiometricPromptDialog.tsx',
+    '/opt/render/project/src/client/src/pages/delivery/DeliveryDashboard.tsx',
+    '/opt/render/project/src/client/src/pages/admin/AdminReports.tsx',
+    '/opt/render/project/src/node_modules/react/cjs/react.production.min.js',
+    '/opt/render/project/src/node_modules/scheduler/index.js',
+    '/opt/render/project/src/node_modules/@tanstack/query-core/build/modern/index.js',
+    '/opt/render/project/src/node_modules/@tanstack/react-query/build/modern/useQueries.js',
+    '/opt/render/project/src/node_modules/@tanstack/react-query/build/modern/useQuery.js',
+    ... 3739 more items
+  ],
+  [Symbol(augmented)]: true
+}
+==> Build failed 😞
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

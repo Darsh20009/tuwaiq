@@ -1,0 +1,1567 @@
+<html dir="rtl" lang="ar"><head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+ <link rel="shortcut icon" href="favicons/images-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/lib-all.min.css">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/lib-animate.css">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/lib-bootstrap-rtl.min.css">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/lib-owl.carousel.min.css">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/lib-owl.theme.default.css">
+    <link rel="stylesheet" href="https://albir-makkah.sa/wp-content/themes/theme/site/css/css-style.css">
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+	<!-- This site is optimized with the Yoast SEO plugin v21.8 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>جمعية البر بمكة المكرمة -</title>
+	<link rel="canonical" href="https://albir-makkah.sa/">
+	<meta property="og:locale" content="ar_AR">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="جمعية البر بمكة المكرمة">
+	<meta property="og:url" content="https://albir-makkah.sa/">
+	<meta property="og:site_name" content="جمعية البر بمكة المكرمة">
+	<meta name="twitter:card" content="summary_large_image">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://albir-makkah.sa/","url":"https://albir-makkah.sa/","name":"جمعية البر بمكة المكرمة -","isPartOf":{"@id":"https://albir-makkah.sa/#website"},"breadcrumb":{"@id":"https://albir-makkah.sa/#breadcrumb"},"inLanguage":"ar"},{"@type":"BreadcrumbList","@id":"https://albir-makkah.sa/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"الرئيسية"}]},{"@type":"WebSite","@id":"https://albir-makkah.sa/#website","url":"https://albir-makkah.sa/","name":"جمعية البر بمكة المكرمة","description":"","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://albir-makkah.sa/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"ar"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/albir-makkah.sa\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.8.3"}};
+/*! This file is auto-generated */
+!function(s,n){var o,i,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),a=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===a[t]})}function u(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);for(var n=e.getImageData(16,16,1,1),a=0;a<n.data.length;a++)if(0!==n.data[a])return!1;return!0}function f(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\udedf")}return!1}function g(e,t,n,a){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):s.createElement("canvas"),o=r.getContext("2d",{willReadFrequently:!0}),i=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(function(e){i[e]=t(o,e,n,a)}),i}function t(e){var t=s.createElement("script");t.src=e,t.defer=!0,s.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",i=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){s.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+g.toString()+"("+[JSON.stringify(i),f.toString(),p.toString(),u.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"}),r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=function(e){c(n=e.data),r.terminate(),t(n)})}catch(e){}c(n=g(i,f,p,u))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script><style type="text/css" id="operaUserStyle"></style>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-rtl-css" href="https://albir-makkah.sa/wp-includes/css/dist/block-library/style-rtl.min.css?ver=6.8.3" type="text/css" media="all">
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="contact-form-7-css" href="https://albir-makkah.sa/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.6.4" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-rtl-css" href="https://albir-makkah.sa/wp-content/plugins/contact-form-7/includes/css/styles-rtl.css?ver=5.6.4" type="text/css" media="all">
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-KF8F5L2" id="google_gtagjs-js" async=""></script>
+<script type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["albir-makkah.sa"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-KF8F5L2");
+/* ]]> */
+</script>
+<link rel="https://api.w.org/" href="https://albir-makkah.sa/wp-json/"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://albir-makkah.sa/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.8.3">
+<meta name="generator" content="Site Kit by Google 1.166.0"><link rel="icon" href="https://albir-makkah.sa/wp-content/uploads/2024/01/cropped-Birukum_Ver1-32x32.jpg" sizes="32x32">
+<link rel="icon" href="https://albir-makkah.sa/wp-content/uploads/2024/01/cropped-Birukum_Ver1-192x192.jpg" sizes="192x192">
+<link rel="apple-touch-icon" href="https://albir-makkah.sa/wp-content/uploads/2024/01/cropped-Birukum_Ver1-180x180.jpg">
+<meta name="msapplication-TileImage" content="https://albir-makkah.sa/wp-content/uploads/2024/01/cropped-Birukum_Ver1-270x270.jpg">
+		<style type="text/css" id="wp-custom-css">
+			
+div#wpcf7-f1511-p1515-o1 {
+    width: 70%;
+}
+
+div#wpcf7-f1511-p1515-o1 input {
+    border-radius: 4px;
+    border: 1px solid #dedede;
+    width: 100%;
+}
+
+div#wpcf7-f1511-p1515-o1 label{
+	width:100%;
+}
+
+div#wpcf7-f1511-p1515-o1 
+inputp[type"submit"] {
+    border-radius: 4px;
+	background:#5CBCBE;
+    width: 100%;
+}
+
+
+
+.sub-menu .sub-menu {
+    right: 100%;
+    top: 0!important;
+	opacity:0; visibility:hidden
+}
+
+.sub-menu li.menu-item-has-children:hover .sub-menu{
+		opacity:1!important; visibility:visible!important
+
+}
+
+
+.sub-menu{
+	overflow:visible!important
+}
+
+
+l.sub-menu li {
+  position:relative
+}
+
+.page-id-1513 select,
+.page-id-1542 select{
+    height: 40px;
+    width: 31%;
+}
+
+.wpcf7-form-control-wrap {
+    position: relative;
+    width: 100%;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+
+		</style>
+		<script src="https://albir-makkah.sa/wp-includes/js/wp-emoji-release.min.js?ver=6.8.3" defer=""></script></head>
+
+<body class="rtl home blog wp-theme-theme">
+
+
+
+
+
+
+
+  <nav class="navbar">
+      <div class="top-nav">
+        <div class="container">
+          <div class="contain">
+            <ul class="data-icons">
+              <li class="button-contain">
+                <a href="https://albir-makkah.sa/wp-login.php" class="custom-btn">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-user.svg" alt="">
+
+                  <span>
+                    تسجيل الدخول
+                  </span>
+                </a>
+              </li>
+    
+              <li class="button-contain">
+                <a href="https://store.albir-makkah.sa/" class="custom-btn">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-cart.svg" alt="">
+
+                  <span>
+                    المتجر الالكتروني
+                  </span>
+                </a>
+              </li>
+            </ul>
+    
+            <ul class="socail-data">
+              <li>
+                <a href="mailTo:info@albir-makkah.sa">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-message_2.svg" alt="">
+                </a>
+              </li>
+    
+              <li>
+                <a href="tel:0125403487 واتساب:  966555155587+">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-mobile_phone.svg" alt="">
+                </a>
+              </li>
+              
+              <li>
+                <a href="https://www.facebook.com/Alber.makkah?locale=ar_AR">
+                  <img class="socail" src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-facebook.svg" alt="">
+                </a>
+              </li>
+    
+              <li>
+                <a href="https://www.instagram.com/Birrukum/">
+                  <img class="socail" src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-insta.svg" alt="">
+                </a>
+              </li>
+    
+              <li>
+                <a href="https://x.com/Birrukum">
+                  <img class="socail" src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-twiiter.svg" alt="">
+                </a>
+              </li>
+    
+              <li>
+                <a href="https://www.youtube.com/@albermakkahcharity8823">
+                  <img class="socail" src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-youtube.svg" alt="">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+
+        <div class="content">
+          <div class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+          </div>
+
+          <a href="https://albir-makkah.sa" class="brand-name">
+            <img src="https://albir-makkah.sa/wp-content/uploads/2024/02/الشعار-الأفقي-_رسمي_.png" alt="">
+          </a>
+
+
+           <ul class="navbar-nav"><li id="menu-item-71" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-71"><a href="https://albir-makkah.sa/" aria-current="page">الرئيسية</a></li>
+<li id="menu-item-227" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-227"><a href="#">عن الجمعية</a>
+<ul class="sub-menu">
+	<li id="menu-item-234" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-234"><a href="https://albir-makkah.sa/%d9%86%d8%b4%d8%a3%d8%a9-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">نشأة الجمعية</a></li>
+	<li id="menu-item-231" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-231"><a href="https://albir-makkah.sa/%d8%a3%d9%87%d8%af%d8%a7%d9%81-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">أهداف الجمعية</a></li>
+	<li id="menu-item-232" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-232"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%b1%d8%a4%d9%8a%d9%87-%d9%88%d8%a7%d9%84%d8%b1%d8%b3%d8%a7%d9%84%d9%87/">الرؤية والرسالة</a></li>
+	<li id="menu-item-233" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-233"><a href="https://albir-makkah.sa/%d9%85%d8%a4%d8%b3%d8%b3%d9%88-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-2/">مؤسسو الجمعية</a></li>
+	<li id="menu-item-238" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238"><a href="https://albir-makkah.sa/%d9%83%d9%84%d9%85%d8%a9-%d8%b1%d8%a6%d9%8a%d8%b3-%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d8%a7%d8%af%d8%a7%d8%b1%d8%a9/">كلمة رئيس مجلس الإدارة</a></li>
+	<li id="menu-item-237" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-237"><a href="https://albir-makkah.sa/%d8%a3%d8%b9%d8%b6%d8%a7%d8%a1-%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d8%a7%d8%af%d8%a7%d8%b1%d9%87/">أعضاء مجلس الإدارة</a></li>
+	<li id="menu-item-235" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-235"><a href="https://albir-makkah.sa/%d8%a3%d8%b9%d8%b6%d8%a7%d8%a1-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%b9%d9%85%d9%88%d9%85%d9%8a%d8%a9/">أعضاء الجمعية العمومية</a></li>
+	<li id="menu-item-242" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-242"><a href="https://albir-makkah.sa/%d9%85%d9%86%d8%b3%d9%88%d8%a8%d9%88%d8%a7-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">منسوبو الجمعية</a></li>
+	<li id="menu-item-496" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-496"><a href="https://albir-makkah.sa/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9/">برامج الجمعية</a></li>
+	<li id="menu-item-243" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-243"><a href="https://albir-makkah.sa/%d9%86%d8%b4%d8%b1%d8%a7%d8%aa-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9/">نشرات الجمعية</a></li>
+	<li id="menu-item-241" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241"><a href="https://albir-makkah.sa/%d8%aa%d9%82%d8%a7%d8%b1%d9%8a%d8%b1-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">تقارير الجمعية</a></li>
+	<li id="menu-item-239" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-239"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%a7%d8%b1%d8%ab-%d8%a7%d9%84%d8%aa%d8%a7%d8%b1%d9%8a%d8%ae%d9%8a/">الإرث التاريخي</a></li>
+</ul>
+</li>
+<li id="menu-item-226" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-226"><a href="#">الخدمات</a>
+<ul class="sub-menu">
+	<li id="menu-item-230" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-230"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%85%d8%b3%d8%aa%d9%81%d9%8a%d8%af%d9%8a%d9%86/">المستفيدين</a></li>
+	<li id="menu-item-2147" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2147"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%aa%d9%88%d8%b8%d9%8a%d9%81/">إعلانات الوظائف</a></li>
+	<li id="menu-item-1544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1544"><a href="https://albir-makkah.sa/%d8%a7%d9%8a%d9%82%d9%88%d9%86%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a7%d9%84%d8%a8%d8%b4%d8%b1%d9%8a%d8%a9/">التقدم للتوظيف</a></li>
+	<li id="menu-item-1529" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1529"><a href="https://albir-makkah.sa/%d8%aa%d8%b7%d9%88%d8%b9-%d8%a7%d9%84%d8%a7%d9%86/">تطوع الان</a></li>
+</ul>
+</li>
+<li id="menu-item-321" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-321"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%ad%d9%88%d9%83%d9%85%d8%a9/">الحوكمة</a>
+<ul class="sub-menu">
+	<li id="menu-item-223" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-223"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%86%d8%b8%d8%a7%d9%85-%d9%88%d8%a7%d9%84%d9%84%d8%a7%d8%a6%d8%ad%d8%a9-%d8%a7%d9%84%d8%a3%d8%b3%d8%a7%d8%b3%d9%8a%d8%a9/">اللائحة الأساسية</a></li>
+	<li id="menu-item-219" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-219"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%82%d9%88%d8%a7%d8%a6%d9%85-%d8%a7%d9%84%d9%85%d8%a7%d9%84%d9%8a%d8%a9/">القوائم المالية</a></li>
+	<li id="menu-item-218" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-218"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%b3%d9%8a%d8%a7%d8%b3%d8%a7%d8%aa-%d9%88%d8%a7%d9%84%d9%84%d9%88%d8%a7%d8%a6%d8%ad/">السياسات واللوائح</a></li>
+	<li id="menu-item-220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-220"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%84%d8%ac%d8%a7%d9%86/">اللجان</a></li>
+	<li id="menu-item-225" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-225"><a href="https://albir-makkah.sa/%d9%82%d9%8a%d8%a7%d8%b3-%d8%b1%d8%b6%d8%a7%d8%a1-%d8%a3%d8%b5%d8%ad%d8%a7%d8%a8-%d8%a7%d9%84%d8%b9%d9%84%d8%a7%d9%82%d9%87/">قياس رضاء أصحاب العلاقة</a></li>
+	<li id="menu-item-222" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-222"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%85%d9%8a%d8%ab%d8%a7%d9%82-%d8%a7%d9%84%d8%a3%d8%ae%d9%84%d8%a7%d9%82%d9%8a/">الميثاق الأخلاقي</a></li>
+	<li id="menu-item-221" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-221"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%85%d8%af%d9%8a%d8%b1-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a/">المسؤول التنفيذي</a></li>
+	<li id="menu-item-217" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-217"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%a7%d9%81%d8%b5%d8%a7%d8%ad/">الإفصاح</a></li>
+	<li id="menu-item-216" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-216"><a href="https://albir-makkah.sa/%d8%a7%d8%ad%d8%b5%d8%a7%d8%a6%d9%8a%d8%a7%d8%aa-%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d9%88%d8%a7%d9%84%d8%a7%d9%86%d8%b4%d8%b7%d8%a9/">إحصائيات البرامج والأنشطة</a></li>
+	<li id="menu-item-2379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2379"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%b3%d8%ac%d9%84-%d8%a7%d9%84%d8%aa%d8%ac%d8%a7%d8%b1%d9%8a/">السجل التجاري</a></li>
+</ul>
+</li>
+<li id="menu-item-214" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-214"><a href="#">الأخبار</a>
+<ul class="sub-menu">
+	<li id="menu-item-2613" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2613"><a href="https://albir-makkah.sa/%d9%88%d9%83%d9%8a%d9%84-%d9%88%d8%b2%d8%a7%d8%b1%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a7%d9%84%d8%a8%d8%b4%d8%b1%d9%8a%d8%a9-%d9%88%d8%a7%d9%84%d8%aa%d9%86%d9%85%d9%8a%d8%a9-%d8%a7/">وكيل وزارة الموارد البشرية والتنمية الاجتماعية يزور جمعية بركم</a></li>
+	<li id="menu-item-2596" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2596"><a href="https://albir-makkah.sa/%d8%aa%d8%af%d8%b4%d9%8a%d9%86-%d8%a8%d8%b1%d9%86%d8%a7%d9%85%d8%ac-%d9%83%d8%b3%d9%88%d8%a9-%d8%a7%d9%84%d8%b9%d9%8a%d8%af-%d8%a8%d8%aa%d8%b4%d8%b1%d9%8a%d9%81-%d8%b1%d8%a6%d9%8a%d8%b3-%d9%85%d8%ac/">تدشين برنامج كسوة العيد بتشريف رئيس مجلس الادارة المهندس هشام شلي وبالشراكة مع بن ناجي العمودي</a></li>
+	<li id="menu-item-2591" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2591"><a href="https://albir-makkah.sa/%d8%a8%d8%b1%d9%83%d9%85-%d8%aa%d8%aa%d9%88%d8%a7%d8%ac%d8%af-%d8%a8%d9%85%d8%ad%d8%b7%d8%a9-%d9%83%d8%af%d8%a7%d9%86%d8%a9-%d8%8c-%d8%a8%d8%a8%d8%b1%d9%86%d8%a7%d9%85%d8%ac-%d9%83%d8%b3%d8%b1%d8%a9/">بركم تتواجد بمحطة كدانة ، ببرنامج (كسرة صائم )</a></li>
+	<li id="menu-item-2597" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2597"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%a8%d8%b1%d9%83%d9%85-%d8%aa%d9%86%d9%81%d8%b0-%d8%a8%d8%b1%d9%86/">جمعية البر بمكة المكرمة ( بركم ) تنفذ برنامج افطار صائم بمواقف الزائدي</a></li>
+	<li id="menu-item-2281" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2281"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1%d9%91-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%ad%d8%aa%d9%81%d9%84-%d8%a8%d8%a7%d9%84%d9%8a%d9%88%d9%85/">جمعية البرّ بمكة المكرمة تحتفل باليوم الوطني السعودي 93</a></li>
+	<li id="menu-item-1880" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1880"><a href="https://albir-makkah.sa/%d8%a8%d8%b1%d9%91-%d9%85%d9%83%d8%a9-%d8%aa%d9%8e%d8%b1%d9%88%d9%8a-%d8%a7%d9%84%d8%ad%d8%ac%d8%a7%d8%ac-%d9%88%d8%a7%d9%84%d9%85%d8%b9%d8%aa%d9%85%d8%b1%d9%8a%d9%86/">برّ مكة تَروي الحجاج والمعتمرين</a></li>
+	<li id="menu-item-2159" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2159"><a href="https://albir-makkah.sa/%d9%85%d9%88%d8%b9%d8%af-%d8%a7%d9%86%d8%b9%d9%82%d8%a7%d8%af-%d8%a7%d8%ac%d8%aa%d9%85%d8%a7%d8%b9-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%b9%d9%85%d9%88%d9%85%d9%8a%d8%a9-%d8%a7/">موعد انعقاد اجتماع الجمعية العمومية العادي والغير عادي لعام ٢٠٢٢ م</a></li>
+	<li id="menu-item-1787" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1787"><a href="https://albir-makkah.sa/%d8%ac%d8%a7%d9%86%d8%a8-%d9%85%d9%86-%d9%85%d8%b4%d8%a7%d8%b1%d9%83%d8%a9-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9/">جانب من مشاركة جمعية البر بمكة المكرمة في المعرض الدولي للقطاع غير الربحي والأوقاف بالرياض</a></li>
+	<li id="menu-item-2357" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2357"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9/">جمعية البر بمكة</a></li>
+	<li id="menu-item-1768" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1768"><a href="https://albir-makkah.sa/%d8%ac%d8%a7%d9%86%d8%a8-%d9%85%d9%86-%d8%aa%d8%af%d8%b1%d9%8a%d8%a8-%d9%85%d8%aa%d8%b7%d9%88%d8%b9%d9%8a-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%b9/">جانب من&nbsp; تدريب متطوعي جمعية البر بمكة على مهارات استخدام برامج office</a></li>
+	<li id="menu-item-976" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-976"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%85%d9%88%d9%82%d8%b9-%d8%a7%d9%84%d8%a7%d9%84%d9%83%d8%aa%d8%b1%d9%88%d9%86%d9%8a/">جمعية البر بمكة المكرمة تطلق موقعها الإلكتروني بحلّة جديدة</a></li>
+	<li id="menu-item-987" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-987"><a href="https://albir-makkah.sa/%d8%a7%d8%aa%d9%81%d8%a7%d9%82%d9%8a%d8%a9-%d8%aa%d8%b9%d8%a7%d9%88%d9%86-%d8%a8%d9%8a%d9%86-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9_%d8%a7%d9%84%d8%a8%d8%b1_%d8%a8%d9%85%d9%83%d8%a9_%d8%a7%d9%84%d9%85%d9%83/">اتفاقية تعاون بين جمعية البر بمكة المكرمة و جمعية الأيدي الحرفية</a></li>
+	<li id="menu-item-1348" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1348"><a href="https://albir-makkah.sa/%d8%af-%d8%a8%d9%8a%d8%a7%d8%b1%d9%8a-%d9%84%d9%80%d8%a7%d9%84%d9%85%d8%af%d9%8a%d9%86%d8%a9-%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a3%d9%83%d8%a8%d8%b1-%d8%aa%d8%ad/">د. بياري لـ”المدينة”: قلة الموارد أكبر تحديات مؤسسات المجتمع المدني</a></li>
+	<li id="menu-item-1013" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1013"><a href="https://albir-makkah.sa/%d8%ad%d8%a7%d8%b6%d9%86%d8%a9_%d8%a2%d8%ab%d8%a7%d8%b1%d9%87%d9%85-%d8%aa%d9%83%d8%b1%d9%85-%d9%81%d8%b1%d9%8a%d9%82-%d8%a8%d8%b1%d9%83%d9%85_%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9%d9%8a-%d8%a8%d9%85/">حاضنة آثارهم تكرم فريق بركم التطوعي بمركز التنمية الاجتماعية بـمكة المكرمة</a></li>
+	<li id="menu-item-1039" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1039"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9_%d8%a7%d9%84%d8%a8%d8%b1%d9%91_%d8%a8%d9%85%d9%83%d8%a9_%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b3%d8%aa%d9%82%d8%a8%d9%84-%d8%b9%d8%af%d8%af%d8%a7%d9%8b/">جمعية البرّ بمكة المكرمة تستقبل عدداً من مدراء الجمعيات الخيرية</a></li>
+	<li id="menu-item-1050" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1050"><a href="https://albir-makkah.sa/%d9%82%d8%b3%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a8%d9%80-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9_%d8%a7%d9%84%d8%a8%d8%b1_%d8%a8%d9%85%d9%83%d8%a9_%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d9%8a/">قسم التطوع بـجمعية البر بمكة المكرمة يحصد لقب الوحدة التطوعية الملهمة لعام 2022م</a></li>
+	<li id="menu-item-1074" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1074"><a href="https://albir-makkah.sa/%d9%85%d8%af%d9%8a%d8%b1-%d9%81%d8%b1%d8%b9-%d9%87%d9%8a%d8%a6%d8%a9-%d8%a7%d9%84%d8%b5%d8%ad%d9%81%d9%8a%d9%8a%d9%86-%d9%81%d9%8a-%d9%85%d9%83%d8%a9_%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%a7/">مدير فرع هيئة الصحفيين في مكة المكرمة في ضيافة جمعية البر بمكة المكرمة</a></li>
+	<li id="menu-item-1081" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1081"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a-%d9%84%d8%b4%d8%b1%d9%83%d8%a9-%d8%a7%d9%86%d9%81%d8%b3%d8%aa%d9%83%d9%88%d8%b1%d8%a8-%d9%8a%d8%ad%d9%84%d9%91/">الرئيس التنفيذي لشركة (انفستكورب) يحلّ ضيفًا على طاولة مجلس إدارة جمعية البر لمناقشة طرق الاستثمار المُثلى للجمعية</a></li>
+	<li id="menu-item-1088" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1088"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9_%d8%a7%d9%84%d8%a8%d8%b1_%d8%a8%d9%85%d9%83%d8%a9_%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b9%d9%82%d8%af-%d9%84%d9%82%d8%a7%d8%a1-%d9%85%d8%b9-%d8%ac%d9%85/">جمعية البر بمكة المكرمة تعقد لقاء مع جمعية الدواء</a></li>
+	<li id="menu-item-1365" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1365"><a href="https://albir-makkah.sa/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%ad%d8%aa%d9%81%d9%8a-%d8%a8%d8%a7%d9%84%d9%85%d8%aa%d8%b7%d9%88/">في يوم التطوع السعودي جمعية البر بمكة تحتفي بالمتطوعين والمتطوعات</a></li>
+</ul>
+</li>
+<li id="menu-item-213" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-213"><a href="#">الحسابات البنكية</a>
+<ul class="sub-menu">
+	<li id="menu-item-318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-318"><a href="https://albir-makkah.sa/%d8%a3%d8%b1%d9%82%d8%a7%d9%85-%d8%ad%d8%b3%d8%a7%d8%a8%d8%a7%d8%aa-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">أرقام حسابات الجمعية</a></li>
+	<li id="menu-item-2444" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2444"><a href="https://albir-makkah.sa/%d8%a3%d8%b1%d9%82%d8%a7%d9%85-%d8%ad%d8%b3%d8%a7%d8%a8%d8%a7%d8%aa-%d8%a7%d9%84%d9%88%d9%82%d9%81-%d9%84%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d8%a9/">الحسابات البنكية لمشاريع أوقاف الجمعية المستقبلية</a></li>
+</ul>
+</li>
+<li id="menu-item-98" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href="https://albir-makkah.sa/%d8%aa%d9%88%d8%a7%d8%b5%d9%84-%d9%85%d8%b9%d9%86%d8%a7/">تواصل معنا</a></li>
+<li id="menu-item-1653" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1653"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%85%d8%af%d9%88%d9%86%d8%a9/">المدونة</a></li>
+</ul>        </div>
+      </div>
+    </nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 15px!important;">
+        <video width="100%" controls="">
+  <source src="https://albir-makkah.sa/wp-content/uploads/2023/02/600x200-2.jpg" type="video/mp4">
+  <source src="https://albir-makkah.sa/wp-content/uploads/2023/02/600x200-2.jpg" type="video/ogg">
+  Your browser does not support HTML video.
+</video>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <main>
+      <header>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-5 col-12 mb-4">
+              <div class="contain">
+               
+<h1 style="direction: rtl;"><span style="color: #5bbbbd;">جمعية البر بمكة المكرمة </span></h1>
+<h3 style="direction: rtl;"><strong><span style="color: #5bbbbd;"><span style="color: #333333;">&nbsp;</span>Al Bir Society in Makkah</span></strong></h3>
+<p>&nbsp;</p>
+<p style="direction: rtl;"><span style="color: #999999;">أول جمعية برّ بالمملكة تأسست 1371هـ</span></p>
+<p style="direction: rtl;"><span style="color: #000000;">مسجلة بوزارة الموارد البشرية والتنمية الاجتماعية برقم 57.</span></p>
+
+
+                <div class="button-contain">
+                  <a href="" class="custom-btn">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                    <span>
+                     شاهد المزيد
+                    </span>
+                  </a>
+
+                  <a data-toggle="modal" data-target="#exampleModal" class="video-play">
+                    <div class="video-image-content">
+                      <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-video.svg" alt="">
+                    </div>
+
+                    <span>
+                      نبذه عنا
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-7 col-12 mb-4">
+              <div class="image-content">
+                <img src="https://albir-makkah.sa/wp-content/uploads/2025/03/Picture.jpeg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="about-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+              <div class="contain">
+                
+                <h1>أهداف الجمعية</h1>
+
+                <blockquote>
+<h2 class="sub-desc" style="direction: rtl;"><strong><span style="color: #333333;">الأهداف الاستراتيجية لجمعية البر بمكة المكرمة</span></strong></h2>
+<h2 class="sub-desc" style="direction: rtl;"><!--more--></h2>
+<p>١-تقديم المساعدات المادية والعينية للفئات المحتاجة<br>
+٢- تحسين المستوى المعيشي للفئة المستفيدة<br>
+٣- تأهيل الأسر المستفيدة وتمكينهم للاعتماد على أنفسهم<br>
+٤- تدريب أبناء المستفيدين وتأهيلهم لسوق العمل<br>
+٥- تقديم المساعدات الطارئة في أوقات الكوارث والأزمات<br>
+٦- تنفيذ ودعم المشاريع والبرامج الموسمية</p></blockquote>
+
+                <a href="#" class="custom-btn">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                  <span>
+                   شاهد المزيد
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-12">
+              <div class="row">
+
+
+              	                                                                      
+
+                <div class="col-lg-6 col-6 mb-4">
+                  <div class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/images-hashtag-copy-04.svg" alt="">
+    
+                    <h2>
+                      القرض الحسن                    </h2>
+						<a href="https://birmakkah.com/BirPubEServices" class="overlay"></a>
+                  </div>
+                </div>
+
+
+
+                <div class="col-lg-6 col-6 mb-4">
+                  <div class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/images-hashtag-copy-03.svg" alt="">
+    
+                    <h2>
+                      المتجر                    </h2>
+						<a href="https://store.albir-makkah.sa/" class="overlay"></a>
+                  </div>
+                </div>
+
+
+
+                <div class="col-lg-6 col-6 mb-4">
+                  <div class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/images-hashtag-copy-01.svg" alt="">
+    
+                    <h2>
+                      غسيل الكلى                    </h2>
+						<a href="https://store.albir-makkah.sa/products/%D8%BA%D8%B3%D9%8A%D9%84-%D9%83%D9%84%D9%89" class="overlay"></a>
+                  </div>
+                </div>
+
+
+
+                <div class="col-lg-6 col-6 mb-4">
+                  <div class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/images-hashtag-copy-02.svg" alt="">
+    
+                    <h2>
+                      كفالة الأيتام                    </h2>
+						<a href="https://store.albir-makkah.sa/products/%D9%83%D9%81%D8%A7%D9%84%D8%A9-%D9%8A%D8%AA%D9%8A%D9%85" class="overlay"></a>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-us about-revers">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+              <div class="image-content">
+                <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-about_us.png" alt="">
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-12">
+              <div class="contain">
+                <h1>
+                  نشأة الجمعية
+                </h1>
+
+
+                <p>سبعون عاماً في خدمة فقراء الحرم</p>
+<p>جمعية البر بمكة المكرمة هي أول جمعية بـر بالمملكة العربية السعودية، تأسست عام 1951م/1371هـ تحت مسمى (هيئة صندوق البر)، بمبادرة من مجموعة من المؤسسين– يرحمهم الله. وتخدم الجمعية الفقراء المقيمين داخل حدود الحرم، بالإضافة إلى خدمة زوار بيت الله الحرام. بينما يوجد جمعيات بر أخرى في منطقة مكة المكرمة الإدارية والتي تمتد لمساحات شاسعة خارج حدود الحرم..</p>
+
+
+
+                <a href="#" class="custom-btn">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                  <span>
+                   شاهد المزيد
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects primary-project pattern-shape-left">
+        <div class="container">
+          <div class="heading">
+            <p>
+             شاهد أحدث الفعاليات
+            </p>
+
+            <h1>
+              الفعاليات
+            </h1>
+          </div>
+          
+          <div class="row">
+
+  
+                    
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="project-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/IMG-20221208-WA0112-2.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  
+
+    			 <p class="tag">
+                   عنوان الحدث
+                  </p>
+
+                   <h2>
+                    جمعية البر تحتفل بيوم التطوع السعودي والعالمي                  </h2>
+
+                  <p> <a href="https://albir-makkah.sa/activities/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%aa%d8%ad%d8%aa%d9%81%d9%84-%d8%a8%d9%8a%d9%88%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a-%d9%88/#more-1531" class="more-link"><span aria-label="تابع قراءة جمعية البر تحتفل بيوم التطوع السعودي والعالمي">(المزيد…)</span></a></p>
+
+                  <a href="https://albir-makkah.sa/activities/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%aa%d8%ad%d8%aa%d9%81%d9%84-%d8%a8%d9%8a%d9%88%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a-%d9%88/" class="custom-btn">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                    <span>
+                      شاهد المزيد
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="project-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FhxzNqKXkAEIydl-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  
+
+    			 <p class="tag">
+                   عنوان الحدث
+                  </p>
+
+                   <h2>
+                    أطفال جمعية البر بمكة يدعمون الأخضر                  </h2>
+
+                  <p style="text-align: center;"><span style="color: #333333;">في بادرة اجتماعية ووطنية رائعة</span></p>
+<p style="text-align: center;"> <a href="https://albir-makkah.sa/activities/%d8%a3%d8%b7%d9%81%d8%a7%d9%84-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%8a%d8%af%d8%b9%d9%85%d9%88%d9%86-%d8%a7%d9%84%d8%a3%d8%ae%d8%b6%d8%b1/#more-1509" class="more-link"><span aria-label="تابع قراءة أطفال جمعية البر بمكة يدعمون الأخضر">(المزيد…)</span></a></p>
+
+                  <a href="https://albir-makkah.sa/activities/%d8%a3%d8%b7%d9%81%d8%a7%d9%84-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%8a%d8%af%d8%b9%d9%85%d9%88%d9%86-%d8%a7%d9%84%d8%a3%d8%ae%d8%b6%d8%b1/" class="custom-btn">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                    <span>
+                      شاهد المزيد
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          
+
+
+            <div class="col-12">
+              <div class="button-more-contain">
+                <a href="https://albir-makkah.sa/%d8%a7%d9%84%d9%81%d8%b9%d8%a7%d9%84%d9%8a%d8%a7%d8%aa/" class="custom-btn">
+                  <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-donation.png" alt="">
+
+                  <span>
+                     المزيد
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="banner">
+        <div class="container">
+          <a href="##">
+            <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-banner.jpg" alt="">
+          </a>
+        </div>
+      </section>
+
+      <section class="blog">
+        <div class="container">
+          <div class="heading">
+            <p>
+              جميع الاخبار الخاصة بنا
+            </p>
+
+            <h1>
+              المركز الاعلامي 
+            </h1>
+          </div>
+          
+          <div class="owl-carousel owl-theme owl-projects owl-rtl owl-loaded owl-drag" dir="ltr">
+
+
+                    
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+            
+
+            
+          
+
+
+          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(2485px, 0px, 0px); transition: 2s; width: 7100px;"><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/Fk1UNg4XoAM9pDb-2.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1%d9%91-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b3%d8%aa%d9%82%d8%a8%d9%84-%d8%b9%d8%af%d8%af%d8%a7%d9%8b/" class="title">
+                  
+                  جمعية البرّ بمكة تستقبل عدداً من مدراء الجمعيات الخيرية                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1%d9%91-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b3%d8%aa%d9%82%d8%a8%d9%84-%d8%b9%d8%af%d8%af%d8%a7%d9%8b/#more-1588" class="more-link"><span aria-label="تابع قراءة جمعية البرّ بمكة تستقبل عدداً من مدراء الجمعيات الخيرية">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/cdn4.premiumread-2.webp" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%af-%d8%a8%d9%8a%d8%a7%d8%b1%d9%8a-%d9%84%d9%80%d8%a7%d9%84%d9%85%d8%af%d9%8a%d9%86%d8%a9-%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a3%d9%83%d8%a8%d8%b1/" class="title">
+                  
+                  د. بياري لـ”المدينة”: قلة الموارد أكبر تحديات مؤسسات المجتمع المدني                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%af-%d8%a8%d9%8a%d8%a7%d8%b1%d9%8a-%d9%84%d9%80%d8%a7%d9%84%d9%85%d8%af%d9%8a%d9%86%d8%a9-%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a3%d9%83%d8%a8%d8%b1/#more-1574" class="more-link"><span aria-label="تابع قراءة د. بياري لـ”المدينة”: قلة الموارد أكبر تحديات مؤسسات المجتمع المدني">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      فبراير 19, 2023                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/Fm_bU1oXkAQTwJk-2.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%a7%d8%aa%d9%81%d8%a7%d9%82%d9%8a%d8%a9-%d8%aa%d8%b9%d8%a7%d9%88%d9%86-%d8%a8%d9%8a%d9%86-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%88%d8%ac%d9%85%d8%b9/" class="title">
+                  
+                  اتفاقية تعاون بين جمعية البر بمكة وجمعية الأيدي الحرفية                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%a7%d8%aa%d9%81%d8%a7%d9%82%d9%8a%d8%a9-%d8%aa%d8%b9%d8%a7%d9%88%d9%86-%d8%a8%d9%8a%d9%86-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%88%d8%ac%d9%85%d8%b9/#more-1553" class="more-link"><span aria-label="تابع قراءة اتفاقية تعاون بين جمعية البر بمكة وجمعية الأيدي الحرفية">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FnkvJTwWQAUaN7M-3.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%ad%d8%a7%d8%b6%d9%86%d8%a9-%d8%a2%d8%ab%d8%a7%d8%b1%d9%87%d9%85-%d8%aa%d9%83%d8%b1%d9%91%d9%85-%d9%81%d8%b1%d9%8a%d9%82-%d8%a8%d8%b1%d9%83%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9%d9%8a/" class="title">
+                  
+                  حاضنة آثارهم تكرّم فريق بركم التطوعي                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%ad%d8%a7%d8%b6%d9%86%d8%a9-%d8%a2%d8%ab%d8%a7%d8%b1%d9%87%d9%85-%d8%aa%d9%83%d8%b1%d9%91%d9%85-%d9%81%d8%b1%d9%8a%d9%82-%d8%a8%d8%b1%d9%83%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9%d9%8a/#more-1546" class="more-link"><span aria-label="تابع قراءة حاضنة آثارهم تكرّم فريق بركم التطوعي">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/1_4ycWC6I9G8fEV7Y3mLhaaQ.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/1538/" class="title">
+                  
+                  جمعية البرّ بمكة تطلق موقعها الالكتروني بحلّة جديدة                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/1538/#more-1538" class="more-link"><span aria-label="تابع قراءة جمعية البرّ بمكة تطلق موقعها الالكتروني بحلّة جديدة">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-17-at-10.25.42-AM-4.jpeg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%88%d9%83%d9%8a%d9%84-%d9%88%d8%b2%d8%a7%d8%b1%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a7%d9%84%d8%a8%d8%b4%d8%b1%d9%8a%d8%a9-%d9%88%d8%a7%d9%84%d8%aa%d9%86%d9%85%d9%8a%d8%a9-%d8%a7/" class="title">
+                  
+                  وكيل وزارة الموارد البشرية والتنمية الاجتماعية يزور جمعية بركم                  </a>
+
+                  <p class="desc">
+                    </p><p>وقف الوكيل المساعد لوزارة الموارد البشرية والتنمية الاجتماعية لتنمية المجتمع الأستاذ طارق بن علي الربع على البرامج الاجتماعية التي تقدمها جمعية البر بمكة المكرمة ( بركم ) والتي تسهم في تنمية المجتمع وخدمة أفرداه ؛ حيث زار صباح اليوم مقر الجمعية الرئيسي بمكة المكرمة والتقى رئيس مجلس الإدارة المهندس هشام شلي ونائبه الأستاذ ماهر جمال ومدير عام الجمعية الدكتور عبدالرحمن الغامدي وعدد من أعضاء الجمعية العمومية.</p>
+<p>وتجول سعادته في أقسام الجمعية مطلعا على برامجها المختلفة ومنهجية العمل المتبعة فيما يخص خدمة المستفيدين ؛ كما جال في مركز غسيل الكلى بالجمعية والذي يعد أحد أهم المراكز المتخصصة في تخفيف معاناة مرضى الكلى في مكة المكرمة كما استمع للتحديات التي تواجه القطاع الثالث غير الربحي من خلال جلسة حوارية مع رئيس ونائب مجلس الإدارة وممثلين من الجمعية العمومية .</p>
+<p>وثمن سعادته بعد جولته التي رافقها فيها مدير مركز التنمية الاجتماعية بمكة المكرمة الأستاذ ماجد الزهراني وعدد من المسؤولين؛ ثمن الجهود المبذولة من جمعية البر بمكة المكرمة والتي تعد أول جمعية تأسست في المملكة ولا تزال تقدم خدماتها النوعية من خلال برامجها المتنوعة .</p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      أبريل 17, 2025                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/556810-3.png" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/1617/" class="title">
+                  
+                  جمعية البر بمكة المكرمة تعقد لقاء مع جمعية الدواء                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/1617/#more-1617" class="more-link"><span aria-label="تابع قراءة جمعية البر بمكة المكرمة تعقد لقاء مع جمعية الدواء">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      فبراير 20, 2023                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FgdzYpvXwAEN8FW-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a-%d9%84%d8%b4%d8%b1%d9%83%d8%a9-%d8%a7%d9%86%d9%81%d8%b3%d8%aa%d9%83%d9%88%d8%b1%d8%a8-%d9%8a%d8%ad%d9%84%d9%91/" class="title">
+                  
+                  الرئيس التنفيذي لشركة (انفستكورب) يحلّ ضيفًا على طاولة مجلس إدارة جمعية البرّ لمناقشة طرق الاستثمار المُثلى                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a-%d9%84%d8%b4%d8%b1%d9%83%d8%a9-%d8%a7%d9%86%d9%81%d8%b3%d8%aa%d9%83%d9%88%d8%b1%d8%a8-%d9%8a%d8%ad%d9%84%d9%91/#more-1615" class="more-link"><span aria-label="تابع قراءة الرئيس التنفيذي لشركة (انفستكورب) يحلّ ضيفًا على طاولة مجلس إدارة جمعية البرّ لمناقشة طرق الاستثمار المُثلى">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FhCKTZ9XkAAeHK8-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%85%d8%af%d9%8a%d8%b1-%d9%81%d8%b1%d8%b9-%d9%87%d9%8a%d8%a6%d8%a9-%d8%a7%d9%84%d8%b5%d8%ad%d9%81%d9%8a%d9%8a%d9%86-%d8%a8%d9%85%d9%83%d8%a9-%d9%81%d9%8a-%d8%b6%d9%8a%d8%a7%d9%81%d8%a9-%d8%ac%d9%85/" class="title">
+                  
+                  مدير فرع هيئة الصحفيين بمكة في ضيافة جمعية البرّ                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d9%85%d8%af%d9%8a%d8%b1-%d9%81%d8%b1%d8%b9-%d9%87%d9%8a%d8%a6%d8%a9-%d8%a7%d9%84%d8%b5%d8%ad%d9%81%d9%8a%d9%8a%d9%86-%d8%a8%d9%85%d9%83%d8%a9-%d9%81%d9%8a-%d8%b6%d9%8a%d8%a7%d9%81%d8%a9-%d8%ac%d9%85/#more-1612" class="more-link"><span aria-label="تابع قراءة مدير فرع هيئة الصحفيين بمكة في ضيافة جمعية البرّ">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FjzC1yYXkAQMxqS-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%82%d8%b3%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a8%d9%80%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d9%8a/" class="title">
+                  
+                  قسم التطوع بـجمعية البر بمكة يحصد لقب الوحدة التطوعية الملهمة لعام 2022م                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d9%82%d8%b3%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a8%d9%80%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d9%8a/#more-1594" class="more-link"><span aria-label="تابع قراءة قسم التطوع بـجمعية البر بمكة يحصد لقب الوحدة التطوعية الملهمة لعام 2022م">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/Fk1UNg4XoAM9pDb-2.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1%d9%91-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b3%d8%aa%d9%82%d8%a8%d9%84-%d8%b9%d8%af%d8%af%d8%a7%d9%8b/" class="title">
+                  
+                  جمعية البرّ بمكة تستقبل عدداً من مدراء الجمعيات الخيرية                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1%d9%91-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%aa%d8%b3%d8%aa%d9%82%d8%a8%d9%84-%d8%b9%d8%af%d8%af%d8%a7%d9%8b/#more-1588" class="more-link"><span aria-label="تابع قراءة جمعية البرّ بمكة تستقبل عدداً من مدراء الجمعيات الخيرية">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/cdn4.premiumread-2.webp" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%af-%d8%a8%d9%8a%d8%a7%d8%b1%d9%8a-%d9%84%d9%80%d8%a7%d9%84%d9%85%d8%af%d9%8a%d9%86%d8%a9-%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a3%d9%83%d8%a8%d8%b1/" class="title">
+                  
+                  د. بياري لـ”المدينة”: قلة الموارد أكبر تحديات مؤسسات المجتمع المدني                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%af-%d8%a8%d9%8a%d8%a7%d8%b1%d9%8a-%d9%84%d9%80%d8%a7%d9%84%d9%85%d8%af%d9%8a%d9%86%d8%a9-%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a3%d9%83%d8%a8%d8%b1/#more-1574" class="more-link"><span aria-label="تابع قراءة د. بياري لـ”المدينة”: قلة الموارد أكبر تحديات مؤسسات المجتمع المدني">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      فبراير 19, 2023                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/Fm_bU1oXkAQTwJk-2.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%a7%d8%aa%d9%81%d8%a7%d9%82%d9%8a%d8%a9-%d8%aa%d8%b9%d8%a7%d9%88%d9%86-%d8%a8%d9%8a%d9%86-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%88%d8%ac%d9%85%d8%b9/" class="title">
+                  
+                  اتفاقية تعاون بين جمعية البر بمكة وجمعية الأيدي الحرفية                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%a7%d8%aa%d9%81%d8%a7%d9%82%d9%8a%d8%a9-%d8%aa%d8%b9%d8%a7%d9%88%d9%86-%d8%a8%d9%8a%d9%86-%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d9%88%d8%ac%d9%85%d8%b9/#more-1553" class="more-link"><span aria-label="تابع قراءة اتفاقية تعاون بين جمعية البر بمكة وجمعية الأيدي الحرفية">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FnkvJTwWQAUaN7M-3.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%ad%d8%a7%d8%b6%d9%86%d8%a9-%d8%a2%d8%ab%d8%a7%d8%b1%d9%87%d9%85-%d8%aa%d9%83%d8%b1%d9%91%d9%85-%d9%81%d8%b1%d9%8a%d9%82-%d8%a8%d8%b1%d9%83%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9%d9%8a/" class="title">
+                  
+                  حاضنة آثارهم تكرّم فريق بركم التطوعي                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%ad%d8%a7%d8%b6%d9%86%d8%a9-%d8%a2%d8%ab%d8%a7%d8%b1%d9%87%d9%85-%d8%aa%d9%83%d8%b1%d9%91%d9%85-%d9%81%d8%b1%d9%8a%d9%82-%d8%a8%d8%b1%d9%83%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9%d9%8a/#more-1546" class="more-link"><span aria-label="تابع قراءة حاضنة آثارهم تكرّم فريق بركم التطوعي">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/1_4ycWC6I9G8fEV7Y3mLhaaQ.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/1538/" class="title">
+                  
+                  جمعية البرّ بمكة تطلق موقعها الالكتروني بحلّة جديدة                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/1538/#more-1538" class="more-link"><span aria-label="تابع قراءة جمعية البرّ بمكة تطلق موقعها الالكتروني بحلّة جديدة">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-17-at-10.25.42-AM-4.jpeg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%88%d9%83%d9%8a%d9%84-%d9%88%d8%b2%d8%a7%d8%b1%d8%a9-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b1%d8%af-%d8%a7%d9%84%d8%a8%d8%b4%d8%b1%d9%8a%d8%a9-%d9%88%d8%a7%d9%84%d8%aa%d9%86%d9%85%d9%8a%d8%a9-%d8%a7/" class="title">
+                  
+                  وكيل وزارة الموارد البشرية والتنمية الاجتماعية يزور جمعية بركم                  </a>
+
+                  <p class="desc">
+                    </p><p>وقف الوكيل المساعد لوزارة الموارد البشرية والتنمية الاجتماعية لتنمية المجتمع الأستاذ طارق بن علي الربع على البرامج الاجتماعية التي تقدمها جمعية البر بمكة المكرمة ( بركم ) والتي تسهم في تنمية المجتمع وخدمة أفرداه ؛ حيث زار صباح اليوم مقر الجمعية الرئيسي بمكة المكرمة والتقى رئيس مجلس الإدارة المهندس هشام شلي ونائبه الأستاذ ماهر جمال ومدير عام الجمعية الدكتور عبدالرحمن الغامدي وعدد من أعضاء الجمعية العمومية.</p>
+<p>وتجول سعادته في أقسام الجمعية مطلعا على برامجها المختلفة ومنهجية العمل المتبعة فيما يخص خدمة المستفيدين ؛ كما جال في مركز غسيل الكلى بالجمعية والذي يعد أحد أهم المراكز المتخصصة في تخفيف معاناة مرضى الكلى في مكة المكرمة كما استمع للتحديات التي تواجه القطاع الثالث غير الربحي من خلال جلسة حوارية مع رئيس ونائب مجلس الإدارة وممثلين من الجمعية العمومية .</p>
+<p>وثمن سعادته بعد جولته التي رافقها فيها مدير مركز التنمية الاجتماعية بمكة المكرمة الأستاذ ماجد الزهراني وعدد من المسؤولين؛ ثمن الجهود المبذولة من جمعية البر بمكة المكرمة والتي تعد أول جمعية تأسست في المملكة ولا تزال تقدم خدماتها النوعية من خلال برامجها المتنوعة .</p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      أبريل 17, 2025                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/556810-3.png" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/1617/" class="title">
+                  
+                  جمعية البر بمكة المكرمة تعقد لقاء مع جمعية الدواء                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/1617/#more-1617" class="more-link"><span aria-label="تابع قراءة جمعية البر بمكة المكرمة تعقد لقاء مع جمعية الدواء">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                      فبراير 20, 2023                    </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FgdzYpvXwAEN8FW-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a-%d9%84%d8%b4%d8%b1%d9%83%d8%a9-%d8%a7%d9%86%d9%81%d8%b3%d8%aa%d9%83%d9%88%d8%b1%d8%a8-%d9%8a%d8%ad%d9%84%d9%91/" class="title">
+                  
+                  الرئيس التنفيذي لشركة (انفستكورب) يحلّ ضيفًا على طاولة مجلس إدارة جمعية البرّ لمناقشة طرق الاستثمار المُثلى                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%aa%d9%86%d9%81%d9%8a%d8%b0%d9%8a-%d9%84%d8%b4%d8%b1%d9%83%d8%a9-%d8%a7%d9%86%d9%81%d8%b3%d8%aa%d9%83%d9%88%d8%b1%d8%a8-%d9%8a%d8%ad%d9%84%d9%91/#more-1615" class="more-link"><span aria-label="تابع قراءة الرئيس التنفيذي لشركة (انفستكورب) يحلّ ضيفًا على طاولة مجلس إدارة جمعية البرّ لمناقشة طرق الاستثمار المُثلى">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FhCKTZ9XkAAeHK8-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%85%d8%af%d9%8a%d8%b1-%d9%81%d8%b1%d8%b9-%d9%87%d9%8a%d8%a6%d8%a9-%d8%a7%d9%84%d8%b5%d8%ad%d9%81%d9%8a%d9%8a%d9%86-%d8%a8%d9%85%d9%83%d8%a9-%d9%81%d9%8a-%d8%b6%d9%8a%d8%a7%d9%81%d8%a9-%d8%ac%d9%85/" class="title">
+                  
+                  مدير فرع هيئة الصحفيين بمكة في ضيافة جمعية البرّ                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d9%85%d8%af%d9%8a%d8%b1-%d9%81%d8%b1%d8%b9-%d9%87%d9%8a%d8%a6%d8%a9-%d8%a7%d9%84%d8%b5%d8%ad%d9%81%d9%8a%d9%8a%d9%86-%d8%a8%d9%85%d9%83%d8%a9-%d9%81%d9%8a-%d8%b6%d9%8a%d8%a7%d9%81%d8%a9-%d8%ac%d9%85/#more-1612" class="more-link"><span aria-label="تابع قراءة مدير فرع هيئة الصحفيين بمكة في ضيافة جمعية البرّ">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+              <div class="blog-box">
+                <div class="image-content">
+                  <img src="https://albir-makkah.sa/wp-content/uploads/2023/02/FjzC1yYXkAQMxqS-1.jpg" alt="">
+                </div>
+
+                <div class="contain">
+                  <p class="category">
+                    عنوان القسم
+                  </p>
+
+                  <a href="https://albir-makkah.sa/news/%d9%82%d8%b3%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a8%d9%80%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d9%8a/" class="title">
+                  
+                  قسم التطوع بـجمعية البر بمكة يحصد لقب الوحدة التطوعية الملهمة لعام 2022م                  </a>
+
+                  <p class="desc">
+                    </p><p> <a href="https://albir-makkah.sa/news/%d9%82%d8%b3%d9%85-%d8%a7%d9%84%d8%aa%d8%b7%d9%88%d8%b9-%d8%a8%d9%80%d8%ac%d9%85%d8%b9%d9%8a%d8%a9-%d8%a7%d9%84%d8%a8%d8%b1-%d8%a8%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d9%8a/#more-1594" class="more-link"><span aria-label="تابع قراءة قسم التطوع بـجمعية البر بمكة يحصد لقب الوحدة التطوعية الملهمة لعام 2022م">(المزيد…)</span></a></p>
+                  <p></p>
+                  
+                  <div class="time">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-clock.svg" alt="">
+
+                    <span>
+                                          </span>
+                  </div>
+                </div>
+              </div>
+            </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+        </div>
+      </section>
+
+      <section class="partner primary-project">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-12 mb-4">
+              <div class="heading">
+                <h1>
+                 مواقع ذات صلة
+                </h1>
+              </div>
+            </div>
+
+
+
+
+            <div class="col-lg-9 col-12">
+              <div class="owl-carousel owl-theme owl-partners owl-rtl owl-loaded owl-drag">
+
+
+                                                                      
+
+
+                
+
+                
+
+
+                
+
+                
+
+
+                
+
+                
+
+
+                
+
+                    
+               
+              <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(1420px, 0px, 0px); transition: 2s; width: 2840px;"><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://donations.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_5.png" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://ehsan.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_7.png" alt="">
+                  </a>
+                </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://www.hrsd.gov.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_1.webp" alt="">
+                  </a>
+                </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://ncnp.gov.sa/ar" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_3.png" alt="">
+                  </a>
+                </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://donations.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_5.png" alt="">
+                  </a>
+                </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://ehsan.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_7.png" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://www.hrsd.gov.sa/" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_1.webp" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="https://ncnp.gov.sa/ar" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_3.png" alt="">
+                  </a>
+                </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="partner">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-12 mb-4">
+              <div class="heading">
+                <h1>
+                  شركاؤنا 
+                </h1>
+              </div>
+            </div>
+
+            <div class="col-lg-9 col-12">
+              <div class="owl-carousel owl-theme owl-partners owl-rtl owl-loaded owl-drag">
+
+
+
+
+                                                                      
+
+                
+
+
+
+      
+
+                
+
+
+
+      
+
+                
+
+
+
+      
+
+                
+
+
+
+          
+
+    
+              <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(1420px, 0px, 0px); transition: 2s; width: 2840px;"><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_1.webp" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_3.png" alt="">
+                  </a>
+                </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_8.jpg" alt="">
+                  </a>
+                </div></div><div class="owl-item" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_7.png" alt="">
+                  </a>
+                </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_1.webp" alt="">
+                  </a>
+                </div></div><div class="owl-item active" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_3.png" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_8.jpg" alt="">
+                  </a>
+                </div></div><div class="owl-item cloned" style="width: 335px; margin-left: 20px;"><div class="item">
+                  <a href="##" class="box">
+                    <img src="https://albir-makkah.sa/wp-content/uploads/2022/11/images-partner_7.png" alt="">
+                  </a>
+                </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="newsLetter">
+        <div class="container">
+          <div class="contain">
+            <div class="row">
+              <div class="col-lg-5 col-12 mb-2">
+                <div class="data">
+                  <h1>
+                  اشترك في قائمتنا الإخبارية
+                  </h1>
+
+                  <p>
+                   اشترك ليصلك الجديد منا
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-7 col-12">
+                <div class="form-contain">
+                  <div class="form-group">
+                  <div role="form" class="wpcf7" id="wpcf7-f58-o1" lang="en-US" dir="ltr">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/#wpcf7-f58-o1" method="post" class="wpcf7-form init" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="58">
+<input type="hidden" name="_wpcf7_version" value="5.6.4">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f58-o1">
+<input type="hidden" name="_wpcf7_container_post" value="0">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+</div>
+<p><span class="wpcf7-form-control-wrap" data-name="your-email"><input type="email" name="your-email" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="ادخل البريد الالكتروني"></span><br>
+<input type="submit" value="اشترك" class="wpcf7-form-control has-spinner wpcf7-submit"><span class="wpcf7-spinner"></span></p>
+<div class="wpcf7-response-output" aria-hidden="true"></div></form></div>                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></section>
+    </main>
+
+
+ <footer class="big-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-12 mb-4">
+            <div class="contain">
+              <h1>
+                عن جمعيتنا
+              </h1>
+
+              <p class="desc">
+                جمعية البر بمكة المكرمة هي أول جمعية بـرّ بالمملكة العربية السعودية، تأسست عام 1951م/1371هـ تحت مسمى (هيئة صندوق البرّ)، بمبادرة من مجموعة من المؤسسين– يرحمهم الله. وتخدم الجمعية الفقراء المقيمين داخل حدود الحرم، بالإضافة إلى خدمة زوار بيت الله الحرام.                                    
+
+(الرقم الضريبي: 310595772600003)
+
+              </p>
+
+              <img src="https://albir-makkah.sa/wp-content/uploads/2024/02/الشعار-الأفقي-_رسمي_.png" class="footer-logo" alt="">
+
+              <ul class="socail-media">
+                <li>
+                  <a href="https://www.facebook.com/Alber.makkah?locale=ar_AR">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-facebook.svg" alt="">
+                  </a>
+                </li>
+    
+                <li>
+                  <a href="https://www.instagram.com/Birrukum/">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-insta.svg" alt="">
+                  </a>
+                </li>
+    
+                <li>
+                  <a href="https://x.com/Birrukum">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-twiiter.svg" alt="">
+                  </a>
+                </li>
+    
+                <li>
+                  <a href="https://www.youtube.com/@albermakkahcharity8823">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-youtube.svg" alt="">
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-12 mb-4">
+            <div class="contain padding-contain">
+              <h1>
+                روابط سريعة
+              </h1>
+
+              <div class="flex-data">
+
+           <ul class="links"><li id="menu-item-244" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-244"><a href="https://albir-makkah.sa/%d8%a7%d8%ad%d8%b5%d8%a7%d8%a6%d9%8a%d8%a7%d8%aa-%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d9%88%d8%a7%d9%84%d8%a7%d9%86%d8%b4%d8%b7%d8%a9/">إحصائيات البرامج والأنشطة</a></li>
+<li id="menu-item-245" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-245"><a href="https://albir-makkah.sa/%d8%a7%d9%84%d8%a7%d9%81%d8%b5%d8%a7%d8%ad/">الإفصاح</a></li>
+</ul>
+
+               <ul class="links"><li id="menu-item-250" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-250"><a href="https://khaled.aait.app/ber/">الرئيسية</a></li>
+<li id="menu-item-251" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-251"><a href="https://albir-makkah.sa/%d8%a3%d9%87%d8%af%d8%a7%d9%81-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">أهداف الجمعية</a></li>
+<li id="menu-item-252" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-252"><a href="https://albir-makkah.sa/%d8%aa%d9%82%d8%a7%d8%b1%d9%8a%d8%b1-%d8%a7%d9%84%d8%ac%d9%85%d8%b9%d9%8a%d9%87/">تقارير الجمعية</a></li>
+<li id="menu-item-248" class="menu-item menu-item-type-post_type menu-item-object-statistics menu-item-248"><a href="https://albir-makkah.sa/statistics/%d9%83%d9%81%d8%a7%d9%84%d8%a9-%d8%a7%d9%84%d8%a3%d9%8a%d8%aa%d8%a7%d9%85/">كفالة الأيتام</a></li>
+<li id="menu-item-249" class="menu-item menu-item-type-post_type menu-item-object-statistics menu-item-249"><a href="https://albir-makkah.sa/statistics/%d8%a7%d9%84%d9%85%d8%b3%d8%a7%d8%b9%d8%af%d8%a7%d8%aa-%d8%a7%d9%84%d8%b4%d9%87%d8%b1%d9%8a%d9%87/">المساعدات الشهريه</a></li>
+</ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-12 mb-4">
+            <div class="contain">
+              <h1>
+                معلومات الاتصال 
+              </h1>
+
+              <ul class="socail-network">
+                <li>
+                  <a href="#">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-map.svg" alt="">
+
+                    <div class="socail-network-contain">
+                      <h2>
+                          الموقع
+                      </h2>
+
+                      <p>
+                        مكة المكرمة - المحمدية - خلف مختبرات البرج                      </p>
+                    </div>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="tel:0125403487 واتساب:  966555155587+">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-mobile.svg" alt="">
+
+                    <div class="socail-network-contain">
+                      <h2>
+                        الهاتف
+                      </h2>
+
+                      <p>
+                          0125403487 واتساب:  966555155587+                      </p>
+                    </div>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="mailto:info@albir-makkah.sa">
+                    <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-sms.svg" alt="">
+
+                    <div class="socail-network-contain">
+                      <h2>
+                            info@albir-makkah.sa                      </h2>
+
+                      <p>
+                        alber_makkah@hotmail.com
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="copyrights">
+          <p>
+            جميع الحقوق محفوظة ©2022 لموقع جمعية البر بمكة المكرمة
+
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <a href="mailTo:info@albir-makkah.sa" class="chat">
+      <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-chat.png" alt="">
+    </a>
+
+    <a href="https://api.whatsapp.com/send?phone=966555155587+&amp;text=Send20%a20%quote" class="whatsapp">
+      <img src="https://albir-makkah.sa/wp-content/themes/theme/site/images/images-whatsapp.png" alt="">
+    </a>
+
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/lib-jquery4.js"></script>
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/lib-popper.js"></script>
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/lib-bootstrap.js"></script>
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/lib-owl.carousel.min.js"></script>
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/lib-wow.min.js"></script>
+    <script src="https://albir-makkah.sa/wp-content/themes/theme/site/js/js-main.js"></script>
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/theme\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://albir-makkah.sa/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=5.6.4" id="swv-js"></script>
+<script type="text/javascript" id="contact-form-7-js-extra">
+/* <![CDATA[ */
+var wpcf7 = {"api":{"root":"https:\/\/albir-makkah.sa\/wp-json\/","namespace":"contact-form-7\/v1"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://albir-makkah.sa/wp-content/plugins/contact-form-7/includes/js/index.js?ver=5.6.4" id="contact-form-7-js"></script>
+
+
+
+</body></html>

@@ -1,0 +1,80 @@
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Users, UserCheck } from "lucide-react";
+
+interface Founder {
+  name: string;
+  role: string;
+}
+
+const founders: Founder[] = [
+  { name: "عبدالله أحمد علي حكمي", role: "عضو مؤسس" },
+  { name: "حسن زاهر أحمد علي حكمي", role: "عضو مؤسس" },
+  { name: "عبدالواهاب إبراهيم عبدالله علي حكمي", role: "عضو مؤسس" },
+  { name: "محمد سعد محمد أحمد حكمي", role: "عضو مؤسس" },
+  { name: "محمد سعد محمد جمال حكمي", role: "عضو مؤسس" },
+  { name: "نورة سعد محمد القحطاني", role: "عضو مؤسس" },
+  { name: "محمد إبراهيم محمد حكمي", role: "عضو مؤسس" },
+  { name: "محمد أحمد صالح أحمد حكمي", role: "عضو مؤسس" },
+  { name: "بدر عبدالله يحيى علي مري", role: "عضو مؤسس" },
+  { name: "حسام الدين عثمان علي جمال حكمي", role: "عضو مؤسس" },
+  { name: "إبراهيم عثمان علي حكمي", role: "عضو مؤسس" },
+  { name: "عبدالله عبدالله صالح حكمي", role: "عضو مؤسس" },
+  { name: "ناصر عبدالله عبدالعزيز آل زعلة", role: "عضو مؤسس" },
+];
+
+export default function Founders() {
+  return (
+    <div className="min-h-screen flex flex-col bg-background" dir="rtl">
+      <Navbar />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-l from-primary to-teal-600 text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <div className="mb-4 flex justify-center">
+              <Users className="h-12 w-12" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold font-heading mb-6">الأعضاء المؤسسون / أعضاء الجمعية العمومية</h1>
+            <p className="max-w-3xl mx-auto text-lg opacity-90 leading-relaxed">
+              تفتخر جمعية طويق للخدمات الإنسانية بنخبة من الأعضاء الأوائل الذين كان لهم الدور الأساسي في تأسيس الجمعية ودعم مسيرتها منذ انطلاقتها، سائلين الله لهم دوام التوفيق والسداد.
+            </p>
+          </div>
+        </div>
+
+        {/* Founders List Section */}
+        <div className="container mx-auto px-4 py-16">
+          <div className="flex items-center justify-center gap-2 mb-10">
+            <UserCheck className="text-primary h-6 w-6" />
+            <h2 className="text-2xl font-bold text-center">الأعضاء الأوائل – حفظهم الله</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {founders.map((founder, index) => (
+              <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 border-r-4 border-r-primary">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Users className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground">
+                        {founder.name}
+                      </h3>
+                      <span className="text-sm text-muted-foreground font-medium">
+                        {founder.role}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

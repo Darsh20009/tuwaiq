@@ -1,0 +1,82 @@
+LICENSE AGREEMENT
+This License Agreement (the “Agreement”) is a legal agreement between you and PCI Security Standards Council, LLC with a place of business at 401 Edgewater Place, Suite 600, Wakefield, MA 01880 (“Licensor”), which is the owner of the copyright in the standards, specifications or other documents accessible by clicking on the “ACCEPT” button below (each a “Standard”). As used in this Agreement, “you” and “Licensee” mean the company, entity or individual that is acquiring a license under this Agreement.
+
+By clicking on the “ACCEPT” button below, you are agreeing that you will be bound by and are becoming a party to this Agreement. If you are an entity, and an individual is entering into this Agreement on your behalf, then you will be bound by this Agreement when that individual clicks on the “ACCEPT” button. When they do so, it will also constitute a representation by the individual that s/he is authorized to bind you as a party to this Agreement. If you do not agree to all of the terms of this Agreement, click the “DO NOT ACCEPT” button at the end of this Agreement.
+
+I.        Read and Copy License. If your use of a given Standard is limited to study purposes, then only the provisions of this Section I and the provisions of Section III will apply to you and your use of that Standard. Licensor hereby grants you the right, without charge, to download, copy (for internal purposes only) and share the Standard with your employees for study purposes only. This license grant does not include the right to sublicense or modify the Standard.
+
+II.       Implementation License. If you wish to implement any Standard, then the following provisions will also apply to you:
+
+1. Definitions:
+
+“Compliant Product” means a product or service that implements all Required Elements of the Standard.  For the avoidance of doubt, where more than one option for implementing a given Required Element is included in the Standard, implementation of any such option is regarded as implementation of such Required Element for purposes of this definition.
+
+“End User” means a company, entity or individual that is the ultimate purchaser or licensee from Licensee of a Compliant Product.
+
+“Policy” means the then current version of Licensor’s Intellectual Property Rights Policy as available on Licensor’s web site.
+
+“Implementer” means any person or entity who desires to use or implement the Standard and, with respect to that Standard, either (i) has entered into this Agreement or a separate Non-Assertion Commitment, or (ii) is legally bound to comply with the terms of the Policy.
+
+“Necessary Infringement ” means infringement by an implementation of any Required Element or Other Element of the Standard in a Compliant Product, there being no commercially and technically reasonable alternative way to implement that element of the Standard without resulting in such infringement. For the avoidance of doubt, where more than one option for implementing a given element is included in the Standard, infringement by either option is regarded as Necessary Infringement.
+
+“Necessary Claims” means those claims under patents, patent applications, continuations, divisionals, reexaminations, reissues and continuations-in-part, and foreign equivalents of the foregoing, anywhere in the world now or in the future that would be subject to Necessary Infringement as a result of the implementation of the Standard in a Compliant Product. Necessary Claims do not include (i) claims covering reference implementations or implementation examples; (ii) claims that would be infringed only by any enabling technology that may be necessary to make or use any implementation of the Standard, but are not expressly set forth in the Standard; and (iii) claims that would be infringed only by an implementation that complies with a specification, requirement or standard not developed by or on behalf of Licensor but which are merely incorporated by reference into the Standard.
+
+“Non-Assertion Commitment” means a commitment irrevocably covenanting and agreeing not to seek to enforce any of the committer’s Necessary Claims under the Standard anywhere in the world at any time now or in the future against (i) the Council for any use, implementation, or Necessary Infringement of such claims resulting from compliance with such Standard or any version thereof, or (ii) any Implementers of such Standard or any version thereof with respect to those portions of any Compliant Products that implement any version of such Standard, provided that such Compliant Product has been developed by a person or entity that has also entered into, and is in compliance with, a corresponding Non-Assertion Commitment or agreement with Licensor relating to such Standard substantially in the form of this Agreement, as amended by Licensor from time to time.  For the avoidance of doubt and without limiting the foregoing, if such Standard is amended in the future, any patent claim Owned by the Implementer that was a Necessary Claim under such Standard and is still a Necessary Claim under the amended version of such Standard shall remain subject to Implementer’s Non-Assertion Commitment.
+
+“Owned” includes, with respect to any Necessary Claim(s): (i) ownership of all right, title and interest in any Necessary Claim(s), and (ii) Necessary Claim(s) that are controlled but not owned by the Licensee, provided that the Licensee is entitled to sublicense such Necessary Claim(s) on a royalty-free basis.
+
+“Required Element” means any element of the Standard that has not been identified as “Optional.” .
+
+2. Grant of License. Licensor hereby grants without charge to Licensee and its End Users, for so long as Licensor continues to generally provide new licenses to the Standard on similar terms, and on a non-exclusive and worldwide basis, the right under Licensor’s copyrights and Licensor’s copyright license rights in the Standard to utilize the Standard for the purpose of making, having made, using, reproducing, marketing, importing, offering to sell, selling, and otherwise distributing Compliant Products, in all cases subject to the conditions set forth in this Agreement and any relevant patent and other intellectual property rights of third parties (which may include members of Licensor and others).
+
+3. Covenant not to Assert Patent Claims. Licensee acknowledges that, in accordance with the Policy, all Implementers enjoy the benefits of a “covenant not to assert patent claims” made by the developers of the Standard and such Implementers.  In consideration of such benefits, and as a precondition to implementing any Standard, the Licensee hereby enters into the following covenant not to assert:
+
+Licensee irrevocably covenants and agrees that it will not seek to enforce any of its Necessary Claims under such Standard anywhere in the world at any time now or in the future against (a) Licensor for any use, implementation, or Necessary Infringement of such claims resulting from compliance with such Standard, or (b) any Implementers of such Standard with respect to those portions of any Compliant Products that implement such Standard, provided that such Compliant Product has been developed by a person or entity that has entered into, and is in compliance with, a Non-Assertion Commitment with Licensor. No other rights of Licensee, except those expressly stated in this covenant not to assert, shall be deemed to have been granted, waived, or received by implication, estoppel, or otherwise; provided, however, that nothing in this Agreement shall limit, or be construed to limit in any way, any obligation or covenant of Licensee separately arising under the Policy.  
+
+III.      Provisions Applicable to All Licensees. The following provisions apply to all Licensees
+(the definitions in Section II are hereby incorporated by reference):
+
+1. Restrictions.
+
+1.1 No Sublicensing. Licensee shall not sublicense any Standard or any of its rights under this Agreement, except to the extent necessary to exercise its rights under Section II.2 above.
+
+1.2 No Modification. Licensee shall not modify any Standard.
+
+2. Intellectual Property. Licensee acknowledges and agrees that each Standard shall at all times be the exclusive property of Licensor and/or any third parties of which Licensor is a licensee, as the case may be, and nothing in this Agreement shall be construed to convey to Licensee any ownership interest in any Standard or any rights other than those expressly granted herein. No rights are conveyed in this Agreement to create any derivative work of any Standard, or any portion thereof.
+
+3. Support and Maintenance. Licensor shall have no obligation to Licensee or to any End User to support or maintain any Standard.
+
+4. No Warranties. EACH STANDARD IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, COMPLETENESS AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL LICENSOR, ITS MEMBERS OR ITS CONTRIBUTORS BE LIABLE FOR ANY CLAIM, OR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF ANY STANDARD.
+
+5. Third Party Rights. Without limiting the generality of Section III.4 above, LICENSOR ASSUMES NO RESPONSIBILITY TO COMPILE, CONFIRM, UPDATE OR MAKE PUBLIC ANY THIRD PARTY ASSERTIONS OF PATENT OR OTHER INTELLECTUAL PROPERTY RIGHTS THAT MIGHT BE INFRINGED BY THE USE OR IMPLEMENTATION OF ANY STANDARD. IF ANY SUCH RIGHTS ARE DESCRIBED IN ANY STANDARD OR DISPLAYED AT LICENSOR’S WEBSITE, LICENSOR TAKES NO POSITION AS TO THE VALIDITY OR INVALIDITY OF SUCH ASSERTIONS, OR THAT ALL SUCH ASSERTIONS THAT HAVE OR MAY BE MADE ARE SO LISTED.
+
+6. Termination of License.
+
+6.1 Breach. In the event of a breach of this Agreement by Licensee, Licensor shall have the right to give Licensee written notice and an opportunity to cure. If the breach is not cured within thirty (30) days after written notice, or if the breach is of a nature that cannot be cured, then Licensor may immediately or thereafter terminate the licenses granted in this Agreement upon written notice; provided, however, that Licensee and its End Users shall be permitted to continue to use Compliant Products created or obtained prior to such termination.
+
+6.2 Other than for Breach.
+
+(a) In the event that Licensor believes that implementation of any Required Element(s) or Other Element(s) of any Standard infringes or may infringe the intellectual property rights (“IPR”) of an IPR owner that is not willing to make such IPR available under terms satisfactory to Licensor, then Licensor may (i) notify Licensee that it has amended the Standard, following which Licensee’s rights under this Agreement shall be limited to the Standard, as so amended, or (ii) terminate this Agreement immediately upon notice.
+
+(b) In the event that Licensor believes that the continuation of this Agreement in full force and effect shall cause Licensor to violate any applicable law, statute, regulation, order or rule of any governmental authority, Licensor may terminate this Agreement immediately upon notice.
+
+(c) Licensee may immediately terminate this Agreement upon written notice to Licensor.
+
+(d) Notwithstanding the foregoing, no termination of this Agreement shall terminate any obligation incurred by Licensee hereunder with respect to any Standard; provided, that if any term of this Agreement conflicts with any term of the Policy, the conflicting term of the Policy shall govern to the extent necessary to resolve such conflict.
+
+7. Indemnification. Licensee shall indemnify, defend and hold harmless Licensor and its members, and the officers, directors, employees and agents of the same (each, an “Indemnified Party”) from all losses, costs, damages, claims and other expenses (including reasonable attorneys’ fees) arising out of any claim by any third party in connection with use by Licensee of any Standard, including, without limitation, claims asserting that any Standard or any portion thereof infringes the patent, copyright, trade secret or other intellectual property anywhere in the world of such third party.
+
+8. Export Regulations. The technical data and technology inherent in the Standards may be subject to U.S. export control laws, including the U.S. Export Administration Act and its associated regulations, and may be subject to export or import regulations in other countries. Licensee agrees to comply strictly with all such regulations and acknowledges that it has the responsibility to obtain licenses to export, re-export, or import the Standards and any Compliant Products.
+
+9. Government Restrictions. Use, duplication or disclosure of any Standard by the United States government is subject to the restrictions as set forth in the Rights in Technical Data and Computer Software Clauses in DFARS 252.227-7013(c)(1) (ii) and FAR 52.227-19(a) through (d) as applicable.
+
+10. Miscellaneous.
+
+10.1 Notices. All notices required under this Agreement shall be in writing, and shall be deemed effective five days from deposit in the mails, and if sent by Licensor, upon transmission if delivered by electronic mail. Alternatively, notices from Licensor may be posted to Licensor’s website and shall be deemed to be in writing and effective thirty (30) days after posting.  Subject to the preceding sentence, notices and correspondence (a) to Licensor must be sent to the street address shown above, and (b) to Licensee shall be sent to the street address or email address identified by Licensee in connection with accepting the terms of this Agreement.
+
+10.2 Governing Law. This Agreement shall be construed and interpreted under the internal laws of the United States and the State of Delaware, without giving effect to its principles of conflict of law.
+
+10.3 Entire Agreement. Subject to the terms of the Policy, this Agreement constitutes the entire agreement and understanding between Licensor and Licensee regarding the subject matter contained herein, and supersedes any and all prior agreements between Licensor and Licensee regarding Licensee’s right to use any Standard.  No modification or waiver of this Agreement shall be binding unless it is in writing and signed by both parties, and no waiver of any breach of this Agreement shall be deemed to be a waiver of any other or subsequent breach. If any provision of this Agreement is held by a court of competent jurisdiction to be invalid, illegal or unenforceable, such provision shall be omitted and the remaining terms shall remain in full force and effect.
+
+ 
+
