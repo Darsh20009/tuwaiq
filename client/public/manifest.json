@@ -2,6 +2,7 @@
   "name": "جمعية طويق للخدمات الإنسانية",
   "short_name": "طويق",
   "description": "بصمتكم تصنع الفرق.. طويق للخدمات الإنسانية وجهتكم للعطاء",
+  "id": "sa.tuwaiqassociation.pwa",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
