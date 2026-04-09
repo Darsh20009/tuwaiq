@@ -168,14 +168,14 @@ export async function registerRoutes(
 
             if (!user) return done(new Error("خطأ في إنشاء الحساب"));
 
-            const sessionUser: User = {
+            const sessionUser = {
               id: user._id.toString(),
               name: user.name,
               email: user.email || "",
               mobile: user.mobile || "",
               role: user.role || "user",
               isPublicDonor: !!user.isPublicDonor,
-            };
+            } as unknown as User;
             return done(null, sessionUser);
           } catch (err) {
             return done(err as Error);
@@ -867,7 +867,7 @@ export async function registerRoutes(
       if (!email || !email.includes("@")) {
         return res.status(400).json({ message: "يرجى إدخال بريد إلكتروني صحيح" });
       }
-      const transfer = await db.collection("bank_transfers").findOne({ _id: new ObjectId(transferId) });
+      const transfer = await db.collection("bank_transfers").findOne({ _id: new ObjectId(String(transferId)) });
       if (!transfer) return res.status(404).json({ message: "الطلب غير موجود" });
 
       const donorName = reqDonorName || transfer.donorName || "فاعل خير";

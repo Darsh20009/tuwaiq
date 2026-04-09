@@ -22,9 +22,9 @@ export default function CampaignDetail() {
   const { toast } = useToast();
 
   useSEO({
-    title: campaign?.name || campaign?.title || "المشروع الإنساني",
+    title: campaign?.title || "المشروع الإنساني",
     description: campaign?.description || "ساهم في هذا المشروع الإنساني وكن شريكاً في صنع الفرق مع جمعية طويق للخدمات الإنسانية",
-    image: campaign?.imageUrl || "/images/og-banner2.png",
+    image: (campaign as any)?.imageUrl || campaign?.image || "/images/og-banner2.png",
   });
 
   const campaignUrl = typeof window !== "undefined"
