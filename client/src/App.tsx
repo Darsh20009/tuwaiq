@@ -67,6 +67,7 @@ import AdminAI from "@/pages/admin/AdminAI";
 import AdminCases from "@/pages/admin/AdminCases";
 import AdminAppStore from "@/pages/admin/AdminAppStore";
 import CaseFormPage from "@/pages/CaseFormPage";
+import ZakatCalculator from "@/pages/ZakatCalculator";
 
 import EmployeeDashboard from "@/pages/employee/Dashboard";
 import EmployeeTransfers from "@/pages/employee/Transfers";
@@ -251,6 +252,7 @@ function Router() {
       <Route path="/donation-success" component={DonationSuccess} />
       <Route path="/impact" component={Impact} />
       <Route path="/notifications" component={Notifications} />
+      <Route path="/zakat" component={ZakatCalculator} />
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/campaigns/:id" component={CampaignDetail} />
 

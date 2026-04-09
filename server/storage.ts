@@ -305,7 +305,7 @@ export class MongoStorage implements IStorage {
     const docs = await cursor.toArray();
     return docs.map(u => ({
       name: u.name,
-      totalDonations: Number(u.totalDonations),
+      totalDonations: Number(u.totalDonations) || 0,
     }));
   }
 }
