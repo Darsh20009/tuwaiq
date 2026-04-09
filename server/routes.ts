@@ -13,6 +13,22 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import MemoryStore from "memorystore";
 import { ObjectId } from "mongodb";
+
+// ── Simple in-memory TTL cache ──────────────────────────────────────
+const _cache = new Map<string, { data: any; expiresAt: number }>();
+function getCache<T>(key: string): T | null {
+  const entry = _cache.get(key);
+  if (entry && entry.expiresAt > Date.now()) return entry.data as T;
+  _cache.delete(key);
+  return null;
+}
+function setCache(key: string, data: any, ttlMs = 120_000) {
+  _cache.set(key, { data, expiresAt: Date.now() + ttlMs });
+}
+function invalidateCache(...keys: string[]) {
+  keys.forEach(k => _cache.delete(k));
+}
+// ────────────────────────────────────────────────────────────────────
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -558,9 +574,12 @@ export async function registerRoutes(
 
   app.get("/api/campaigns", async (req, res) => {
     try {
+      const cached = getCache("campaigns");
+      if (cached) return res.json(cached);
       const campaigns = await db.collection("campaigns").find({ isActive: true }).sort({ sortOrder: 1, createdAt: 1 }).toArray();
-      if (campaigns.length === 0) return res.json(DEFAULT_CAMPAIGNS);
-      res.json(campaigns.map((c: any) => ({ ...c, id: c._id.toString(), _id: undefined })));
+      const data = campaigns.length === 0 ? DEFAULT_CAMPAIGNS : campaigns.map((c: any) => ({ ...c, id: c._id.toString(), _id: undefined }));
+      setCache("campaigns", data, 120_000);
+      res.json(data);
     } catch (err) {
       res.json(DEFAULT_CAMPAIGNS);
     }
@@ -1018,6 +1037,8 @@ export async function registerRoutes(
   // Public lightweight news endpoint — returns only news-* slugs with stripped content
   app.get("/api/news", async (req, res) => {
     try {
+      const cached = getCache("news");
+      if (cached) return res.json(cached);
       const all = await storage.getAllContent();
       const news = all
         .filter((c: any) => c.slug?.startsWith("news-"))
@@ -1028,6 +1049,7 @@ export async function registerRoutes(
           updatedAt: c.updatedAt,
           content: (c.content || "").slice(0, 300),
         }));
+      setCache("news", news, 300_000);
       res.json(news);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الأخبار" });
@@ -1171,8 +1193,12 @@ export async function registerRoutes(
   // ==================== JOBS MANAGEMENT ====================
   app.get("/api/jobs", async (req, res) => {
     try {
+      const cached = getCache("jobs");
+      if (cached) return res.json(cached);
       const jobs = await db.collection("jobs").find({}).sort({ createdAt: -1 }).toArray();
-      res.json(jobs.map((j: any) => ({ ...j, id: j._id.toString() })));
+      const data = jobs.map((j: any) => ({ ...j, id: j._id.toString() }));
+      setCache("jobs", data, 300_000);
+      res.json(data);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الوظائف" });
     }
@@ -1180,6 +1206,7 @@ export async function registerRoutes(
 
   app.post("/api/jobs", requireRole("admin", "manager"), async (req, res) => {
     try {
+      invalidateCache("jobs");
       const job = await storage.createJob(req.body);
       res.status(201).json(job);
     } catch (err) {
@@ -1692,8 +1719,16 @@ export async function registerRoutes(
 
   // ==================== LEADERBOARD ====================
   app.get(api.leaderboard.list.path, async (req, res) => {
-    const topDonors = await storage.getTopDonors();
-    res.json(topDonors.map((d: any) => ({ ...d, totalDonations: String(d.totalDonations) })));
+    try {
+      const cached = getCache("leaderboard");
+      if (cached) return res.json(cached);
+      const topDonors = await storage.getTopDonors();
+      const data = topDonors.map((d: any) => ({ ...d, totalDonations: String(d.totalDonations) }));
+      setCache("leaderboard", data, 120_000);
+      res.json(data);
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب قائمة المتبرعين" });
+    }
   });
 
   // ==================== CONTENT MANAGEMENT ====================
@@ -1783,11 +1818,15 @@ export async function registerRoutes(
   // Public: get active slider items (videos only)
   app.get("/api/slider", async (req: Request, res: Response) => {
     try {
+      const cached = getCache("slider");
+      if (cached) return res.json(cached);
       const items = await sliderItemsCollection
         .find({ isActive: true, mediaType: "video" })
         .sort({ order: 1, createdAt: 1 })
         .toArray();
-      res.json(items.map((d: any) => ({ ...d, id: d._id.toString() })));
+      const data = items.map((d: any) => ({ ...d, id: d._id.toString() }));
+      setCache("slider", data, 300_000);
+      res.json(data);
     } catch {
       res.status(500).json({ message: "خطأ في جلب الشرائح" });
     }
@@ -2033,8 +2072,12 @@ export async function registerRoutes(
   // ==================== SITE SETTINGS ====================
   app.get("/api/settings", async (req, res) => {
     try {
+      const cached = getCache("settings");
+      if (cached) return res.json(cached);
       const settings = await db.collection("settings").findOne({});
-      res.json(settings || {});
+      const data = settings || {};
+      setCache("settings", data, 300_000);
+      res.json(data);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الإعدادات" });
     }
@@ -2042,6 +2085,7 @@ export async function registerRoutes(
 
   app.put("/api/settings", requireRole("admin"), async (req, res) => {
     try {
+      invalidateCache("settings");
       const { _id, id, ...body } = req.body;
       await db.collection("settings").updateOne(
         {},
