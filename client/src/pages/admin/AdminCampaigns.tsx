@@ -256,7 +256,7 @@ export default function AdminCampaigns() {
                       variant="ghost"
                       className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => { if (confirm("حذف هذه الحملة نهائياً؟")) deleteMutation.mutate(c.id); }}
-                      disabled={deleteMutation.isPending || ["water", "ramadan", "iftar"].includes(c.id)}
+                      disabled={deleteMutation.isPending}
                       data-testid={`button-delete-campaign-${c.id}`}
                     >
                       <Trash2 className="h-3.5 w-3.5" />

@@ -623,11 +623,18 @@ export async function registerRoutes(
 
   app.put("/api/admin/campaigns/:id", requireRole("admin", "manager"), async (req, res) => {
     try {
+      const rawId = String(req.params.id);
       const { title, subtitle, image, color, badge, badgeColor, isActive, sortOrder, tiers } = req.body;
-      await db.collection("campaigns").updateOne(
-        { _id: new ObjectId(String(req.params.id)) },
-        { $set: { title, subtitle, image, color, badge, badgeColor, isActive, sortOrder: Number(sortOrder) || 99, tiers, updatedAt: new Date() } }
-      );
+      const updateDoc = { $set: { title, subtitle, image, color, badge, badgeColor, isActive, sortOrder: Number(sortOrder) || 99, tiers, updatedAt: new Date() } };
+      let updated = false;
+      try {
+        const r = await db.collection("campaigns").updateOne({ _id: new ObjectId(rawId) }, updateDoc);
+        if (r.matchedCount > 0) updated = true;
+      } catch (_) {}
+      if (!updated) {
+        await db.collection("campaigns").updateOne({ _id: rawId as any }, updateDoc);
+      }
+      invalidateCache("campaigns");
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في تحديث الحملة" });
@@ -636,8 +643,18 @@ export async function registerRoutes(
 
   app.patch("/api/admin/campaigns/:id/active", requireRole("admin", "manager"), async (req, res) => {
     try {
+      const rawId = String(req.params.id);
       const { isActive } = req.body;
-      await db.collection("campaigns").updateOne({ _id: new ObjectId(String(req.params.id)) }, { $set: { isActive, updatedAt: new Date() } });
+      const updateDoc = { $set: { isActive, updatedAt: new Date() } };
+      let updated = false;
+      try {
+        const r = await db.collection("campaigns").updateOne({ _id: new ObjectId(rawId) }, updateDoc);
+        if (r.matchedCount > 0) updated = true;
+      } catch (_) {}
+      if (!updated) {
+        await db.collection("campaigns").updateOne({ _id: rawId as any }, updateDoc);
+      }
+      invalidateCache("campaigns");
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في تحديث الحملة" });
@@ -646,9 +663,30 @@ export async function registerRoutes(
 
   app.delete("/api/admin/campaigns/:id", requireRole("admin", "manager"), async (req, res) => {
     try {
-      await db.collection("campaigns").deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      const rawId = String(req.params.id);
+      let deleted = false;
+
+      // Try ObjectId first (standard MongoDB _id)
+      try {
+        const result = await db.collection("campaigns").deleteOne({ _id: new ObjectId(rawId) });
+        if (result.deletedCount > 0) deleted = true;
+      } catch (_) { /* not a valid ObjectId, fall through */ }
+
+      // Fallback: old campaigns may have been stored with a plain string _id
+      if (!deleted) {
+        const result = await db.collection("campaigns").deleteOne({ _id: rawId as any });
+        if (result.deletedCount > 0) deleted = true;
+      }
+
+      if (!deleted) {
+        return res.status(404).json({ message: "الحملة غير موجودة" });
+      }
+
+      // Clear campaigns cache
+      invalidateCache("campaigns");
       res.json({ success: true });
     } catch (err) {
+      console.error("Error deleting campaign:", err);
       res.status(500).json({ message: "خطأ في حذف الحملة" });
     }
   });
