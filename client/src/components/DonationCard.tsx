@@ -680,7 +680,9 @@ export function DonationCard() {
           {/* Payment Method Toggle */}
           <div>
             <p className="text-xs font-bold mb-2" style={{ color: "hsl(215 15% 42%)" }}>طريقة الدفع</p>
-            <div className={cn("grid gap-2", enableTransfer ? "grid-cols-3" : "grid-cols-2")}>
+
+            {/* Row: Card + Transfer */}
+            <div className={cn("grid gap-2", enableTransfer ? "grid-cols-2" : "grid-cols-1")}>
               <button
                 type="button"
                 onClick={() => enableRajhiPayment && setPayMethod("rajhi")}
@@ -698,25 +700,6 @@ export function DonationCard() {
                 <CreditCard className="w-4 h-4" />
                 بطاقة بنكية
               </button>
-              {isAppleDevice && (
-                <button
-                  type="button"
-                  onClick={() => enableRajhiPayment && setPayMethod("apple")}
-                  disabled={!enableRajhiPayment}
-                  className={cn(
-                    "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
-                    !enableRajhiPayment
-                      ? "border-[hsl(35_15%_88%)] text-[hsl(215_15%_65%)] opacity-50 cursor-not-allowed"
-                      : payMethod === "apple"
-                      ? "border-gray-900 bg-black text-white"
-                      : "border-[hsl(35_15%_88%)] text-[hsl(215_15%_48%)] hover:border-gray-800"
-                  )}
-                  data-testid="method-apple"
-                >
-                  <SiApple className="w-4 h-4" />
-                  <span className="tracking-tight" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" }}>Pay</span>
-                </button>
-              )}
               {enableTransfer && (
                 <button
                   type="button"
@@ -735,17 +718,40 @@ export function DonationCard() {
               )}
             </div>
 
-            {(payMethod === "rajhi" || payMethod === "apple") && (
+            {/* Apple Pay — full-width strip (Apple devices only) */}
+            {isAppleDevice && enableRajhiPayment && (
+              <button
+                type="button"
+                onClick={() => setPayMethod("apple")}
+                disabled={!enableRajhiPayment}
+                className="mt-2 w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border-2 transition-all"
+                style={{
+                  background: payMethod === "apple" ? "#000" : "transparent",
+                  borderColor: payMethod === "apple" ? "#000" : "rgba(0,0,0,0.18)",
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+                }}
+                data-testid="method-apple"
+              >
+                <SiApple
+                  className="w-4 h-4 flex-shrink-0"
+                  style={{ color: payMethod === "apple" ? "white" : "#000" }}
+                />
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: payMethod === "apple" ? "white" : "#000" }}
+                >
+                  تبرع عبر Apple Pay
+                </span>
+              </button>
+            )}
+
+            {payMethod === "rajhi" && (
               <div
                 className="mt-2 flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
                 style={{ backgroundColor: "hsl(152 42% 95%)", color: "hsl(152 42% 30%)" }}
               >
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                <span>
-                  {payMethod === "apple"
-                    ? "ستُحوَّل لبوابة الراجحي — اختر Apple Pay لإتمام الدفع"
-                    : "ستُحوَّل لبوابة مصرف الراجحي الآمنة لإتمام الدفع"}
-                </span>
+                <span>ستُحوَّل لبوابة مصرف الراجحي الآمنة لإتمام الدفع</span>
               </div>
             )}
           </div>
