@@ -30,7 +30,7 @@ const CHAPTER_META: Record<ChapterId, ChapterDef> = {
 };
 
 const CHAPTER_ORDER: ChapterId[] = [
-  "news", "campaigns", "hajj", "services", "jobs", "donors", "about", "founders", "governance",
+  "hajj", "news", "campaigns", "services", "jobs", "donors", "about", "founders", "governance",
 ];
 
 /* ─── Static data ─── */
