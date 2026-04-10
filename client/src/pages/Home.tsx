@@ -123,7 +123,7 @@ function HeroSlider({
               loop
               playsInline
               autoPlay={i === 0}
-              preload={i === current ? "auto" : "none"}
+              preload={i === current ? "metadata" : "none"}
               className="absolute inset-0 w-full h-full object-cover"
               onCanPlay={i === 0 ? () => setPlaceholderVisible(false) : undefined}
               onPlaying={i === 0 ? () => setPlaceholderVisible(false) : undefined}
@@ -685,6 +685,7 @@ function NewsSection() {
       const r = await fetch("/api/news");
       return r.ok ? r.json() : [];
     },
+    staleTime: 120_000,
   });
 
   if (!news || news.length === 0) return null;
@@ -741,6 +742,7 @@ function JobsSection() {
   const { data: jobs } = useQuery<any[]>({
     queryKey: ["/api/jobs"],
     queryFn: async () => { const r = await fetch("/api/jobs"); return r.ok ? r.json() : []; },
+    staleTime: 300_000,
   });
 
   const activeJobs = jobs?.filter((j) => j.isActive).slice(0, 3) || [];
