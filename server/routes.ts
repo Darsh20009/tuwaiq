@@ -714,7 +714,27 @@ export async function registerRoutes(
 
   app.delete("/api/admin/donations/:id", requireRole("admin"), async (req, res) => {
     try {
-      await db.collection("donations").deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      const donId = new ObjectId(String(req.params.id));
+      const donation = await db.collection("donations").findOne({ _id: donId });
+
+      // If donation was confirmed, reverse the user's total
+      if (donation && (donation.status === "confirmed" || donation.status === "success") && donation.userId) {
+        try {
+          const userId = new ObjectId(String(donation.userId));
+          const amount = Number(donation.amount) || 0;
+          await db.collection("users").updateOne(
+            { _id: userId },
+            {
+              $inc: {
+                totalDonations: -amount,
+                donationCount: -1,
+              },
+            }
+          );
+        } catch (_) { /* user may not exist, skip gracefully */ }
+      }
+
+      await db.collection("donations").deleteOne({ _id: donId });
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ message: "خطأ في حذف التبرع" });
@@ -836,6 +856,12 @@ export async function registerRoutes(
             status: "confirmed",
             paymentMethod: "bank_transfer",
           });
+
+          // Save the linked donationId on the transfer for clean deletion later
+          await db.collection("bank_transfers").updateOne(
+            { _id: new ObjectId(transferId) },
+            { $set: { linkedDonationId: donation.id, linkedGeideaRef: geideaRef } }
+          );
           
           // Create Certificate
           await db.collection("certificates").insertOne({
@@ -951,9 +977,54 @@ export async function registerRoutes(
 
   app.delete("/api/bank-transfers/:id", requireRole("admin"), async (req, res) => {
     try {
-      await db.collection("bank_transfers").deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      const transferId = new ObjectId(String(req.params.id));
+      const transfer = await db.collection("bank_transfers").findOne({ _id: transferId });
+
+      if (transfer && transfer.status === "approved") {
+        // Try to find the linked donation — prefer the stored linkedDonationId, fallback to geideaRef lookup
+        let linkedDonation: any = null;
+        if (transfer.linkedDonationId) {
+          try {
+            linkedDonation = await db.collection("donations").findOne({ _id: new ObjectId(String(transfer.linkedDonationId)) });
+          } catch (_) {}
+        }
+        if (!linkedDonation && transfer.linkedGeideaRef) {
+          linkedDonation = await db.collection("donations").findOne({ geideaRef: transfer.linkedGeideaRef });
+        }
+        // Last resort: match by amount + paymentMethod + approximate creation time
+        if (!linkedDonation) {
+          linkedDonation = await db.collection("donations").findOne({
+            paymentMethod: "bank_transfer",
+            amount: transfer.amount,
+            donorName: transfer.donorName || null,
+            createdAt: { $gte: new Date(new Date(transfer.reviewedAt || transfer.createdAt || Date.now()).getTime() - 30000) },
+          });
+        }
+
+        if (linkedDonation) {
+          // Reverse user totals
+          if (linkedDonation.userId) {
+            try {
+              const userId = new ObjectId(String(linkedDonation.userId));
+              const amount = Number(linkedDonation.amount) || 0;
+              await db.collection("users").updateOne(
+                { _id: userId },
+                { $inc: { totalDonations: -amount, donationCount: -1 } }
+              );
+            } catch (_) { /* skip if user not found */ }
+          }
+          // Delete the linked donation and related records
+          const donIdStr = String(linkedDonation._id);
+          await db.collection("donations").deleteOne({ _id: linkedDonation._id });
+          await db.collection("certificates").deleteMany({ donationId: donIdStr });
+          await db.collection("invoices").deleteMany({ donationId: donIdStr });
+        }
+      }
+
+      await db.collection("bank_transfers").deleteOne({ _id: transferId });
       res.json({ success: true });
     } catch (err) {
+      console.error("Error deleting bank transfer:", err);
       res.status(500).json({ message: "خطأ في حذف التحويل" });
     }
   });

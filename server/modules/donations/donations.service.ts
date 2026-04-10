@@ -339,7 +339,22 @@ export async function getDonationStats(): Promise<any> {
 }
 
 export async function softDeleteDonation(id: string): Promise<void> {
-  await DonationModel.findByIdAndUpdate(id, { isDeleted: true });
+  const donation = await DonationModel.findById(id);
+  if (donation) {
+    // If confirmed, reverse the user's total and count
+    if (
+      (donation.status === "confirmed" || donation.status === "success") &&
+      donation.userId
+    ) {
+      try {
+        const amount = Number(donation.amount) || 0;
+        await UserModel.findByIdAndUpdate(donation.userId, {
+          $inc: { totalDonations: -amount, donationCount: -1 },
+        });
+      } catch (_) { /* user may not exist */ }
+    }
+    await donation.updateOne({ isDeleted: true });
+  }
 }
 
 export async function getDeletedDonations(): Promise<IDonation[]> {
