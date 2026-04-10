@@ -27,7 +27,7 @@ function LaptopFrame() {
       <circle cx="76" cy="31" r="5" fill="#22c55e" opacity="0.8"/>
       <rect x="96" y="26" width="148" height="10" rx="5" fill="#1e3248"/>
       {/* Logo inside screen */}
-      <text x="160" y="105" textAnchor="middle" fontSize="13" fontWeight="bold" fill="rgba(255,255,255,0.15)" fontFamily="system-ui">tuwaiq.org</text>
+      <text x="160" y="105" textAnchor="middle" fontSize="13" fontWeight="bold" fill="rgba(255,255,255,0.15)" fontFamily="system-ui">tuwaiqassociation.sa</text>
       {/* Green nav bar */}
       <rect x="30" y="42" width="260" height="28" fill="#1e4d3a" opacity="0.9"/>
       <rect x="42" y="52" width="40" height="8" rx="4" fill="#4ade80" opacity="0.5"/>
