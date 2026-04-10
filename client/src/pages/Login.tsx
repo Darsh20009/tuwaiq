@@ -10,7 +10,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { useIsAppleDevice } from "@/hooks/use-apple-pay";
 
 const STARS = Array.from({ length: 45 }, (_, i) => ({
   id: i,
@@ -183,8 +182,6 @@ function GoogleRedirectButton() {
 }
 
 function AppleSignInButton() {
-  const isApple = useIsAppleDevice();
-  if (!isApple) return null;
   return (
     <a href="/api/auth/apple" className="block mt-2 w-full" data-testid="button-apple-signin">
       <div
