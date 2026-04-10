@@ -14,7 +14,8 @@ import {
   ChevronRight, Upload, Send, RotateCcw, CheckCircle, Loader2,
   Banknote, Lock,
 } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
+import { SiWhatsapp, SiApple } from "react-icons/si";
+import { useIsAppleDevice } from "@/hooks/use-apple-pay";
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -233,6 +234,8 @@ export default function ServiceDetail() {
   const [posterModal, setPosterModal] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState("");
+
+  const isAppleDevice = useIsAppleDevice();
 
   // ─── Inline Payment States ──────────────────────────────
   type PayStep = "amount" | "info" | "method" | "success";
@@ -1010,14 +1013,17 @@ export default function ServiceDetail() {
                                 <CreditCard className="w-5 h-5" />
                                 بطاقة
                               </button>
-                              <button
-                                onClick={() => setPayMethod("apple")}
-                                className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-sm font-semibold ${payMethod === "apple" ? "border-gray-900 bg-gray-900 text-white" : "border-gray-200 hover:border-gray-300"}`}
-                                data-testid="button-method-apple"
-                              >
-                                <span className="text-lg leading-none">🍎</span>
-                                Apple Pay
-                              </button>
+                              {isAppleDevice && (
+                                <button
+                                  onClick={() => setPayMethod("apple")}
+                                  className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-sm font-semibold ${payMethod === "apple" ? "border-gray-900 bg-black text-white" : "border-gray-200 hover:border-gray-800 text-gray-700"}`}
+                                  data-testid="button-method-apple"
+                                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" }}
+                                >
+                                  <SiApple className="w-5 h-5" />
+                                  <span className="text-xs font-semibold">Pay</span>
+                                </button>
+                              )}
                               <button
                                 onClick={() => setPayMethod("bank")}
                                 className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-sm font-semibold ${payMethod === "bank" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 hover:border-gray-300"}`}
@@ -1063,7 +1069,10 @@ export default function ServiceDetail() {
                                   style={{ backgroundColor: "#000000" }}
                                   data-testid="button-apple-pay"
                                 >
-                                  {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin ml-2" /> جاري التحضير...</> : <><span className="text-xl leading-none ml-2">🍎</span>ادفع بـ Apple Pay</>}
+                                  {isSubmitting
+                                    ? <><Loader2 className="w-4 h-4 animate-spin ml-2" /> جاري التحضير...</>
+                                    : <span className="flex items-center gap-2" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" }}><SiApple className="w-5 h-5 -mt-0.5" /><span className="font-semibold">Pay</span></span>
+                                  }
                                 </Button>
                                 <p className="text-[10px] text-center text-muted-foreground flex items-center justify-center gap-1">
                                   <Lock className="w-3 h-3" /> مدفوعات مشفرة SSL — مصرف الراجحي

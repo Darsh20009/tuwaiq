@@ -15,8 +15,10 @@ import {
   Globe2, Home, Baby, HandHeart, RefreshCw, Zap, Plus, Minus,
   Upload, CheckCircle, X, Copy, Building2, Send, RotateCcw, Lock, Phone,
 } from "lucide-react";
+import { SiApple } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useIsAppleDevice } from "@/hooks/use-apple-pay";
 
 const CAMPAIGN_AMOUNTS: Record<string, number[]> = {
   "":       [15, 50, 100, 200, 500, 1000],
@@ -74,6 +76,7 @@ export function DonationCard() {
 
   const [selectedAmount, setSelectedAmount] = useState<number>(initialAmount);
   const [selectedCampaign, setSelectedCampaign] = useState<string>(initialCampaign);
+  const isAppleDevice = useIsAppleDevice();
   const [payMethod, setPayMethod] = useState<"rajhi" | "apple" | "transfer">("rajhi");
   const [donationType, setDonationType] = useState<DonationType>("once");
   const [duration, setDuration] = useState<number>(3);
@@ -695,23 +698,25 @@ export function DonationCard() {
                 <CreditCard className="w-4 h-4" />
                 بطاقة بنكية
               </button>
-              <button
-                type="button"
-                onClick={() => enableRajhiPayment && setPayMethod("apple")}
-                disabled={!enableRajhiPayment}
-                className={cn(
-                  "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
-                  !enableRajhiPayment
-                    ? "border-[hsl(35_15%_88%)] text-[hsl(215_15%_65%)] opacity-50 cursor-not-allowed"
-                    : payMethod === "apple"
-                    ? "border-[hsl(152_42%_28%)] bg-[hsl(152_42%_95%)] text-[hsl(152_42%_22%)]"
-                    : "border-[hsl(35_15%_88%)] text-[hsl(215_15%_48%)] hover:border-[hsl(152_42%_50%)]"
-                )}
-                data-testid="method-apple"
-              >
-                <span className="text-base leading-none">🍎</span>
-                Apple Pay
-              </button>
+              {isAppleDevice && (
+                <button
+                  type="button"
+                  onClick={() => enableRajhiPayment && setPayMethod("apple")}
+                  disabled={!enableRajhiPayment}
+                  className={cn(
+                    "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
+                    !enableRajhiPayment
+                      ? "border-[hsl(35_15%_88%)] text-[hsl(215_15%_65%)] opacity-50 cursor-not-allowed"
+                      : payMethod === "apple"
+                      ? "border-gray-900 bg-black text-white"
+                      : "border-[hsl(35_15%_88%)] text-[hsl(215_15%_48%)] hover:border-gray-800"
+                  )}
+                  data-testid="method-apple"
+                >
+                  <SiApple className="w-4 h-4" />
+                  <span className="tracking-tight" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" }}>Pay</span>
+                </button>
+              )}
               {enableTransfer && (
                 <button
                   type="button"
@@ -750,20 +755,26 @@ export function DonationCard() {
             type="submit"
             disabled={isDonating || isSubmittingRecurring || ((payMethod === "rajhi" || payMethod === "apple") && !enableRajhiPayment)}
             className="w-full flex items-center justify-center gap-2.5 py-4 rounded-xl font-black font-heading text-lg text-white transition-all hover:opacity-90 hover:shadow-lg disabled:opacity-60"
-            style={{ backgroundColor: payMethod === "transfer" ? "hsl(152 42% 28%)" : payMethod === "apple" ? "#000000" : "hsl(28 44% 59%)" }}
+            style={{
+              backgroundColor: payMethod === "transfer" ? "hsl(152 42% 28%)" : payMethod === "apple" ? "#000" : "hsl(28 44% 59%)",
+              fontFamily: payMethod === "apple" ? "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" : undefined,
+              letterSpacing: payMethod === "apple" ? "normal" : undefined,
+            }}
             data-testid="button-donate-submit"
           >
             {(isDonating || isSubmittingRecurring) ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : payMethod === "apple" ? (
-              <>
-                <span className="text-xl leading-none">🍎</span>
-                {donationType === "monthly"
-                  ? `اشترك بـ Apple Pay (${duration} شهر)`
-                  : donationType === "daily"
-                  ? `اشترك بـ Apple Pay (${duration} يوم)`
-                  : "ادفع بـ Apple Pay"}
-              </>
+              <span className="flex items-center justify-center gap-1.5">
+                <SiApple className="w-5 h-5 -mt-0.5" />
+                <span className="text-base font-semibold">
+                  {donationType === "monthly"
+                    ? `Pay — اشتراك ${duration} شهر`
+                    : donationType === "daily"
+                    ? `Pay — اشتراك ${duration} يوم`
+                    : "Pay"}
+                </span>
+              </span>
             ) : payMethod === "rajhi" ? (
               <>
                 <CreditCard className="w-5 h-5" />
