@@ -74,7 +74,7 @@ export function DonationCard() {
 
   const [selectedAmount, setSelectedAmount] = useState<number>(initialAmount);
   const [selectedCampaign, setSelectedCampaign] = useState<string>(initialCampaign);
-  const [payMethod, setPayMethod] = useState<"rajhi" | "transfer">("rajhi");
+  const [payMethod, setPayMethod] = useState<"rajhi" | "apple" | "transfer">("rajhi");
   const [donationType, setDonationType] = useState<DonationType>("once");
   const [duration, setDuration] = useState<number>(3);
   const [isSubmittingRecurring, setIsSubmittingRecurring] = useState(false);
@@ -677,13 +677,13 @@ export function DonationCard() {
           {/* Payment Method Toggle */}
           <div>
             <p className="text-xs font-bold mb-2" style={{ color: "hsl(215 15% 42%)" }}>طريقة الدفع</p>
-            <div className="flex gap-2">
+            <div className={cn("grid gap-2", enableTransfer ? "grid-cols-3" : "grid-cols-2")}>
               <button
                 type="button"
                 onClick={() => enableRajhiPayment && setPayMethod("rajhi")}
                 disabled={!enableRajhiPayment}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 text-sm font-bold transition-all",
+                  "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
                   !enableRajhiPayment
                     ? "border-[hsl(35_15%_88%)] text-[hsl(215_15%_65%)] opacity-50 cursor-not-allowed"
                     : payMethod === "rajhi"
@@ -693,14 +693,31 @@ export function DonationCard() {
                 data-testid="method-rajhi"
               >
                 <CreditCard className="w-4 h-4" />
-                بطاقة — الراجحي
+                بطاقة بنكية
+              </button>
+              <button
+                type="button"
+                onClick={() => enableRajhiPayment && setPayMethod("apple")}
+                disabled={!enableRajhiPayment}
+                className={cn(
+                  "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
+                  !enableRajhiPayment
+                    ? "border-[hsl(35_15%_88%)] text-[hsl(215_15%_65%)] opacity-50 cursor-not-allowed"
+                    : payMethod === "apple"
+                    ? "border-[hsl(152_42%_28%)] bg-[hsl(152_42%_95%)] text-[hsl(152_42%_22%)]"
+                    : "border-[hsl(35_15%_88%)] text-[hsl(215_15%_48%)] hover:border-[hsl(152_42%_50%)]"
+                )}
+                data-testid="method-apple"
+              >
+                <span className="text-base leading-none">🍎</span>
+                Apple Pay
               </button>
               {enableTransfer && (
                 <button
                   type="button"
                   onClick={() => setPayMethod("transfer")}
                   className={cn(
-                    "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 text-sm font-bold transition-all",
+                    "flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-bold transition-all",
                     payMethod === "transfer"
                       ? "border-[hsl(152_42%_28%)] bg-[hsl(152_42%_95%)] text-[hsl(152_42%_22%)]"
                       : "border-[hsl(35_15%_88%)] text-[hsl(215_15%_48%)] hover:border-[hsl(152_42%_50%)]"
@@ -713,13 +730,17 @@ export function DonationCard() {
               )}
             </div>
 
-            {payMethod === "rajhi" && (
+            {(payMethod === "rajhi" || payMethod === "apple") && (
               <div
                 className="mt-2 flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
                 style={{ backgroundColor: "hsl(152 42% 95%)", color: "hsl(152 42% 30%)" }}
               >
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                <span>ستُحوَّل لبوابة مصرف الراجحي الآمنة لإتمام الدفع</span>
+                <span>
+                  {payMethod === "apple"
+                    ? "ستُحوَّل لبوابة الراجحي — اختر Apple Pay لإتمام الدفع"
+                    : "ستُحوَّل لبوابة مصرف الراجحي الآمنة لإتمام الدفع"}
+                </span>
               </div>
             )}
           </div>
@@ -727,13 +748,22 @@ export function DonationCard() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isDonating || isSubmittingRecurring || (payMethod === "rajhi" && !enableRajhiPayment)}
+            disabled={isDonating || isSubmittingRecurring || ((payMethod === "rajhi" || payMethod === "apple") && !enableRajhiPayment)}
             className="w-full flex items-center justify-center gap-2.5 py-4 rounded-xl font-black font-heading text-lg text-white transition-all hover:opacity-90 hover:shadow-lg disabled:opacity-60"
-            style={{ backgroundColor: payMethod === "rajhi" ? "hsl(28 44% 59%)" : "hsl(152 42% 28%)" }}
+            style={{ backgroundColor: payMethod === "transfer" ? "hsl(152 42% 28%)" : payMethod === "apple" ? "#000000" : "hsl(28 44% 59%)" }}
             data-testid="button-donate-submit"
           >
             {(isDonating || isSubmittingRecurring) ? (
               <Loader2 className="w-5 h-5 animate-spin" />
+            ) : payMethod === "apple" ? (
+              <>
+                <span className="text-xl leading-none">🍎</span>
+                {donationType === "monthly"
+                  ? `اشترك بـ Apple Pay (${duration} شهر)`
+                  : donationType === "daily"
+                  ? `اشترك بـ Apple Pay (${duration} يوم)`
+                  : "ادفع بـ Apple Pay"}
+              </>
             ) : payMethod === "rajhi" ? (
               <>
                 <CreditCard className="w-5 h-5" />
@@ -886,8 +916,10 @@ export function DonationCard() {
                 </div>
 
                 {/* Email receipt */}
-                <div className="rounded-xl p-4 space-y-3" style={{ backgroundColor: "hsl(38 85% 97%)", border: "1px solid hsl(38 85% 85%)" }}>
-                  <p className="text-xs font-bold" style={{ color: "hsl(38 85% 28%)" }}>أرسل الإيصال على بريدك الإلكتروني (اختياري)</p>
+                <div className="rounded-xl p-4 space-y-3" style={{ backgroundColor: btEmail ? "hsl(38 85% 97%)" : "hsl(0 80% 97%)", border: btEmail ? "1px solid hsl(38 85% 82%)" : "1px solid hsl(0 80% 85%)" }}>
+                  <p className="text-xs font-bold" style={{ color: btEmail ? "hsl(38 85% 28%)" : "hsl(0 60% 35%)" }}>
+                    {btEmail ? "أرسل الإيصال على بريدك الإلكتروني" : "⚠️ أدخل بريدك لاستلام إيصال التحويل"}
+                  </p>
                   <div className="flex gap-2">
                     <Input
                       type="email"

@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DonationCard } from "@/components/DonationCard";
 import { QuickDonateStrip } from "@/components/QuickDonateStrip";
+import { DevicesSection } from "@/components/DevicesSection";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -189,6 +190,24 @@ function HeroSlider({
             width: `${((current + 1) / total) * 100}%`,
           }}
         />
+      </div>
+
+      {/* Mountain silhouette — جبل طويق */}
+      <div className="absolute bottom-0 left-0 w-full z-[15] pointer-events-none" style={{ height: "120px" }}>
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M0,120 L0,90 Q60,70 120,85 Q180,100 220,72 Q260,44 310,60 Q350,72 400,50 Q440,30 480,48 Q530,66 560,40 Q590,14 620,32 Q660,52 700,35 Q735,18 770,40 Q810,62 840,38 Q880,14 920,30 Q960,46 1000,28 Q1040,10 1080,26 Q1120,42 1160,22 Q1200,2 1240,18 Q1280,34 1320,20 Q1370,6 1400,22 L1440,18 L1440,120 Z"
+            fill="rgba(255,255,255,0.06)"
+          />
+          <path
+            d="M0,120 L0,100 Q80,85 140,95 Q200,105 250,88 Q290,72 340,82 Q390,92 430,75 Q480,55 520,70 Q560,85 600,68 Q640,50 680,65 Q720,80 760,62 Q800,44 840,58 Q880,72 920,55 Q960,38 1000,52 Q1050,66 1090,50 Q1130,34 1170,48 Q1210,62 1260,46 Q1310,30 1360,45 Q1400,57 1440,42 L1440,120 Z"
+            fill="rgba(255,255,255,0.04)"
+          />
+          <path
+            d="M0,120 L0,108 Q100,100 180,108 Q260,116 320,104 Q380,92 440,100 Q500,108 560,98 Q620,88 680,96 Q740,104 800,94 Q860,84 920,92 Q980,100 1040,90 Q1100,80 1160,90 Q1220,100 1280,88 Q1340,76 1440,88 L1440,120 Z"
+            fill="rgba(255,255,255,0.08)"
+          />
+        </svg>
       </div>
     </div>
   );
@@ -870,6 +889,7 @@ export default function Home() {
         <NewsSection />
         <JobsSection />
         <VolunteerStrip />
+        <DevicesSection />
         <CTASection />
       </main>
       <Footer />

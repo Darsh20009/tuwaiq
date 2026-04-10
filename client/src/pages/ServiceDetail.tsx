@@ -237,7 +237,7 @@ export default function ServiceDetail() {
   // ─── Inline Payment States ──────────────────────────────
   type PayStep = "amount" | "info" | "method" | "success";
   const [payStep, setPayStep] = useState<PayStep>("amount");
-  const [payMethod, setPayMethod] = useState<"card" | "bank">("card");
+  const [payMethod, setPayMethod] = useState<"card" | "apple" | "bank">("card");
   const [donorName, setDonorName] = useState("");
   const [donorPhone, setDonorPhone] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
@@ -947,7 +947,12 @@ export default function ServiceDetail() {
                               />
                             </div>
                             <div>
-                              <Label className="text-sm mb-1.5 block">البريد الإلكتروني <span className="text-muted-foreground text-xs">(اختياري — للفاتورة)</span></Label>
+                              <Label className="text-sm mb-1.5 block">
+                                البريد الإلكتروني{" "}
+                                <span className="text-xs font-semibold" style={{ color: "hsl(28 44% 50%)" }}>
+                                  (موصى به — لإرسال الإيصال)
+                                </span>
+                              </Label>
                               <Input
                                 type="email"
                                 placeholder="example@email.com"
@@ -996,14 +1001,22 @@ export default function ServiceDetail() {
                           {/* Method tabs */}
                           <div>
                             <h3 className="text-base font-bold mb-3">اختر طريقة الدفع</h3>
-                            <div className="grid grid-cols-2 gap-2 mb-4">
+                            <div className="grid grid-cols-3 gap-2 mb-4">
                               <button
                                 onClick={() => setPayMethod("card")}
                                 className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-sm font-semibold ${payMethod === "card" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 hover:border-gray-300"}`}
                                 data-testid="button-method-card"
                               >
                                 <CreditCard className="w-5 h-5" />
-                                بطاقة إلكترونية
+                                بطاقة
+                              </button>
+                              <button
+                                onClick={() => setPayMethod("apple")}
+                                className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-sm font-semibold ${payMethod === "apple" ? "border-gray-900 bg-gray-900 text-white" : "border-gray-200 hover:border-gray-300"}`}
+                                data-testid="button-method-apple"
+                              >
+                                <span className="text-lg leading-none">🍎</span>
+                                Apple Pay
                               </button>
                               <button
                                 onClick={() => setPayMethod("bank")}
@@ -1011,7 +1024,7 @@ export default function ServiceDetail() {
                                 data-testid="button-method-bank"
                               >
                                 <Banknote className="w-5 h-5" />
-                                تحويل بنكي
+                                تحويل
                               </button>
                             </div>
 
@@ -1029,6 +1042,28 @@ export default function ServiceDetail() {
                                   data-testid="button-card-pay"
                                 >
                                   {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin ml-2" /> جاري التحضير...</> : <><Lock className="w-4 h-4 ml-2" />ادفع الآن بأمان</>}
+                                </Button>
+                                <p className="text-[10px] text-center text-muted-foreground flex items-center justify-center gap-1">
+                                  <Lock className="w-3 h-3" /> مدفوعات مشفرة SSL — مصرف الراجحي
+                                </p>
+                              </div>
+                            )}
+
+                            {/* Apple Pay — same Rajhi gateway */}
+                            {payMethod === "apple" && (
+                              <div className="space-y-3">
+                                <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: "hsl(0 0% 5%)", borderColor: "hsl(0 0% 20%)" }}>
+                                  <p className="text-xs font-medium text-white">ادفع بـ Apple Pay عبر بوابة مصرف الراجحي</p>
+                                  <p className="text-[10px] mt-0.5" style={{ color: "hsl(0 0% 60%)" }}>سيتم توجيهك لإتمام الدفع بأمان</p>
+                                </div>
+                                <Button
+                                  onClick={handleCardPayment}
+                                  disabled={isSubmitting}
+                                  className="w-full h-12 text-base font-bold text-white shadow-lg"
+                                  style={{ backgroundColor: "#000000" }}
+                                  data-testid="button-apple-pay"
+                                >
+                                  {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin ml-2" /> جاري التحضير...</> : <><span className="text-xl leading-none ml-2">🍎</span>ادفع بـ Apple Pay</>}
                                 </Button>
                                 <p className="text-[10px] text-center text-muted-foreground flex items-center justify-center gap-1">
                                   <Lock className="w-3 h-3" /> مدفوعات مشفرة SSL — مصرف الراجحي
