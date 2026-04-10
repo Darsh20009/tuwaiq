@@ -33,6 +33,7 @@ import Contact from "@/pages/Contact";
 import Goals from "@/pages/Goals";
 import Vision from "@/pages/Vision";
 import Founders from "@/pages/Founders";
+import GeneralAssembly from "@/pages/GeneralAssembly";
 import Services from "@/pages/Services";
 import ServiceDetail from "@/pages/ServiceDetail";
 import Certificates from "@/pages/Certificates";
@@ -443,6 +444,7 @@ function Router() {
       <Route path="/goals" component={Goals} />
       <Route path="/vision" component={Vision} />
       <Route path="/founders" component={Founders} />
+      <Route path="/general-assembly" component={GeneralAssembly} />
       <Route path="/board" component={BoardPage} />
       <Route path="/assembly" component={AssemblyPage} />
       <Route path="/programs" component={ProgramsPage} />
