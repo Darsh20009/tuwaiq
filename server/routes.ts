@@ -36,6 +36,7 @@ import { sendEmail, emailTemplates, setMailDb } from "./mail";
 import { generateCertificatePDF, generateInvoicePDF } from "./pdf";
 import { initiateRajhiPayment, verifyRajhiCallback } from "./rajhi";
 import { updateDonationStatus as confirmDonationStatus } from "./modules/donations/donations.service";
+import { fireNotifyAdmins } from "./core/notifications";
 
 // Simple in-memory rate limiter for sensitive endpoints
 const resetRateLimits = new Map<string, { count: number; resetAt: number }>();
@@ -389,7 +390,7 @@ export async function registerRoutes(
           await storage.updateBankDetails((req.user as any).id, req.body.bankName, req.body.iban);
         }
 
-        // Send confirmation email
+        // Send confirmation email to donor
         if (user?.email) {
           const template = emailTemplates.donationReceived(finalDonorName, String(amount));
           await sendEmail({
@@ -398,6 +399,13 @@ export async function registerRoutes(
             html: template.html
           });
         }
+
+        // ── Notify admins of pending bank-transfer donation ──────────
+        fireNotifyAdmins(
+          "🏦 تبرع بنكي جديد بانتظار المراجعة",
+          `${finalDonorName} أرسل تبرعاً بمبلغ ${amount} ريال عبر التحويل البنكي — يحتاج تأكيداً`,
+          { type: "warning", link: "/admin/donations", icon: "🏦" }
+        ).catch(() => {});
 
         return res.json({ 
           success: true, 
@@ -521,7 +529,14 @@ export async function registerRoutes(
       return res.status(400).send("طلب غير صالح");
     }
     if (status === "success") {
-      await confirmDonationByRef(ref, "online");
+      const confirmed = await confirmDonationByRef(ref, "online");
+      if (confirmed) {
+        fireNotifyAdmins(
+          "💰 تبرع جديد مؤكد",
+          `${confirmed.donorName || "فاعل خير"} تبرع بمبلغ ${confirmed.amount} ريال عبر الدفع الإلكتروني`,
+          { type: "success", link: "/admin/donations", icon: "💰" }
+        ).catch(() => {});
+      }
       res.redirect(`/payment-result?status=success&id=${ref}`);
     } else {
       await storage.updateDonationStatus(ref, "failed");
@@ -756,6 +771,15 @@ export async function registerRoutes(
         status: "pending",
         createdAt: new Date()
       });
+
+      // ── Notify admins of new pending bank-transfer receipt ───────
+      const senderName = donorName || "مجهول";
+      const transferAmount = amount ? `${amount} ريال` : "مبلغ غير محدد";
+      fireNotifyAdmins(
+        "📄 إيصال تحويل بنكي جديد",
+        `${senderName} أرسل إيصال تحويل بمبلغ ${transferAmount} عبر ${bankName || "بنك غير محدد"} — يحتاج مراجعة`,
+        { type: "warning", link: "/admin/transfers", icon: "📄" }
+      ).catch(() => {});
       
       res.status(201).json({ id: transfer.insertedId, message: "تم استلام إيصال التحويل بنجاح" });
     } catch (err) {
