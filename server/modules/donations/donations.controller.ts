@@ -140,8 +140,14 @@ export async function getHajjStats(req: Request, res: Response): Promise<void> {
   try {
     const HAJJ_COST = 12000;
     const [confirmedDocs, pendingDocs] = await Promise.all([
-      db.collection("donations").find({ type: "hajj", status: "confirmed" }, { projection: { amount: 1 } }).toArray(),
-      db.collection("donations").find({ type: "hajj", status: "pending" },   { projection: { amount: 1 } }).toArray(),
+      db.collection("donations").find(
+        { type: "hajj", status: { $in: ["confirmed", "success"] }, isDeleted: { $ne: true } },
+        { projection: { amount: 1 } }
+      ).toArray(),
+      db.collection("donations").find(
+        { type: "hajj", status: "pending", isDeleted: { $ne: true } },
+        { projection: { amount: 1 } }
+      ).toArray(),
     ]);
 
     const confirmedAmount = confirmedDocs.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
