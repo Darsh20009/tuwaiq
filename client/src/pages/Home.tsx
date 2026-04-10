@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import { DonationCard } from "@/components/DonationCard";
 import { QuickDonateStrip } from "@/components/QuickDonateStrip";
 import { DevicesSection } from "@/components/DevicesSection";
-import { TrustPaymentBanner } from "@/components/TrustPaymentBanner";
+import { SiteBookSection } from "@/components/SiteBookSection";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -984,7 +984,7 @@ export default function Home() {
         <JobsSection />
         <VolunteerStrip />
         <DevicesSection />
-        <TrustPaymentBanner />
+        <SiteBookSection />
         <CTASection />
       </main>
       <Footer />
