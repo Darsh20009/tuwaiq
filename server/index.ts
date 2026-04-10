@@ -143,14 +143,19 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:"],
         imgSrc: ["'self'", "data:", "https:", "blob:"],
         fontSrc: ["'self'", "https:", "data:"],
-        connectSrc: ["'self'", "https:", ...(process.env.NODE_ENV !== "production" ? ["ws:", "wss:"] : [])],
+        // media-src: allow HTTPS + blob for video/audio (critical for Safari/WebView)
+        mediaSrc: ["'self'", "https:", "blob:", "data:"],
+        // connectSrc: include wss: always (needed by WebSocket in any env/WebView)
+        connectSrc: ["'self'", "https:", "ws:", "wss:"],
+        // worker-src: allow service-workers + blob workers
+        workerSrc: ["'self'", "blob:"],
         frameSrc: ["'self'", "https://payment.alrajhibank.com.sa", "https://digitalpayments.alrajhibank.com.sa", "https://accounts.google.com"],
         formAction: ["'self'", "https://securepayments.alrajhibank.com.sa", "https://digitalpayments.alrajhibank.com.sa", "https:"],
-        frameAncestors: ["*"], // Allow embedding in any iframe
+        frameAncestors: ["*"], // Allow embedding in any iframe (Snapchat / WhatsApp WebView)
       },
     },
     crossOriginEmbedderPolicy: false,
-    frameguard: false, // Disable X-Frame-Options — frameAncestors CSP handles it
+    frameguard: false, // X-Frame-Options removed — frameAncestors in CSP handles embedding
   })
 );
 

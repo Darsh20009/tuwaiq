@@ -378,18 +378,31 @@ function buildHomeFAQSchema(baseUrl: string): string {
 // ── Bot detection ──────────────────────────────────────────────────────────────
 
 const BOT_AGENTS = [
-  "whatsapp", "facebookexternalhit", "facebookbot", "twitterbot", "linkedinbot",
+  "facebookexternalhit", "facebookbot", "twitterbot", "linkedinbot",
   "telegrambot", "googlebot", "bingbot", "slackbot", "discordbot",
-  "applebot", "ia_archiver", "snapchat", "vkshare", "outbrain",
+  "applebot", "ia_archiver", "vkshare", "outbrain",
   "pinterest", "w3c_validator", "semrushbot", "ahrefsbot", "mj12bot",
   "rogerbot", "dotbot", "yandexbot", "baiduspider", "duckduckbot",
-  "sogou", "exabot", "facebot", "preview", "bytespider", "gptbot",
+  "sogou", "exabot", "facebot", "bytespider", "gptbot",
   "chatgpt-user", "claudebot", "petalbot", "seekerbot",
 ];
 
+// Social-media link-preview crawlers that do NOT have a real browser engine in their UA.
+// Their in-app browsers DO include "Mozilla"/"AppleWebKit"/"Chrome" — distinguished below.
+// whatsapp: WhatsApp's preview bot has no browser engine; in-app browser uses Chrome/Safari UA
+// snapchat: Snapchat preview bot has no browser engine; in-app browser has Mozilla + AppleWebKit
+const PREVIEW_ONLY_AGENTS = ["snapchat", "whatsapp", "instagram", "tiktok", "preview"];
+
 function isBot(userAgent: string): boolean {
   const ua = userAgent.toLowerCase();
-  return BOT_AGENTS.some((bot) => ua.includes(bot));
+  // Always treat known pure-bot UAs as bots
+  if (BOT_AGENTS.some((bot) => ua.includes(bot))) return true;
+  // Treat social-preview crawlers as bots ONLY when they don't carry a real browser engine.
+  // Snapchat's in-app browser includes "Mozilla"/"AppleWebKit"/"Chrome" in its UA;
+  // the Snapchat link-preview crawler typically does NOT — so we distinguish them here.
+  const hasBrowserEngine = ua.includes("mozilla") || ua.includes("applewebkit") || ua.includes("chrome");
+  if (!hasBrowserEngine && PREVIEW_ONLY_AGENTS.some((a) => ua.includes(a))) return true;
+  return false;
 }
 
 function escapeHtml(str: string): string {

@@ -66,9 +66,11 @@ export function additionalSecurityHeaders(req: Request, res: Response, next: Nex
     res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
   }
   // Prevent referrer leakage to third parties
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  // Restrict browser features
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  // Use "no-referrer-when-downgrade" for WebView compatibility (Snapchat / WhatsApp)
+  res.setHeader("Referrer-Policy", "no-referrer-when-downgrade");
+  // Permissions-Policy: minimal restrictions — keep camera/mic off, allow payment API
+  // (strict payment=() breaks some WebView environments including Snapchat in-app browser)
+  res.setHeader("Permissions-Policy", "camera=(), microphone=()");
   next();
 }
 
