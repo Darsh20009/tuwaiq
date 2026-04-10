@@ -7,6 +7,8 @@ import { NotFoundError, ValidationError } from "../../core/errors";
 import { randomBytes } from "crypto";
 import { db } from "../../db";
 import { sendEmail, emailTemplates } from "../../mail";
+import { generateCertificatePDF, generateInvoicePDF } from "../../pdf";
+import { fireNotify, fireNotifyAdmins } from "../../core/notifications";
 
 function computeLevel(total: number): string {
   if (total >= 100000) return "diamond";
@@ -132,6 +134,12 @@ export async function updateDonationStatus(filter: Record<string, any>, status: 
       });
     }
 
+    // Always notify admins on every confirmed donation
+    const adminDonorName = (donation as any).donorName || "فاعل خير";
+    fireNotifyAdmins("💰 تبرع جديد مؤكد", `${adminDonorName} تبرع بمبلغ ${donation.amount} ريال`, {
+      type: "success", link: "/admin/donations", icon: "💰", push: true,
+    }).catch(() => {});
+
     // Update user stats + points
     if (donation.userId) {
       const user = await UserModel.findById(donation.userId);
@@ -147,32 +155,74 @@ export async function updateDonationStatus(filter: Record<string, any>, status: 
           badges: computeBadges(newCount, newTotal),
         });
 
+        // Generate PDFs for attachment
+        const donorName = (donation as any).donorName || user?.name || "فاعل خير";
+        const donationType = (donation as any).type || "general";
+        const certNumber = (donation as any).certificateId ||
+          `TQ-${Date.now()}-${randomBytes(3).toString("hex").toUpperCase()}`;
+        const invNumber = (donation as any).receiptId ||
+          `INV-${Date.now()}-${randomBytes(3).toString("hex").toUpperCase()}`;
+
+        let pdfAttachments: { filename: string; content: Buffer; contentType: string }[] = [];
+        try {
+          const [certBuf, invBuf] = await Promise.all([
+            generateCertificatePDF({ donorName, amount: donation.amount, type: donationType, certificateNumber: certNumber }),
+            generateInvoicePDF({ donorName, amount: donation.amount, type: donationType, invoiceNumber: invNumber, receiptId: (donation as any).receiptId }),
+          ]);
+          pdfAttachments = [
+            { filename: `شهادة-تبرع-${certNumber}.pdf`, content: certBuf, contentType: "application/pdf" },
+            { filename: `فاتورة-${invNumber}.pdf`, content: invBuf, contentType: "application/pdf" },
+          ];
+        } catch (pdfErr) {
+          console.error("[Donations] PDF generation failed:", (pdfErr as Error).message);
+        }
+
         // Send confirmation email to registered user
         try {
-          if (user.email) {
-            const tpl = emailTemplates.donationReceived(
-              (donation as any).donorName || user.name || "فاعل خير",
-              String(donation.amount),
-              (donation as any).type,
-              (donation as any).receiptId,
-            );
-            await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+          const emailTo = user?.email || (donation as any).donorEmail;
+          if (emailTo) {
+            const tpl = emailTemplates.donationReceived(donorName, String(donation.amount), donationType, certNumber);
+            await sendEmail({ to: emailTo, subject: tpl.subject, html: tpl.html, attachments: pdfAttachments });
           }
         } catch (mailErr) {
           console.error("[Donations] Email send failed:", (mailErr as Error).message);
         }
+
+        // Push notification to the donor (if registered)
+        if (donation.userId) {
+          fireNotify(donation.userId.toString(), "✅ تم تأكيد تبرعك", `تبرعك بمبلغ ${donation.amount} ريال تم قبوله. جزاك الله خيراً.`, {
+            type: "success", link: "/my-donations", icon: "✅", push: true,
+          }).catch(() => {});
+        }
+
       }
     } else if ((donation as any).donorEmail) {
-      // Guest donor (no userId) — send confirmation to donorEmail directly
+      // Guest donor (no userId) — generate PDFs and send confirmation to donorEmail directly
       try {
-        const tpl = emailTemplates.donationReceived(
-          (donation as any).donorName || "فاعل خير",
-          String(donation.amount),
-          (donation as any).type,
-          (donation as any).receiptId,
-        );
-        await sendEmail({ to: (donation as any).donorEmail, subject: tpl.subject, html: tpl.html });
-        console.log("[Donations] Guest email sent to:", (donation as any).donorEmail);
+        const donorName = (donation as any).donorName || "فاعل خير";
+        const donationType = (donation as any).type || "general";
+        const certNumber = (donation as any).certificateId ||
+          `TQ-${Date.now()}-${randomBytes(3).toString("hex").toUpperCase()}`;
+        const invNumber = (donation as any).receiptId ||
+          `INV-${Date.now()}-${randomBytes(3).toString("hex").toUpperCase()}`;
+
+        let pdfAttachments: { filename: string; content: Buffer; contentType: string }[] = [];
+        try {
+          const [certBuf, invBuf] = await Promise.all([
+            generateCertificatePDF({ donorName, amount: donation.amount, type: donationType, certificateNumber: certNumber }),
+            generateInvoicePDF({ donorName, amount: donation.amount, type: donationType, invoiceNumber: invNumber, receiptId: (donation as any).receiptId }),
+          ]);
+          pdfAttachments = [
+            { filename: `شهادة-تبرع-${certNumber}.pdf`, content: certBuf, contentType: "application/pdf" },
+            { filename: `فاتورة-${invNumber}.pdf`, content: invBuf, contentType: "application/pdf" },
+          ];
+        } catch (pdfErr) {
+          console.error("[Donations] PDF generation failed:", (pdfErr as Error).message);
+        }
+
+        const tpl = emailTemplates.donationReceived(donorName, String(donation.amount), donationType, certNumber);
+        await sendEmail({ to: (donation as any).donorEmail, subject: tpl.subject, html: tpl.html, attachments: pdfAttachments });
+        console.log("[Donations] Guest email + PDFs sent to:", (donation as any).donorEmail);
       } catch (mailErr) {
         console.error("[Donations] Guest email send failed:", (mailErr as Error).message);
       }

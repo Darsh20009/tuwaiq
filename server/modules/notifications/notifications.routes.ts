@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { NotificationModel } from "../../models/Notification.model";
 import { PushSubscriptionModel } from "../../models/PushSubscription.model";
-import { VAPID_PUBLIC_KEY } from "../../core/pushNotifications";
+import { getVapidPublicKey } from "../../core/pushNotifications";
 
 const router = Router();
 
@@ -58,7 +58,7 @@ router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
 
 // GET /api/notifications/vapid-key
 router.get("/vapid-key", (_req: Request, res: Response) => {
-  res.json({ key: VAPID_PUBLIC_KEY });
+  res.json({ key: getVapidPublicKey() });
 });
 
 // POST /api/notifications/subscribe

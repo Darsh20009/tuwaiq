@@ -6,6 +6,7 @@ import { updateDonationStatus, createDonation, getDonationById } from "../donati
 import { sendEmail } from "../../mail";
 import { ValidationError } from "../../core/errors";
 import { db } from "../../db";
+import { fireNotifyAdmins } from "../../core/notifications";
 
 async function getSiteSettings(): Promise<Record<string, any>> {
   try {
@@ -149,40 +150,8 @@ export async function handleRajhiCallback(body: any): Promise<boolean> {
     }
   );
 
-  if (result.successful && updated?.donorEmail) {
-    const donorName = (updated as any)?.donorName || "المتبرع الكريم";
-    const amount = (updated as any)?.amount || 0;
-    await sendEmail({
-      to: updated.donorEmail,
-      subject: "✅ تأكيد تبرعك - جمعية طويق للخدمات الإنسانية",
-      html: `
-        <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 20px;">
-          <div style="background: #1a5c3a; padding: 24px; border-radius: 12px 12px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 22px;">جمعية طويق للخدمات الإنسانية</h1>
-          </div>
-          <div style="background: white; padding: 32px; border-radius: 0 0 12px 12px; border: 1px solid #e5e5e5;">
-            <h2 style="color: #1a5c3a; margin-top: 0;">✅ تم تأكيد تبرعك بنجاح!</h2>
-            <p style="color: #444; line-height: 1.7;">عزيزنا <strong>${donorName}</strong>،</p>
-            <p style="color: #444; line-height: 1.7;">
-              نشكرك جزيل الشكر على تبرعك الكريم بمبلغ <strong style="color: #1a5c3a; font-size: 18px;">${amount} ريال سعودي</strong>.
-              تبرعك سيصل مباشرة إلى مستحقيه وسيكون له أثر عظيم بإذن الله.
-            </p>
-            <div style="background: #f0faf5; border: 1px solid #c3e6d4; border-radius: 8px; padding: 16px; margin: 20px 0;">
-              <p style="margin: 0; color: #1a5c3a; font-weight: bold;">قال رسول الله ﷺ:</p>
-              <p style="margin: 8px 0 0; color: #2d7a50; font-style: italic;">"الصدقة تطفئ الخطيئة كما يطفئ الماء النار"</p>
-            </div>
-            <p style="color: #444; line-height: 1.7;">
-              بإمكانك الاطلاع على شهادة تبرعك من خلال تسجيل الدخول في موقعنا.
-            </p>
-            <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
-            <p style="color: #888; font-size: 12px; text-align: center;">
-              جمعية طويق للخدمات الإنسانية • الرياض • رقم الترخيص: 6573
-            </p>
-          </div>
-        </div>
-      `,
-    }).catch(() => {});
-  }
+  // NOTE: updateDonationStatus (above) already sends confirmation email with PDF attachments
+  // and fires push notifications to the donor + admins. No need to duplicate here.
 
   return result.successful;
 }

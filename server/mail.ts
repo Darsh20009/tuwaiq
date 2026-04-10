@@ -66,17 +66,30 @@ async function withRetry<T>(
 // =============================================
 // SMTP2GO HTTP API (Primary — works on Render)
 // =============================================
+export interface EmailAttachment {
+  filename: string;
+  content: Buffer;
+  contentType: string;
+}
+
 async function sendViaSMTP2GO(options: {
   to: string;
   subject: string;
   html?: string;
   text?: string;
+  attachments?: EmailAttachment[];
 }): Promise<{ messageId: string }> {
   const apiKey = process.env.SMTP2GO_API_KEY;
   if (!apiKey) throw new Error("SMTP2GO_API_KEY not configured");
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
+  const attachmentsPayload = (options.attachments || []).map((a) => ({
+    filename: a.filename,
+    fileblob: a.content.toString("base64"),
+    mimetype: a.contentType,
+  }));
 
   try {
     const response = await fetch("https://api.smtp2go.com/v3/email/send", {
@@ -90,6 +103,7 @@ async function sendViaSMTP2GO(options: {
         subject: options.subject,
         html_body: options.html,
         text_body: options.text || stripHtml(options.html || ""),
+        ...(attachmentsPayload.length ? { attachments: attachmentsPayload } : {}),
       }),
     });
 
@@ -138,6 +152,7 @@ async function sendViaSmtp(options: {
   subject: string;
   html?: string;
   text?: string;
+  attachments?: EmailAttachment[];
 }): Promise<{ messageId: string }> {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     throw new Error("SMTP credentials not configured");
@@ -152,6 +167,11 @@ async function sendViaSmtp(options: {
       "X-Mailer": "Tuwaiq Mail System",
       "List-Unsubscribe": `<mailto:unsubscribe@tuwaiqassociation.sa?subject=unsubscribe>`,
     },
+    attachments: (options.attachments || []).map((a) => ({
+      filename: a.filename,
+      content: a.content,
+      contentType: a.contentType,
+    })),
   });
   return { messageId: info.messageId };
 }
@@ -164,11 +184,13 @@ export async function sendEmail({
   subject,
   html,
   text,
+  attachments,
 }: {
   to: string;
   subject: string;
   html?: string;
   text?: string;
+  attachments?: EmailAttachment[];
 }): Promise<{ success: boolean; messageId?: string; error?: string }> {
   if (!to || !to.includes("@")) {
     return { success: false, error: "Invalid email address" };
@@ -181,7 +203,7 @@ export async function sendEmail({
   if (process.env.SMTP2GO_API_KEY) {
     try {
       const result = await withRetry(() =>
-        sendViaSMTP2GO({ to, subject, html: finalHtml, text: finalText }),
+        sendViaSMTP2GO({ to, subject, html: finalHtml, text: finalText, attachments }),
         2, 1000
       );
       console.log(`[Mail] ✓ Sent via SMTP2GO to ${to}: ${result.messageId}`);
@@ -196,7 +218,7 @@ export async function sendEmail({
   if (process.env.SMTP_USER && process.env.SMTP_PASS) {
     try {
       const result = await withRetry(() =>
-        sendViaSmtp({ to, subject, html: finalHtml, text: finalText })
+        sendViaSmtp({ to, subject, html: finalHtml, text: finalText, attachments })
       );
       console.log(`[Mail] ✓ Sent via SMTP to ${to}: ${result.messageId}`);
       await logEmail({ to, subject, status: "sent", messageId: result.messageId, provider: "smtp" });
