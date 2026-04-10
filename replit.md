@@ -27,10 +27,17 @@
 - **حذف**: `DELETE /api/bank-transfers/:id`
 - **رفض مع ملاحظة**: تمرير notes عند PATCH
 
-### إدارة الأخبار (`/admin/news`)
-- **تبديل النشر السريع**: `PATCH /api/news/:id/publish` — نشر/إخفاء فوري
-- **الحقول الجديدة**: `summary`, `summaryEn`, `category`
-- **الفلتر في العرض العام**: الأخبار المخفية (isPublished=false) لا تظهر في الموقع
+### إدارة الأخبار (`/admin/news`) — نظام مستقل في MongoDB
+- **Collection**: `news` في MongoDB — مستقلة عن collection المحتوى
+- **GET /api/news**: قائمة الأخبار المنشورة للعموم (مع cache 2 دقيقة)
+- **GET /api/news?all=1**: كل الأخبار للأدمن (مع الخاصة) — cache 30 ثانية
+- **GET /api/news/:id**: خبر واحد بالـ id أو slug
+- **POST /api/news**: إضافة خبر جديد (admin/manager/editor)
+- **PUT /api/news/:id**: تعديل خبر (admin/manager/editor)
+- **PATCH /api/news/:id/publish**: نشر/إخفاء سريع
+- **DELETE /api/news/:id**: حذف خبر
+- **الحقول**: title, titleEn, summary, summaryEn, content, contentEn, imageUrl, category, isPublished, slug, createdAt, updatedAt
+- **صفحة الأخبار `/news`**: تصميم رسمي — لوجو في الهيرو + أرقام رسمية + breadcrumb + كروت احترافية
 
 ## نظام الإشعارات الكامل (3 طبقات)
 - **NotificationModel** محدّث: حقول type/body/link/icon مضافة

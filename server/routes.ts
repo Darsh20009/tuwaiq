@@ -1034,25 +1034,130 @@ export async function registerRoutes(
     }
   });
 
-  // Public lightweight news endpoint — returns only news-* slugs with stripped content
+  // ── News CRUD ───────────────────────────────────────────────────────────────
+  // Public: GET /api/news — list published news (admins get all with ?all=1)
   app.get("/api/news", async (req, res) => {
     try {
-      const cached = getCache("news");
+      const isAdmin = req.isAuthenticated && req.isAuthenticated() && ["admin", "manager", "editor"].includes((req.user as any)?.role);
+      const showAll = isAdmin && req.query.all === "1";
+      const cacheKey = showAll ? "news_all" : "news_public";
+      const cached = getCache(cacheKey);
       if (cached) return res.json(cached);
-      const all = await storage.getAllContent();
-      const news = all
-        .filter((c: any) => c.slug?.startsWith("news-"))
-        .map((c: any) => ({
-          slug: c.slug,
-          title: c.title || "",
-          imageUrl: c.imageUrl || "",
-          updatedAt: c.updatedAt,
-          content: (c.content || "").slice(0, 300),
-        }));
-      setCache("news", news, 300_000);
+
+      const query = showAll ? {} : { isPublished: { $ne: false } };
+      const newsDocs = await db.collection("news")
+        .find(query)
+        .sort({ createdAt: -1 })
+        .toArray();
+
+      const news = newsDocs.map((n: any) => ({
+        id: n._id?.toString(),
+        _id: n._id?.toString(),
+        slug: n.slug || "",
+        title: n.title || "",
+        titleEn: n.titleEn || "",
+        summary: n.summary || "",
+        summaryEn: n.summaryEn || "",
+        content: showAll ? (n.content || "") : (n.content || "").slice(0, 300),
+        contentEn: showAll ? (n.contentEn || "") : "",
+        imageUrl: n.imageUrl || "",
+        category: n.category || "general",
+        isPublished: n.isPublished !== false,
+        createdAt: n.createdAt || null,
+        updatedAt: n.updatedAt || null,
+      }));
+
+      setCache(cacheKey, news, showAll ? 30_000 : 120_000);
       res.json(news);
     } catch (err) {
       res.status(500).json({ message: "خطأ في جلب الأخبار" });
+    }
+  });
+
+  // Public: GET /api/news/:id — single article by id or slug
+  app.get("/api/news/:id", async (req, res) => {
+    try {
+      const { ObjectId } = await import("mongodb");
+      const param = req.params.id;
+      let doc: any = null;
+      try { doc = await db.collection("news").findOne({ _id: new ObjectId(param) }); } catch {}
+      if (!doc) doc = await db.collection("news").findOne({ slug: param });
+      if (!doc || doc.isPublished === false) return res.status(404).json({ message: "الخبر غير موجود" });
+      res.json({
+        id: doc._id?.toString(), _id: doc._id?.toString(),
+        slug: doc.slug || "", title: doc.title || "", titleEn: doc.titleEn || "",
+        summary: doc.summary || "", summaryEn: doc.summaryEn || "",
+        content: doc.content || "", contentEn: doc.contentEn || "",
+        imageUrl: doc.imageUrl || "", category: doc.category || "general",
+        isPublished: doc.isPublished !== false,
+        createdAt: doc.createdAt || null, updatedAt: doc.updatedAt || null,
+      });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في جلب الخبر" });
+    }
+  });
+
+  // Admin: POST /api/news — create news article
+  app.post("/api/news", requireRole("admin", "manager", "editor"), async (req, res) => {
+    try {
+      const doc = {
+        ...req.body,
+        isPublished: req.body.isPublished ?? true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const result = await db.collection("news").insertOne(doc);
+      invalidateCache("news_public");
+      invalidateCache("news_all");
+      res.status(201).json({ id: result.insertedId?.toString(), _id: result.insertedId?.toString() });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إضافة الخبر" });
+    }
+  });
+
+  // Admin: PUT /api/news/:id — update news article
+  app.put("/api/news/:id", requireRole("admin", "manager", "editor"), async (req, res) => {
+    try {
+      const { ObjectId } = await import("mongodb");
+      await db.collection("news").updateOne(
+        { _id: new ObjectId(req.params.id) },
+        { $set: { ...req.body, updatedAt: new Date() } }
+      );
+      invalidateCache("news_public");
+      invalidateCache("news_all");
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث الخبر" });
+    }
+  });
+
+  // Admin: PATCH /api/news/:id/publish — toggle published state
+  app.patch("/api/news/:id/publish", requireRole("admin", "manager", "editor"), async (req, res) => {
+    try {
+      const { ObjectId } = await import("mongodb");
+      const { isPublished } = req.body;
+      await db.collection("news").updateOne(
+        { _id: new ObjectId(req.params.id) },
+        { $set: { isPublished: !!isPublished, updatedAt: new Date() } }
+      );
+      invalidateCache("news_public");
+      invalidateCache("news_all");
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث حالة النشر" });
+    }
+  });
+
+  // Admin: DELETE /api/news/:id — delete news article
+  app.delete("/api/news/:id", requireRole("admin", "manager", "editor"), async (req, res) => {
+    try {
+      const { ObjectId } = await import("mongodb");
+      await db.collection("news").deleteOne({ _id: new ObjectId(req.params.id) });
+      invalidateCache("news_public");
+      invalidateCache("news_all");
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف الخبر" });
     }
   });
 
