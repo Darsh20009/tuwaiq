@@ -94,7 +94,7 @@ export default function EmployeeDashboard() {
             </div>
 
             <div className="flex flex-col items-end gap-3">
-              <img src="/logo-main.png" alt="طويق" className="h-12 w-auto object-contain opacity-80" />
+              <img src="/images/logo-main.png" alt="طويق" className="h-12 w-auto object-contain opacity-80" />
               {totalPending > 0 ? (
                 <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-500/30 px-3 py-1.5 rounded-full">
                   <Zap className="h-3 w-3 text-amber-400" />

@@ -7,6 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 import { LayoutDashboard, CreditCard, FileUser, Home, LogOut, ClipboardList } from "lucide-react";
 import { Link, useLocation } from "wouter";
@@ -37,10 +38,21 @@ const items = [
 
 export function EmployeeSidebar() {
   const [location, setLocation] = useLocation();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <Sidebar side="right" className="bg-white dark:bg-card">
+      <SidebarHeader className="p-0 border-b">
+        <div className="flex items-center gap-3 px-4 py-3" style={{ background: "hsl(152 42% 28%)" }}>
+          <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white/30 shrink-0">
+            <img src="/images/logo.jpeg" alt="طويق" className="w-full h-full object-cover" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="font-bold text-sm text-white leading-tight">جمعية طويق</h2>
+            <p className="text-[11px] text-white/70 truncate">{user?.name}</p>
+          </div>
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-right px-4">لوحة تحكم الموظف</SidebarGroupLabel>

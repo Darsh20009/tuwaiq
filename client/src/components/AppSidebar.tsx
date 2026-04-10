@@ -264,7 +264,7 @@ export function AppSidebar() {
         <div className="bg-[#0a2a1a] px-4 pt-5 pb-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <img
-              src="/logo-main.png"
+              src="/images/logo-main.png"
               alt="جمعية طويق"
               className="h-10 w-auto object-contain drop-shadow-md"
             />

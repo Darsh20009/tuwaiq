@@ -602,56 +602,53 @@ export function DonationCard() {
             )}
           />
 
-          {/* Email — always shown when logged in, or in recurring mode */}
-          {(donationType !== "once" || !!user) && (
-            <FormField
-              control={form.control}
-              name="donorEmail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-xs font-bold" style={{ color: "hsl(215 15% 42%)" }}>
-                    البريد الإلكتروني{donationType !== "once" && <span style={{ color: "hsl(152 42% 28%)" }}> *</span>}
-                    {donationType !== "once" && " (لإرسال روابط الدفع)"}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="example@email.com"
-                      className="h-11 border-2 rounded-xl focus:border-[hsl(152_42%_28%)]"
-                      {...field}
-                      data-testid="input-donor-email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          {/* Email — shown for all users (logged in or guest) */}
+          <FormField
+            control={form.control}
+            name="donorEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs font-bold" style={{ color: "hsl(215 15% 42%)" }}>
+                  البريد الإلكتروني (اختياري)
+                  {donationType !== "once" && <span style={{ color: "hsl(152 42% 28%)" }}> *</span>}
+                  {donationType !== "once" ? " (لإرسال روابط الدفع)" : " (لإرسال تأكيد التبرع)"}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="example@email.com"
+                    className="h-11 border-2 rounded-xl focus:border-[hsl(152_42%_28%)]"
+                    {...field}
+                    data-testid="input-donor-email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          {/* Phone — always shown when logged in, or in recurring mode */}
-          {(donationType !== "once" || !!user) && (
-            <FormField
-              control={form.control}
-              name="donorPhone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-xs font-bold" style={{ color: "hsl(215 15% 42%)" }}>
-                    رقم الجوال (اختياري)
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="tel"
-                      placeholder="05xxxxxxxx"
-                      className="h-11 border-2 rounded-xl focus:border-[hsl(152_42%_28%)]"
-                      {...field}
-                      data-testid="input-donor-phone"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          {/* Phone — shown for all users */}
+          <FormField
+            control={form.control}
+            name="donorPhone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs font-bold" style={{ color: "hsl(215 15% 42%)" }}>
+                  رقم الجوال (اختياري)
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="tel"
+                    placeholder="05xxxxxxxx"
+                    className="h-11 border-2 rounded-xl focus:border-[hsl(152_42%_28%)]"
+                    {...field}
+                    data-testid="input-donor-phone"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Payment Method Toggle */}
           <div>

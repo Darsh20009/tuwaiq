@@ -61,14 +61,14 @@ export function AdminSidebar({ activeTab, onTabChange }: { activeTab: string, on
 
   return (
     <Sidebar side="right">
-      <SidebarHeader className="p-4 border-b">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-            <Building2 className="w-6 h-6 text-primary" />
+      <SidebarHeader className="p-0 border-b">
+        <div className="flex items-center gap-3 px-4 py-3" style={{ background: "hsl(152 42% 28%)" }}>
+          <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white/30 shrink-0">
+            <img src="/images/logo.jpeg" alt="طويق" className="w-full h-full object-cover" />
           </div>
-          <div>
-            <h2 className="font-bold text-sm">لوحة الإدارة</h2>
-            <p className="text-xs text-muted-foreground">{user?.name}</p>
+          <div className="min-w-0">
+            <h2 className="font-bold text-sm text-white leading-tight">جمعية طويق</h2>
+            <p className="text-[11px] text-white/70 truncate">{user?.name}</p>
           </div>
         </div>
       </SidebarHeader>

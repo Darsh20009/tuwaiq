@@ -181,7 +181,7 @@ export default function AdminPage() {
             </div>
 
             <div className="flex flex-col items-end gap-3">
-              <img src="/logo-main.png" alt="طويق" className="h-14 w-auto object-contain opacity-90" />
+              <img src="/images/logo-main.png" alt="طويق" className="h-14 w-auto object-contain opacity-90" />
               <div className="flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 px-3 py-1.5 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-emerald-300 text-xs font-bold">النظام يعمل بكفاءة</span>
