@@ -270,7 +270,9 @@ export default function ServiceDetail() {
   const { data: hajjStats } = useQuery<any>({
     queryKey: ["/api/donations/hajj-stats"],
     enabled: slug === "hajj",
-    staleTime: 60_000,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 30_000,
   });
 
   if (!service) {
@@ -818,21 +820,41 @@ export default function ServiceDetail() {
                                 <span style={{ color: "hsl(35 80% 42%)" }}>
                                   {hajjStats.completedPilgrims > 0
                                     ? `${hajjStats.completedPilgrims} حاج مكتمل ✅`
+                                    : hajjStats.totalPilgrims > 0
+                                    ? `${hajjStats.totalPilgrims} حاج في الطريق ⏳`
                                     : "نحو أول حاج"}
                                 </span>
                               </div>
                               <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(152 40% 86%)" }}>
+                                {/* Pending layer */}
+                                {hajjStats.pendingAmount > 0 && (
+                                  <div
+                                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
+                                    style={{
+                                      width: `${Math.min(100, Math.round(((hajjStats.confirmedAmount || 0) + hajjStats.pendingAmount) % hajjStats.hajjCost / hajjStats.hajjCost * 100))}%`,
+                                      background: "hsl(152 40% 66%)",
+                                    }}
+                                  />
+                                )}
+                                {/* Confirmed layer */}
                                 <div
-                                  className="h-full rounded-full transition-all duration-700"
+                                  className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                                   style={{
-                                    width: `${Math.max(2, hajjStats.currentProgressPercent)}%`,
+                                    width: `${hajjStats.currentProgressPercent}%`,
                                     background: "linear-gradient(90deg, hsl(152 52% 36%) 0%, hsl(175 52% 32%) 100%)",
                                   }}
                                 />
                               </div>
                               <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(152 30% 42%)" }}>
-                                <span>{hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم</span>
-                                <span className="font-bold">{hajjStats.currentProgressPercent}%</span>
+                                <span>
+                                  {hajjStats.currentProgress > 0
+                                    ? `${hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم`
+                                    : "لم تتجمع تبرعات بعد"}
+                                  {hajjStats.pendingAmount > 0 && (
+                                    <span className="mr-1 text-amber-600">(+ {hajjStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
+                                  )}
+                                </span>
+                                <span className="font-bold">{hajjStats.currentProgressPercent}% من 12,000 ر.س</span>
                               </div>
                             </div>
                           )}

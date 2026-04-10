@@ -195,7 +195,9 @@ export function DonationCard() {
       return r.ok ? r.json() : null;
     },
     enabled: selectedCampaign === "hajj",
-    staleTime: 60_000,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 30_000,
   });
 
   const enableTransfer = settings ? settings.enableBankTransfer !== false : true;
@@ -494,21 +496,43 @@ export function DonationCard() {
                     <div className="flex items-center justify-between mb-2 text-xs font-bold" style={{ color: "hsl(152 42% 28%)" }}>
                       <span>🕋 تقدم كفالة الحجاج</span>
                       <span style={{ color: "hsl(35 80% 45%)" }}>
-                        {hajjStats.completedPilgrims} حاج مكتمل
-                        {hajjStats.completedPilgrims > 0 && " ✅"}
+                        {hajjStats.completedPilgrims > 0
+                          ? `${hajjStats.completedPilgrims} حاج مكتمل ✅`
+                          : hajjStats.totalPilgrims > 0
+                          ? `${hajjStats.totalPilgrims} حاج في الطريق ⏳`
+                          : "نحو أول حاج"}
                       </span>
                     </div>
+                    {/* Two-layer bar: confirmed (solid) + pending (lighter) */}
                     <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(152 40% 88%)" }}>
+                      {/* Pending layer (full width of total) */}
+                      {hajjStats.pendingAmount > 0 && (
+                        <div
+                          className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
+                          style={{
+                            width: `${Math.min(100, Math.round((((hajjStats.confirmedAmount || 0) + hajjStats.pendingAmount) % hajjStats.hajjCost) / hajjStats.hajjCost * 100))}%`,
+                            background: "hsl(152 40% 68%)",
+                          }}
+                        />
+                      )}
+                      {/* Confirmed layer */}
                       <div
-                        className="h-full rounded-full transition-all duration-700"
+                        className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                         style={{
-                          width: `${Math.max(2, hajjStats.currentProgressPercent)}%`,
+                          width: `${hajjStats.currentProgressPercent}%`,
                           background: "linear-gradient(90deg, hsl(152 52% 38%) 0%, hsl(175 52% 34%) 100%)",
                         }}
                       />
                     </div>
                     <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(152 30% 45%)" }}>
-                      <span>{hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم</span>
+                      <span>
+                        {hajjStats.currentProgress > 0
+                          ? `${hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم`
+                          : "لم تتجمع تبرعات بعد"}
+                        {hajjStats.pendingAmount > 0 && (
+                          <span className="mr-1 text-amber-600">(+ {hajjStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
+                        )}
+                      </span>
                       <span className="font-bold">{hajjStats.currentProgressPercent}% من 12,000 ر.س</span>
                     </div>
                   </div>
