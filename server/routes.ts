@@ -9,6 +9,7 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import AppleStrategy from "passport-apple";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import MemoryStore from "memorystore";
@@ -186,6 +187,63 @@ export async function registerRoutes(
     );
   }
 
+  // ── Apple Sign In Strategy ──
+  if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID && process.env.APPLE_KEY_ID && process.env.APPLE_PRIVATE_KEY_B64) {
+    const devBase = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : null;
+    const baseUrl = process.env.VITE_APP_URL || (process.env.NODE_ENV !== "production" && devBase ? devBase : null) || process.env.BASE_URL || "https://tuwaiqassociation.sa";
+    const appleCallbackURL = `${baseUrl}/api/auth/apple/callback`;
+    const privateKeyString = Buffer.from(process.env.APPLE_PRIVATE_KEY_B64, "base64").toString("utf8");
+    console.log(`[Apple Sign In] callbackURL = ${appleCallbackURL}`);
+    passport.use(
+      new AppleStrategy(
+        {
+          clientID: process.env.APPLE_CLIENT_ID,
+          teamID: process.env.APPLE_TEAM_ID,
+          keyID: process.env.APPLE_KEY_ID,
+          privateKeyString,
+          callbackURL: appleCallbackURL,
+          passReqToCallback: false,
+          scope: ["name", "email"],
+        } as any,
+        async (_accessToken: string, _refreshToken: string, _idToken: any, profile: any, done: any) => {
+          try {
+            // Apple sends name only on first login
+            const appleId = profile?.id || profile?.sub || _idToken?.sub;
+            const email = profile?.email || _idToken?.email || "";
+            const firstName = profile?.name?.firstName || "";
+            const lastName = profile?.name?.lastName || "";
+            const name = [firstName, lastName].filter(Boolean).join(" ") || email.split("@")[0] || "مستخدم Apple";
+
+            let user = await db.collection("users").findOne({ $or: [{ appleId }, ...(email ? [{ email }] : [])] });
+            if (!user) {
+              const insertRes = await db.collection("users").insertOne({
+                name, email, appleId, mobile: "", role: "user", isPublicDonor: true, createdAt: new Date(),
+              });
+              user = await db.collection("users").findOne({ _id: insertRes.insertedId });
+            } else if (!user.appleId) {
+              await db.collection("users").updateOne({ _id: user._id }, { $set: { appleId, name: user.name || name } });
+              user = await db.collection("users").findOne({ _id: user._id });
+            }
+
+            if (!user) return done(new Error("خطأ في إنشاء الحساب"));
+
+            const sessionUser = {
+              id: user._id.toString(),
+              name: user.name,
+              email: user.email || "",
+              mobile: user.mobile || "",
+              role: user.role || "user",
+              isPublicDonor: !!user.isPublicDonor,
+            } as unknown as User;
+            return done(null, sessionUser);
+          } catch (err) {
+            return done(err as Error);
+          }
+        }
+      )
+    );
+  }
+
   passport.serializeUser((user: any, done) => done(null, user.id));
   passport.deserializeUser(async (id: any, done) => {
     try {
@@ -210,6 +268,25 @@ export async function registerRoutes(
     passport.authenticate("google", { failureRedirect: "/login?error=google_failed", session: true }),
     (req, res) => {
       // Successful authentication — redirect based on role
+      const user = req.user as any;
+      const role = user?.role || "user";
+      if (role === "admin" || role === "manager") return res.redirect("/admin");
+      if (role === "delivery") return res.redirect("/delivery");
+      if (["employee", "accountant", "programmer", "sales"].includes(role)) return res.redirect("/employee");
+      res.redirect("/");
+    }
+  );
+
+  // ── Apple Sign In Routes ──
+  app.get("/api/auth/apple", (req, res, next) => {
+    if (!process.env.APPLE_CLIENT_ID) return res.redirect("/login?error=apple_not_configured");
+    passport.authenticate("apple")(req, res, next);
+  });
+
+  // Apple sends POST to callback (not GET)
+  app.post("/api/auth/apple/callback",
+    passport.authenticate("apple", { failureRedirect: "/login?error=apple_failed", session: true }),
+    (req, res) => {
       const user = req.user as any;
       const role = user?.role || "user";
       if (role === "admin" || role === "manager") return res.redirect("/admin");

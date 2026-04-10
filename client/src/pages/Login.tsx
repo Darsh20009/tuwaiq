@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Eye, EyeOff, Fingerprint, ArrowLeft, ChevronLeft } from "lucide-react";
+import { SiApple } from "react-icons/si";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsAppleDevice } from "@/hooks/use-apple-pay";
 
 const STARS = Array.from({ length: 45 }, (_, i) => ({
   id: i,
@@ -174,6 +176,29 @@ function GoogleRedirectButton() {
         </svg>
         <div className="flex-1 text-center">
           <span className="text-sm font-bold" style={{ color: "#3c4043" }}>تسجيل الدخول بـ Google</span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function AppleSignInButton() {
+  const isApple = useIsAppleDevice();
+  if (!isApple) return null;
+  return (
+    <a href="/api/auth/apple" className="block mt-2 w-full" data-testid="button-apple-signin">
+      <div
+        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-200 cursor-pointer hover:opacity-90 active:opacity-80"
+        style={{
+          background: "#000",
+          border: "1.5px solid #000",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+        }}
+      >
+        <SiApple className="w-5 h-5 text-white shrink-0" />
+        <div className="flex-1 text-center">
+          <span className="text-sm font-semibold text-white">تسجيل الدخول بـ Apple</span>
         </div>
       </div>
     </a>
@@ -359,8 +384,11 @@ export default function Login() {
                     <p className="text-sm text-gray-400 mt-1">سجّل دخولك لمتابعة مسيرتك الخيرية</p>
                   </div>
 
-                  {/* Google Sign-In */}
-                  <GoogleRedirectButton />
+                  {/* Social Sign-In */}
+                  <div className="space-y-2">
+                    <GoogleRedirectButton />
+                    <AppleSignInButton />
+                  </div>
 
                   <div className="relative my-5">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-200" /></div>
@@ -474,8 +502,11 @@ export default function Login() {
                     <p className="text-sm text-gray-400 mt-1">كن جزءاً من مسيرة الخير والعطاء</p>
                   </div>
 
-                  {/* Google Sign-In */}
-                  <GoogleRedirectButton />
+                  {/* Social Sign-In */}
+                  <div className="space-y-2">
+                    <GoogleRedirectButton />
+                    <AppleSignInButton />
+                  </div>
 
                   <div className="relative my-5">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-200" /></div>
