@@ -9,7 +9,12 @@ import {
   User, Shield, Heart, Coins, History, CheckCircle2, Clock, XCircle,
   FileText, Award, Edit2, Save, X, Fingerprint, Loader2, MonitorSmartphone,
   Trash2, PlusCircle, RefreshCw, Pause, Play, Ban, Star, TrendingUp, Gift,
+  CalendarPlus, CalendarCheck,
 } from "lucide-react";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Link, useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -45,6 +50,73 @@ function donationTypeLabel(type: string) {
     iftar: "إفطار صائم",
   };
   return map[type] || type || "عام";
+}
+
+// ──────────────────────────────────────────────────────────
+// Calendar helpers for recurring donations
+// ──────────────────────────────────────────────────────────
+function toICSDate(date: Date): string {
+  return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+}
+
+function generateICS(r: any): string {
+  const startDate = r.nextChargeDate ? new Date(r.nextChargeDate) : new Date();
+  startDate.setHours(10, 0, 0, 0);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+  const freq = r.frequency === "daily" ? "DAILY" : "MONTHLY";
+  const count = r.duration || (r.frequency === "daily" ? 30 : 12);
+  const title = r.frequency === "daily"
+    ? `تبرع يومي - جمعية طويق`
+    : `تبرع شهري - جمعية طويق`;
+  const desc = `تبرع دوري بمبلغ ${Number(r.amount || 0).toLocaleString("ar-SA")} ريال سعودي - ${donationTypeLabel(r.type)}\\nمن موقع tuwaiqassociation.sa`;
+  const uid = `tuwaiq-recurring-${r._id || Date.now()}@tuwaiqassociation.sa`;
+
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Tuwaiq Association//AR",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTART:${toICSDate(startDate)}`,
+    `DTEND:${toICSDate(endDate)}`,
+    `RRULE:FREQ=${freq};COUNT=${count}`,
+    `SUMMARY:${title}`,
+    `DESCRIPTION:${desc}`,
+    "URL:https://tuwaiqassociation.sa/donate",
+    "BEGIN:VALARM",
+    "TRIGGER:-P1D",
+    "ACTION:DISPLAY",
+    `DESCRIPTION:تذكير: ${title} غداً - ${Number(r.amount || 0).toLocaleString("ar-SA")} ر.س`,
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+}
+
+function downloadICS(r: any) {
+  const content = generateICS(r);
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `tuwaiq-recurring-${r.frequency || "monthly"}.ics`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function getGoogleCalendarLink(r: any): string {
+  const startDate = r.nextChargeDate ? new Date(r.nextChargeDate) : new Date();
+  startDate.setHours(10, 0, 0, 0);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const freq = r.frequency === "daily" ? "DAILY" : "MONTHLY";
+  const count = r.duration || (r.frequency === "daily" ? 30 : 12);
+  const title = encodeURIComponent(r.frequency === "daily" ? "تبرع يومي - جمعية طويق" : "تبرع شهري - جمعية طويق");
+  const details = encodeURIComponent(`تبرع دوري بمبلغ ${Number(r.amount || 0).toLocaleString("ar-SA")} ريال - ${donationTypeLabel(r.type)}`);
+  const recur = encodeURIComponent(`RRULE:FREQ=${freq};COUNT=${count}`);
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(startDate)}/${fmt(endDate)}&recur=${recur}&details=${details}&sf=true&output=xml`;
 }
 
 // ──────────────────────────────────────────────────────────
@@ -413,7 +485,7 @@ export default function Profile() {
                               </p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <Badge className={cn("text-xs", {
                               "bg-green-100 text-green-700": r.status === "active",
                               "bg-amber-100 text-amber-700": r.status === "paused",
@@ -421,6 +493,45 @@ export default function Profile() {
                             })}>
                               {r.status === "active" ? "نشط" : r.status === "paused" ? "موقوف" : "ملغي"}
                             </Badge>
+                            {r.status !== "cancelled" && (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button size="sm" variant="outline" className="gap-1 h-8 text-xs text-primary border-primary/30 hover:bg-primary/5"
+                                    data-testid={`button-calendar-recurring-${i}`}>
+                                    <CalendarPlus className="w-3 h-3" /> أضف للتقويم
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56" dir="rtl">
+                                  <DropdownMenuLabel className="text-xs text-muted-foreground">اختر تقويمك</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem
+                                    className="gap-2 cursor-pointer"
+                                    onClick={() => window.open(getGoogleCalendarLink(r), "_blank")}
+                                    data-testid={`button-gcal-recurring-${i}`}
+                                  >
+                                    <CalendarCheck className="w-4 h-4 text-blue-600" />
+                                    <span>Google Calendar</span>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem
+                                    className="gap-2 cursor-pointer"
+                                    onClick={() => downloadICS(r)}
+                                    data-testid={`button-ics-recurring-${i}`}
+                                  >
+                                    <CalendarPlus className="w-4 h-4 text-gray-600" />
+                                    <div className="flex flex-col">
+                                      <span>تقويم آيفون / أندرويد</span>
+                                      <span className="text-[10px] text-muted-foreground">تنزيل ملف .ics</span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <div className="px-2 py-1.5">
+                                    <p className="text-[10px] text-muted-foreground leading-relaxed">
+                                      سيُضاف حدث متكرر مع تذكير قبل يوم من كل دفعة
+                                    </p>
+                                  </div>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
                             {r.status === "active" && (
                               <Button size="sm" variant="outline" className="gap-1 h-8 text-xs"
                                 onClick={() => updateRecurringMutation.mutate({ id: r._id, status: "paused" })}
