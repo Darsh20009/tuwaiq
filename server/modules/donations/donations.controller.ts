@@ -139,19 +139,13 @@ export async function getDonationStats(req: Request, res: Response): Promise<voi
 export async function getHajjStats(req: Request, res: Response): Promise<void> {
   try {
     const HAJJ_COST = 12000;
-    const [confirmedAgg, pendingAgg] = await Promise.all([
-      db.collection("donations").aggregate([
-        { $match: { type: "hajj", status: "confirmed" } },
-        { $group: { _id: null, total: { $sum: "$amount" } } },
-      ]).toArray(),
-      db.collection("donations").aggregate([
-        { $match: { type: "hajj", status: "pending" } },
-        { $group: { _id: null, total: { $sum: "$amount" } } },
-      ]).toArray(),
+    const [confirmedDocs, pendingDocs] = await Promise.all([
+      db.collection("donations").find({ type: "hajj", status: "confirmed" }, { projection: { amount: 1 } }).toArray(),
+      db.collection("donations").find({ type: "hajj", status: "pending" },   { projection: { amount: 1 } }).toArray(),
     ]);
 
-    const confirmedAmount = confirmedAgg[0]?.total || 0;
-    const pendingAmount = pendingAgg[0]?.total || 0;
+    const confirmedAmount = confirmedDocs.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
+    const pendingAmount   = pendingDocs.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
     const totalAmount = confirmedAmount + pendingAmount;
 
     const completedPilgrims = Math.floor(confirmedAmount / HAJJ_COST);
