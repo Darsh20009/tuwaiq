@@ -8,7 +8,7 @@ import {
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu,
   SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel,
-  SidebarGroupContent, SidebarSeparator,
+  SidebarGroupContent, SidebarSeparator, useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
@@ -241,9 +241,16 @@ const roleConfig: Record<string, { label: string; badge: string; color: string; 
 export function AppSidebar() {
   const { user, logout } = useAuth() as any;
   const [location, setLocation] = useLocation();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   const config = roleConfig[user?.role] || roleConfig["employee"];
   const groups = config.groups;
+
+  // Close sidebar on mobile after navigation
+  const navigate = (url: string) => {
+    setLocation(url);
+    if (isMobile) setOpenMobile(false);
+  };
 
   const isActive = (url: string) => {
     if (url === "/admin" && location === "/admin") return true;
@@ -310,7 +317,7 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         isActive={active}
-                        onClick={() => setLocation(item.url)}
+                        onClick={() => navigate(item.url)}
                         className={`
                           w-full justify-start gap-3 rounded-lg mx-1 font-medium text-sm transition-all
                           ${active
@@ -345,7 +352,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              onClick={() => setLocation("/")}
+              onClick={() => navigate("/")}
               className="w-full justify-start gap-3 text-muted-foreground hover:text-primary hover:bg-primary/8 rounded-lg font-medium text-sm"
             >
               <div className="w-6 h-6 rounded-md bg-muted/60 flex items-center justify-center shrink-0">
@@ -357,7 +364,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
-              onClick={async () => { await logout(); setLocation("/"); }}
+              onClick={async () => { await logout(); navigate("/"); }}
               className="w-full justify-start gap-3 text-destructive/70 hover:text-destructive hover:bg-destructive/8 rounded-lg font-medium text-sm"
             >
               <div className="w-6 h-6 rounded-md bg-destructive/10 flex items-center justify-center shrink-0">
