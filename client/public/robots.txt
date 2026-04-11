@@ -1,5 +1,12 @@
 User-agent: *
 Allow: /
+Allow: /images/
+Allow: /favicon.ico
+Allow: /favicon.png
+Allow: /favicon-32.png
+Allow: /favicon-16.png
+Allow: /favicon-64.png
+Allow: /manifest.json
 Disallow: /admin/
 Disallow: /employee/
 Disallow: /delivery/
