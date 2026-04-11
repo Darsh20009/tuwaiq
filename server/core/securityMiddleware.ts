@@ -74,6 +74,25 @@ export function additionalSecurityHeaders(req: Request, res: Response, next: Nex
   next();
 }
 
+// ─── 3b. X-Robots-Tag: noindex for private/transactional pages ───────────────
+// Ensures Google never indexes admin/employee/payment pages even if crawled.
+// This is belt-and-suspenders alongside robots.txt Disallow rules.
+
+const NOINDEX_PREFIXES = [
+  "/admin", "/employee", "/delivery",
+  "/payment-result", "/donate/success", "/donate/success/",
+  "/setup-password", "/payment-simulation", "/simulation-payment",
+  "/profile", "/login", "/register",
+];
+
+export function privatePageNoIndex(req: Request, res: Response, next: NextFunction) {
+  const path = req.path;
+  if (NOINDEX_PREFIXES.some((p) => path === p || path.startsWith(p + "/"))) {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
+  }
+  next();
+}
+
 // ─── 4. HTTPS enforcement + www→non-www redirect (PCI DSS 4.2.1) ────────────
 
 export function enforceHttps(req: Request, res: Response, next: NextFunction) {

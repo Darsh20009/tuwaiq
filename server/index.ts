@@ -16,6 +16,7 @@ import {
   requestId,
   additionalSecurityHeaders,
   enforceHttps,
+  privatePageNoIndex,
   auditLogger,
   sanitizeErrors,
 } from "./core/securityMiddleware";
@@ -134,6 +135,7 @@ app.get("/images/screenshot-narrow.jpg", (_req, res) => {
 
 // ── PCI DSS Security hardening ────────────────────────────────────────────────
 app.use(enforceHttps);
+app.use(privatePageNoIndex);
 app.use(requestId);
 app.use(additionalSecurityHeaders);
 app.use(noSqlSanitizer);
