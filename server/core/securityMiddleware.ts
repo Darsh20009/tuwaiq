@@ -74,14 +74,25 @@ export function additionalSecurityHeaders(req: Request, res: Response, next: Nex
   next();
 }
 
-// ─── 4. HTTPS enforcement in production (PCI DSS 4.2.1) ─────────────────────
+// ─── 4. HTTPS enforcement + www→non-www redirect (PCI DSS 4.2.1) ────────────
 
 export function enforceHttps(req: Request, res: Response, next: NextFunction) {
   if (process.env.NODE_ENV !== "production") return next();
+
   const proto = req.headers["x-forwarded-proto"] as string | undefined;
-  if (proto && proto !== "https") {
-    return res.redirect(301, `https://${req.headers.host}${req.url}`);
+  const host  = (req.headers.host || "").replace(/:\d+$/, ""); // strip port if any
+
+  // Redirect www → non-www (must happen before HTTPS check to avoid double-redirect)
+  if (host.startsWith("www.")) {
+    const nonWww = host.slice(4);
+    return res.redirect(301, `https://${nonWww}${req.url}`);
   }
+
+  // Redirect HTTP → HTTPS
+  if (proto && proto !== "https") {
+    return res.redirect(301, `https://${host}${req.url}`);
+  }
+
   next();
 }
 
