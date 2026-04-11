@@ -7,6 +7,7 @@ import {
   FileText, Mail, BarChart3, Heart, Megaphone, MessageSquare,
   BookOpen, PenLine, Globe,
 } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -158,7 +159,7 @@ export default function AdminAI() {
       {/* ─── Quick Prompts Panel ──────────────────────────── */}
       <div
         className={cn(
-          "border-l flex flex-col transition-all duration-300 overflow-hidden shrink-0",
+          "border-l flex-col transition-all duration-300 overflow-hidden shrink-0 hidden md:flex",
           showPrompts ? "w-72" : "w-0"
         )}
         style={{ borderColor: "hsl(35 15% 88%)", backgroundColor: "hsl(35 15% 97%)" }}
@@ -204,11 +205,12 @@ export default function AdminAI() {
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Header */}
-        <div className="px-5 py-3 border-b flex items-center justify-between shrink-0" style={{ borderColor: "hsl(35 15% 88%)", backgroundColor: "white" }}>
-          <div className="flex items-center gap-3">
+        <div className="px-3 md:px-5 py-3 border-b flex items-center justify-between shrink-0" style={{ borderColor: "hsl(35 15% 88%)", backgroundColor: "white" }}>
+          <div className="flex items-center gap-2 md:gap-3">
+            <SidebarTrigger className="text-muted-foreground shrink-0" />
             <button
               onClick={() => setShowPrompts(!showPrompts)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors hidden md:flex"
               data-testid="ai-toggle-prompts"
             >
               {showPrompts ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}

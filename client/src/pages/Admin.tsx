@@ -156,35 +156,34 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-[#0a0f0d] dark:via-[#0d1410] dark:to-[#0f1a14]" dir="rtl">
-      <div className="p-6 space-y-8 max-w-[1440px] mx-auto">
+      <div className="p-4 md:p-6 space-y-5 md:space-y-8 max-w-[1440px] mx-auto">
 
         {/* ── Hero Header ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-l from-[#0a2a1a] via-[#0d3322] to-[#113d28] shadow-2xl">
+        <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-l from-[#0a2a1a] via-[#0d3322] to-[#113d28] shadow-xl md:shadow-2xl">
           {/* Decorative elements */}
-          <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-400/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-          <div className="absolute bottom-0 right-1/3 w-60 h-60 bg-emerald-300/5 rounded-full translate-y-1/2 blur-2xl" />
-          <div className="absolute top-1/2 left-1/4 w-1 h-full bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent -translate-y-1/2 rotate-12" />
+          <div className="absolute top-0 left-0 w-48 md:w-80 h-48 md:h-80 bg-emerald-400/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+          <div className="absolute bottom-0 right-1/3 w-36 md:w-60 h-36 md:h-60 bg-emerald-300/5 rounded-full translate-y-1/2 blur-2xl" />
 
-          <div className="relative z-10 flex items-center justify-between p-8">
-            <div className="flex items-center gap-5">
-              <SidebarTrigger className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl p-2 transition-colors" />
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 md:p-8">
+            <div className="flex items-center gap-3 md:gap-5">
+              <SidebarTrigger className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl p-2 transition-colors shrink-0" />
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="h-4 w-4 text-emerald-400" />
-                  <span className="text-emerald-400/80 text-sm font-semibold">{timeLabel}</span>
+                  <Sparkles className="h-3.5 w-3.5 md:h-4 md:w-4 text-emerald-400" />
+                  <span className="text-emerald-400/80 text-xs md:text-sm font-semibold">{timeLabel}</span>
                 </div>
-                <h1 className="text-3xl font-black text-white tracking-tight">
+                <h1 className="text-xl md:text-3xl font-black text-white tracking-tight">
                   {user?.name?.split(" ")[0] || "مدير"} 👋
                 </h1>
-                <p className="text-white/50 text-sm mt-1 font-medium">لوحة التحكم الرئيسية — جمعية طويق للخدمات الإنسانية</p>
+                <p className="text-white/50 text-xs md:text-sm mt-1 font-medium">لوحة التحكم — جمعية طويق للخدمات الإنسانية</p>
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-3">
-              <img src="/images/logo-main.png" alt="طويق" className="h-14 w-auto object-contain opacity-90" />
-              <div className="flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 px-3 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-emerald-300 text-xs font-bold">النظام يعمل بكفاءة</span>
+            <div className="flex items-center gap-3 sm:flex-col sm:items-end sm:gap-3">
+              <img src="/images/logo-main.png" alt="طويق" className="h-8 md:h-14 w-auto object-contain opacity-90" />
+              <div className="flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-300 text-[10px] md:text-xs font-bold">النظام يعمل</span>
               </div>
             </div>
           </div>
@@ -329,21 +328,21 @@ export default function AdminPage() {
                       </div>
                     ) : (
                       recentDonations.map((d: any) => (
-                        <div key={d.id} className="flex items-center justify-between px-6 py-4 hover:bg-muted/20 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0">
+                        <div key={d.id} className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 hover:bg-muted/20 transition-colors gap-2">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0">
                               <DollarSign className="h-4 w-4 text-primary" />
                             </div>
-                            <div>
-                              <p className="font-bold text-sm">{d.donorName || "فاعل خير"}</p>
-                              <p className="text-xs text-muted-foreground">{d.type || "تبرع عام"}</p>
+                            <div className="min-w-0">
+                              <p className="font-bold text-sm truncate">{d.donorName || "فاعل خير"}</p>
+                              <p className="text-xs text-muted-foreground truncate">{d.type || "تبرع عام"}</p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5 shrink-0">
                             <span className="font-black text-primary text-sm">{Number(d.amount).toLocaleString()} ر.س</span>
                             <Badge
                               variant={d.status === "success" ? "default" : d.status === "pending" ? "secondary" : "destructive"}
-                              className="text-[10px] rounded-lg"
+                              className="text-[10px] rounded-lg hidden sm:flex"
                             >
                               {d.status === "success" ? "✓ مؤكد" : d.status === "pending" ? "⏳ معلق" : "✗ مرفوض"}
                             </Badge>
