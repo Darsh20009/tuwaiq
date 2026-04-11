@@ -1,0 +1,41 @@
+[1G[0K[Mail] Primary: SMTP2GO HTTP API ✓ (Render-compatible)
+Connected to MongoDB successfully
+[Mongoose] Connected to MongoDB successfully
+[Apple Sign In] callbackURL = https://563533bc-9327-4bb0-bd90-f2324365f1e7-00-x1i1tpbmkjm0.kirk.replit.dev/api/auth/apple/callback
+1:18:11 PM [express] serving on port 5000
+[Push] VAPID initialized from env vars
+1:18:20 PM [express] GET /api/donations/hajj-stats 200 in 478ms :: {"success":true,"totalAmount":5000,"confirmedAmount":5000,"pendingAmount":0,"completedPilgrims":0,"totalPilgrims":0,"currentProgress":5000,"currentProgressPercent":42,"hajjCost":12000}
+1:18:23 PM [express] GET /api/auth/me 401 in 1ms
+1:18:23 PM [express] GET /api/donations 401 in 0ms :: {"message":"غير مصرح لك بالدخول","success":false}
+1:18:23 PM [express] GET /api/slider 200 in 64ms :: []
+1:18:23 PM [express] GET /api/leaderboard 200 in 63ms :: [{"name":"Abdulwahab Hakami","totalDonations":"0"},{"name":"فائز عوض عواض الحربي","totalDonations":"0"},{"name":"حسن القحطاني","totalDonations":"1"},{"name":"you speak","totalDonations":"1"}]
+1:18:23 PM [express] GET /api/news 200 in 63ms :: []
+1:18:23 PM [express] GET /api/jobs 200 in 64ms :: [{"_id":"698c8b1cfc2fb6c221be23f1","title":"محاسب","titleEn":"","department":"الحسابات ","departmentEn":"","description":"المتطلبات :\n1- سعودي الجنسيه \n2-مؤهل جامعي في التخصص\n3-خبرة سابقة\n4-اتقان برامج الحاسب","descriptionEn":"","requirements":"المتطلبات :\n1- سعودي الجنسيه \n2-مؤهل جامعي في التخصص\n3-خبرة سابقة\n4-اتقان برامج الحاسب","requirementsEn":"","isActive":true,"createdAt":"2026-02-11T13:58:52.560Z","id":"698c8b1cfc2fb6c221be23f1"},{"_id":"698c8adbfc2fb6c221be23f0","title":"منسق برامج و تنمية موارد بشريه ","titleEn":"","department":"الموظفين","departmentEn":"","description":"المتطلبات :\n1- سعودي الجنسيه \n2-مؤهل جامعي في التخصص\n3-خبرة سابقة\n4-اتقان برامج الحاسب","descriptionEn":"","requirements":"المتطلبات :\n1- سعودي الجنسيه \n2-مؤهل جامعي في التخصص\n3-خبرة سابقة\n4-اتقان برامج الحاسب","requirementsEn":"","isActive":true,"createdAt":"2026-02-11T13:57:47.124Z","id":"698c8adbfc2fb6c221be23f0"}]
+1:18:23 PM [express] GET /api/campaigns 200 in 68ms :: {"success":true,"data":[]}
+1:18:23 PM [express] GET /api/settings 200 in 474ms :: {"_id":"699c56f0487125d082222b74","associationName":"جمعية طويق للخدمات الإنسانية","associationNameEn":"Tuwaiq Humanitarian Services Association","bankAccounts":[{"bank":"مصرف الراجحي","iban":"SA3080 0005896080195679 23"},{"bank":"ANB البنك العربي الوطني","iban":"SA6930 4001809581039 0018"},{"bank":"بنك البلاد","iban":"SA2315 0009999146128000007"}],"instagram":"","licenseNumber":"17660","phone":"+966505793012","registrationNumber":"1000823030","twitter":"tuwaiq_2o3o","address":"","bankAccountName":"","bankIban":"","bankName":"","email":"","employee_fees_percentage":"10","enableBankTransfer":true,"enableOnlinePayment":true,"facebook":"","logoUrl":"","rajhiMerchantId":"600004862","rajhiSecretKey":"","rajhiTerminalId":"PG580400","showDonationStats":false,"siteName":"جمعية طويق للخدمات الإنسانية","siteNameEn":"Tuwaiq Humanitarian Services Association","totalBeneficiaries":"","totalOrganizations":"","updatedAt":"2026-03-26T04:31:44.492Z","website":"","whatsapp":"","youtube":"","enableRajhiPayment":true,"paymobHmacSecret":"","paymobIntegrationId":"23841","paymobPublicKey":"","paymobSecretKey":"","rajhiResourceKey":"60851692600660851692600660851692","rajhiTranportalId":"B0EN812lxCZ5gwa","rajhiTranportalPassword":"$1j$179KA!lplLE"}
+1:19:24 PM [express] GET /api/donations/top-donors 200 in 70ms :: {"success":true,"donors":[{"_id":"69d01fd0b2b5922a52871107","name":"حسن القحطاني","totalDonations":1,"donationCount":1,"level":"bronze","badges":["first_donor"]},{"_id":"69d4de43b0fea12748155a56","name":"you speak","badges":["first_donor"],"donationCount":1,"level":"bronze","totalDonations":1}]}
+1:19:25 PM [express] GET /api/leaderboard 200 in 1ms :: [{"name":"Abdulwahab Hakami","totalDonations":"0"},{"name":"فائز عوض عواض الحربي","totalDonations":"0"},{"name":"حسن القحطاني","totalDonations":"1"},{"name":"you speak","totalDonations":"1"}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m1:21:31 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/SiteBookSection.tsx[22m
