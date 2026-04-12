@@ -1,0 +1,10 @@
+[Mail] Primary: SMTP2GO HTTP API ✓ (Render-compatible)
+Connected to MongoDB successfully
+[Mongoose] Connected to MongoDB successfully
+[Apple Sign In] callbackURL = https://e3740dcf-0272-4bc2-93e4-b058fcf19c17-00-3chnso808fjkw.kirk.replit.dev/api/auth/apple/callback
+[FATAL] uncaughtException — keeping server alive: listen EADDRINUSE: address already in use 0.0.0.0:5000 Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at doListen (node:net:2139:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+[Push] VAPID initialized from env vars

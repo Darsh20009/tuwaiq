@@ -28,9 +28,11 @@ const adminGroups = [
     label: "إدارة المحتوى",
     items: [
       { title: "بانر الصفحة الرئيسية", icon: Image, url: "/admin/slider" },
+      { title: "البانر الإعلاني العائم", icon: Megaphone, url: "/admin/banners" },
       { title: "محرر الصفحات", icon: Globe, url: "/admin/pages" },
       { title: "الأخبار", icon: Newspaper, url: "/admin/news" },
       { title: "الحملات الخيرية", icon: Megaphone, url: "/admin/campaigns" },
+      { title: "الأسئلة الشائعة", icon: MessageSquare, url: "/admin/faq" },
     ],
   },
   {

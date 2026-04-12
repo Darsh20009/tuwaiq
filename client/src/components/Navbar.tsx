@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect, useRef } from "react";
+import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 
 type MegaMenu = "services" | "about" | "governance" | "join" | null;
 
@@ -60,6 +61,8 @@ export function Navbar() {
   const dropItem = "flex items-center gap-2.5 px-3 py-2 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors w-full font-body";
 
   return (
+    <>
+    <AnnouncementBanner />
     <nav ref={navRef} className="sticky top-0 z-50 w-full" dir="rtl">
       <div
         className="bg-primary text-white text-xs"
@@ -607,5 +610,6 @@ export function Navbar() {
         </div>
       </div>
     </nav>
+    </>
   );
 }

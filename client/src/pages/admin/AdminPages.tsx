@@ -118,8 +118,10 @@ export default function AdminPages() {
   const [saved, setSaved] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingMore, setUploadingMore] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const moreImagesRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
 
   const { data: contents } = useQuery<any[]>({
     queryKey: ["/api/admin/content"],
@@ -223,6 +225,19 @@ export default function AdminPages() {
       toast({ title: "خطأ", description: "تعذّر رفع الصورة، حاول مجدداً", variant: "destructive" });
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  const handleVideoUpload = async (file: File) => {
+    setUploadingVideo(true);
+    try {
+      const url = await uploadFile(file);
+      setForm((prev) => ({ ...prev, videoUrl: url }));
+      toast({ title: "✓ تم رفع الفيديو", description: "تم رفع الفيديو بنجاح وسيظهر في بانر الصفحة" });
+    } catch {
+      toast({ title: "خطأ", description: "تعذّر رفع الفيديو، حاول مجدداً", variant: "destructive" });
+    } finally {
+      setUploadingVideo(false);
     }
   };
 
@@ -617,14 +632,52 @@ export default function AdminPages() {
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-muted-foreground flex items-center gap-1">
                         <Video className="h-3 w-3" />
-                        رابط الفيديو (اختياري)
+                        فيديو البانر (اختياري)
                       </Label>
-                      <Input
-                        value={form.videoUrl}
-                        onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
-                        placeholder="https://youtube.com/..."
-                        dir="ltr"
-                        data-testid="input-video-url"
+                      <div className="flex gap-2">
+                        <Input
+                          value={form.videoUrl}
+                          onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+                          placeholder="رابط الفيديو أو ارفع ملفاً..."
+                          dir="ltr"
+                          data-testid="input-video-url"
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          onClick={() => videoInputRef.current?.click()}
+                          disabled={uploadingVideo}
+                          className="shrink-0 gap-1.5"
+                        >
+                          {uploadingVideo ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+                          رفع
+                        </Button>
+                        {form.videoUrl && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => setForm({ ...form, videoUrl: "" })}
+                            className="shrink-0"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </Button>
+                        )}
+                      </div>
+                      {form.videoUrl && form.videoUrl.startsWith("/") && (
+                        <p className="text-xs text-green-600">✓ فيديو مرفوع — سيظهر في بانر الصفحة</p>
+                      )}
+                      <input
+                        ref={videoInputRef}
+                        type="file"
+                        accept="video/mp4,video/webm,video/mov,video/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleVideoUpload(file);
+                          e.target.value = "";
+                        }}
                       />
                     </div>
                   </CardContent>

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronRight, Heart, Calendar, Target, Clock, Share2, QrCode, Copy, Check } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useSEO } from "@/hooks/use-seo";
 
@@ -20,6 +20,26 @@ export default function CampaignDetail() {
   const [showQR, setShowQR] = useState(false);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, expired: false });
+
+  useEffect(() => {
+    if (!campaign?.endDate) return;
+    const tick = () => {
+      const diff = new Date(campaign.endDate!).getTime() - Date.now();
+      if (diff <= 0) {
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0, expired: true });
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      setCountdown({ days, hours, minutes, seconds, expired: false });
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [campaign?.endDate]);
 
   useSEO({
     title: campaign?.title || "المشروع الإنساني",
@@ -78,15 +98,8 @@ export default function CampaignDetail() {
   const goalAmount = campaign?.goalAmount || 1;
   const progress = Math.min(100, (currentAmount / goalAmount) * 100);
 
-  // Days remaining
-  let daysLeft: number | null = null;
-  let isExpired = false;
-  if (campaign.endDate) {
-    const end = new Date(campaign.endDate);
-    const now = new Date();
-    daysLeft = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    isExpired = daysLeft <= 0;
-  }
+  const isExpired = campaign.endDate ? countdown.expired : false;
+  const daysLeft = campaign.endDate ? (countdown.expired ? 0 : countdown.days) : null;
 
   const progressColor = progress >= 100 ? "bg-green-500" : progress >= 60 ? "bg-primary" : progress >= 30 ? "bg-amber-500" : "bg-red-400";
 

@@ -3379,6 +3379,123 @@ export async function registerRoutes(
     res.json({ message: "تم الحذف" });
   });
 
+  // ── Announcement Banners ─────────────────────────────────────────────
+  app.get("/api/announcements/active", async (req: Request, res: Response) => {
+    try {
+      const banner = await db.collection("announcements").findOne({ isActive: true }, { sort: { createdAt: -1 } } as any);
+      res.json(banner ? { ...banner, id: banner._id.toString() } : null);
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.get("/api/admin/announcements", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const items = await db.collection("announcements").find({}).sort({ createdAt: -1 }).toArray();
+      res.json(items.map((d: any) => ({ ...d, id: d._id.toString() })));
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.post("/api/admin/announcements", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { message, link, bgColor, isActive } = req.body;
+      const doc = { message, link: link || "", bgColor: bgColor || "green", isActive: !!isActive, createdAt: new Date() };
+      const result = await db.collection("announcements").insertOne(doc);
+      res.json({ ...doc, id: result.insertedId.toString() });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.put("/api/admin/announcements/:id", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { message, link, bgColor, isActive } = req.body;
+      await db.collection("announcements").updateOne(
+        { _id: new ObjectId(String(id)) },
+        { $set: { message, link, bgColor, isActive: !!isActive, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.delete("/api/admin/announcements/:id", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await db.collection("announcements").deleteOne({ _id: new ObjectId(String(id)) });
+      res.json({ success: true });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  // ── FAQ ──────────────────────────────────────────────────────────────
+  app.get("/api/faqs", async (req: Request, res: Response) => {
+    try {
+      const faqs = await db.collection("faqs").find({ isActive: true }).sort({ order: 1, createdAt: 1 }).toArray();
+      res.json(faqs.map((d: any) => ({ ...d, id: d._id.toString() })));
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.get("/api/admin/faqs", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const faqs = await db.collection("faqs").find({}).sort({ order: 1, createdAt: 1 }).toArray();
+      res.json(faqs.map((d: any) => ({ ...d, id: d._id.toString() })));
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.post("/api/admin/faqs", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { question, answer, order, isActive } = req.body;
+      const doc = { question, answer, order: Number(order) || 0, isActive: isActive !== false, createdAt: new Date() };
+      const result = await db.collection("faqs").insertOne(doc);
+      res.json({ ...doc, id: result.insertedId.toString() });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.put("/api/admin/faqs/:id", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { question, answer, order, isActive } = req.body;
+      await db.collection("faqs").updateOne(
+        { _id: new ObjectId(String(id)) },
+        { $set: { question, answer, order: Number(order) || 0, isActive, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  app.delete("/api/admin/faqs/:id", requireRole("admin", "manager"), async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await db.collection("faqs").deleteOne({ _id: new ObjectId(String(id)) });
+      res.json({ success: true });
+    } catch { res.status(500).json({ message: "خطأ" }); }
+  });
+
+  // ── Donation Tracking (public, limited info) ─────────────────────────
+  app.get("/api/donations/track", async (req: Request, res: Response) => {
+    try {
+      const { phone } = req.query;
+      if (!phone) return res.status(400).json({ message: "رقم الجوال مطلوب" });
+      const clean = String(phone).replace(/\D/g, "").replace(/^966/, "").replace(/^0/, "");
+      if (clean.length < 9) return res.status(400).json({ message: "رقم الجوال غير صحيح" });
+      const donations = await donationsCollection
+        .find({
+          $or: [
+            { mobile: { $regex: clean } },
+            { donorPhone: { $regex: clean } },
+            { phone: { $regex: clean } },
+          ],
+          status: "confirmed",
+        })
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .toArray();
+      res.json(donations.map((d: any) => ({
+        id: d._id.toString(),
+        amount: d.amount,
+        campaignTitle: d.campaignTitle || d.serviceTitle || d.type || "تبرع عام",
+        createdAt: d.createdAt,
+        status: d.status,
+      })));
+    } catch { res.status(500).json({ message: "خطأ في البحث" }); }
+  });
+
   return httpServer;
 }
 

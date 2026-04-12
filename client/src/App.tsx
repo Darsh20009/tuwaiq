@@ -69,6 +69,10 @@ import AdminCases from "@/pages/admin/AdminCases";
 import AdminAppStore from "@/pages/admin/AdminAppStore";
 import CaseFormPage from "@/pages/CaseFormPage";
 import ZakatCalculator from "@/pages/ZakatCalculator";
+import AdminFAQ from "@/pages/admin/AdminFAQ";
+import AdminBanners from "@/pages/admin/AdminBanners";
+import FAQPage from "@/pages/FAQ";
+import TrackDonation from "@/pages/TrackDonation";
 
 import EmployeeDashboard from "@/pages/employee/Dashboard";
 import EmployeeTransfers from "@/pages/employee/Transfers";
@@ -284,6 +288,8 @@ function Router() {
       <Route path="/zakat" component={ZakatCalculator} />
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/campaigns/:id" component={CampaignDetail} />
+      <Route path="/faq" component={FAQPage} />
+      <Route path="/track-donation" component={TrackDonation} />
 
       {/* Admin Routes */}
       <Route path="/admin">
@@ -375,6 +381,12 @@ function Router() {
       </Route>
       <Route path="/admin/cases">
         <AdminLayout><AdminCases /></AdminLayout>
+      </Route>
+      <Route path="/admin/faq">
+        <AdminLayout><AdminFAQ /></AdminLayout>
+      </Route>
+      <Route path="/admin/banners">
+        <AdminLayout><AdminBanners /></AdminLayout>
       </Route>
 
       {/* Delivery Agent Routes */}
