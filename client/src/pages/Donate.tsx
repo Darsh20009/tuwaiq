@@ -22,7 +22,7 @@ const BENEFITS = [
 ];
 
 function LiveSocialProof() {
-  const { data: topDonors } = useQuery<any[]>({
+  const { data: response } = useQuery<any>({
     queryKey: ["/api/donations/top-donors"],
     queryFn: async () => {
       const r = await fetch("/api/donations/top-donors?limit=50");
@@ -31,6 +31,12 @@ function LiveSocialProof() {
     staleTime: 120_000,
     retry: false,
   });
+
+  const topDonors: any[] = Array.isArray(response)
+    ? response
+    : Array.isArray(response?.donors)
+    ? response.donors
+    : [];
 
   if (!topDonors || topDonors.length === 0) return null;
 
