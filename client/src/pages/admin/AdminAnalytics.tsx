@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell, Legend, AreaChart, Area
+  LineChart, Line, PieChart, Pie, Cell, Legend, AreaChart, Area, ComposedChart
 } from "recharts";
 import {
   TrendingUp, Package, Truck, Users, AlertTriangle, CheckCircle2,
-  Clock, XCircle, BarChart3
+  Clock, XCircle, BarChart3, DollarSign, Target, Award
 } from "lucide-react";
 
 const COLORS = ["#3F9E6C", "#3399CC", "#f59e0b", "#8b5cf6", "#ef4444", "#14b8a6"];
@@ -23,21 +23,57 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function AdminAnalytics() {
+  const safeFetch = (url: string, fallback: any = {}) => async () => {
+    try {
+      const res = await fetch(url, { credentials: "include" });
+      if (!res.ok) return fallback;
+      return res.json();
+    } catch { return fallback; }
+  };
+
   const { data: analytics, isLoading } = useQuery<any>({
     queryKey: ["/api/admin/analytics"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/analytics");
-      if (!res.ok) return {};
-      return res.json();
-    },
+    queryFn: safeFetch("/api/admin/analytics"),
   });
 
   const { data: stats } = useQuery<any>({
     queryKey: ["/api/admin/stats"],
+    queryFn: safeFetch("/api/admin/stats"),
+  });
+
+  const { data: monthlyDonations = [] } = useQuery<any[]>({
+    queryKey: ["/api/reports/donations/monthly"],
     queryFn: async () => {
-      const res = await fetch("/api/admin/stats");
-      if (!res.ok) return {};
-      return res.json();
+      try {
+        const res = await fetch("/api/reports/donations/monthly", { credentials: "include" });
+        if (!res.ok) return [];
+        const json = await res.json();
+        return Array.isArray(json) ? json : [];
+      } catch { return []; }
+    },
+  });
+
+  const { data: campaignPerf = [] } = useQuery<any[]>({
+    queryKey: ["/api/reports/campaigns/performance"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/reports/campaigns/performance", { credentials: "include" });
+        if (!res.ok) return [];
+        const json = await res.json();
+        return Array.isArray(json) ? json : [];
+      } catch { return []; }
+    },
+  });
+
+  const { data: topDonors = [] } = useQuery<any[]>({
+    queryKey: ["/api/reports/donors/top"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/reports/donors/top", { credentials: "include" });
+        if (!res.ok) return [];
+        const json = await res.json();
+        return Array.isArray(json) ? json : [];
+      } catch { return []; }
     },
   });
 
@@ -91,6 +127,104 @@ export default function AdminAnalytics() {
           </Card>
         ))}
       </div>
+
+      {/* ── Financial Donation Charts ────────────────────────────────────── */}
+      {monthlyDonations.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-base font-bold flex items-center gap-2">
+            <DollarSign className="h-4 w-4 text-emerald-600" />
+            التحليل المالي للتبرعات
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="border-0 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-sm font-bold flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-emerald-600" />
+                  التبرعات الشهرية (ر.س)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={220}>
+                  <ComposedChart data={monthlyDonations}>
+                    <defs>
+                      <linearGradient id="colorMonthly" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3F9E6C" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#3F9E6C" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Tooltip formatter={(v: any) => [`${Number(v).toLocaleString()} ر.س`]} />
+                    <Area type="monotone" dataKey="totalAmount" stroke="#3F9E6C" fill="url(#colorMonthly)" strokeWidth={2} name="المبلغ" />
+                    <Bar dataKey="count" fill="#3399CC" radius={[3, 3, 0, 0]} name="عدد التبرعات" yAxisId={0} opacity={0.6} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {campaignPerf.length > 0 && (
+              <Card className="border-0 shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-sm font-bold flex items-center gap-2">
+                    <Target className="h-4 w-4 text-purple-600" />
+                    أداء الحملات
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3 max-h-[220px] overflow-y-auto">
+                    {campaignPerf.slice(0, 6).map((c: any, i: number) => {
+                      const pct = c.goalAmount ? Math.min(100, Math.round((c.totalRaised / c.goalAmount) * 100)) : 0;
+                      return (
+                        <div key={i} className="space-y-1" data-testid={`campaign-perf-${i}`}>
+                          <div className="flex justify-between text-xs">
+                            <span className="font-medium truncate max-w-[180px]">{c.titleAr || c.title}</span>
+                            <span className="font-bold text-emerald-600 shrink-0">{pct}%</span>
+                          </div>
+                          <div className="h-2 bg-muted rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${pct >= 100 ? "bg-emerald-500" : pct >= 60 ? "bg-primary" : pct >= 30 ? "bg-amber-500" : "bg-red-400"}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <p className="text-[10px] text-muted-foreground">{Number(c.totalRaised || 0).toLocaleString()} من {Number(c.goalAmount || 0).toLocaleString()} ر.س</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          {topDonors.length > 0 && (
+            <Card className="border-0 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-sm font-bold flex items-center gap-2">
+                  <Award className="h-4 w-4 text-amber-600" />
+                  أعلى المتبرعين
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {topDonors.slice(0, 5).map((d: any, i: number) => (
+                    <div key={i} className="flex items-center gap-3 p-2 rounded-lg bg-muted/30" data-testid={`top-donor-${i}`}>
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black text-white ${i === 0 ? "bg-amber-500" : i === 1 ? "bg-gray-400" : i === 2 ? "bg-orange-400" : "bg-primary/60"}`}>
+                        {i + 1}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm">{d.donorName || d.name || "متبرع"}</p>
+                        <p className="text-xs text-muted-foreground">{d.donationCount || 1} تبرع</p>
+                      </div>
+                      <p className="font-black text-emerald-600 text-sm">{Number(d.totalAmount || d.totalDonations || 0).toLocaleString()} ر.س</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-0 shadow-sm">

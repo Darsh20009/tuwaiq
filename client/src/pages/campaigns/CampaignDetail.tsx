@@ -323,7 +323,27 @@ export default function CampaignDetail() {
                   )}
                 </div>
 
-                <div className="pt-4">
+                {/* Quick amount buttons */}
+                {!isExpired && (
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold text-muted-foreground text-center">اختر مبلغاً سريعاً</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      {[100, 250, 500, 1000].map(amt => (
+                        <button
+                          key={amt}
+                          className="py-2 rounded-lg text-sm font-bold border-2 border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all"
+                          onClick={() => setLocation(`/donate?campaignId=${campaign._id || campaign.id}&campaignName=${encodeURIComponent(campaign.titleAr || campaign.title || "")}&amount=${amt}`)}
+                          data-testid={`button-quick-amount-${amt}`}
+                        >
+                          {amt}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-center text-muted-foreground">ريال سعودي</p>
+                  </div>
+                )}
+
+                <div className="pt-2">
                   <Button 
                     className="w-full h-14 text-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 active-elevate-2 transition-all"
                     onClick={() => setLocation(`/donate?campaignId=${campaign._id || campaign.id}&campaignName=${encodeURIComponent(campaign.titleAr || campaign.title || "")}`)}

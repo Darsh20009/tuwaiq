@@ -1,15 +1,18 @@
-const CACHE_NAME = 'tuwaiq-v8';
-const urlsToCache = [
+const CACHE_NAME = 'tuwaiq-v9';
+const STATIC_ASSETS = [
   '/manifest.json',
   '/images/icon-192.png',
   '/images/icon-512.png',
+  '/images/icon-72.png',
+  '/images/icon-96.png',
+  '/favicon.png',
 ];
 
 // ── Install ───────────────────────────────────────────────────────────────────
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache).catch(() => {}))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS).catch(() => {}))
   );
 });
 
@@ -25,17 +28,38 @@ self.addEventListener('activate', event => {
   );
 });
 
-// ── Fetch (network-first, cache fallback for static assets) ───────────────────
+// ── Fetch (network-first, cache fallback) ─────────────────────────────────────
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  if (
-    url.pathname.startsWith('/api') ||
-    event.request.mode === 'navigate' ||
-    event.request.headers.get('accept')?.includes('text/html')
-  ) {
+
+  // Skip non-GET and cross-origin requests
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
+
+  // API requests — always network only, never cache
+  if (url.pathname.startsWith('/api')) {
     event.respondWith(fetch(event.request));
     return;
   }
+
+  // HTML navigation — stale-while-revalidate with offline fallback
+  if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(event.request).then(cached => cached || caches.match('/'))
+        )
+    );
+    return;
+  }
+
+  // Static assets — network-first with cache fallback
   event.respondWith(
     fetch(event.request)
       .then(response => {

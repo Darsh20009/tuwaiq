@@ -2,10 +2,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Heart, Users, Droplets, UtensilsCrossed, Package, TrendingUp, Star } from "lucide-react";
+import { Heart, Users, Droplets, UtensilsCrossed, Package, TrendingUp, Star, Target, ArrowLeft } from "lucide-react";
 import { useSEO } from "@/hooks/use-seo";
+import { Link } from "wouter";
 
 const IMPACT_STATS = [
   { icon: Users, label: "مستفيد مباشر", value: "8,350+", color: "text-blue-600", bg: "bg-blue-50" },
@@ -65,6 +67,13 @@ export default function Impact() {
     queryKey: ["/api/admin/stats"],
     retry: false,
   });
+
+  const { data: campaigns } = useQuery<any[]>({
+    queryKey: ["/api/campaigns"],
+    retry: false,
+  });
+
+  const activeCampaigns = (campaigns || []).filter((c: any) => c.status === "active" && c.goalAmount > 0).slice(0, 4);
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "hsl(35 28% 97%)" }}>
@@ -148,6 +157,58 @@ export default function Impact() {
               </motion.div>
             ))}
           </div>
+
+          {/* Live Active Campaigns */}
+          {activeCampaigns.length > 0 && (
+            <div className="mt-12">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-black mb-1">حملاتنا الجارية</h2>
+                  <p className="text-muted-foreground text-sm">ساهم في إحدى حملاتنا النشطة الآن</p>
+                </div>
+                <Link href="/campaigns">
+                  <button className="flex items-center gap-1.5 text-sm font-bold hover:underline" style={{ color: "hsl(152 42% 28%)" }}>
+                    عرض الكل <ArrowLeft className="w-4 h-4" />
+                  </button>
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {activeCampaigns.map((campaign: any, i: number) => {
+                  const current = Number(campaign.currentAmount || 0);
+                  const goal = Number(campaign.goalAmount || 1);
+                  const pct = Math.min(100, Math.round((current / goal) * 100));
+                  return (
+                    <motion.div key={campaign._id || i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+                      <Card className="border-0 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                        {campaign.image && (
+                          <div className="h-36 overflow-hidden">
+                            <img src={campaign.image} alt={campaign.titleAr || campaign.title} className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <CardContent className="p-5">
+                          <div className="flex items-start justify-between gap-2 mb-3">
+                            <h3 className="font-bold text-base leading-tight">{campaign.titleAr || campaign.title}</h3>
+                            <Badge className="bg-emerald-100 text-emerald-700 shrink-0 font-bold">{pct}%</Badge>
+                          </div>
+                          <Progress value={pct} className="h-2.5 mb-3" />
+                          <div className="flex items-center justify-between text-sm">
+                            <div className="text-muted-foreground">
+                              <span className="font-bold text-foreground">{current.toLocaleString("ar-SA")}</span> من {goal.toLocaleString("ar-SA")} ر.س
+                            </div>
+                            <Link href={`/campaigns/${campaign._id}`}>
+                              <button className="text-xs font-bold flex items-center gap-1 hover:underline" style={{ color: "hsl(152 42% 28%)" }}>
+                                ساهم الآن <ArrowLeft className="w-3 h-3" />
+                              </button>
+                            </Link>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* CTA */}
           <div className="mt-12 text-center p-10 rounded-2xl" style={{ background: "linear-gradient(135deg, hsl(152 42% 93%) 0%, hsl(152 42% 97%) 100%)", border: "1px solid hsl(152 42% 84%)" }}>

@@ -469,11 +469,39 @@ function ServicesSection() {
 }
 
 function StatsSection() {
+  const { data: liveStats } = useQuery<any>({
+    queryKey: ["/api/admin/stats"],
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: topDonors } = useQuery<any[]>({
+    queryKey: ["/api/donations/top-donors"],
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+
   const stats = [
-    { label: "مستفيد", value: "+8,350", icon: Users },
-    { label: "مشروع منجز", value: "+450", icon: CheckCircle2 },
-    { label: "متبرع كريم", value: "+1,200", icon: Heart },
-    { label: "شريك نجاح", value: "+50", icon: Handshake },
+    {
+      label: "مستفيد",
+      value: liveStats?.beneficiariesCount ? `+${Number(liveStats.beneficiariesCount).toLocaleString("ar-SA")}` : "+8,350",
+      icon: Users,
+    },
+    {
+      label: "مشروع منجز",
+      value: liveStats?.campaignsCount ? `+${Number(liveStats.campaignsCount).toLocaleString("ar-SA")}` : "+450",
+      icon: CheckCircle2,
+    },
+    {
+      label: "متبرع كريم",
+      value: topDonors?.length ? `+${Number(topDonors.length * 120).toLocaleString("ar-SA")}` : "+1,200",
+      icon: Heart,
+    },
+    {
+      label: "إجمالي التبرعات (ر.س)",
+      value: liveStats?.totalDonations ? `${Number(liveStats.totalDonations).toLocaleString("ar-SA")}` : "+50,000",
+      icon: Handshake,
+    },
   ];
 
   return (

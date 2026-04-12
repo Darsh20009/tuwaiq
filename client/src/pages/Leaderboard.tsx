@@ -2,8 +2,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
 import { motion } from "framer-motion";
-import { Award, Trophy, Medal, Star, Leaf, Crown, Sparkles } from "lucide-react";
+import { Award, Trophy, Medal, Star, Leaf, Crown, Sparkles, Heart } from "lucide-react";
 import { useSEO } from "@/hooks/use-seo";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function Leaderboard() {
   const { data: donors, isLoading } = useLeaderboard();
@@ -68,8 +70,13 @@ export default function Leaderboard() {
                 className={`flex items-center justify-between p-6 rounded-2xl border transition-all duration-300 shadow-sm ${getRankStyle(index)}`}
               >
                 <div className="flex items-center gap-4 sm:gap-6">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 flex flex-col items-center justify-center shrink-0 relative">
                     {getRankIcon(index)}
+                    {index >= 3 && (
+                      <span className="absolute -bottom-1 -right-1 text-[10px] font-black bg-muted text-muted-foreground rounded-full w-5 h-5 flex items-center justify-center border border-border">
+                        {index + 1}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <h3 className="text-xl font-bold font-heading">{donor.name}</h3>
@@ -111,6 +118,32 @@ export default function Leaderboard() {
               </div>
             )}
           </div>
+        )}
+
+        {/* Join the leaderboard CTA */}
+        {!isLoading && (donors?.length ?? 0) > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="max-w-3xl mx-auto mt-10"
+          >
+            <div className="bg-gradient-to-l from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-8 text-center space-y-4">
+              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
+                <Trophy className="w-7 h-7 text-primary" />
+              </div>
+              <h3 className="text-2xl font-black font-heading">انضم إلى قائمة الشرف</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                كل تبرع يزيد من رصيدك وترتيبك في قائمة شرف المتبرعين. ابدأ اليوم واصنع أثراً يدوم.
+              </p>
+              <Link href="/donate">
+                <Button size="lg" className="gap-2 font-bold text-base px-8" data-testid="button-join-leaderboard">
+                  <Heart className="w-5 h-5" />
+                  تبرع وارتقِ في القائمة
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         )}
       </main>
       

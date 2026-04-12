@@ -4,12 +4,15 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Badge } from "@/components/ui/badge";
+import { Link, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSEO } from "@/hooks/use-seo";
+import { Heart, Target, Zap } from "lucide-react";
 
 export default function Campaigns() {
   const { campaigns, isLoading } = useCampaigns();
+  const [, setLocation] = useLocation();
   useSEO({
     title: "المشاريع الإنسانية",
     description: "ساهم في مشاريعنا الإنسانية المتنوعة وكن شريكاً في صنع الفرق — حملات خيرية متجددة في المملكة العربية السعودية",
@@ -74,9 +77,23 @@ export default function Campaigns() {
                       <p className="text-xs text-left font-bold text-primary">{Math.round(progress)}%</p>
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex-col gap-2">
+                    {/* Quick donate amounts */}
+                    <div className="w-full grid grid-cols-4 gap-1.5" dir="rtl">
+                      {[100, 250, 500, 1000].map(amt => (
+                        <button
+                          key={amt}
+                          className="py-1.5 rounded-lg text-xs font-bold border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all"
+                          onClick={() => setLocation(`/donate?campaignId=${campaign._id || campaign.id}&campaignName=${encodeURIComponent(campaign.titleAr || campaign.title || "")}&amount=${amt}`)}
+                          data-testid={`button-quick-${campaign._id}-${amt}`}
+                        >
+                          {amt}
+                        </button>
+                      ))}
+                    </div>
                     <Link href={`/campaigns/${campaign._id || campaign.id}`} className="w-full">
-                      <Button className="w-full font-bold" data-testid={`button-view-campaign-${campaign._id || campaign.id}`}>
+                      <Button className="w-full font-bold gap-2" data-testid={`button-view-campaign-${campaign._id || campaign.id}`}>
+                        <Heart className="w-4 h-4" />
                         عرض التفاصيل والمساهمة
                       </Button>
                     </Link>
@@ -88,8 +105,18 @@ export default function Campaigns() {
         )}
 
         {!isLoading && campaigns?.filter(c => c.status === "active").length === 0 && (
-          <div className="text-center py-20 bg-background rounded-3xl border border-dashed border-border/40">
+          <div className="text-center py-20 bg-background rounded-3xl border border-dashed border-border/40 space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+              <Target className="w-8 h-8 text-primary" />
+            </div>
             <p className="text-muted-foreground text-lg">لا توجد حملات نشطة حالياً.</p>
+            <p className="text-sm text-muted-foreground">يمكنك التبرع بشكل عام في انتظار الحملات القادمة</p>
+            <Link href="/donate">
+              <Button className="gap-2 font-bold">
+                <Heart className="w-4 h-4" />
+                تبرع عام الآن
+              </Button>
+            </Link>
           </div>
         )}
       </main>
