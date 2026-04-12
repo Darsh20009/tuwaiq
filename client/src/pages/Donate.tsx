@@ -3,11 +3,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DonationCard } from "@/components/DonationCard";
 import { QuickDonateStrip } from "@/components/QuickDonateStrip";
-import { ShieldCheck, Heart, Users, HandHeart } from "lucide-react";
+import { ShieldCheck, Heart, Users, HandHeart, TrendingUp, Flame } from "lucide-react";
 import { Link } from "wouter";
 import { useLocation, useSearch } from "wouter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { useSEO } from "@/hooks/use-seo";
+import { useQuery } from "@tanstack/react-query";
 import applePayLogo from "@assets/image_1774519414670.png";
 import madaVisaMcLogo from "@assets/image_1774519438042.png";
 import alRajhiLogo from "@assets/image_1774519457437.png";
@@ -18,6 +19,40 @@ const BENEFITS = [
   { icon: Users, title: "+8,350 مستفيد", desc: "أثر حقيقي في حياة المحتاجين" },
   { icon: HandHeart, title: "شهادة تبرع", desc: "احتفظ بشهادتك لكل تبرع" },
 ];
+
+function LiveSocialProof() {
+  const { data: topDonors } = useQuery<any[]>({
+    queryKey: ["/api/donations/top-donors"],
+    queryFn: async () => {
+      const r = await fetch("/api/donations/top-donors?limit=50");
+      return r.ok ? r.json() : null;
+    },
+    staleTime: 120_000,
+    retry: false,
+  });
+
+  if (!topDonors || topDonors.length === 0) return null;
+
+  const totalAmount = topDonors.reduce((sum: number, d: any) => sum + (Number(d.totalDonations) || 0), 0);
+  const donorCount = topDonors.length;
+
+  return (
+    <div
+      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm"
+      style={{ backgroundColor: "hsl(152 42% 93%)", border: "1px solid hsl(152 42% 84%)" }}
+    >
+      <Flame className="w-4 h-4 shrink-0" style={{ color: "hsl(152 42% 28%)" }} />
+      <div className="flex flex-wrap gap-x-4 gap-y-1" style={{ color: "hsl(152 42% 24%)" }}>
+        <span className="font-bold">+{donorCount.toLocaleString("ar-SA")} متبرع موثّق</span>
+        {totalAmount > 0 && (
+          <span className="font-bold">
+            {totalAmount.toLocaleString("ar-SA", { maximumFractionDigits: 0 })} ريال
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Donate() {
   const [, setLocation] = useLocation();
@@ -101,6 +136,8 @@ export default function Donate() {
                   جمعية طويق للخدمات الإنسانية جمعية سعودية مرخصة تضمن وصول تبرعاتكم لمستحقيها مباشرة وبكل شفافية.
                 </p>
               </div>
+
+              <LiveSocialProof />
 
               <div className="space-y-3">
                 {BENEFITS.map((b, i) => (
