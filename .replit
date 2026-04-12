@@ -27,16 +27,12 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node -e \"const fs=require('fs');try{const c=fs.readFileSync('tsconfig.json','utf8');const i=c.indexOf('{');if(i>0){fs.writeFileSync('tsconfig.json',c.slice(i));console.log('[auto-fix] tsconfig.json repaired');}}catch(e){}\" && NODE_ENV=development npx --no-install tsx server/index.ts"
+args = "NODE_ENV=development node_modules/.bin/tsx server/index.ts"
 waitForPort = 5000
 
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 23636
-externalPort = 3001
 
 [deployment]
 deploymentTarget = "autoscale"
