@@ -19,6 +19,7 @@ export function ContentPage({ title, slug, icon }: ContentPageProps) {
     content: string;
     title: string;
     imageUrl?: string;
+    videoUrl?: string;
     images?: string[];
   }>({
     queryKey: ['/api/content', slug],
@@ -42,6 +43,8 @@ export function ContentPage({ title, slug, icon }: ContentPageProps) {
     ? (content as any).images
     : [];
 
+  const videoUrl = (content as any)?.videoUrl;
+
   // Determine which image to show as the hero:
   // 1. Main imageUrl (if not errored)
   // 2. First additional image as fallback
@@ -49,7 +52,7 @@ export function ContentPage({ title, slug, icon }: ContentPageProps) {
     ? content?.imageUrl
     : additionalImages[fallbackIdx];
 
-  const showHero = !!heroUrl;
+  const showHero = !!videoUrl || !!heroUrl;
 
   // Remaining additional images (skip the one used as fallback hero)
   const galleryImages = mainImgError
@@ -74,18 +77,29 @@ export function ContentPage({ title, slug, icon }: ContentPageProps) {
           <Card className="max-w-4xl mx-auto overflow-hidden shadow-lg border-primary/10">
             {showHero && (
               <div className="w-full h-[300px] md:h-[450px] overflow-hidden relative">
-                <img 
-                  src={heroUrl}
-                  alt={content?.title || title}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  onError={() => {
-                    if (!mainImgError) {
-                      setMainImgError(true);
-                    } else {
-                      setFallbackIdx(i => i + 1);
-                    }
-                  }}
-                />
+                {videoUrl ? (
+                  <video
+                    src={videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                ) : heroUrl ? (
+                  <img 
+                    src={heroUrl}
+                    alt={content?.title || title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    onError={() => {
+                      if (!mainImgError) {
+                        setMainImgError(true);
+                      } else {
+                        setFallbackIdx(i => i + 1);
+                      }
+                    }}
+                  />
+                ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
             )}
