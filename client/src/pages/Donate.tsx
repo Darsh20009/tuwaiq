@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import applePayLogo from "@assets/image_1774519414670.png";
 import madaVisaMcLogo from "@assets/image_1774519438042.png";
 import alRajhiLogo from "@assets/image_1774519457437.png";
+import donateBannerVideo from "@assets/20260412-2121-15.3281088_1776028904022.mp4";
 
 const BENEFITS = [
   { icon: ShieldCheck, title: "دفع آمن 100%", desc: "جميع المعاملات مشفرة ومؤمّنة" },
@@ -86,9 +87,15 @@ export default function Donate() {
           className="py-10 md:py-16 relative overflow-hidden"
           style={{ background: "linear-gradient(135deg, hsl(152 42% 26%) 0%, hsl(152 42% 36%) 100%)" }}
         >
-          <div className="absolute inset-0 opacity-10 pointer-events-none"
-            style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
+          <video
+            src={donateBannerVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
           />
+          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.52)" }} />
           <div className="container mx-auto px-4 text-center relative z-10">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold mb-5 border"
               style={{ backgroundColor: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.25)", color: "white" }}
