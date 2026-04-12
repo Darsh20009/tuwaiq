@@ -1,6 +1,6 @@
 import imgHeroVolunteer from "@assets/Screenshot_2026-03-09_235955_1773090023885.png";
 import imgHero2 from "@assets/Screenshot_2026-02-22_152459_1771763145715.png";
-import vidBanner1 from "@assets/Screen_Recording_2026-03-09_224248_1773085424087.mp4";
+import vidBanner1 from "@assets/20260412-2058-17.8501631_1776027556260.mp4";
 import vidBanner2 from "@assets/Screen_Recording_2026-03-09_224538_1773085549687.mp4";
 
 import { Navbar } from "@/components/Navbar";
