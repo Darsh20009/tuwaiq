@@ -2753,6 +2753,54 @@ export async function registerRoutes(
   });
 
   // ==================== EMPLOYEE ROLE MANAGEMENT ====================
+  // Full user profile update (admin only)
+  app.patch("/api/admin/users/:id", requireRole("admin"), async (req, res) => {
+    try {
+      const { name, email, mobile, role, department, isActive } = req.body;
+      const validRoles = ["user", "employee", "delivery", "programmer", "accountant", "sales", "manager", "admin", "editor"];
+      const update: Record<string, any> = { updatedAt: new Date() };
+      if (name !== undefined) update.name = name;
+      if (email !== undefined) update.email = email;
+      if (mobile !== undefined) update.mobile = mobile;
+      if (role !== undefined) {
+        if (!validRoles.includes(role)) return res.status(400).json({ message: "دور غير صالح" });
+        update.role = role;
+      }
+      if (department !== undefined) update.department = department;
+      if (isActive !== undefined) update.isActive = isActive;
+      await usersCollection.updateOne({ _id: new ObjectId(String(req.params.id)) }, { $set: update });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في تحديث المستخدم" });
+    }
+  });
+
+  // Reset user password (admin only)
+  app.post("/api/admin/users/:id/reset-password", requireRole("admin"), async (req, res) => {
+    try {
+      const { password } = req.body;
+      if (!password || password.length < 6) return res.status(400).json({ message: "كلمة المرور يجب أن تكون 6 أحرف على الأقل" });
+      const hashedPassword = await hashPassword(password);
+      await usersCollection.updateOne(
+        { _id: new ObjectId(String(req.params.id)) },
+        { $set: { password: hashedPassword, updatedAt: new Date() } }
+      );
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في إعادة تعيين كلمة المرور" });
+    }
+  });
+
+  // Delete user permanently (admin only)
+  app.delete("/api/admin/users/:id", requireRole("admin"), async (req, res) => {
+    try {
+      await usersCollection.deleteOne({ _id: new ObjectId(String(req.params.id)) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ message: "خطأ في حذف المستخدم" });
+    }
+  });
+
   app.patch("/api/admin/users/:id/role", requireRole("admin", "manager"), async (req, res) => {
     try {
       const { role } = req.body;
