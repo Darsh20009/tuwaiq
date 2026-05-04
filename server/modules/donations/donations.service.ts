@@ -9,6 +9,7 @@ import { db } from "../../db";
 import { sendEmail, emailTemplates } from "../../mail";
 import { generateCertificatePDF, generateInvoicePDF } from "../../pdf";
 import { fireNotify, fireNotifyAdmins } from "../../core/notifications";
+import { sendPurchaseCAPIEvents } from "../../capi";
 
 function computeLevel(total: number): string {
   if (total >= 100000) return "diamond";
@@ -271,6 +272,18 @@ export async function updateDonationStatus(filter: Record<string, any>, status: 
     } catch (invErr) {
       console.error("[Donations] Invoice creation failed:", (invErr as Error).message);
     }
+
+    // Fire server-side CAPI Purchase event (Facebook + Snapchat).
+    // eventId = donationId — same value sent to browser pixel for deduplication.
+    // Runs fire-and-forget so it never blocks the confirmation flow.
+    sendPurchaseCAPIEvents({
+      eventId: donation._id.toString(),
+      amount: donation.amount,
+      currency: (donation as any).currency || "SAR",
+      donorEmail: (donation as any).donorEmail,
+      donorPhone: (donation as any).donorPhone,
+      donationType: (donation as any).type,
+    }).catch((e) => console.error("[CAPI] Event send failed:", e.message));
   }
 
   return DonationModel.findOne(filter);

@@ -7,7 +7,6 @@ import { sendEmail } from "../../mail";
 import { ValidationError } from "../../core/errors";
 import { db } from "../../db";
 import { fireNotifyAdmins } from "../../core/notifications";
-import { sendPurchaseCAPIEvents } from "../../capi";
 
 async function getSiteSettings(): Promise<Record<string, any>> {
   try {
@@ -151,22 +150,8 @@ export async function handleRajhiCallback(body: any): Promise<string | false> {
     }
   );
 
-  // Fire server-side CAPI Purchase event (Facebook + Snapchat) after confirmation.
-  // eventId = donationId so it matches the browser pixel eventID for deduplication.
-  const confirmedDonation = await DonationModel.findById(orderId);
-  if (confirmedDonation) {
-    sendPurchaseCAPIEvents({
-      eventId: orderId,
-      amount: confirmedDonation.amount,
-      currency: (confirmedDonation as any).currency || "SAR",
-      donorEmail: (confirmedDonation as any).donorEmail,
-      donorPhone: (confirmedDonation as any).donorPhone,
-      donationType: (confirmedDonation as any).type,
-    }).catch((e) => console.error("[CAPI] Failed:", e.message));
-  }
-
-  // NOTE: updateDonationStatus (above) already sends confirmation email with PDF attachments
-  // and fires push notifications to the donor + admins. No need to duplicate here.
+  // NOTE: updateDonationStatus (above) already sends confirmation email with PDF attachments,
+  // fires push notifications to the donor + admins, AND fires the CAPI event. No need to duplicate here.
 
   // Return donationId so the controller can include it in the redirect URL.
   return orderId;
