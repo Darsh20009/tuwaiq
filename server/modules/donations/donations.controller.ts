@@ -386,8 +386,31 @@ export async function handleRajhiCallback(req: Request, res: Response): Promise<
     // Al Rajhi may POST as:
     //  a) application/x-www-form-urlencoded  → req.body is a plain object
     //  b) application/json with a JSON ARRAY → req.body is an array like [{...}]
+    //  c) ANY content-type (text/html, text/plain, none) → global express.json()
+    //     won't parse it, so req.body = {} but req.rawBody has the raw bytes.
     // Normalise to a flat object in all cases.
     let rawBody = req.body;
+
+    // ── Raw body fallback ─────────────────────────────────────────────────────
+    // If the global body-parser didn't parse the payload (wrong or missing
+    // Content-Type), req.body will be an empty object.  Fall back to the raw
+    // buffer captured by express.json()'s verify callback.
+    if (
+      (!rawBody || (typeof rawBody === "object" && Object.keys(rawBody).length === 0)) &&
+      (req as any).rawBody
+    ) {
+      const rawStr = (req as any).rawBody.toString("utf8").trim();
+      try {
+        rawBody = JSON.parse(rawStr);
+        console.log("[Rajhi Callback] Body parsed from rawBody buffer (JSON fallback)");
+      } catch {
+        try {
+          rawBody = Object.fromEntries(new URLSearchParams(rawStr));
+          console.log("[Rajhi Callback] Body parsed from rawBody buffer (URLSearchParams fallback)");
+        } catch { /* body stays empty — logged below */ }
+      }
+    }
+
     if (Array.isArray(rawBody) && rawBody.length > 0) {
       rawBody = rawBody[0];
     }

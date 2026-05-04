@@ -122,11 +122,12 @@ function normalizeFields(raw: Record<string, string>): {
   }
 
   return {
-    result:       lc["result"]       ?? lc["response"]      ?? "",
+    // Al Rajhi may use "result" (plain callback) or "authRespCode" (approval code "000")
+    result:       lc["result"]       ?? lc["response"]      ?? lc["authrespcode"] ?? "",
     trackId:      lc["trackid"]      ?? lc["track_id"]      ?? lc["orderid"] ?? lc["order_id"] ?? "",
-    paymentId:    lc["paymentid"]    ?? lc["payment_id"]    ?? lc["tranid"]  ?? "",
-    responseCode: lc["responsecode"] ?? lc["response_code"] ?? lc["result"]  ?? "",
-    auth:         lc["auth"]         ?? "",
+    paymentId:    lc["paymentid"]    ?? lc["payment_id"]    ?? lc["tranid"]  ?? lc["transid"]  ?? "",
+    responseCode: lc["responsecode"] ?? lc["response_code"] ?? lc["authrespcode"] ?? lc["result"] ?? "",
+    auth:         lc["authcode"]     ?? lc["auth"]          ?? "",
     ref:          lc["ref"]          ?? "",
   };
 }
@@ -135,7 +136,7 @@ function normalizeFields(raw: Record<string, string>): {
 function isSuccessResult(result: string): boolean {
   const r = result.trim().toUpperCase();
   // Known success codes from Al Rajhi / Neoleap iPayPipe:
-  if (r === "CAPTURED" || r === "APPROVED" || r === "A" || r === "00") return true;
+  if (r === "CAPTURED" || r === "APPROVED" || r === "A" || r === "00" || r === "000") return true;
   // Additional codes seen in production:
   if (r === "1" || r === "SUCCESS" || r === "SUCCESSFUL" || r === "OK") return true;
   // Partial match for compound success strings (e.g. "CAPTURED WITH AUTH 123456"):
