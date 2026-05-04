@@ -4,11 +4,13 @@ import { db } from "./db";
 /**
  * Conversions API (CAPI) — Server-Side Tracking
  *
- * Sends Purchase events from the server to Facebook and Snapchat
+ * Sends Purchase events from the server to Facebook, Snapchat, and TikTok
  * immediately after a payment is confirmed by Al Rajhi.
  *
  * Deduplication: eventId must match the browser-side pixel eventID
  * so each platform counts the conversion exactly once.
+ *
+ * Note: Instagram Ads uses the same Facebook/Meta pixel — no separate CAPI needed.
  *
  * PCI DSS: customer data is one-way hashed (SHA-256) before sending.
  */
@@ -29,6 +31,8 @@ async function getTrackingSettings(): Promise<{
   facebookCAPIToken?: string;
   snapchatPixelId?: string;
   snapchatCAPIToken?: string;
+  tiktokPixelId?: string;
+  tiktokCAPIToken?: string;
 }> {
   try {
     const s = await db.collection("settings").findOne({});
@@ -37,6 +41,8 @@ async function getTrackingSettings(): Promise<{
       facebookCAPIToken: s?.facebookCAPIToken || "",
       snapchatPixelId: s?.snapchatPixelId || "",
       snapchatCAPIToken: s?.snapchatCAPIToken || "",
+      tiktokPixelId: s?.tiktokPixelId || "",
+      tiktokCAPIToken: s?.tiktokCAPIToken || "",
     };
   } catch {
     return {};
@@ -53,9 +59,10 @@ export interface CAPIPurchaseEvent {
 }
 
 /**
- * Fire a Purchase event to all configured ad platforms (Facebook + Snapchat).
+ * Fire a Purchase event to all configured ad platforms (Facebook + Snapchat + TikTok).
  * Call this server-side after a payment is confirmed.
  * eventId should be the donationId — the same value passed to the browser pixel.
+ * Each platform call is fire-and-forget — a failure in one never blocks the others.
  */
 export async function sendPurchaseCAPIEvents(event: CAPIPurchaseEvent): Promise<void> {
   const settings = await getTrackingSettings();
@@ -72,6 +79,13 @@ export async function sendPurchaseCAPIEvents(event: CAPIPurchaseEvent): Promise<
     tasks.push(
       sendSnapchatCAPI(settings.snapchatPixelId, settings.snapchatCAPIToken, event)
         .catch((e) => console.error("[CAPI:Snapchat] Failed:", e.message))
+    );
+  }
+
+  if (settings.tiktokPixelId && settings.tiktokCAPIToken) {
+    tasks.push(
+      sendTikTokCAPI(settings.tiktokPixelId, settings.tiktokCAPIToken, event)
+        .catch((e) => console.error("[CAPI:TikTok] Failed:", e.message))
     );
   }
 
@@ -118,7 +132,7 @@ async function sendFacebookCAPI(
   if (!res.ok) {
     console.error("[CAPI:Facebook] HTTP", res.status, body.slice(0, 200));
   } else {
-    console.log("[CAPI:Facebook] Purchase event sent — eventId:", event.eventId, "amount:", event.amount);
+    console.log("[CAPI:Facebook] Purchase sent — eventId:", event.eventId, "amount:", event.amount);
   }
 }
 
@@ -163,6 +177,58 @@ async function sendSnapchatCAPI(
   if (!res.ok) {
     console.error("[CAPI:Snapchat] HTTP", res.status, body.slice(0, 200));
   } else {
-    console.log("[CAPI:Snapchat] Purchase event sent — eventId:", event.eventId, "amount:", event.amount);
+    console.log("[CAPI:Snapchat] Purchase sent — eventId:", event.eventId, "amount:", event.amount);
+  }
+}
+
+async function sendTikTokCAPI(
+  pixelId: string,
+  accessToken: string,
+  event: CAPIPurchaseEvent
+): Promise<void> {
+  const userHashes: Record<string, string> = {};
+  if (event.donorEmail) userHashes.email = sha256Hex(event.donorEmail);
+  if (event.donorPhone) userHashes.phone_number = sha256Hex(normalizePhone(event.donorPhone));
+
+  const payload = {
+    pixel_code: pixelId,
+    event: "CompletePayment",
+    event_id: event.eventId,
+    timestamp: new Date().toISOString(),
+    context: {
+      ad: {},
+      page: { url: "https://tuwaiqassociation.sa/payment-result" },
+      user: userHashes,
+    },
+    properties: {
+      value: String(event.amount),
+      currency: event.currency || "SAR",
+      content_type: "product",
+      contents: [
+        {
+          content_id: event.eventId,
+          content_name: event.donationType || "تبرع",
+          quantity: 1,
+          price: String(event.amount),
+        },
+      ],
+      description: event.donationType || "تبرع",
+    },
+  };
+
+  const url = "https://business-api.tiktok.com/open_api/v1.3/event/track/";
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Token": accessToken,
+    },
+    body: JSON.stringify(payload),
+  });
+  const body = await res.text();
+  if (!res.ok) {
+    console.error("[CAPI:TikTok] HTTP", res.status, body.slice(0, 200));
+  } else {
+    console.log("[CAPI:TikTok] Purchase sent — eventId:", event.eventId, "amount:", event.amount);
   }
 }

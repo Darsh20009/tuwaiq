@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { initFacebookPixel, initSnapchatPixel, firePurchaseEvent } from "@/lib/pixels";
+import { initFacebookPixel, initSnapchatPixel, initTikTokPixel, firePurchaseEvent } from "@/lib/pixels";
 
 const DONATION_TYPE_LABELS: Record<string, string> = {
   general:          "صدقة عامة",
@@ -45,6 +45,7 @@ export default function PaymentResult() {
     if (!settings) return;
     if (settings.facebookPixelId) initFacebookPixel(settings.facebookPixelId);
     if (settings.snapchatPixelId) initSnapchatPixel(settings.snapchatPixelId);
+    if (settings.tiktokPixelId) initTikTokPixel(settings.tiktokPixelId);
     pixelsReady.current = true;
   }, [settings]);
 

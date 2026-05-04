@@ -250,19 +250,20 @@ app.get("/api/health", (_req, res) => {
       secret: sessionSecret || "dev_only_fallback_set_SESSION_SECRET_in_prod",
       resave: false,
       saveUninitialized: false,
-      name: "twq.sid", // Don't use default 'connect.sid' (fingerprinting)
+      rolling: true,                // Reset cookie maxAge on every request — session never expires while active
+      name: "twq.sid",
       cookie: {
-        maxAge: 8 * 60 * 60 * 1000, // 8 hours — PCI DSS 8.2.8: idle timeout
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days rolling — customer is never logged out mid-journey
         secure: process.env.NODE_ENV === "production",
-        httpOnly: true,  // [PCI DSS 6.4.2] Prevent JS access to session cookie
+        httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       },
       store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI,
         collectionName: "sessions",
-        ttl: 8 * 60 * 60,          // Match cookie maxAge
+        ttl: 30 * 24 * 60 * 60,    // 30 days — match cookie maxAge
         autoRemove: "native",
-        touchAfter: 60 * 60,        // Re-save at most once per hour
+        touchAfter: 24 * 60 * 60,  // Re-save once per day max (rolling resets timer)
       }),
     })
   );
@@ -378,5 +379,63 @@ app.get("/api/health", (_req, res) => {
   // Run once 5 minutes after startup, then every 30 minutes
   setTimeout(expireStalePendingPayments, 5 * 60 * 1000);
   setInterval(expireStalePendingPayments, 30 * 60 * 1000);
+  // ──────────────────────────────────────────────────────────────────────────
+
+  // ── Auto-recovery: inquiry on stuck pending Rajhi donations ──────────────
+  // If Al Rajhi's callback never arrived (network issue, wrong IP whitelist, etc.),
+  // this cron queries the gateway directly for every pending Rajhi donation
+  // older than 8 minutes and auto-confirms it if payment was captured.
+  // This means no donation can stay stuck in PENDING forever — they self-recover.
+  const autoRecoverPendingRajhi = async () => {
+    try {
+      const s = await db.collection("settings").findOne({}) as any;
+      const tId  = s?.rajhiTranportalId       || process.env.RAJHI_TRANPORTAL_ID || "";
+      const tPwd = s?.rajhiTranportalPassword || process.env.RAJHI_TRANPORTAL_PASSWORD || "";
+      const rKey = s?.rajhiResourceKey        || process.env.RAJHI_RESOURCE_KEY || "";
+      if (!tId || !tPwd || !rKey) return;
+
+      const eightMinutesAgo = new Date(Date.now() - 8 * 60 * 1000);
+      const stuckDonations = await db.collection("donations").find({
+        status: "pending",
+        paymentMethod: "rajhi",
+        rajhiRef: { $exists: true, $ne: null, $ne: "" },
+        createdAt: { $lt: eightMinutesAgo },
+      }).limit(20).toArray();
+
+      if (stuckDonations.length === 0) return;
+      log(`[Auto-Recovery] Checking ${stuckDonations.length} stuck Rajhi donations...`);
+
+      const { inquireRajhiPayment } = await import("./rajhi");
+      const { updateDonationStatus } = await import("./modules/donations/donations.service");
+      const baseUrl = process.env.BASE_URL || "https://tuwaiqassociation.sa";
+      const cbUrl = `${baseUrl}/api/donations/rajhi-callback`;
+
+      for (const donation of stuckDonations) {
+        try {
+          const result = await inquireRajhiPayment({
+            tranportalId: tId,
+            tranportalPassword: tPwd,
+            resourceKey: rKey,
+            orderId: donation._id.toString(),
+            paymentId: donation.rajhiRef && donation.rajhiRef !== donation._id.toString()
+              ? donation.rajhiRef : undefined,
+            errorUrl: cbUrl,
+            responseUrl: cbUrl,
+          });
+          if (result.successful) {
+            await updateDonationStatus({ _id: donation._id.toString() }, "confirmed");
+            log(`[Auto-Recovery] ✅ Recovered donation ${donation._id} — inquiry confirmed capture`);
+          }
+        } catch (e: any) {
+          console.error(`[Auto-Recovery] Inquiry failed for ${donation._id}:`, e.message);
+        }
+      }
+    } catch (err: any) {
+      console.error("[Auto-Recovery] Cron error:", err.message);
+    }
+  };
+  // Run first time 2 minutes after startup, then every 10 minutes
+  setTimeout(autoRecoverPendingRajhi, 2 * 60 * 1000);
+  setInterval(autoRecoverPendingRajhi, 10 * 60 * 1000);
   // ──────────────────────────────────────────────────────────────────────────
 })();
