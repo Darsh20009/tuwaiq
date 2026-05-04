@@ -22,6 +22,7 @@ const DONATION_TYPE_LABELS: Record<string, string> = {
 export default function PaymentResult() {
   const params     = new URLSearchParams(window.location.search);
   const donationId = params.get("id");
+  const urlStatus  = params.get("status"); // "success" | "pending" | "failed"
 
   const [donationData, setDonationData]   = useState<any>(null);
   const [fetching,     setFetching]       = useState(true);
@@ -35,26 +36,41 @@ export default function PaymentResult() {
   const assocName = settings?.associationName || "جمعية طويق للخدمات الإنسانية";
   const logoUrl   = settings?.logoUrl || "";
 
-  // Initialize ad pixels once settings (pixel IDs) are available
+  // Track whether pixels have been initialized and whether the event has fired
+  const pixelsReady = useRef(false);
   const pixelsFired = useRef(false);
+
+  // Step 1: Initialize ad pixels once settings (pixel IDs) are available
   useEffect(() => {
     if (!settings) return;
     if (settings.facebookPixelId) initFacebookPixel(settings.facebookPixelId);
     if (settings.snapchatPixelId) initSnapchatPixel(settings.snapchatPixelId);
+    pixelsReady.current = true;
   }, [settings]);
 
-  // Fire Purchase event once donation data is confirmed — only once per page load
+  // Step 2: Fire Purchase event — only for confirmed/success payments, only once
+  // Waits until BOTH pixels are initialized AND donation data is available.
+  // Guards: status must be "success" from URL OR donation is confirmed in DB.
   useEffect(() => {
-    if (!donationData || !donationId || pixelsFired.current) return;
-    pixelsFired.current = true;
+    if (pixelsFired.current) return;
+    if (!donationId || !donationData || !pixelsReady.current) return;
 
+    const donationConfirmed =
+      donationData.status === "confirmed" ||
+      donationData.status === "success" ||
+      donationData.paymentStatus === "confirmed" ||
+      urlStatus === "success";
+
+    if (!donationConfirmed) return;
+
+    pixelsFired.current = true;
     firePurchaseEvent({
       eventId: donationId,
       value: Number(donationData.amount || 0),
       currency: donationData.currency || "SAR",
       contentName: DONATION_TYPE_LABELS[donationData.type] || donationData.type || "تبرع",
     });
-  }, [donationData, donationId]);
+  }, [donationData, donationId, urlStatus]);
 
   // Fetch donation details in background — only to show amount/reference, not status
   useEffect(() => {
