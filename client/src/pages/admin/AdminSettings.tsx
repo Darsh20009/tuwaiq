@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Save, Settings, Phone, Mail, Globe, MapPin, Building2, Percent, CheckCircle2, CreditCard, Eye, EyeOff, ShieldCheck, AlertTriangle, BarChart3, Landmark, ToggleLeft, ToggleRight, Activity, RefreshCw, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, Save, Settings, Phone, Mail, Globe, MapPin, Building2, Percent, CheckCircle2, CreditCard, Eye, EyeOff, ShieldCheck, AlertTriangle, BarChart3, Landmark, ToggleLeft, ToggleRight, Activity, RefreshCw, ChevronDown, ChevronUp, Megaphone, KeyRound } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -134,6 +134,10 @@ export default function AdminSettings() {
     showDonationStats: false,
     enableRajhiPayment: false,
     enableBankTransfer: true,
+    facebookPixelId: "",
+    facebookCAPIToken: "",
+    snapchatPixelId: "",
+    snapchatCAPIToken: "",
   });
   const [saved, setSaved] = useState(false);
   const [showSecretKey, setShowSecretKey] = useState(false);
@@ -528,6 +532,117 @@ export default function AdminSettings() {
                 <p className="font-bold flex items-center gap-1"><AlertTriangle className="h-3 w-3" /> تنبيه أمني</p>
                 <p>هذه البيانات حساسة. تأكد من حصولك عليها من بريد الراجحي الرسمي فقط.</p>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Tracking & CAPI */}
+          <Card className="border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-sm font-bold flex items-center gap-2">
+                <Megaphone className="h-4 w-4 text-blue-600" />
+                التتبع الإعلاني — Facebook & Snapchat CAPI
+              </CardTitle>
+              <CardDescription>
+                بعد كل تبرع مؤكد، يُرسل السيرفر حدث Purchase تلقائياً للمنصات الإعلانية.
+                البيانات مشفّرة بـ SHA-256 قبل الإرسال. معرّف الحدث (Event ID) هو نفسه للبيكسل والسيرفر لضمان عدم التكرار.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {/* Facebook */}
+              <div className="space-y-3">
+                <p className="text-xs font-bold text-blue-700 flex items-center gap-1.5">
+                  <KeyRound className="h-3.5 w-3.5" />
+                  فيسبوك / Meta
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-muted-foreground">Facebook Pixel ID</Label>
+                    <Input
+                      data-testid="input-facebook-pixel-id"
+                      value={(form as any).facebookPixelId || ""}
+                      onChange={(e) => setForm({ ...form, facebookPixelId: e.target.value })}
+                      placeholder="مثال: 123456789012345"
+                      dir="ltr"
+                      className="font-mono"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-muted-foreground">Facebook CAPI Access Token</Label>
+                    <div className="relative">
+                      <Input
+                        data-testid="input-facebook-capi-token"
+                        type={showSecretKey ? "text" : "password"}
+                        value={(form as any).facebookCAPIToken || ""}
+                        onChange={(e) => setForm({ ...form, facebookCAPIToken: e.target.value })}
+                        placeholder="EAAxxxxxx..."
+                        dir="ltr"
+                        className="font-mono pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowSecretKey(!showSecretKey)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showSecretKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Snapchat */}
+              <div className="space-y-3">
+                <p className="text-xs font-bold text-yellow-700 flex items-center gap-1.5">
+                  <KeyRound className="h-3.5 w-3.5" />
+                  سناب شات
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-muted-foreground">Snapchat Pixel ID</Label>
+                    <Input
+                      data-testid="input-snapchat-pixel-id"
+                      value={(form as any).snapchatPixelId || ""}
+                      onChange={(e) => setForm({ ...form, snapchatPixelId: e.target.value })}
+                      placeholder="مثال: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                      dir="ltr"
+                      className="font-mono"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-muted-foreground">Snapchat CAPI Token</Label>
+                    <div className="relative">
+                      <Input
+                        data-testid="input-snapchat-capi-token"
+                        type={showSecretKey ? "text" : "password"}
+                        value={(form as any).snapchatCAPIToken || ""}
+                        onChange={(e) => setForm({ ...form, snapchatCAPIToken: e.target.value })}
+                        placeholder="Bearer token من Snap Ads Manager"
+                        dir="ltr"
+                        className="font-mono pr-10"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800 space-y-1.5">
+                <p className="font-bold">كيف يعمل التتبع الآلي؟</p>
+                <ol className="list-decimal list-inside space-y-1 leading-relaxed">
+                  <li>يُكمل المتبرع عملية الدفع في بوابة الراجحي</li>
+                  <li>السيرفر يستقبل رد البنك ويؤكد التبرع تلقائياً في قاعدة البيانات</li>
+                  <li>فوراً، يُرسل السيرفر حدث Purchase بـ SHA-256 (إيميل أو جوال) للمنصتين</li>
+                  <li>المتصفح يُطلق نفس الحدث من البيكسل بنفس الـ Event ID للـ Deduplication</li>
+                </ol>
+              </div>
+
+              {!(form as any).facebookPixelId && !(form as any).snapchatPixelId && (
+                <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  <AlertTriangle className="h-3 w-3 flex-shrink-0" />
+                  لم يتم تفعيل أي منصة إعلانية بعد — أدخل الـ Pixel ID والـ Token لتفعيل التتبع التلقائي.
+                </div>
+              )}
             </CardContent>
           </Card>
 

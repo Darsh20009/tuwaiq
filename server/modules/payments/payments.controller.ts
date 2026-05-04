@@ -27,13 +27,16 @@ export async function initiateRajhi(req: Request, res: Response): Promise<void> 
 }
 
 export async function rajhiCallback(req: Request, res: Response): Promise<void> {
+  let donationId: string | undefined;
   try {
-    await paymentsService.handleRajhiCallback(req.body);
+    const result = await paymentsService.handleRajhiCallback(req.body);
+    if (typeof result === "string") donationId = result;
   } catch (_) {
     // ignore processing errors — always thank the donor
   }
   const redirectBase = process.env.BASE_URL || "";
-  res.redirect(`${redirectBase}/payment-result?status=success`);
+  const idParam = donationId ? `&id=${encodeURIComponent(donationId)}` : "";
+  res.redirect(`${redirectBase}/payment-result?status=success${idParam}`);
 }
 
 export async function initiateBankTransfer(req: Request, res: Response): Promise<void> {

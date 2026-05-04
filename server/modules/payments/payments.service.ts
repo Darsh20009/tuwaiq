@@ -7,6 +7,7 @@ import { sendEmail } from "../../mail";
 import { ValidationError } from "../../core/errors";
 import { db } from "../../db";
 import { fireNotifyAdmins } from "../../core/notifications";
+import { sendPurchaseCAPIEvents } from "../../capi";
 
 async function getSiteSettings(): Promise<Record<string, any>> {
   try {
@@ -84,7 +85,7 @@ export async function initiateRajhi(params: {
   return { redirectUrl: result.redirectUrl, donationId };
 }
 
-export async function handleRajhiCallback(body: any): Promise<boolean> {
+export async function handleRajhiCallback(body: any): Promise<string | false> {
   const siteSettings = await getSiteSettings();
   const resourceKey = siteSettings.rajhiResourceKey || process.env.RAJHI_RESOURCE_KEY;
   if (!resourceKey) return false;
@@ -140,7 +141,7 @@ export async function handleRajhiCallback(body: any): Promise<boolean> {
     return false;
   }
   const status = "confirmed";
-  const updated = await updateDonationStatus({ _id: orderId }, status);
+  await updateDonationStatus({ _id: orderId }, status);
 
   await PaymentModel.findOneAndUpdate(
     { transactionId: orderId, provider: "rajhi" },
@@ -150,10 +151,25 @@ export async function handleRajhiCallback(body: any): Promise<boolean> {
     }
   );
 
+  // Fire server-side CAPI Purchase event (Facebook + Snapchat) after confirmation.
+  // eventId = donationId so it matches the browser pixel eventID for deduplication.
+  const confirmedDonation = await DonationModel.findById(orderId);
+  if (confirmedDonation) {
+    sendPurchaseCAPIEvents({
+      eventId: orderId,
+      amount: confirmedDonation.amount,
+      currency: (confirmedDonation as any).currency || "SAR",
+      donorEmail: (confirmedDonation as any).donorEmail,
+      donorPhone: (confirmedDonation as any).donorPhone,
+      donationType: (confirmedDonation as any).type,
+    }).catch((e) => console.error("[CAPI] Failed:", e.message));
+  }
+
   // NOTE: updateDonationStatus (above) already sends confirmation email with PDF attachments
   // and fires push notifications to the donor + admins. No need to duplicate here.
 
-  return result.successful;
+  // Return donationId so the controller can include it in the redirect URL.
+  return orderId;
 }
 
 // ========== Bank Transfer ==========

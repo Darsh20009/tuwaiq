@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { initFacebookPixel, initSnapchatPixel, firePurchaseEvent } from "@/lib/pixels";
 
 const DONATION_TYPE_LABELS: Record<string, string> = {
   general:          "صدقة عامة",
@@ -33,6 +34,27 @@ export default function PaymentResult() {
   const { data: settings } = useQuery<any>({ queryKey: ["/api/settings"] });
   const assocName = settings?.associationName || "جمعية طويق للخدمات الإنسانية";
   const logoUrl   = settings?.logoUrl || "";
+
+  // Initialize ad pixels once settings (pixel IDs) are available
+  const pixelsFired = useRef(false);
+  useEffect(() => {
+    if (!settings) return;
+    if (settings.facebookPixelId) initFacebookPixel(settings.facebookPixelId);
+    if (settings.snapchatPixelId) initSnapchatPixel(settings.snapchatPixelId);
+  }, [settings]);
+
+  // Fire Purchase event once donation data is confirmed — only once per page load
+  useEffect(() => {
+    if (!donationData || !donationId || pixelsFired.current) return;
+    pixelsFired.current = true;
+
+    firePurchaseEvent({
+      eventId: donationId,
+      value: Number(donationData.amount || 0),
+      currency: donationData.currency || "SAR",
+      contentName: DONATION_TYPE_LABELS[donationData.type] || donationData.type || "تبرع",
+    });
+  }, [donationData, donationId]);
 
   // Fetch donation details in background — only to show amount/reference, not status
   useEffect(() => {
