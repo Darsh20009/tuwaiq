@@ -71,6 +71,7 @@ import CaseFormPage from "@/pages/CaseFormPage";
 import ZakatCalculator from "@/pages/ZakatCalculator";
 import AdminFAQ from "@/pages/admin/AdminFAQ";
 import AdminBanners from "@/pages/admin/AdminBanners";
+import AdminTracking from "@/pages/admin/AdminTracking";
 import FAQPage from "@/pages/FAQ";
 import TrackDonation from "@/pages/TrackDonation";
 
@@ -387,6 +388,9 @@ function Router() {
       </Route>
       <Route path="/admin/banners">
         <AdminLayout><AdminBanners /></AdminLayout>
+      </Route>
+      <Route path="/admin/tracking">
+        <AdminLayout><AdminTracking /></AdminLayout>
       </Route>
 
       {/* Delivery Agent Routes */}

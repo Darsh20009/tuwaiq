@@ -75,6 +75,12 @@ const adminGroups = [
     ],
   },
   {
+    label: "التتبع والإعلانات",
+    items: [
+      { title: "البيكسل وتتبع العملاء", icon: TrendingUp, url: "/admin/tracking" },
+    ],
+  },
+  {
     label: "الإدارة",
     items: [
       { title: "الموظفون والصلاحيات", icon: Users, url: "/admin/users" },
