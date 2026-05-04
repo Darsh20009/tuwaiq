@@ -1,0 +1,580 @@
+/* =====================================================
+   جمعية طويق للخدمات الإنسانية
+   كود CSS مخصص لمتجر زد
+   الهوية البصرية: أخضر عميق + ذهبي برونزي + كريمي دافئ
+   الخطوط: Cairo (العناوين) + Tajawal (النصوص)
+   ===================================================== */
+
+/* ── 1. استيراد الخطوط العربية ─────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+/* ── 2. متغيرات الألوان ────────────────────────────── */
+:root {
+  --twq-green:        hsl(152, 42%, 28%);   /* #2A6845 — الأخضر الرئيسي */
+  --twq-green-dark:   hsl(152, 42%, 20%);   /* أغمق للـ hover */
+  --twq-green-light:  hsl(152, 40%, 94%);   /* خلفية فاتحة */
+  --twq-gold:         hsl(28,  44%, 59%);   /* #C07840 — الذهبي */
+  --twq-gold-dark:    hsl(26,  52%, 42%);   /* ذهبي أغمق */
+  --twq-navy:         hsl(211, 40%, 28%);   /* الكحلي الثانوي */
+  --twq-cream:        hsl(35,  28%, 97%);   /* خلفية كريمية */
+  --twq-cream-2:      hsl(35,  18%, 93%);   /* كريمي داكن قليلاً */
+  --twq-text:         hsl(210, 22%, 14%);   /* النص الرئيسي */
+  --twq-text-muted:   hsl(215, 15%, 48%);   /* نص ثانوي */
+  --twq-border:       hsl(35,  15%, 86%);   /* الحدود */
+  --twq-radius:       10px;
+  --twq-radius-lg:    16px;
+  --twq-shadow:       0 2px 16px hsla(152, 42%, 28%, 0.12);
+  --twq-shadow-gold:  0 4px 20px hsla(28,  44%, 59%, 0.35);
+}
+
+/* ── 3. الأساس العام ────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+body,
+.zid-body {
+  font-family: 'Tajawal', sans-serif !important;
+  background-color: var(--twq-cream) !important;
+  color: var(--twq-text) !important;
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.section-title,
+.product-name,
+.product-title,
+[class*="heading"],
+[class*="title"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--twq-text) !important;
+  letter-spacing: -0.01em;
+}
+
+/* ── 4. الهيدر والنافباز ────────────────────────────── */
+header,
+.header,
+.site-header,
+.navbar,
+.nav-bar,
+[class*="header"],
+[class*="topbar"] {
+  font-family: 'Cairo', sans-serif !important;
+  background-color: var(--twq-green) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 12px hsla(152, 42%, 15%, 0.25) !important;
+}
+
+header a,
+.header a,
+.navbar a,
+.nav-bar a,
+header .nav-link,
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 600 !important;
+  transition: color 0.2s ease;
+}
+
+header a:hover,
+.navbar a:hover,
+.nav-link:hover {
+  color: hsl(28, 44%, 80%) !important; /* ذهبي فاتح عند الـ hover */
+  text-decoration: none !important;
+}
+
+/* شريط علوي */
+.top-bar,
+.announcement-bar,
+[class*="top-bar"],
+[class*="topbar"] {
+  background-color: var(--twq-green-dark) !important;
+  color: rgba(255,255,255,0.9) !important;
+  font-family: 'Tajawal', sans-serif !important;
+  font-size: 13px !important;
+}
+
+/* الشعار */
+.logo,
+.site-logo,
+.brand-logo,
+[class*="logo"] img {
+  max-height: 52px !important;
+  width: auto !important;
+}
+
+/* ── 5. الأزرار ─────────────────────────────────────── */
+
+/* الزر الرئيسي */
+.btn-primary,
+.button-primary,
+button[type="submit"],
+.btn[class*="primary"],
+[class*="btn-primary"],
+[class*="button-primary"],
+.add-to-cart,
+[class*="add-to-cart"],
+[class*="checkout"],
+.checkout-btn {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+  background-color: var(--twq-green) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--twq-radius) !important;
+  padding: 12px 24px !important;
+  box-shadow: var(--twq-shadow) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary:hover,
+.button-primary:hover,
+button[type="submit"]:hover,
+.add-to-cart:hover,
+[class*="add-to-cart"]:hover,
+[class*="checkout"]:hover {
+  background-color: var(--twq-green-dark) !important;
+  box-shadow: 0 6px 24px hsla(152, 42%, 28%, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* زر الإجراء الذهبي (CTA) */
+.btn-secondary,
+.button-secondary,
+.btn-cta,
+[class*="btn-secondary"],
+[class*="button-secondary"],
+[class*="btn-cta"],
+[class*="buy-now"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+  background-color: var(--twq-gold) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--twq-radius) !important;
+  padding: 12px 24px !important;
+  box-shadow: var(--twq-shadow-gold) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-secondary:hover,
+.button-secondary:hover,
+[class*="buy-now"]:hover {
+  background-color: var(--twq-gold-dark) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* أزرار الحدود */
+.btn-outline,
+.button-outline,
+[class*="btn-outline"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 600 !important;
+  background-color: transparent !important;
+  color: var(--twq-green) !important;
+  border: 2px solid var(--twq-green) !important;
+  border-radius: var(--twq-radius) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-outline:hover,
+[class*="btn-outline"]:hover {
+  background-color: var(--twq-green) !important;
+  color: #ffffff !important;
+}
+
+/* ── 6. بطاقات المنتجات ─────────────────────────────── */
+.product-card,
+.product-item,
+[class*="product-card"],
+[class*="product-item"],
+.card {
+  font-family: 'Tajawal', sans-serif !important;
+  background-color: #ffffff !important;
+  border-radius: var(--twq-radius-lg) !important;
+  border: 1px solid var(--twq-border) !important;
+  box-shadow: 0 2px 8px hsla(35, 15%, 40%, 0.06) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden;
+}
+
+.product-card:hover,
+.product-item:hover,
+[class*="product-card"]:hover {
+  box-shadow: var(--twq-shadow) !important;
+  transform: translateY(-4px) !important;
+  border-color: hsl(152, 42%, 75%) !important;
+}
+
+/* اسم المنتج */
+.product-name,
+.product-title,
+[class*="product-name"],
+[class*="product-title"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--twq-text) !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+/* سعر المنتج */
+.product-price,
+.price,
+[class*="product-price"],
+[class*="price"]:not([class*="shipping"]) {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 800 !important;
+  color: var(--twq-green) !important;
+  font-size: 17px !important;
+}
+
+/* السعر القديم (المشطوب) */
+.product-old-price,
+.old-price,
+.price-old,
+[class*="old-price"],
+[class*="original-price"],
+del {
+  color: var(--twq-text-muted) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+
+/* بادج الخصم */
+.badge-discount,
+.discount-badge,
+[class*="badge"],
+.sale-badge {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+  background-color: var(--twq-gold) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  padding: 2px 8px !important;
+}
+
+/* ── 7. صفحة المنتج ──────────────────────────────────── */
+.product-details,
+.product-page,
+[class*="product-detail"] {
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+.product-description,
+[class*="product-description"],
+[class*="description"] {
+  font-family: 'Tajawal', sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.85 !important;
+  color: var(--twq-text-muted) !important;
+}
+
+/* مؤشر الكمية */
+.quantity-selector,
+[class*="quantity"] {
+  border: 2px solid var(--twq-border) !important;
+  border-radius: var(--twq-radius) !important;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* ── 8. الـ Breadcrumb ──────────────────────────────── */
+.breadcrumb,
+[class*="breadcrumb"] {
+  font-family: 'Tajawal', sans-serif !important;
+  font-size: 13px !important;
+  color: var(--twq-text-muted) !important;
+}
+
+.breadcrumb a,
+[class*="breadcrumb"] a {
+  color: var(--twq-green) !important;
+  text-decoration: none !important;
+}
+
+/* ── 9. الـ Footer ──────────────────────────────────── */
+footer,
+.footer,
+.site-footer,
+[class*="footer"] {
+  font-family: 'Tajawal', sans-serif !important;
+  background-color: hsl(152, 30%, 15%) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-top: 3px solid var(--twq-gold) !important;
+}
+
+footer h3,
+footer h4,
+.footer h3,
+.footer h4,
+[class*="footer"] h3,
+[class*="footer"] h4 {
+  font-family: 'Cairo', sans-serif !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+footer a,
+.footer a,
+[class*="footer"] a {
+  color: rgba(255, 255, 255, 0.75) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+footer a:hover,
+.footer a:hover {
+  color: hsl(28, 60%, 75%) !important; /* ذهبي فاتح */
+}
+
+/* ── 10. الـ Inputs والـ Forms ─────────────────────── */
+input,
+select,
+textarea,
+.form-control,
+[class*="input"],
+[class*="form-control"] {
+  font-family: 'Tajawal', sans-serif !important;
+  border: 1.5px solid var(--twq-border) !important;
+  border-radius: var(--twq-radius) !important;
+  padding: 10px 14px !important;
+  color: var(--twq-text) !important;
+  background-color: #ffffff !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  font-size: 14px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus {
+  outline: none !important;
+  border-color: var(--twq-green) !important;
+  box-shadow: 0 0 0 3px hsla(152, 42%, 28%, 0.12) !important;
+}
+
+label,
+.form-label,
+[class*="label"] {
+  font-family: 'Tajawal', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: var(--twq-text) !important;
+  margin-bottom: 6px !important;
+  display: block;
+}
+
+/* ── 11. قسم البانر الرئيسي ─────────────────────────── */
+.hero,
+.banner,
+.slider,
+[class*="hero"],
+[class*="banner"],
+[class*="slider"] {
+  border-radius: var(--twq-radius-lg) !important;
+  overflow: hidden;
+}
+
+/* ── 12. قسم الفئات ──────────────────────────────────── */
+.category-card,
+.category-item,
+[class*="category-card"],
+[class*="category-item"] {
+  font-family: 'Cairo', sans-serif !important;
+  border-radius: var(--twq-radius-lg) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.category-card:hover,
+[class*="category-card"]:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--twq-shadow) !important;
+}
+
+/* ── 13. الـ Pagination ──────────────────────────────── */
+.pagination a,
+.pagination .page-link,
+[class*="pagination"] a {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--twq-green) !important;
+  border: 1.5px solid var(--twq-border) !important;
+  border-radius: var(--twq-radius) !important;
+  transition: all 0.2s ease !important;
+}
+
+.pagination .active a,
+.pagination .page-link.active,
+[class*="pagination"] .active {
+  background-color: var(--twq-green) !important;
+  color: #ffffff !important;
+  border-color: var(--twq-green) !important;
+}
+
+/* ── 14. الـ Alerts والـ Notifications ──────────────── */
+.alert-success,
+[class*="alert-success"],
+[class*="success-message"] {
+  background-color: var(--twq-green-light) !important;
+  color: var(--twq-green-dark) !important;
+  border: 1px solid hsl(152, 42%, 75%) !important;
+  border-radius: var(--twq-radius) !important;
+  font-family: 'Tajawal', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.alert-warning,
+[class*="alert-warning"] {
+  background-color: hsl(28, 80%, 96%) !important;
+  color: var(--twq-gold-dark) !important;
+  border: 1px solid hsl(28, 60%, 80%) !important;
+  border-radius: var(--twq-radius) !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+/* ── 15. سلة التسوق ─────────────────────────────────── */
+.cart-item,
+[class*="cart-item"] {
+  font-family: 'Tajawal', sans-serif !important;
+  border-bottom: 1px solid var(--twq-border) !important;
+  padding: 16px 0 !important;
+}
+
+.cart-total,
+[class*="cart-total"],
+[class*="order-total"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 20px !important;
+  color: var(--twq-green) !important;
+}
+
+/* أيقونة السلة */
+.cart-icon,
+[class*="cart-icon"],
+[class*="cart-count"] {
+  color: var(--twq-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* ── 16. التقييمات والنجوم ───────────────────────────── */
+.star,
+.rating,
+[class*="star"],
+[class*="rating"] {
+  color: var(--twq-gold) !important;
+}
+
+/* ── 17. شريط البحث ─────────────────────────────────── */
+.search-input,
+.search-bar input,
+[class*="search"] input {
+  font-family: 'Tajawal', sans-serif !important;
+  border: 2px solid var(--twq-border) !important;
+  border-radius: 50px !important;
+  padding: 10px 20px !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.search-input:focus,
+.search-bar input:focus {
+  border-color: var(--twq-green) !important;
+  box-shadow: 0 0 0 3px hsla(152, 42%, 28%, 0.1) !important;
+}
+
+.search-btn,
+[class*="search-btn"],
+[class*="search-submit"] {
+  background-color: var(--twq-green) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 50px !important;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* ── 18. عنوان الأقسام ───────────────────────────────── */
+.section-title,
+.section-heading,
+[class*="section-title"],
+[class*="section-heading"] {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 800 !important;
+  color: var(--twq-text) !important;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-title::after,
+[class*="section-title"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--twq-green), var(--twq-gold));
+  border-radius: 2px;
+}
+
+/* ── 19. لينكات عامة ──────────────────────────────────── */
+a {
+  color: var(--twq-green) !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover {
+  color: var(--twq-green-dark) !important;
+  text-decoration: none !important;
+}
+
+/* ── 20. Scrollbar مخصص ──────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--twq-cream-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(152, 42%, 60%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--twq-green);
+}
+
+/* ── 21. Responsive — الجوال ──────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px !important;
+  }
+
+  h1 { font-size: 22px !important; }
+  h2 { font-size: 19px !important; }
+  h3 { font-size: 16px !important; }
+
+  .product-card,
+  [class*="product-card"] {
+    border-radius: 12px !important;
+  }
+
+  .btn-primary,
+  .button-primary,
+  .add-to-cart {
+    width: 100% !important;
+    padding: 14px !important;
+    font-size: 16px !important;
+  }
+}
