@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Download, Printer, ArrowRight, Sparkles,
-  Droplet, Utensils, Moon, Share2, RefreshCw
+  Droplet, Utensils, Moon, Share2, RefreshCw, Heart, Baby
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useToast } from "@/hooks/use-toast";
@@ -15,88 +16,190 @@ import html2canvas from "html2canvas";
 const TEMPLATES = [
   {
     id: "water",
-    name: "سقياء ماء",
+    name: "سقيا الماء",
     icon: Droplet,
-    bg: "linear-gradient(160deg, #c5eef8 0%, #dff5fb 30%, #aaded8 60%, #d0eff8 100%)",
-    headerBg: "rgba(255,255,255,0.93)",
-    titleColor: "#0a6e8a",
-    titleShadow: "0 2px 12px rgba(10,110,138,0.2)",
-    boxGradient: "linear-gradient(135deg, #1a9aaa 0%, #0d7a8c 100%)",
-    boxLabelColor: "rgba(255,255,255,0.85)",
-    boxAmountColor: "#fff",
-    quoteBoxBg: "rgba(255,255,255,0.65)",
-    footerBg: "#0a6e8a",
-    footerText: "rgba(255,255,255,0.92)",
-    bankBg: "rgba(255,255,255,0.7)",
-    defaultTitle: "سقياء",
-    defaultSubtitle: "قال رسول الله - ص-\n«أفضل الصدقة سقى الماء »",
+    emoji: "💧",
+    bg: "linear-gradient(160deg, #0a2a4a 0%, #0d4a7a 40%, #0a6a9a 70%, #0a5a8a 100%)",
+    accentColor: "#00d4ff",
+    accentGlow: "rgba(0,212,255,0.4)",
+    titleColor: "#ffffff",
+    subtitleColor: "rgba(0,212,255,0.9)",
+    cardBg: "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)",
+    cardShadow: "0 12px 40px rgba(0,180,216,0.5)",
+    pattern: "waves",
+    footerBg: "rgba(0,0,0,0.5)",
+    badgeBg: "rgba(0,212,255,0.15)",
+    badgeBorder: "rgba(0,212,255,0.4)",
+    defaultTitle: "سقيا الماء",
+    defaultSubtitle: "قال رسول الله ﷺ\n«أفضل الصدقة سقى الماء»",
     defaultTiers: [
       { label: "سهم الفرد", amount: "50 ريال" },
       { label: "سهم الوالدين", amount: "100 ريال" },
-      { label: "شهر كامل", amount: "1500 ريال" },
+      { label: "شهر كامل", amount: "1,500 ريال" },
     ],
     defaultBank: "مصرف الراجحي",
     defaultIban: "SA3080 0005896080195679 23",
-    emoji: "💧",
   },
   {
     id: "basket",
     name: "السلة الرمضانية",
     icon: Moon,
-    bg: "linear-gradient(160deg, #e4f0f8 0%, #f4faff 40%, #d8ecf8 100%)",
-    headerBg: "rgba(255,255,255,0.95)",
-    titleColor: "#1a6a2a",
-    titleShadow: "0 2px 12px rgba(26,106,42,0.15)",
-    boxGradient: "linear-gradient(135deg, #2a9a4a 0%, #1a7a35 100%)",
-    boxLabelColor: "rgba(255,255,255,0.85)",
-    boxAmountColor: "#fff",
-    quoteBoxBg: "rgba(255,255,255,0.65)",
-    footerBg: "#1a6a2a",
-    footerText: "rgba(255,255,255,0.92)",
-    bankBg: "rgba(255,255,255,0.7)",
+    emoji: "🌙",
+    bg: "linear-gradient(160deg, #0a1a0a 0%, #0d3a1a 35%, #0a5a2a 65%, #1a4a0a 100%)",
+    accentColor: "#2ecc71",
+    accentGlow: "rgba(46,204,113,0.4)",
+    titleColor: "#ffffff",
+    subtitleColor: "rgba(46,204,113,0.9)",
+    cardBg: "linear-gradient(135deg, #27ae60 0%, #1a7a40 100%)",
+    cardShadow: "0 12px 40px rgba(46,204,113,0.45)",
+    pattern: "stars",
+    footerBg: "rgba(0,0,0,0.6)",
+    badgeBg: "rgba(46,204,113,0.15)",
+    badgeBorder: "rgba(46,204,113,0.4)",
     defaultTitle: "السلة الرمضانية",
-    defaultSubtitle: "قال رسول الله - ص-\n«اتقوا النار ولو بشق تمرة »",
+    defaultSubtitle: "قال رسول الله ﷺ\n«اتقوا النار ولو بشق تمرة»",
     defaultTiers: [
-      { label: "إمكانية التبرع", amount: "مبلغ مفتوح" },
       { label: "سهم الفرد", amount: "150 ريال" },
       { label: "سهم الوالدين", amount: "300 ريال" },
+      { label: "سلة كاملة", amount: "750 ريال" },
     ],
-    defaultBank: "ANB البنك العربي الوطني",
+    defaultBank: "البنك العربي الوطني",
     defaultIban: "SA6930 4001809581039 0018",
-    emoji: "🌙",
   },
   {
     id: "iftar",
-    name: "إفطار الضام",
+    name: "إفطار صائم",
     icon: Utensils,
-    bg: "linear-gradient(160deg, #1e1005 0%, #3a2208 35%, #5a3410 65%, #2e1a06 100%)",
-    headerBg: "rgba(30,15,3,0.88)",
-    titleColor: "#f0c060",
-    titleShadow: "0 2px 20px rgba(240,192,96,0.5)",
-    boxGradient: "linear-gradient(135deg, #8a5a10 0%, #6a3e05 100%)",
-    boxLabelColor: "rgba(240,192,96,0.85)",
-    boxAmountColor: "#f0c060",
-    quoteBoxBg: "rgba(255,255,255,0.12)",
-    footerBg: "rgba(15,8,2,0.95)",
-    footerText: "#f0c060",
-    bankBg: "rgba(255,255,255,0.12)",
-    defaultTitle: "إفطار الضام",
-    defaultSubtitle: "قال رسول الله - ص-\n«من فطّر صائماً كان له مثل أجره »",
+    emoji: "🕌",
+    bg: "linear-gradient(160deg, #1a0a00 0%, #3d1a00 30%, #6b2d00 60%, #4a1a00 100%)",
+    accentColor: "#f0c040",
+    accentGlow: "rgba(240,192,64,0.45)",
+    titleColor: "#f0c040",
+    subtitleColor: "rgba(255,220,120,0.9)",
+    cardBg: "linear-gradient(135deg, #c8860a 0%, #8a5000 100%)",
+    cardShadow: "0 12px 40px rgba(240,192,64,0.4)",
+    pattern: "geometric",
+    footerBg: "rgba(0,0,0,0.7)",
+    badgeBg: "rgba(240,192,64,0.12)",
+    badgeBorder: "rgba(240,192,64,0.35)",
+    defaultTitle: "إفطار صائم",
+    defaultSubtitle: "قال رسول الله ﷺ\n«من فطّر صائماً كان له مثل أجره»",
     defaultTiers: [
-      { label: "الوجبة الواحدة", amount: "15 ريال" },
+      { label: "وجبة واحدة", amount: "15 ريال" },
+      { label: "أسبوع كامل", amount: "105 ريال" },
       { label: "شهر كامل", amount: "450 ريال" },
-      { label: "الهدف", amount: "60,000 وجبة" },
     ],
     defaultBank: "بنك البلاد",
     defaultIban: "SA2315 0009999146128000007",
-    emoji: "🕌",
+  },
+  {
+    id: "umrah",
+    name: "كفالة عمرة",
+    icon: Heart,
+    emoji: "🕋",
+    bg: "linear-gradient(160deg, #0d0d1a 0%, #1a1040 35%, #2d1a6a 65%, #1a0d4a 100%)",
+    accentColor: "#a78bfa",
+    accentGlow: "rgba(167,139,250,0.45)",
+    titleColor: "#ffffff",
+    subtitleColor: "rgba(167,139,250,0.9)",
+    cardBg: "linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%)",
+    cardShadow: "0 12px 40px rgba(124,58,237,0.5)",
+    pattern: "kaaba",
+    footerBg: "rgba(0,0,0,0.65)",
+    badgeBg: "rgba(167,139,250,0.12)",
+    badgeBorder: "rgba(167,139,250,0.35)",
+    defaultTitle: "كفالة عمرة",
+    defaultSubtitle: "العمرة إلى العمرة كفارة لما بينهما\n«وتقبّل الله منكم ومن المعتمرين»",
+    defaultTiers: [
+      { label: "مساهمة", amount: "300 ريال" },
+      { label: "نصف كفالة", amount: "1,500 ريال" },
+      { label: "كفالة معتمر", amount: "3,000 ريال" },
+    ],
+    defaultBank: "مصرف الراجحي",
+    defaultIban: "SA3080 0005896080195679 23",
+  },
+  {
+    id: "orphan",
+    name: "كفالة يتيم",
+    icon: Baby,
+    emoji: "👶",
+    bg: "linear-gradient(160deg, #1a0a0d 0%, #3a1020 35%, #6a1a35 65%, #4a0d1a 100%)",
+    accentColor: "#f472b6",
+    accentGlow: "rgba(244,114,182,0.4)",
+    titleColor: "#ffffff",
+    subtitleColor: "rgba(244,114,182,0.9)",
+    cardBg: "linear-gradient(135deg, #db2777 0%, #9d174d 100%)",
+    cardShadow: "0 12px 40px rgba(219,39,119,0.5)",
+    pattern: "hearts",
+    footerBg: "rgba(0,0,0,0.65)",
+    badgeBg: "rgba(244,114,182,0.12)",
+    badgeBorder: "rgba(244,114,182,0.35)",
+    defaultTitle: "كفالة يتيم",
+    defaultSubtitle: "قال رسول الله ﷺ\n«أنا وكافل اليتيم كهاتين في الجنة»",
+    defaultTiers: [
+      { label: "مساهمة شهرية", amount: "100 ريال" },
+      { label: "كفالة ربع سنة", amount: "350 ريال" },
+      { label: "كفالة سنة كاملة", amount: "1,200 ريال" },
+    ],
+    defaultBank: "بنك البلاد",
+    defaultIban: "SA2315 0009991461280000007",
   },
 ];
+
+const RATIOS = [
+  { id: "portrait", label: "عمودي 4:5", w: 600, h: 900 },
+  { id: "story", label: "ستوري 9:16", w: 600, h: 1067 },
+  { id: "square", label: "مربع 1:1", w: 600, h: 600 },
+];
+
+// SVG pattern overlays
+function PatternOverlay({ pattern, accent }: { pattern: string; accent: string }) {
+  if (pattern === "waves") return (
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.07 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {[0,1,2,3,4,5,6].map(i => (
+        <ellipse key={i} cx="300" cy={i * 150 - 50} rx="350" ry="80" fill="none" stroke={accent} strokeWidth="1.5" />
+      ))}
+    </svg>
+  );
+  if (pattern === "stars") return (
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.08 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {[[60,80],[540,120],[100,400],[500,380],[80,720],[520,680],[300,200],[300,680],[200,550],[400,550]].map(([x,y],i) => (
+        <polygon key={i} points={`${x},${y-18} ${x+6},${y-6} ${x+20},${y-6} ${x+10},${y+4} ${x+14},${y+18} ${x},${y+8} ${x-14},${y+18} ${x-10},${y+4} ${x-20},${y-6} ${x-6},${y-6}`} fill={accent} />
+      ))}
+    </svg>
+  );
+  if (pattern === "geometric") return (
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.06 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {[0,1,2,3,4,5].map(row => [0,1,2,3].map(col => (
+        <polygon key={`${row}-${col}`} points={`${col*160+80},${row*160+0} ${col*160+160},${row*160+80} ${col*160+80},${row*160+160} ${col*160+0},${row*160+80}`} fill="none" stroke={accent} strokeWidth="1" />
+      )))}
+    </svg>
+  );
+  if (pattern === "kaaba") return (
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.07 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      <circle cx="300" cy="450" r="280" fill="none" stroke={accent} strokeWidth="1" />
+      <circle cx="300" cy="450" r="200" fill="none" stroke={accent} strokeWidth="1" />
+      <circle cx="300" cy="450" r="120" fill="none" stroke={accent} strokeWidth="1" />
+      {[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
+        const rad = a * Math.PI / 180;
+        return <line key={a} x1="300" y1="450" x2={300 + 280 * Math.cos(rad)} y2={450 + 280 * Math.sin(rad)} stroke={accent} strokeWidth="0.5" />;
+      })}
+    </svg>
+  );
+  return (
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.06 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {[0,1,2,3,4,5,6,7,8].map(i => [0,1,2,3].map(j => (
+        <circle key={`${i}-${j}`} cx={j*180+90} cy={i*120+60} r={i%2===0?30:20} fill="none" stroke={accent} strokeWidth="0.8" />
+      )))}
+    </svg>
+  );
+}
 
 export default function PosterGenerator() {
   const { toast } = useToast();
   const posterRef = useRef<HTMLDivElement>(null);
   const [tpl, setTpl] = useState(TEMPLATES[0]);
+  const [ratio, setRatio] = useState(RATIOS[0]);
   const [config, setConfig] = useState({
     title: TEMPLATES[0].defaultTitle,
     subtitle: TEMPLATES[0].defaultSubtitle,
@@ -107,6 +210,7 @@ export default function PosterGenerator() {
     social: "tuwaiq_2o3o",
     regNo: "1000820300",
     license: "6573",
+    website: "tuwaiqassociation.sa",
   });
 
   const applyTemplate = (t: typeof TEMPLATES[0]) => {
@@ -130,9 +234,10 @@ export default function PosterGenerator() {
         useCORS: true,
         backgroundColor: null,
         logging: false,
+        allowTaint: true,
       });
       const link = document.createElement("a");
-      link.download = `tuwaiq-${tpl.id}-${Date.now()}.png`;
+      link.download = `tuwaiq-${tpl.id}-${ratio.id}-${Date.now()}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
       toast({ title: "✅ تم التصدير بنجاح — جاهز للنشر" });
@@ -142,19 +247,17 @@ export default function PosterGenerator() {
   };
 
   const handleShareWA = () => {
-    const text = `🤲 ساهم معنا في حملة "${config.title}"\nجمعية طويق للخدمات الإنسانية\n${config.subtitle.replace('\n', ' ')}\n📞 ${config.phone}\n🌐 @${config.social}\nرقم السجل: ${config.regNo} | ترخيص: ${config.license}`;
+    const text = `🤲 ساهم معنا في "${config.title}"\nجمعية طويق للخدمات الإنسانية\n${config.subtitle.replace('\n', ' ')}\n📞 ${config.phone}\n🌐 ${config.website}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  const handleShareTwitter = () => {
-    const text = `🤲 ساهم معنا في حملة "${config.title}" - جمعية طويق للخدمات الإنسانية\n@${config.social} #طويق_للخدمات_الإنسانية`;
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-  };
+  const posterH = ratio.id === "portrait" ? 900 : ratio.id === "story" ? 1067 : 600;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900" dir="rtl">
-      <div className="max-w-[1400px] mx-auto p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" dir="rtl">
+      <div className="max-w-[1500px] mx-auto p-4 md:p-6">
 
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
           <div className="flex items-center gap-3">
             <SidebarTrigger className="text-white/60 hover:text-white" />
@@ -166,72 +269,86 @@ export default function PosterGenerator() {
                 <Sparkles className="h-5 w-5 text-amber-400" />
                 منشئ البوسترات الاحترافي
               </h1>
-              <p className="text-slate-400 text-xs md:text-sm">صمّم بوسترات تبرع بجودة عالية</p>
+              <p className="text-slate-400 text-xs">5 قوالب احترافية • جودة طباعة عالية • متعدد الأحجام</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={handleShareWA} className="border-white/20 text-white hover:bg-white/10 gap-1 rounded-xl">
               <Share2 className="w-4 h-4" /> <span className="hidden sm:inline">واتساب</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={handleShareTwitter} className="border-white/20 text-white hover:bg-white/10 gap-1 rounded-xl">
-              <Share2 className="w-4 h-4" /> <span className="hidden sm:inline">تويتر</span>
-            </Button>
             <Button variant="outline" size="sm" onClick={() => window.print()} className="border-white/20 text-white hover:bg-white/10 gap-1 rounded-xl">
               <Printer className="w-4 h-4" /> <span className="hidden sm:inline">طباعة</span>
             </Button>
-            <Button size="sm" onClick={handleDownload} className="bg-amber-500 hover:bg-amber-400 text-black font-bold gap-1 rounded-xl px-5 shadow-lg shadow-amber-500/30">
-              <Download className="w-4 h-4" /> تحميل
+            <Button size="sm" onClick={handleDownload} className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold gap-1 rounded-xl px-5 shadow-lg shadow-amber-500/30">
+              <Download className="w-4 h-4" /> تحميل بجودة عالية
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-8">
-          <div className="space-y-5">
+        <div className="grid grid-cols-1 xl:grid-cols-[380px_1fr] gap-8">
+          {/* Controls */}
+          <div className="space-y-4">
 
-            <Card className="bg-slate-800/80 border-slate-700 backdrop-blur">
+            {/* Template Selector */}
+            <Card className="bg-slate-800/60 border-slate-700/60 backdrop-blur">
               <CardContent className="p-4 space-y-3">
                 <h3 className="text-white font-bold flex items-center gap-2 text-sm">
-                  <RefreshCw className="w-4 h-4 text-amber-400" /> اختر نوع الحملة
+                  <RefreshCw className="w-4 h-4 text-amber-400" /> نوع الحملة
                 </h3>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-5 gap-2">
                   {TEMPLATES.map((t) => (
                     <button
                       key={t.id}
                       onClick={() => applyTemplate(t)}
-                      data-testid={`button-template-${t.id}`}
-                      className={`p-3 rounded-xl text-center border-2 transition-all text-xs font-bold flex flex-col items-center gap-1 ${
+                      className={`p-2 rounded-xl text-center border-2 transition-all text-xs font-bold flex flex-col items-center gap-1 ${
                         tpl.id === t.id
                           ? "border-amber-400 bg-amber-400/15 text-amber-400"
-                          : "border-slate-600 text-slate-400 hover:border-slate-500 hover:bg-slate-700"
+                          : "border-slate-600 text-slate-400 hover:border-slate-500 hover:bg-slate-700/50"
                       }`}
                     >
-                      <span className="text-xl">{t.emoji}</span>
-                      {t.name}
+                      <span className="text-lg">{t.emoji}</span>
+                      <span className="text-[10px] leading-tight">{t.name}</span>
                     </button>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/80 border-slate-700 backdrop-blur">
+            {/* Ratio Selector */}
+            <Card className="bg-slate-800/60 border-slate-700/60 backdrop-blur">
+              <CardContent className="p-4 space-y-3">
+                <h3 className="text-white font-bold text-sm">حجم البوستر</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {RATIOS.map((r) => (
+                    <button key={r.id} onClick={() => setRatio(r)} className={`p-2 rounded-lg text-xs font-bold border-2 transition-all ${
+                      ratio.id === r.id ? "border-amber-400 bg-amber-400/10 text-amber-400" : "border-slate-600 text-slate-400 hover:border-slate-500"
+                    }`}>{r.label}</button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Campaign Details */}
+            <Card className="bg-slate-800/60 border-slate-700/60 backdrop-blur">
               <CardContent className="p-4 space-y-3">
                 <h3 className="text-white font-bold text-sm">تفاصيل الحملة</h3>
                 <div>
-                  <Label className="text-slate-400 text-xs mb-1 block">عنوان الحملة</Label>
+                  <Label className="text-slate-400 text-xs mb-1 block">العنوان الرئيسي</Label>
                   <Input value={config.title} onChange={e => setConfig(p => ({ ...p, title: e.target.value }))}
-                    className="bg-slate-700 border-slate-600 text-white text-right h-9" dir="rtl" />
+                    className="bg-slate-700 border-slate-600 text-white text-right h-9 font-bold" dir="rtl" />
                 </div>
                 <div>
-                  <Label className="text-slate-400 text-xs mb-1 block">الحديث النبوي الشريف</Label>
+                  <Label className="text-slate-400 text-xs mb-1 block">الحديث / الاقتباس</Label>
                   <Textarea value={config.subtitle} onChange={e => setConfig(p => ({ ...p, subtitle: e.target.value }))}
                     className="bg-slate-700 border-slate-600 text-white text-right min-h-[65px] text-sm" dir="rtl" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/80 border-slate-700 backdrop-blur">
+            {/* Tiers */}
+            <Card className="bg-slate-800/60 border-slate-700/60 backdrop-blur">
               <CardContent className="p-4 space-y-3">
-                <h3 className="text-white font-bold text-sm">خيارات التبرع الثلاثة</h3>
+                <h3 className="text-white font-bold text-sm">خيارات التبرع</h3>
                 {config.tiers.map((tier, i) => (
                   <div key={i} className="grid grid-cols-2 gap-2">
                     <div>
@@ -242,7 +359,7 @@ export default function PosterGenerator() {
                       }} className="bg-slate-700 border-slate-600 text-white text-sm text-right h-8" dir="rtl" />
                     </div>
                     <div>
-                      <Label className="text-slate-500 text-xs mb-1 block">مبلغ / قيمة</Label>
+                      <Label className="text-slate-500 text-xs mb-1 block">المبلغ</Label>
                       <Input value={tier.amount} onChange={e => {
                         const t = [...config.tiers]; t[i] = { ...t[i], amount: e.target.value };
                         setConfig(p => ({ ...p, tiers: t }));
@@ -253,7 +370,8 @@ export default function PosterGenerator() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/80 border-slate-700 backdrop-blur">
+            {/* Bank & Contact */}
+            <Card className="bg-slate-800/60 border-slate-700/60 backdrop-blur">
               <CardContent className="p-4 space-y-3">
                 <h3 className="text-white font-bold text-sm">بيانات التحويل والتواصل</h3>
                 <div>
@@ -264,13 +382,13 @@ export default function PosterGenerator() {
                 <div>
                   <Label className="text-slate-400 text-xs mb-1 block">رقم IBAN</Label>
                   <Input value={config.iban} onChange={e => setConfig(p => ({ ...p, iban: e.target.value }))}
-                    className="bg-slate-700 border-slate-600 text-white font-mono h-9" />
+                    className="bg-slate-700 border-slate-600 text-white font-mono h-9 text-sm" />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <Label className="text-slate-400 text-xs mb-1 block">رقم الهاتف</Label>
+                    <Label className="text-slate-400 text-xs mb-1 block">الهاتف</Label>
                     <Input value={config.phone} onChange={e => setConfig(p => ({ ...p, phone: e.target.value }))}
-                      className="bg-slate-700 border-slate-600 text-white font-mono h-9" />
+                      className="bg-slate-700 border-slate-600 text-white font-mono h-9 text-sm" />
                   </div>
                   <div>
                     <Label className="text-slate-400 text-xs mb-1 block">حساب التواصل</Label>
@@ -278,208 +396,192 @@ export default function PosterGenerator() {
                       className="bg-slate-700 border-slate-600 text-white h-9" />
                   </div>
                 </div>
+                <div>
+                  <Label className="text-slate-400 text-xs mb-1 block">الموقع الإلكتروني</Label>
+                  <Input value={config.website} onChange={e => setConfig(p => ({ ...p, website: e.target.value }))}
+                    className="bg-slate-700 border-slate-600 text-white h-9" />
+                </div>
               </CardContent>
             </Card>
           </div>
 
+          {/* Preview */}
           <div className="flex flex-col items-center">
-            <p className="text-slate-400 text-xs mb-3 flex items-center gap-2">
+            <div className="flex items-center gap-3 mb-4">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse inline-block"></span>
-              معاينة مباشرة — 600×900 بكسل — جاهز للطباعة والنشر الرقمي
-            </p>
+              <span className="text-slate-400 text-xs">معاينة مباشرة — {ratio.label} — {ratio.w}×{posterH}px</span>
+            </div>
 
+            {/* POSTER */}
             <div
               ref={posterRef}
               style={{
-                width: 600,
-                minHeight: 900,
+                width: ratio.w,
+                height: posterH,
                 background: tpl.bg,
-                fontFamily: "'Noto Sans Arabic', 'Cairo', 'Tajawal', Arial, sans-serif",
+                fontFamily: "'Cairo', 'Tajawal', 'Noto Sans Arabic', Arial, sans-serif",
                 direction: "rtl",
                 position: "relative",
                 overflow: "hidden",
-                borderRadius: 20,
+                borderRadius: 24,
                 display: "flex",
                 flexDirection: "column",
+                boxShadow: `0 40px 120px ${tpl.accentGlow}`,
               }}
             >
-              {tpl.id === "iftar" && (
-                <>
-                  <div style={{ position: "absolute", top: -60, right: -60, width: 250, height: 250, borderRadius: "50%", background: "radial-gradient(circle, rgba(210,140,20,0.35) 0%, transparent 70%)", zIndex: 0 }} />
-                  <div style={{ position: "absolute", bottom: 200, left: -50, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(180,100,10,0.3) 0%, transparent 70%)", zIndex: 0 }} />
-                  <div style={{ position: "absolute", top: 350, right: -40, width: 180, height: 180, borderRadius: "50%", background: "radial-gradient(circle, rgba(220,160,30,0.2) 0%, transparent 70%)", zIndex: 0 }} />
-                </>
-              )}
-              {(tpl.id === "water" || tpl.id === "basket") && (
-                <>
-                  <div style={{ position: "absolute", top: -70, right: -70, width: 280, height: 280, borderRadius: "50%", background: "rgba(255,255,255,0.3)", filter: "blur(50px)", zIndex: 0 }} />
-                  <div style={{ position: "absolute", bottom: 180, left: -50, width: 220, height: 220, borderRadius: "50%", background: "rgba(255,255,255,0.18)", filter: "blur(35px)", zIndex: 0 }} />
-                </>
-              )}
+              {/* Pattern overlay */}
+              <PatternOverlay pattern={tpl.pattern} accent={tpl.accentColor} />
 
-              <div style={{ background: tpl.headerBg, padding: "22px 28px 16px", textAlign: "center", position: "relative", zIndex: 2, borderBottom: tpl.id === "iftar" ? "1px solid rgba(240,192,96,0.2)" : "1px solid rgba(0,0,0,0.05)" }}>
-                <img
-                  src="/images/logo.jpeg"
-                  alt="طويق"
-                  crossOrigin="anonymous"
-                  style={{ width: 85, height: 85, objectFit: "contain", margin: "0 auto 6px", display: "block" }}
-                />
-                <div style={{ fontSize: 20, fontWeight: 900, color: tpl.id === "iftar" ? "#c8960a" : "#1a3a2a", lineHeight: 1.3 }}>جمعية طويق</div>
-                <div style={{ fontSize: 13, color: tpl.id === "iftar" ? "#a07010" : "#2a6a4a", marginTop: 2 }}>للخدمات الإنسانية</div>
-                <div style={{ fontSize: 11, color: "#999", marginTop: 5, letterSpacing: 0.3 }}>
-                  {config.regNo} : رقم السجل &nbsp;&nbsp;|&nbsp;&nbsp; {config.license} : ترخيص
+              {/* Top glow */}
+              <div style={{ position: "absolute", top: -100, right: "50%", transform: "translateX(50%)", width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle, ${tpl.accentGlow} 0%, transparent 70%)`, zIndex: 0, pointerEvents: "none" }} />
+
+              {/* Header */}
+              <div style={{ position: "relative", zIndex: 2, padding: "28px 32px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                  <div style={{ width: 60, height: 60, borderRadius: 16, background: "rgba(255,255,255,0.12)", border: `1px solid ${tpl.accentColor}30`, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+                    <img src="/images/logo.jpeg" alt="طويق" crossOrigin="anonymous" style={{ width: 44, height: 44, objectFit: "contain", borderRadius: 10 }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 17, fontWeight: 900, color: "#fff", lineHeight: 1.2 }}>جمعية طويق</div>
+                    <div style={{ fontSize: 11, color: tpl.accentColor, opacity: 0.9, marginTop: 1 }}>للخدمات الإنسانية</div>
+                  </div>
+                </div>
+                <div style={{ textAlign: "left" }}>
+                  <div style={{ fontSize: 32 }}>{tpl.emoji}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>رقم {config.regNo}</div>
                 </div>
               </div>
 
-              <div style={{ padding: "26px 28px 16px", textAlign: "center", flex: 1, position: "relative", zIndex: 2 }}>
-
-                <div style={{ fontSize: 58, fontWeight: 900, color: tpl.titleColor, lineHeight: 1.0, marginBottom: 10, textShadow: tpl.titleShadow }}>
+              {/* Main Title */}
+              <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "10px 32px 0" }}>
+                <div style={{
+                  fontSize: posterH > 800 ? 72 : 56,
+                  fontWeight: 900,
+                  color: tpl.titleColor,
+                  lineHeight: 1.0,
+                  letterSpacing: -1,
+                  textShadow: `0 0 60px ${tpl.accentGlow}, 0 4px 20px rgba(0,0,0,0.5)`,
+                  marginBottom: 8,
+                }}>
                   {config.title}
                 </div>
-                <div style={{ fontSize: 24, marginBottom: 6 }}>{tpl.emoji}</div>
+                {/* Accent underline */}
+                <div style={{ width: 80, height: 4, background: `linear-gradient(90deg, transparent, ${tpl.accentColor}, transparent)`, margin: "0 auto 18px", borderRadius: 2 }} />
+              </div>
 
-                <div style={{
-                  background: tpl.quoteBoxBg,
-                  borderRadius: 14,
-                  padding: "12px 18px",
-                  margin: "0 auto 22px",
-                  maxWidth: 490,
-                  fontSize: 14,
-                  color: tpl.id === "iftar" ? "#f0c060" : "#555",
-                  fontStyle: "italic",
-                  lineHeight: 1.8,
-                  whiteSpace: "pre-line",
-                  backdropFilter: "blur(4px)",
-                  border: tpl.id === "iftar" ? "1px solid rgba(240,192,96,0.2)" : "1px solid rgba(255,255,255,0.5)",
-                }}>
-                  ‹ {config.subtitle} ›
-                </div>
-
-                <div style={{ display: "flex", gap: 12, justifyContent: "center", marginBottom: 22 }}>
-                  {config.tiers.map((tier, i) => (
-                    <div key={i} style={{
-                      background: tpl.boxGradient,
-                      borderRadius: 16,
-                      padding: "16px 10px",
-                      flex: 1,
-                      maxWidth: 165,
-                      textAlign: "center",
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
-                    }}>
-                      <div style={{ color: tpl.boxLabelColor, fontSize: 13, marginBottom: 8, lineHeight: 1.3 }}>{tier.label}</div>
-                      <div style={{ color: tpl.boxAmountColor, fontSize: 19, fontWeight: 900, lineHeight: 1.2 }}>{tier.amount}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ fontSize: 13, color: tpl.id === "iftar" ? "rgba(240,192,96,0.8)" : "rgba(10,110,138,0.7)", marginBottom: 14 }}>
-                  📍 جمعية طويق للخدمات الإنسانية
-                </div>
-
-                {/* Bank Transfer Info */}
-                <div style={{ background: tpl.bankBg, borderRadius: 16, padding: "14px 18px", textAlign: "right", backdropFilter: "blur(4px)", border: tpl.id === "iftar" ? "1px solid rgba(240,192,96,0.2)" : "1px solid rgba(255,255,255,0.5)", marginBottom: 16 }}>
-                  <div style={{ fontSize: 11, color: tpl.id === "iftar" ? "rgba(240,192,96,0.6)" : "#999", marginBottom: 4 }}>التحويل المباشر</div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: tpl.id === "iftar" ? "#f0c060" : "#222", marginBottom: 4 }}>{config.bank}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: tpl.id === "iftar" ? "#e0b040" : tpl.titleColor, fontFamily: "monospace", letterSpacing: 0.5 }}>{config.iban}</div>
-                </div>
-
-                {/* QR Code Feature Section */}
-                <div style={{
-                  background: tpl.id === "iftar"
-                    ? "linear-gradient(135deg, rgba(30,15,3,0.9), rgba(90,52,16,0.85))"
-                    : "linear-gradient(135deg, rgba(10,90,50,0.9), rgba(20,140,80,0.85))",
-                  borderRadius: 20,
-                  padding: "18px 20px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18,
-                  border: tpl.id === "iftar" ? "1px solid rgba(240,192,96,0.3)" : "1px solid rgba(255,255,255,0.2)",
-                  boxShadow: tpl.id === "iftar" ? "0 8px 32px rgba(200,140,10,0.25)" : "0 8px 32px rgba(10,122,58,0.35)",
-                  marginBottom: 4,
-                }}>
-                  {/* QR Code */}
-                  <div style={{ position: "relative", flexShrink: 0 }}>
-                    <div style={{
-                      position: "absolute",
-                      inset: -4,
-                      borderRadius: 14,
-                      background: tpl.id === "iftar"
-                        ? "linear-gradient(135deg, #f0c060, #c8960a)"
-                        : "linear-gradient(135deg, #2ecc71, #0a7a3a)",
-                      zIndex: 0,
-                    }} />
-                    <div style={{
-                      position: "relative",
-                      zIndex: 1,
-                      background: "#fff",
-                      borderRadius: 11,
-                      padding: 5,
-                      width: 100,
-                      height: 100,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}>
-                      <img
-                        src="/images/qr-code.png"
-                        alt="QR Code"
-                        crossOrigin="anonymous"
-                        style={{ width: 90, height: 90, objectFit: "contain", display: "block" }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Call to action text */}
-                  <div style={{ flex: 1, textAlign: "right" }}>
-                    <div style={{
-                      fontSize: 18,
-                      fontWeight: 900,
-                      color: tpl.id === "iftar" ? "#f0c060" : "#ffffff",
-                      marginBottom: 6,
-                      lineHeight: 1.3,
-                    }}>امسح وتبرع الآن</div>
-                    <div style={{
-                      fontSize: 12,
-                      color: tpl.id === "iftar" ? "rgba(240,192,96,0.75)" : "rgba(200,255,220,0.85)",
-                      lineHeight: 1.6,
-                      marginBottom: 8,
-                    }}>وجّه كاميرا هاتفك نحو الباركود للتبرع الفوري عبر موقع الجمعية</div>
-                    <div style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      background: tpl.id === "iftar" ? "rgba(240,192,96,0.15)" : "rgba(255,255,255,0.12)",
-                      border: tpl.id === "iftar" ? "1px solid rgba(240,192,96,0.3)" : "1px solid rgba(255,255,255,0.25)",
-                      borderRadius: 8,
-                      padding: "4px 10px",
-                    }}>
-                      <span style={{ fontSize: 10, color: tpl.id === "iftar" ? "#f0c060" : "#a0ffcc", fontWeight: 700, letterSpacing: 0.5 }}>
-                        🔒 تبرع آمن ومعتمد | ترخيص {config.license}
-                      </span>
-                    </div>
-                  </div>
+              {/* Hadith Quote */}
+              <div style={{
+                position: "relative",
+                zIndex: 2,
+                margin: "0 28px 20px",
+                background: `${tpl.badgeBg}`,
+                border: `1px solid ${tpl.badgeBorder}`,
+                borderRadius: 18,
+                padding: "16px 20px",
+                textAlign: "center",
+                backdropFilter: "blur(10px)",
+              }}>
+                <div style={{ fontSize: 13.5, color: tpl.subtitleColor, lineHeight: 1.9, fontStyle: "italic", whiteSpace: "pre-line" }}>
+                  {config.subtitle}
                 </div>
               </div>
 
-              <div style={{ background: tpl.footerBg, padding: "12px 24px", position: "relative", zIndex: 2 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div style={{ color: tpl.footerText, fontSize: 14, fontWeight: 700 }}>📞 {config.phone}</div>
-                  <div style={{ color: tpl.footerText, opacity: 0.7, fontSize: 15, letterSpacing: 3 }}>▶ ✕ 𝐟 📷</div>
-                  <div style={{ color: tpl.footerText, fontSize: 14, fontWeight: 700 }}>@{config.social}</div>
+              {/* Donation Tiers */}
+              <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 12, padding: "0 24px 16px", flex: 1 }}>
+                {config.tiers.map((tier, i) => (
+                  <div key={i} style={{
+                    flex: 1,
+                    background: i === config.tiers.length - 1 ? tpl.cardBg : "rgba(255,255,255,0.07)",
+                    borderRadius: 20,
+                    padding: "18px 12px",
+                    textAlign: "center",
+                    border: i === config.tiers.length - 1 ? "none" : `1px solid ${tpl.accentColor}25`,
+                    boxShadow: i === config.tiers.length - 1 ? tpl.cardShadow : "none",
+                    backdropFilter: "blur(8px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}>
+                    {i === config.tiers.length - 1 && (
+                      <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.6)", background: "rgba(255,255,255,0.15)", padding: "3px 10px", borderRadius: 20, letterSpacing: 1, textTransform: "uppercase" }}>
+                        ★ المميز
+                      </div>
+                    )}
+                    <div style={{ fontSize: 23, fontWeight: 900, color: "#fff", lineHeight: 1.1 }}>{tier.amount}</div>
+                    <div style={{ fontSize: 12, color: i === config.tiers.length - 1 ? "rgba(255,255,255,0.8)" : tpl.accentColor, lineHeight: 1.4 }}>{tier.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bank + QR */}
+              <div style={{
+                position: "relative",
+                zIndex: 2,
+                margin: "0 24px 16px",
+                background: "rgba(0,0,0,0.35)",
+                border: `1px solid ${tpl.accentColor}20`,
+                borderRadius: 18,
+                padding: "14px 18px",
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                backdropFilter: "blur(12px)",
+              }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginBottom: 4, letterSpacing: 0.5 }}>التحويل المباشر</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: tpl.accentColor, marginBottom: 4 }}>{config.bank}</div>
+                  <div style={{ fontSize: 11, fontFamily: "monospace", color: "rgba(255,255,255,0.7)", letterSpacing: 0.8 }}>{config.iban}</div>
                 </div>
+                <div style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 14,
+                  background: "#fff",
+                  padding: 5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  boxShadow: `0 0 20px ${tpl.accentGlow}`,
+                }}>
+                  <img src="/images/qr-code.png" alt="QR" crossOrigin="anonymous" style={{ width: 70, height: 70, objectFit: "contain" }} />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div style={{
+                position: "relative",
+                zIndex: 2,
+                background: tpl.footerBg,
+                backdropFilter: "blur(20px)",
+                padding: "14px 28px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderTop: `1px solid ${tpl.accentColor}20`,
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: 13 }}>📞</span>
+                  <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>{config.phone}</span>
+                </div>
+                <div style={{ color: tpl.accentColor, fontSize: 12, fontWeight: 600 }}>🌐 {config.website}</div>
+                <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 12 }}>@{config.social}</div>
               </div>
             </div>
 
-            <div className="mt-5 flex gap-3">
-              <Button onClick={handleDownload} size="lg" className="bg-amber-500 hover:bg-amber-400 text-black font-bold gap-2 rounded-xl px-8">
+            {/* Download buttons */}
+            <div className="mt-5 flex gap-3 flex-wrap justify-center">
+              <Button onClick={handleDownload} size="lg" className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold gap-2 rounded-xl px-8 shadow-lg shadow-amber-500/30">
                 <Download className="w-5 h-5" /> تحميل PNG عالي الجودة
               </Button>
               <Button variant="outline" onClick={handleShareWA} size="lg" className="border-white/20 text-white hover:bg-white/10 gap-2 rounded-xl px-5">
                 <Share2 className="w-5 h-5" /> نشر واتساب
               </Button>
             </div>
-            <p className="text-slate-500 text-xs mt-2">
-              دقة التحميل: 1800×2700 بكسل (3×) — مناسب للطباعة والنشر على السوشيال ميديا
+            <p className="text-slate-500 text-xs mt-2 text-center">
+              دقة التحميل: {ratio.w * 3}×{posterH * 3} بكسل (3×) — مناسب للطباعة والنشر على جميع منصات التواصل
             </p>
           </div>
         </div>

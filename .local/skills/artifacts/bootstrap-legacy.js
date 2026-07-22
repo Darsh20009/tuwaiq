@@ -1,13 +1,31 @@
 import fs from 'fs';
-import path from 'path';
 import { parseArgs as parseNodeArgs } from 'node:util';
+import path from 'path';
 
 const TEMPLATE_SUFFIX = '.template';
+const HTML_FILE_EXTENSIONS = new Set(['.html', '.htm']);
 const TOKEN_VALUES = {
   __REPLIT_ARTIFACT_SLUG__: (slug) => slug,
   __REPLIT_ARTIFACT_TITLE__: (_, title) => title,
   __REPLIT_ARTIFACT_PACKAGE_NAME__: (slug) => slug,
 };
+
+function writeStdout(message) {
+  process.stdout.write(`${message}\n`);
+}
+
+function writeStderr(message) {
+  process.stderr.write(`${message}\n`);
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
 
 function parseArgs(argv) {
   const { values, positionals } = parseNodeArgs({
@@ -23,7 +41,7 @@ function parseArgs(argv) {
   const title = values.title;
 
   if (!artifactType || !slug || !title) {
-    console.error(
+    writeStderr(
       'Usage: node bootstrap-legacy.js <artifactType> --slug=<slug> --title=<title>',
     );
     process.exit(1);
@@ -32,10 +50,12 @@ function parseArgs(argv) {
   return { artifactType, slug, title };
 }
 
-function interpolate(content, slug, title) {
+function interpolate(content, slug, title, { isHtml }) {
   let rendered = content;
   for (const [token, resolver] of Object.entries(TOKEN_VALUES)) {
-    rendered = rendered.replaceAll(token, resolver(slug, title));
+    const value = resolver(slug, title);
+    const replacement = isHtml ? escapeHtml(value) : value;
+    rendered = rendered.replaceAll(token, replacement);
   }
   return rendered;
 }
@@ -61,7 +81,10 @@ function copyDir(src, dest, slug, title) {
 
     if (isTemplate) {
       const raw = fs.readFileSync(srcPath, 'utf8');
-      fs.writeFileSync(destPath, interpolate(raw, slug, title));
+      const isHtml = HTML_FILE_EXTENSIONS.has(
+        path.extname(destName).toLowerCase(),
+      );
+      fs.writeFileSync(destPath, interpolate(raw, slug, title, { isHtml }));
       continue;
     }
 
@@ -78,25 +101,30 @@ function main() {
     artifactFilesDir = 'react-vite';
   }
 
-  const filesDir = path.join(import.meta.dirname, 'artifacts', artifactFilesDir, 'files');
+  const filesDir = path.join(
+    import.meta.dirname,
+    'artifacts',
+    artifactFilesDir,
+    'files',
+  );
   const destDir = path.join(workspaceRoot, 'artifacts', slug);
 
   if (!fs.existsSync(filesDir)) {
-    console.error(`Error: missing template directory for ${artifactFilesDir}`);
+    writeStderr(`Error: missing template directory for ${artifactFilesDir}`);
     process.exit(1);
   }
 
   if (fs.existsSync(destDir)) {
-    console.error(`Error: artifacts/${slug}/ already exists`);
+    writeStderr(`Error: artifacts/${slug}/ already exists`);
     process.exit(1);
   }
 
-  console.log(`Bootstrapping ${artifactType} artifact: ${slug}`);
+  writeStdout(`Bootstrapping ${artifactType} artifact: ${slug}`);
 
   copyDir(filesDir, destDir, slug, title);
-  console.log(`  Copied files to artifacts/${slug}/`);
+  writeStdout(`  Copied files to artifacts/${slug}/`);
 
-  console.log('Done.');
+  writeStdout('Done.');
 }
 
 main();

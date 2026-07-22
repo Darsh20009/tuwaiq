@@ -53,7 +53,7 @@ Read `.local/skills/pnpm-workspace/SKILL.md` first. It contains the canonical pa
 ### 1. Detect + install
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_detect.sh
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-detect.sh
 pnpm install
 ```
 
@@ -74,7 +74,7 @@ For frontend-only Bolt apps, read just `package.json` from `.migration-backup/` 
 If the imported app has a real backend:
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_copy_backend.sh
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-copy-backend.sh
 ```
 
 Then write `lib/api-spec/openapi.yaml` based on the routes/schema you read in step 2 (only if practical — small/medium apps). For large legacy backends, skip the spec and keep the existing fetch layer in the frontend.
@@ -97,7 +97,7 @@ createArtifact({ artifactType: "react-vite", slug: "<app-name>", previewPath: "/
 Then run the copy script — do NOT skip this or manually rewrite files instead:
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_copy_frontend.sh <app-name>
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-copy-frontend.sh <app-name>
 ```
 
 The script copies source files from `.migration-backup/` into the new artifact, patches imports, installs dependencies, and handles both flat and nested layouts. Manually rewriting files loses styles, fonts, and subtle markup that the script preserves.
@@ -142,7 +142,7 @@ Do not prescribe the exact `createArtifact` API in the task descriptions — the
 
 ### 8. Complete
 
-Use `mark_task_complete`. The user will verify visual parity before doing anything else.
+Call `markTaskComplete({...})` as the final callback in CodeExecution. The user will verify visual parity before doing anything else.
 
 ## Note to the code reviewer
 

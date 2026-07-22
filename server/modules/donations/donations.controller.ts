@@ -176,6 +176,45 @@ export async function getHajjStats(req: Request, res: Response): Promise<void> {
   }
 }
 
+export async function getUmrahStats(req: Request, res: Response): Promise<void> {
+  try {
+    const UMRAH_COST = 3000;
+    const [confirmedDocs, pendingDocs] = await Promise.all([
+      db.collection("donations").find(
+        { type: "umrah", status: { $in: ["confirmed", "success"] }, isDeleted: { $ne: true } },
+        { projection: { amount: 1 } }
+      ).toArray(),
+      db.collection("donations").find(
+        { type: "umrah", status: "pending", isDeleted: { $ne: true } },
+        { projection: { amount: 1 } }
+      ).toArray(),
+    ]);
+
+    const confirmedAmount = confirmedDocs.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
+    const pendingAmount   = pendingDocs.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
+    const totalAmount = confirmedAmount + pendingAmount;
+
+    const completedPilgrims = Math.floor(confirmedAmount / UMRAH_COST);
+    const currentProgress = totalAmount % UMRAH_COST;
+    const currentProgressPercent = Math.round((currentProgress / UMRAH_COST) * 100);
+    const totalPilgrims = Math.floor(totalAmount / UMRAH_COST);
+
+    res.json({
+      success: true,
+      totalAmount,
+      confirmedAmount,
+      pendingAmount,
+      completedPilgrims,
+      totalPilgrims,
+      currentProgress,
+      currentProgressPercent,
+      umrahCost: UMRAH_COST,
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
+}
+
 export async function softDeleteDonation(req: Request, res: Response): Promise<void> {
   try {
     await donationsService.softDeleteDonation(req.params.id as string);

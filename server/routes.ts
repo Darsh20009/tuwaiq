@@ -860,7 +860,7 @@ export async function registerRoutes(
     try {
       const donations = await db.collection("donations").find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 }).toArray();
       const STATUS_AR: any = { success: "مؤكد", pending: "معلق", rejected: "مرفوض", failed: "فاشل", confirmed: "مؤكد" };
-      const TYPE_AR: any = { general: "صدقة عامة", zakat: "زكاة", waqf: "وقف", kafara: "كفارة", hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات", orphan: "كفالة يتيم", relief: "تفريج كربة", water: "سقيا الماء", food: "إطعام", ramadan: "سلة رمضانية" };
+      const TYPE_AR: any = { general: "صدقة عامة", zakat: "زكاة", waqf: "وقف", kafara: "كفارة", umrah: "كفالة عمرة", hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات", orphan: "كفالة يتيم", relief: "تفريج كربة", water: "سقيا الماء", food: "إطعام", ramadan: "سلة رمضانية" };
       const METHOD_AR: any = { online: "دفع إلكتروني", bank_transfer: "تحويل بنكي", cash: "نقدي" };
       const rows = [
         ["الرقم", "المتبرع", "الجوال", "البريد", "المبلغ", "النوع", "طريقة الدفع", "الحالة", "ملاحظات", "التاريخ"],
@@ -1040,7 +1040,7 @@ export async function registerRoutes(
       const type = transfer.type || "general";
       const TYPE_LABELS: Record<string, string> = {
         general: "صدقة عامة", zakat: "زكاة مال", waqf: "وقف",
-        hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات",
+        umrah: "كفالة عمرة", hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات",
         orphan: "كفالة يتيم", relief: "تفريج كربة",
       };
       const typeLabel = TYPE_LABELS[type] || type;
@@ -3209,7 +3209,7 @@ export async function registerRoutes(
 
       const TYPE_LABELS: Record<string, string> = {
         general: "صدقة عامة", zakat: "زكاة مال", waqf: "وقف",
-        hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات",
+        umrah: "كفالة عمرة", hajj: "كفالة حاج", families: "كفالة أسر أرامل ومطلقات",
         orphan: "كفالة يتيم", relief: "تفريج كربة",
         water: "سقيا الماء", "ramadan-basket": "سلة رمضانية",
         iftar: "إفطار صائم", food: "إطعام الجائع", "special-cases": "حالات خاصة",

@@ -17,8 +17,8 @@ Set up named validation commands (lint, test, typecheck, etc.) that act as repea
 
 ## When NOT to Use
 
-- For one-off test runs — use the shell directly
-- For deploy workflows — use the deployment skill
+- For one-off test runs -- use the shell directly
+- For deploy workflows -- use the deployment skill
 
 ## Available Functions
 

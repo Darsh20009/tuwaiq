@@ -63,7 +63,7 @@ Read `.local/skills/pnpm-workspace/SKILL.md` first. It contains the canonical pa
 ### 1. Detect + install
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_detect.sh
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-detect.sh
 pnpm install
 ```
 
@@ -83,10 +83,10 @@ Do NOT read components or pages whose only Supabase interaction is via the calls
 ### 3. Build the backend (only if the app has data/auth)
 
 ```sh
-createArtifact({ artifactType: "api", slug: "api-server", ... })  // skip if api-server already exists
+# There is no standalone api artifact type. Create/update artifacts/api-server manually.
 ```
 
-For Lovable apps, the backend doesn't exist in the source — you're creating it from scratch based on the Supabase usage you found in step 2. Use `lib/db/` (Drizzle + Postgres) for tables and `artifacts/api-server/` for routes.
+For Lovable apps, the backend doesn't exist in the source — you're creating it from scratch based on the Supabase usage you found in step 2. Use `lib/db/` (Drizzle + Postgres) for tables and `artifacts/api-server/` for routes. If the project needs a frontend artifact too, create the web artifact with `createArtifact({ artifactType: "react-vite", ... })`; do not pass an api artifact type to `createArtifact`.
 
 If the app uses Supabase Auth, set up Clerk instead — see the authentication skill.
 
@@ -106,7 +106,7 @@ createArtifact({ artifactType: "react-vite", slug: "<app-name>", previewPath: "/
 Then run the copy script — do NOT skip this or manually rewrite files instead:
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_copy_frontend.sh <app-name>
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-copy-frontend.sh <app-name>
 ```
 
 The script copies source files from `.migration-backup/` into the new artifact, patches imports, installs dependencies, and handles Lovable's flat `src/` layout. Manually rewriting files loses styles, fonts, and subtle markup that the script preserves.
@@ -154,7 +154,7 @@ Do not prescribe the exact `createArtifact` API in the task descriptions — the
 
 ### 8. Complete
 
-Use `mark_task_complete`. The user will verify visual + functional parity before doing anything else.
+Call `markTaskComplete({...})` as the final callback in CodeExecution. The user will verify visual + functional parity before doing anything else.
 
 ## Note to the code reviewer
 

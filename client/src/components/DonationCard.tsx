@@ -23,27 +23,27 @@ import { useIsAppleDevice } from "@/hooks/use-apple-pay";
 const CAMPAIGN_AMOUNTS: Record<string, number[]> = {
   "":       [15, 50, 100, 200, 500, 1000],
   general:  [15, 50, 100, 200, 500, 1000],
-  hajj:     [100, 250, 500, 1250, 5000, 12000],
+  umrah:    [100, 300, 500, 750, 1500, 3000],
   families: [15, 50, 100, 200, 500],
   orphan:   [100, 200, 350, 500, 1000],
   relief:   [15, 50, 100, 200, 500],
 };
 
-const HAJJ_LABELS: Record<number, string> = {
-  100: "مساهمة رمزية", 250: "مساهمة", 500: "مساهمة كبيرة",
-  1250: "باقة متوسطة", 5000: "باقة كبيرة", 12000: "كفالة حاج كامل",
+const UMRAH_LABELS: Record<number, string> = {
+  100: "مساهمة رمزية", 300: "مساهمة", 500: "مساهمة كبيرة",
+  750: "باقة متوسطة", 1500: "باقة كبيرة", 3000: "كفالة معتمر كامل",
 };
 
 const CAMPAIGN_OPTIONS = [
   { id: "",        label: "تبرع عام",           icon: Heart,     color: "#059669" },
-  { id: "hajj",    label: "كفالة حاج",           icon: Globe2,    color: "#059669" },
+  { id: "umrah",   label: "كفالة عمرة",          icon: Globe2,    color: "#059669" },
   { id: "families",label: "كفالة أسر أرامل",    icon: Home,      color: "#0ea5e9" },
   { id: "orphan",  label: "كفالة يتيم",           icon: Baby,      color: "#f59e0b" },
   { id: "relief",  label: "تفريج كربة",           icon: HandHeart, color: "#8b5cf6" },
 ];
 
 const BANK_ACCOUNTS: Record<string, { name: string; iban: string }> = {
-  hajj:    { name: "مصرف الراجحي",              iban: "SA3080 0005896080195679 23" },
+  umrah:   { name: "مصرف الراجحي",              iban: "SA3080 0005896080195679 23" },
   families:{ name: "البنك العربي الوطني (ANB)", iban: "SA6930 4001080958103900018" },
   orphan:  { name: "بنك البلاد",                iban: "SA2315 0009991461280000007" },
   relief:  { name: "مصرف الراجحي",              iban: "SA3080 0005896080195679 23" },
@@ -191,13 +191,13 @@ export function DonationCard() {
     },
   });
 
-  const { data: hajjStats } = useQuery<any>({
-    queryKey: ["/api/donations/hajj-stats"],
+  const { data: umrahStats } = useQuery<any>({
+    queryKey: ["/api/donations/umrah-stats"],
     queryFn: async () => {
-      const r = await fetch("/api/donations/hajj-stats");
+      const r = await fetch("/api/donations/umrah-stats");
       return r.ok ? r.json() : null;
     },
-    enabled: selectedCampaign === "hajj",
+    enabled: selectedCampaign === "umrah",
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 30_000,
@@ -235,7 +235,7 @@ export function DonationCard() {
   }, [selectedCampaign]);
 
   const campaignToType: Record<string, string> = {
-    hajj: "hajj",
+    umrah: "umrah",
     families: "families",
     orphan: "orphan",
     relief: "relief",
@@ -493,50 +493,48 @@ export function DonationCard() {
                 <FormLabel className="text-xs font-bold" style={{ color: "hsl(215 15% 42%)" }}>
                   المبلغ (ريال سعودي){donationType !== "once" ? ` — ${donationType === "monthly" ? "شهرياً" : "يومياً"}` : ""}
                 </FormLabel>
-                {/* Hajj Progress Bar */}
-                {selectedCampaign === "hajj" && hajjStats && (
+                {/* Umrah Progress Bar */}
+                {selectedCampaign === "umrah" && umrahStats && (
                   <div className="rounded-xl px-4 py-3 border mb-3" style={{ background: "hsl(152 40% 97%)", borderColor: "hsl(152 40% 82%)" }}>
                     <div className="flex items-center justify-between mb-2 text-xs font-bold" style={{ color: "hsl(152 42% 28%)" }}>
-                      <span>🕋 تقدم كفالة الحجاج</span>
+                      <span>🕌 تقدم كفالة المعتمرين</span>
                       <span style={{ color: "hsl(35 80% 45%)" }}>
-                        {hajjStats.completedPilgrims > 0
-                          ? `${hajjStats.completedPilgrims} حاج مكتمل ✅`
-                          : hajjStats.totalPilgrims > 0
-                          ? `${hajjStats.totalPilgrims} حاج في الطريق ⏳`
-                          : "نحو أول حاج"}
+                        {umrahStats.completedPilgrims > 0
+                          ? `${umrahStats.completedPilgrims} معتمر مكتمل ✅`
+                          : umrahStats.totalPilgrims > 0
+                          ? `${umrahStats.totalPilgrims} معتمر في الطريق ⏳`
+                          : "نحو أول معتمر"}
                       </span>
                     </div>
                     {/* Two-layer bar: confirmed (solid) + pending (lighter) */}
                     <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(152 40% 88%)" }}>
-                      {/* Pending layer (full width of total) */}
-                      {hajjStats.pendingAmount > 0 && (
+                      {umrahStats.pendingAmount > 0 && (
                         <div
                           className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                           style={{
-                            width: `${Math.min(100, Math.round((((hajjStats.confirmedAmount || 0) + hajjStats.pendingAmount) % hajjStats.hajjCost) / hajjStats.hajjCost * 100))}%`,
+                            width: `${Math.min(100, Math.round((((umrahStats.confirmedAmount || 0) + umrahStats.pendingAmount) % umrahStats.umrahCost) / umrahStats.umrahCost * 100))}%`,
                             background: "hsl(152 40% 68%)",
                           }}
                         />
                       )}
-                      {/* Confirmed layer */}
                       <div
                         className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                         style={{
-                          width: `${hajjStats.currentProgressPercent}%`,
+                          width: `${umrahStats.currentProgressPercent}%`,
                           background: "linear-gradient(90deg, hsl(152 52% 38%) 0%, hsl(175 52% 34%) 100%)",
                         }}
                       />
                     </div>
                     <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(152 30% 45%)" }}>
                       <span>
-                        {hajjStats.currentProgress > 0
-                          ? `${hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم`
+                        {umrahStats.currentProgress > 0
+                          ? `${umrahStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو المعتمر القادم`
                           : "لم تتجمع تبرعات بعد"}
-                        {hajjStats.pendingAmount > 0 && (
-                          <span className="mr-1 text-amber-600">(+ {hajjStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
+                        {umrahStats.pendingAmount > 0 && (
+                          <span className="mr-1 text-amber-600">(+ {umrahStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
                         )}
                       </span>
-                      <span className="font-bold">{hajjStats.currentProgressPercent}% من 12,000 ر.س</span>
+                      <span className="font-bold">{umrahStats.currentProgressPercent}% من 3,000 ر.س</span>
                     </div>
                   </div>
                 )}
@@ -547,7 +545,7 @@ export function DonationCard() {
                     <div className="grid grid-cols-3 gap-1.5 mb-2">
                       {amts.map((a) => {
                         const active = selectedAmount === a && (field.value as any) == a;
-                        const isFullHajj = selectedCampaign === "hajj" && a === 12000;
+                        const isFullUmrah = selectedCampaign === "umrah" && a === 3000;
                         return (
                           <button
                             key={a}
@@ -557,24 +555,24 @@ export function DonationCard() {
                               "py-2 text-xs font-bold rounded-lg border-2 transition-all flex flex-col items-center leading-tight",
                               active
                                 ? "text-white"
-                                : isFullHajj
+                                : isFullUmrah
                                   ? "border-[hsl(35_80%_45%)] text-white"
                                   : "border-[hsl(35_15%_88%)] hover:border-[hsl(152_42%_50%)]"
                             )}
                             style={{
                               backgroundColor: active
-                                ? isFullHajj ? "hsl(35 80% 45%)" : "hsl(152 42% 28%)"
-                                : isFullHajj ? "hsl(35 80% 45%)" : "white",
+                                ? isFullUmrah ? "hsl(35 80% 45%)" : "hsl(152 42% 28%)"
+                                : isFullUmrah ? "hsl(35 80% 45%)" : "white",
                               borderColor: active
-                                ? isFullHajj ? "hsl(35 80% 45%)" : "hsl(152 42% 28%)"
-                                : isFullHajj ? "hsl(35 80% 45%)" : undefined,
-                              color: active || isFullHajj ? "white" : "hsl(152 42% 28%)",
+                                ? isFullUmrah ? "hsl(35 80% 45%)" : "hsl(152 42% 28%)"
+                                : isFullUmrah ? "hsl(35 80% 45%)" : undefined,
+                              color: active || isFullUmrah ? "white" : "hsl(152 42% 28%)",
                             }}
                             data-testid={`amount-${a}`}
                           >
                             <span>{a.toLocaleString("ar-SA")}</span>
-                            {selectedCampaign === "hajj" && HAJJ_LABELS[a] && (
-                              <span className="text-[9px] opacity-80">{HAJJ_LABELS[a]}</span>
+                            {selectedCampaign === "umrah" && UMRAH_LABELS[a] && (
+                              <span className="text-[9px] opacity-80">{UMRAH_LABELS[a]}</span>
                             )}
                           </button>
                         );
@@ -583,7 +581,7 @@ export function DonationCard() {
                   );
                 })()}
 
-                {selectedCampaign !== "hajj" && (
+                {selectedCampaign !== "umrah" && (
                   <FormControl>
                     <div className="relative">
                       <Input

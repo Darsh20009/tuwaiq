@@ -10,7 +10,7 @@ Replit applies schema changes for you in **exactly two** places. Anything outsid
 
 After a task merges back to main, Replit runs the project's post-merge setup script (`scripts/post-merge.sh` or stack default). For Drizzle-based stacks this typically runs `npm run db:push` or `pnpm --filter @workspace/db run push-force`, which applies the latest dev schema to the **development** database only.
 
-This is owned by the `post_merge_setup` skill — the agent does not need to invoke it manually.
+This is owned by the `post-merge-setup` skill — the agent does not need to invoke it manually.
 
 ### 2. Publish → production database
 

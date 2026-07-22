@@ -9,6 +9,7 @@ router.post("/", donationLimiter, optionalAuth, controller.createDonation);
 router.get("/", requireAuth, controller.getDonations);
 router.get("/stats", requireAuth, requireRole("admin", "manager", "accountant"), controller.getDonationStats);
 router.get("/hajj-stats", controller.getHajjStats);
+router.get("/umrah-stats", controller.getUmrahStats);
 router.get("/deleted", requireAuth, requireRole("admin", "manager"), controller.getDeletedDonations);
 router.get("/top-donors", controller.getTopDonors);
 router.get("/campaign/:campaignId", controller.getDonationsByCampaign);

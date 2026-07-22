@@ -3,8 +3,12 @@ description: "React + Vite web app"
 kind: web
 
 access:
-  type: stack
-  name: PNPM_WORKSPACE
+  type: any_of
+  conditions:
+    - type: stack
+      name: PNPM_WORKSPACE
+    - type: stack
+      name: DATABRICKS_APP
 
 service_configs:
   - name: web
@@ -24,6 +28,7 @@ service_configs:
           to: /index.html
 
 initial_open_files:
+  - src/main.tsx
   - src/App.tsx
   - src/index.css
   - package.json
@@ -37,3 +42,5 @@ initial_open_files:
 
 additional_skills:
   - database
+  - /pnpm-workspace/references/openapi.md
+  - references/first-build.md

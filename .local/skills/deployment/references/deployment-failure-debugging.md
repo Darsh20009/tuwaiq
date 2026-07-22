@@ -86,7 +86,7 @@ These existing callbacks are useful during debugging:
 - `fetchDeploymentLogs({ afterTimestamp?, beforeTimestamp?, message? })` — fetch runtime/production logs (see `references/deployment-logs.md`). Use to check what happens after the app starts in production.
 - `viewEnvVars({ environment: "development" | "production" })` — compare env var names between dev and prod (from `environment-secrets` skill). Use to find missing production secrets.
 - `deployConfig({ deploymentTarget, run?, build?, publicDir? })` — reconfigure deployment settings (from the main deployment skill). Use to fix run commands and build commands.
-- `suggestDeploy()` — prompt the user to click Publish after making fixes. **Only works in the main repl context** — in task-agent/subrepl sessions this callback returns `success: false`. If you are in a task agent, skip this call and instead remind the user to publish from the main version after merging.
+- `SuggestUserAction({ action: "deploy", message: "The app is ready to publish." })` — prompt the user to click Publish after making fixes.
 
 ## Diagnostic Procedure
 
@@ -165,8 +165,7 @@ Read `.replit`'s `[deployment]` section. Verify run command, build command, and 
 
 After making code or configuration fixes:
 
-- **Main repl context:** Call `suggestDeploy()` to prompt the user to re-publish.
-- **Task-agent / subrepl context:** Do **not** call `suggestDeploy()` — it will fail. Instead, remind the user to publish from the main version of the project after the task branch is merged.
+- Call `SuggestUserAction({ action: "deploy", message: "The app is ready to publish." })` to prompt the user to re-publish.
 
 ## Common Failure Modes
 
@@ -178,7 +177,7 @@ After making code or configuration fixes:
 - **Look for:** Uncaught exceptions, import errors, missing modules, missing environment variables (e.g. `DISCORD_TOKEN`), syntax errors, or repeated restarts in runtime logs (`fetchDeploymentLogs`).
 - **Fix:** Read the stack trace and fix the code error so the app starts cleanly and stays up. Confirm by running the production `run` command locally:
   - For HTTP services: it must start without crashing **and** respond 200 on the probe path (`GET /` by default).
-  - For bots/workers/jobs: it must start without crashing and stay running (or, for `scheduled`, run to completion with exit code 0). If the crash is from a missing secret, use `requestEnvVar()` to ask the user to add it to production.
+  - For bots/workers/jobs: it must start without crashing and stay running (or, for `scheduled`, run to completion with exit code 0). If the crash is from a missing secret, use `requestSecrets()` to ask the user to add it to production.
 
 ### Build command failure
 
@@ -216,7 +215,7 @@ After making code or configuration fixes:
 ### Missing or different environment variables
 
 - **Indicators:** App works in dev but fails in prod with connection errors, auth failures, or undefined config.
-- **Fix:** Use `viewEnvVars({ environment: "development" })` and `viewEnvVars({ environment: "production" })` to compare. Use `requestEnvVar()` to ask the user to provide missing production secrets.
+- **Fix:** Use `viewEnvVars({ environment: "development" })` and `viewEnvVars({ environment: "production" })` to compare. Use `requestSecrets()` to ask the user to provide missing production secrets.
 
 ### Autoscale-specific issues (stateless footguns)
 
@@ -239,5 +238,5 @@ If the app needs any of the above, inform the user that they should switch to Re
 1. **Don't diagnose infrastructure problems.** If the error appears to be on Replit's side (e.g., transient cloud provider issues, `UnknownError` from the deployer), suggest the user retry the deployment or contact Replit support.
 2. **Changing deployment type.** The deployment type (autoscale, vm, scheduled, static) is set in the Deployments pane, not in code. If it needs to change, tell the user to update it themselves.
 3. **Use production terminology.** In user-facing messages, say "publish" not "deploy" — that's the Replit product terminology.
-4. **You cannot trigger a deployment.** In the main repl, call `suggestDeploy()` to prompt the user to click the Publish button. In task-agent/subrepl sessions, `suggestDeploy()` is unavailable — remind the user to publish from the main version after merging.
+4. **You cannot trigger a deployment.** Call `SuggestUserAction({ action: "deploy", message: "The app is ready to publish." })` to prompt the user to click the Publish button.
 5. **Production config lives in `.replit`.** Deployment settings (run command, build command, deployment target) are in the `.replit` file's `[deployment]` section.

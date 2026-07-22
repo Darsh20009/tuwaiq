@@ -7,6 +7,16 @@ description: Audit websites for SEO issues and optimize content for search engin
 
 Audit websites for technical SEO issues, analyze on-page optimization, and provide actionable recommendations to improve search engine visibility and rankings.
 
+## Structured Zealot Scan Mode
+
+If the active task or system prompt says you are running an SEO scan, or the `ReportSeoScanComplete` tool is available, this skill is reference material only. In that mode:
+
+- Do not create standalone report files such as `seo-audit.md`, `seo-audit-report.md`, or a chat-only audit summary.
+- Do not use the legacy "Output Format" section below as the final deliverable.
+- Write grouped issue markdown files under `.local/new_seo_issues/<group>/`.
+- Update seeded issues under `.local/existing_seo_issues/` only when preserving, dismissing, or superseding prior findings.
+- Call `ReportSeoScanComplete` after the issue files represent the final scan result.
+
 ## When to Use
 
 - User wants an SEO audit of their website

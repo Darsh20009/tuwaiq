@@ -1,23 +1,23 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* REPLACE THESE -- define your own palette and fonts for each video */
 :root {
   --color-primary: #000000;
-  --color-secondary: #6B7280;
-  --color-accent: #3B82F6;
+  --color-secondary: #6b7280;
+  --color-accent: #3b82f6;
 
-  --color-bg-light: #FFFFFF;
-  --color-bg-dark: #0F172A;
-  --color-bg-muted: #F8FAFC;
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #0f172a;
+  --color-bg-muted: #f8fafc;
 
   --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
-  --color-text-muted: #9CA3AF;
-  --color-text-inverse: #FFFFFF;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #ffffff;
 
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'DM Sans', sans-serif;

@@ -16,6 +16,10 @@ access:
       condition:
         type: deployment_target
         name: databricks_app
+    - type: not
+      condition:
+        type: stack
+        name: DATABRICKS_APP
 
 service_configs:
   - name: web
@@ -35,6 +39,7 @@ service_configs:
           to: /index.html
 
 initial_open_files:
+  - src/main.tsx
   - src/App.tsx
   - src/index.css
   - /lib/api-spec/openapi.yaml

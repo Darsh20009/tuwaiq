@@ -57,7 +57,7 @@ Read `.local/skills/pnpm-workspace/SKILL.md` first. It contains the canonical pa
 ### 1. Detect + install
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_detect.sh
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-detect.sh
 pnpm install
 ```
 
@@ -84,10 +84,10 @@ Do NOT read every component — focus on routing structure and API surface.
 If the app has `app/api/` or `pages/api/` routes:
 
 ```sh
-createArtifact({ artifactType: "api", slug: "api-server", ... })  // skip if api-server already exists
+# There is no standalone api artifact type. Create/update artifacts/api-server manually.
 ```
 
-Convert Next.js API routes to Express routes in `artifacts/api-server/`. Set up `lib/db/` (Drizzle + Postgres) if the app uses a database.
+Convert Next.js API routes to Express routes in `artifacts/api-server/`. Set up `lib/db/` (Drizzle + Postgres) if the app uses a database. If the project still needs a frontend artifact, create it with `createArtifact({ artifactType: "react-vite", ... })`; do not pass an api artifact type to `createArtifact`.
 
 Run codegen + DB push in parallel once the spec exists:
 
@@ -105,7 +105,7 @@ createArtifact({ artifactType: "react-vite", slug: "<app-name>", previewPath: "/
 Then run the copy script — do NOT skip this or manually rewrite files instead:
 
 ```sh
-bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack_copy_frontend.sh <app-name>
+bash .local/secondary_skills/migrate-to-multi-artifact/references/fullstack-copy-frontend.sh <app-name>
 ```
 
 The script copies source files from `.migration-backup/` into the new artifact, patches imports, installs dependencies, and handles both flat and monorepo layouts. Manually rewriting files loses styles, fonts, and subtle markup that the script preserves.
@@ -155,7 +155,7 @@ Do not prescribe the exact `createArtifact` API in the task descriptions — the
 
 ### 8. Complete
 
-Use `mark_task_complete`. The user will verify visual + functional parity before doing anything else.
+Call `markTaskComplete({...})` as the final callback in CodeExecution. The user will verify visual + functional parity before doing anything else.
 
 ## Note to the code reviewer
 

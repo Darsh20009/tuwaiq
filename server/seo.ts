@@ -4,14 +4,14 @@ import { Db } from "mongodb";
 const SITE_NAME = "جمعية طويق للخدمات الإنسانية";
 const SITE_NAME_EN = "Tuwaiq Humanitarian Services Association";
 const BASE_URL_DEFAULT = "https://tuwaiqassociation.sa";
-const DEFAULT_OG_IMAGE = "/images/og-banner1.png";
+const DEFAULT_OG_IMAGE = "/images/og-main.png";
 const TWITTER_HANDLE = "@tuwaiq_2o3o";
 
 const SITE_DESC_DEFAULT =
   "جمعية طويق للخدمات الإنسانية — جمعية خيرية سعودية مرخصة في الرياض، تُقدّم برامج سقيا الماء وإطعام الجائع وإفطار الصائم والسلة الرمضانية وكفالة الأسر والحالات الخاصة. تبرّع الآن وكن شريكاً في صنع الفرق.";
 
 const KEYWORDS_BASE =
-  "جمعية طويق, طويق, جمعية طويق للخدمات الإنسانية, طويق للخدمات الإنسانية, طويق للخدمات الإنسانيه, جمعية طويق الانسانية, جمعية طويق للخدمات الانسانية, طويق الخيرية, جمعية طويق الخيرية, طويق للخدمات, جمعية طويق الرياض, tuwaiq association, tuwaiq humanitarian, tuwaiq charity, جمعية خيرية رياض";
+  "جمعية طويق, طويق, جمعية طويق للخدمات الإنسانية, طويق للخدمات الإنسانية, طويق للخدمات الإنسانيه, جمعية طويق الانسانية, جمعية طويق للخدمات الانسانية, طويق الخيرية, جمعية طويق الخيرية, طويق للخدمات, جمعية طويق الرياض, tuwaiq association, tuwaiq humanitarian, tuwaiq charity, جمعية خيرية رياض, جمعية في السويدي, جمعية السويدي الرياض, أشهر جمعية في الرياض, أفضل جمعية خيرية في الرياض, التبرع في الرياض, جمعية إنسانية معتمدة, جمعية خيرية معتمدة السعودية, دعم المحتاجين الرياض, تبرع اونلاين السعودية, صدقة جارية الرياض, كفالة عمرة, كفالة معتمر";
 
 // Static SEO data per route
 const STATIC_SEO: Record<string, { title: string; description: string; image: string; keywords?: string }> = {
@@ -74,8 +74,29 @@ const STATIC_SEO: Record<string, { title: string; description: string; image: st
     title: `المشاريع الإنسانية | جمعية طويق للخدمات الإنسانية`,
     description:
       "جمعية طويق للخدمات الإنسانية تُطلق حملات خيرية متنوعة لدعم المحتاجين في المملكة العربية السعودية — تبرّع وكن شريكاً في صنع الفرق.",
-    image: "/images/og-banner2.png",
+    image: "/images/og-main.png",
     keywords: `${KEYWORDS_BASE}, مشاريع إنسانية, حملات خيرية, تبرع, خير`,
+  },
+  "/donate?campaignId=umrah": {
+    title: `كفالة عمرة | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "ساهم في كفالة معتمر وأدخله بيت الله الحرام — كفالة العمرة من جمعية طويق للخدمات الإنسانية. التبرع من 100 إلى 3000 ريال، كفالة معتمر كاملة بـ 3000 ريال.",
+    image: "/images/og-main.png",
+    keywords: `${KEYWORDS_BASE}, كفالة عمرة, كفالة معتمر, عمرة, بيت الله, تبرع للعمرة`,
+  },
+  "/donate?campaignId=orphan": {
+    title: `كفالة يتيم | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "أنا وكافل اليتيم كهاتين في الجنة — كفالة اليتيم من جمعية طويق للخدمات الإنسانية في الرياض. ساهم في رعاية الأيتام وإدخال السعادة على قلوبهم.",
+    image: "/images/og-main.png",
+    keywords: `${KEYWORDS_BASE}, كفالة يتيم, أيتام, رعاية الأيتام, صدقة, ثواب`,
+  },
+  "/donate?campaignId=families": {
+    title: `كفالة أسر أرامل | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "كفالة الأسر الأرامل والمحتاجة من جمعية طويق للخدمات الإنسانية — ساهم في إعانة الأسر الأكثر احتياجاً في الرياض.",
+    image: "/images/og-main.png",
+    keywords: `${KEYWORDS_BASE}, كفالة أسر, أرامل, أسر محتاجة, دعم اجتماعي, تبرع`,
   },
   "/about": {
     title: `من نحن | جمعية طويق للخدمات الإنسانية`,

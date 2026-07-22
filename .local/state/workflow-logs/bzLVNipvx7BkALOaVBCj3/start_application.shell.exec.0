@@ -1,8 +1,0 @@
-[Mail] Primary: SMTP2GO HTTP API ✓ (Render-compatible)
-Connected to MongoDB successfully
-[Push] VAPID initialized from env vars
-[Mongoose] Connected to MongoDB successfully
-[Apple Sign In] callbackURL = https://b76a0d48-6b65-423d-986c-0f03b43ada12-00-41ku48rzmqia.pike.replit.dev/api/auth/apple/callback
-11:12:26 AM [express] serving on port 5000
-11:14:26 AM [express] [Auto-Recovery] Checking 1 stuck Rajhi donations...
-11:22:26 AM [express] [Auto-Recovery] Checking 1 stuck Rajhi donations...
