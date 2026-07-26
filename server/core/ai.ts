@@ -1,7 +1,17 @@
 import Groq from "groq-sdk";
 
-export const ai = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+let _ai: Groq | null = null;
+
+export const ai = new Proxy({} as Groq, {
+  get(_target, prop) {
+    if (!_ai) {
+      if (!process.env.GROQ_API_KEY) {
+        throw new Error("GROQ_API_KEY is not configured. AI features are unavailable.");
+      }
+      _ai = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    }
+    return (_ai as any)[prop];
+  },
 });
 
 export const AI_MODEL = "llama-3.3-70b-versatile";
