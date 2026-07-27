@@ -152,45 +152,110 @@ const RATIOS = [
   { id: "square", label: "مربع 1:1", w: 600, h: 600 },
 ];
 
-// SVG pattern overlays
+// SVG pattern overlays — premium Islamic geometric designs
 function PatternOverlay({ pattern, accent }: { pattern: string; accent: string }) {
+  // Shared 8-point Islamic star tile
+  const starPath = (cx: number, cy: number, r: number) => {
+    const pts = Array.from({length: 8}, (_,i) => {
+      const a = (i * 45 - 22.5) * Math.PI / 180;
+      const a2 = (i * 45 + 22.5) * Math.PI / 180;
+      const inner = r * 0.4;
+      return `${cx + r*Math.cos(a)},${cy + r*Math.sin(a)} ${cx + inner*Math.cos(a2)},${cy + inner*Math.sin(a2)}`;
+    });
+    return `M ${pts.join(" L ")} Z`;
+  };
+
   if (pattern === "waves") return (
-    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.07 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
-      {[0,1,2,3,4,5,6].map(i => (
-        <ellipse key={i} cx="300" cy={i * 150 - 50} rx="350" ry="80" fill="none" stroke={accent} strokeWidth="1.5" />
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.09 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {/* Arabesque waves */}
+      {[0,1,2,3,4,5].map(i => (
+        <path key={i} d={`M 0 ${i*160+40} Q 150 ${i*160} 300 ${i*160+40} Q 450 ${i*160+80} 600 ${i*160+40}`}
+          fill="none" stroke={accent} strokeWidth="1.5" opacity="0.7" />
+      ))}
+      {/* Corner stars */}
+      {[[50,50],[550,50],[50,850],[550,850]].map(([cx,cy],i) => (
+        <path key={`s${i}`} d={starPath(cx,cy,35)} fill={accent} opacity="0.15" />
       ))}
     </svg>
   );
   if (pattern === "stars") return (
-    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.08 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
-      {[[60,80],[540,120],[100,400],[500,380],[80,720],[520,680],[300,200],[300,680],[200,550],[400,550]].map(([x,y],i) => (
-        <polygon key={i} points={`${x},${y-18} ${x+6},${y-6} ${x+20},${y-6} ${x+10},${y+4} ${x+14},${y+18} ${x},${y+8} ${x-14},${y+18} ${x-10},${y+4} ${x-20},${y-6} ${x-6},${y-6}`} fill={accent} />
-      ))}
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.1 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {/* Large Islamic star grid */}
+      {[0,1,2,3,4].map(row => [0,1,2].map(col => (
+        <path key={`${row}-${col}`} d={starPath(col*200+100, row*200+100, 60)} fill="none" stroke={accent} strokeWidth="1" />
+      )))}
+      {/* Small accent stars at midpoints */}
+      {[0,1,2,3].map(row => [0,1].map(col => (
+        <path key={`s${row}-${col}`} d={starPath(col*200+200, row*200+200, 25)} fill={accent} opacity="0.2" />
+      )))}
     </svg>
   );
   if (pattern === "geometric") return (
-    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.06 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.08 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {/* Islamic tile: diamond grid */}
       {[0,1,2,3,4,5].map(row => [0,1,2,3].map(col => (
-        <polygon key={`${row}-${col}`} points={`${col*160+80},${row*160+0} ${col*160+160},${row*160+80} ${col*160+80},${row*160+160} ${col*160+0},${row*160+80}`} fill="none" stroke={accent} strokeWidth="1" />
+        <g key={`${row}-${col}`}>
+          <polygon points={`${col*155+78},${row*155-20} ${col*155+155},${row*155+78} ${col*155+78},${row*155+155} ${col*155},${row*155+78}`}
+            fill="none" stroke={accent} strokeWidth="1.2" />
+          <circle cx={col*155+78} cy={row*155+78} r="10" fill={accent} opacity="0.12" />
+        </g>
       )))}
     </svg>
   );
   if (pattern === "kaaba") return (
-    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.07 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
-      <circle cx="300" cy="450" r="280" fill="none" stroke={accent} strokeWidth="1" />
-      <circle cx="300" cy="450" r="200" fill="none" stroke={accent} strokeWidth="1" />
-      <circle cx="300" cy="450" r="120" fill="none" stroke={accent} strokeWidth="1" />
-      {[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
-        const rad = a * Math.PI / 180;
-        return <line key={a} x1="300" y1="450" x2={300 + 280 * Math.cos(rad)} y2={450 + 280 * Math.sin(rad)} stroke={accent} strokeWidth="0.5" />;
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.1 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {/* Concentric rings — Tawaf */}
+      {[260,200,140,80,40].map((r, i) => (
+        <circle key={i} cx="300" cy="450" r={r} fill="none" stroke={accent} strokeWidth={i===0?1.5:1} />
+      ))}
+      {/* 12 radial lines */}
+      {Array.from({length:12},(_,i) => {
+        const rad = i*30*Math.PI/180;
+        return <line key={i} x1="300" y1="450" x2={300+260*Math.cos(rad)} y2={450+260*Math.sin(rad)} stroke={accent} strokeWidth="0.7" opacity="0.6" />;
       })}
+      {/* Center star */}
+      <path d={starPath(300, 450, 30)} fill={accent} opacity="0.25" />
+      {/* Corner ornaments */}
+      {[[40,60],[560,60],[40,840],[560,840]].map(([cx,cy],i) => (
+        <path key={`c${i}`} d={starPath(cx,cy,28)} fill="none" stroke={accent} strokeWidth="1.2" />
+      ))}
     </svg>
   );
+  // hearts / default — Islamic rosette pattern
   return (
-    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.06 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
-      {[0,1,2,3,4,5,6,7,8].map(i => [0,1,2,3].map(j => (
-        <circle key={`${i}-${j}`} cx={j*180+90} cy={i*120+60} r={i%2===0?30:20} fill="none" stroke={accent} strokeWidth="0.8" />
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.08 }} viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice">
+      {[0,1,2,3,4].map(row => [0,1,2].map(col => (
+        <g key={`${row}-${col}`}>
+          <circle cx={col*200+100} cy={row*200+100} r="60" fill="none" stroke={accent} strokeWidth="1" />
+          <circle cx={col*200+100} cy={row*200+100} r="36" fill="none" stroke={accent} strokeWidth="0.7" />
+          <path d={starPath(col*200+100, row*200+100, 22)} fill={accent} opacity="0.18" />
+        </g>
       )))}
+    </svg>
+  );
+}
+
+// Arabesque corner ornament
+function CornerOrnament({ accent, flip }: { accent: string; flip?: boolean }) {
+  return (
+    <svg width="90" height="90" viewBox="0 0 90 90"
+      style={{ position:"absolute", ...(flip ? {top:0,left:0,transform:"scaleX(-1)"} : {top:0,right:0}), opacity:0.35, pointerEvents:"none" }}>
+      <path d="M 0 0 L 90 0 L 90 90" fill="none" stroke={accent} strokeWidth="2" />
+      <path d="M 20 0 L 90 0 L 90 20" fill="none" stroke={accent} strokeWidth="1" />
+      <circle cx="80" cy="10" r="5" fill={accent} opacity="0.6" />
+      <circle cx="10" cy="80" r="5" fill={accent} opacity="0.6" />
+      <path d="M 45 0 Q 60 30 90 45" fill="none" stroke={accent} strokeWidth="0.8" />
+    </svg>
+  );
+}
+function CornerOrnamentBottom({ accent, flip }: { accent: string; flip?: boolean }) {
+  return (
+    <svg width="90" height="90" viewBox="0 0 90 90"
+      style={{ position:"absolute", ...(flip ? {bottom:0,left:0,transform:"scaleX(-1)"} : {bottom:0,right:0}), opacity:0.35, pointerEvents:"none" }}>
+      <path d="M 0 90 L 90 90 L 90 0" fill="none" stroke={accent} strokeWidth="2" />
+      <path d="M 20 90 L 90 90 L 90 70" fill="none" stroke={accent} strokeWidth="1" />
+      <circle cx="80" cy="80" r="5" fill={accent} opacity="0.6" />
+      <path d="M 45 90 Q 60 60 90 45" fill="none" stroke={accent} strokeWidth="0.8" />
     </svg>
   );
 }
@@ -412,7 +477,7 @@ export default function PosterGenerator() {
               <span className="text-slate-400 text-xs">معاينة مباشرة — {ratio.label} — {ratio.w}×{posterH}px</span>
             </div>
 
-            {/* POSTER */}
+            {/* POSTER — Premium Professional Design */}
             <div
               ref={posterRef}
               style={{
@@ -426,148 +491,179 @@ export default function PosterGenerator() {
                 borderRadius: 24,
                 display: "flex",
                 flexDirection: "column",
-                boxShadow: `0 40px 120px ${tpl.accentGlow}`,
+                boxShadow: `0 40px 120px ${tpl.accentGlow}, 0 0 0 2px ${tpl.accentColor}30`,
               }}
             >
-              {/* Pattern overlay */}
+              {/* Full-bleed pattern */}
               <PatternOverlay pattern={tpl.pattern} accent={tpl.accentColor} />
 
-              {/* Top glow */}
-              <div style={{ position: "absolute", top: -100, right: "50%", transform: "translateX(50%)", width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle, ${tpl.accentGlow} 0%, transparent 70%)`, zIndex: 0, pointerEvents: "none" }} />
+              {/* Ambient top glow */}
+              <div style={{ position: "absolute", top: -80, left: "50%", transform: "translateX(-50%)", width: 500, height: 380, borderRadius: "50%", background: `radial-gradient(ellipse, ${tpl.accentGlow} 0%, transparent 70%)`, zIndex: 0, pointerEvents: "none" }} />
+              {/* Bottom glow */}
+              <div style={{ position: "absolute", bottom: -60, left: "50%", transform: "translateX(-50%)", width: 400, height: 260, borderRadius: "50%", background: `radial-gradient(ellipse, ${tpl.accentGlow} 0%, transparent 70%)`, zIndex: 0, pointerEvents: "none", opacity: 0.5 }} />
 
-              {/* Header */}
-              <div style={{ position: "relative", zIndex: 2, padding: "28px 32px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 16, background: "rgba(255,255,255,0.12)", border: `1px solid ${tpl.accentColor}30`, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
-                    <img src="/images/logo.jpeg" alt="طويق" crossOrigin="anonymous" style={{ width: 44, height: 44, objectFit: "contain", borderRadius: 10 }} />
+              {/* Corner ornaments */}
+              <CornerOrnament accent={tpl.accentColor} />
+              <CornerOrnament accent={tpl.accentColor} flip />
+              <CornerOrnamentBottom accent={tpl.accentColor} />
+              <CornerOrnamentBottom accent={tpl.accentColor} flip />
+
+              {/* Outer border frame */}
+              <div style={{ position:"absolute", inset: 12, border: `1px solid ${tpl.accentColor}22`, borderRadius: 16, zIndex: 1, pointerEvents:"none" }} />
+
+              {/* ── Header ── */}
+              <div style={{ position: "relative", zIndex: 2, padding: "24px 28px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                {/* Logo + name */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{
+                    width: 58, height: 58, borderRadius: 16,
+                    background: "rgba(255,255,255,0.14)",
+                    border: `1.5px solid ${tpl.accentColor}50`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    backdropFilter: "blur(12px)",
+                    boxShadow: `0 0 18px ${tpl.accentGlow}`,
+                  }}>
+                    <img src="/images/logo.jpeg" alt="طويق" crossOrigin="anonymous" style={{ width: 42, height: 42, objectFit: "contain", borderRadius: 10 }} />
                   </div>
                   <div>
-                    <div style={{ fontSize: 17, fontWeight: 900, color: "#fff", lineHeight: 1.2 }}>جمعية طويق</div>
-                    <div style={{ fontSize: 11, color: tpl.accentColor, opacity: 0.9, marginTop: 1 }}>للخدمات الإنسانية</div>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", lineHeight: 1.15, textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}>جمعية طويق</div>
+                    <div style={{ fontSize: 10.5, color: tpl.accentColor, marginTop: 1, letterSpacing: 0.3 }}>للخدمات الإنسانية</div>
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", marginTop: 1 }}>ترخيص رقم: {config.regNo}</div>
                   </div>
                 </div>
-                <div style={{ textAlign: "left" }}>
-                  <div style={{ fontSize: 32 }}>{tpl.emoji}</div>
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>رقم {config.regNo}</div>
+                {/* Emoji badge */}
+                <div style={{
+                  width: 58, height: 58, borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${tpl.accentColor}30, rgba(255,255,255,0.06))`,
+                  border: `1.5px solid ${tpl.accentColor}40`,
+                  display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center",
+                  backdropFilter: "blur(8px)",
+                }}>
+                  <div style={{ fontSize: 26 }}>{tpl.emoji}</div>
                 </div>
               </div>
 
-              {/* Main Title */}
-              <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "10px 32px 0" }}>
+              {/* ── Divider ── */}
+              <div style={{ position:"relative", zIndex:2, margin:"0 24px", height:1, background:`linear-gradient(90deg, transparent, ${tpl.accentColor}60, transparent)` }} />
+
+              {/* ── Main Title ── */}
+              <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: posterH>800?"20px 28px 6px":"14px 24px 4px" }}>
                 <div style={{
-                  fontSize: posterH > 800 ? 72 : 56,
+                  fontSize: posterH > 900 ? 80 : posterH > 700 ? 68 : 54,
                   fontWeight: 900,
                   color: tpl.titleColor,
-                  lineHeight: 1.0,
+                  lineHeight: 1.05,
                   letterSpacing: -1,
-                  textShadow: `0 0 60px ${tpl.accentGlow}, 0 4px 20px rgba(0,0,0,0.5)`,
-                  marginBottom: 8,
+                  textShadow: `0 0 80px ${tpl.accentGlow}, 0 2px 24px rgba(0,0,0,0.6)`,
+                  marginBottom: 6,
                 }}>
                   {config.title}
                 </div>
-                {/* Accent underline */}
-                <div style={{ width: 80, height: 4, background: `linear-gradient(90deg, transparent, ${tpl.accentColor}, transparent)`, margin: "0 auto 18px", borderRadius: 2 }} />
+                {/* Gold underline ornament */}
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom: posterH>800?10:6 }}>
+                  <div style={{ flex:1, maxWidth:60, height:1, background:`linear-gradient(90deg, transparent, ${tpl.accentColor})` }} />
+                  <div style={{ fontSize:16 }}>✦</div>
+                  <div style={{ flex:1, maxWidth:60, height:1, background:`linear-gradient(90deg, ${tpl.accentColor}, transparent)` }} />
+                </div>
               </div>
 
-              {/* Hadith Quote */}
+              {/* ── Hadith / Quote card ── */}
               <div style={{
-                position: "relative",
-                zIndex: 2,
-                margin: "0 28px 20px",
+                position: "relative", zIndex: 2,
+                margin: posterH>800?"0 22px 14px":"0 18px 10px",
                 background: `${tpl.badgeBg}`,
                 border: `1px solid ${tpl.badgeBorder}`,
-                borderRadius: 18,
-                padding: "16px 20px",
+                borderRadius: 16,
+                padding: posterH>800?"16px 22px":"12px 16px",
                 textAlign: "center",
-                backdropFilter: "blur(10px)",
+                backdropFilter: "blur(12px)",
               }}>
-                <div style={{ fontSize: 13.5, color: tpl.subtitleColor, lineHeight: 1.9, fontStyle: "italic", whiteSpace: "pre-line" }}>
+                <div style={{ fontSize: posterH>800?10:9, color: tpl.accentColor, letterSpacing:2, fontWeight:700, marginBottom:6, textTransform:"uppercase" }}>الحديث الشريف</div>
+                <div style={{ fontSize: posterH>800?14:12.5, color: tpl.subtitleColor, lineHeight: 1.85, whiteSpace: "pre-line" }}>
                   {config.subtitle}
                 </div>
               </div>
 
-              {/* Donation Tiers */}
-              <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 12, padding: "0 24px 16px", flex: 1 }}>
-                {config.tiers.map((tier, i) => (
-                  <div key={i} style={{
-                    flex: 1,
-                    background: i === config.tiers.length - 1 ? tpl.cardBg : "rgba(255,255,255,0.07)",
-                    borderRadius: 20,
-                    padding: "18px 12px",
-                    textAlign: "center",
-                    border: i === config.tiers.length - 1 ? "none" : `1px solid ${tpl.accentColor}25`,
-                    boxShadow: i === config.tiers.length - 1 ? tpl.cardShadow : "none",
-                    backdropFilter: "blur(8px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                  }}>
-                    {i === config.tiers.length - 1 && (
-                      <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.6)", background: "rgba(255,255,255,0.15)", padding: "3px 10px", borderRadius: 20, letterSpacing: 1, textTransform: "uppercase" }}>
-                        ★ المميز
-                      </div>
-                    )}
-                    <div style={{ fontSize: 23, fontWeight: 900, color: "#fff", lineHeight: 1.1 }}>{tier.amount}</div>
-                    <div style={{ fontSize: 12, color: i === config.tiers.length - 1 ? "rgba(255,255,255,0.8)" : tpl.accentColor, lineHeight: 1.4 }}>{tier.label}</div>
-                  </div>
-                ))}
+              {/* ── Donation Tiers ── */}
+              <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 10, padding: posterH>800?"0 20px 12px":"0 16px 8px", flex: 1 }}>
+                {config.tiers.map((tier, i) => {
+                  const isFeatured = i === config.tiers.length - 1;
+                  return (
+                    <div key={i} style={{
+                      flex: 1,
+                      background: isFeatured ? tpl.cardBg : "rgba(255,255,255,0.06)",
+                      borderRadius: 18,
+                      padding: posterH>800?"20px 12px":"14px 8px",
+                      textAlign: "center",
+                      border: isFeatured ? `1.5px solid ${tpl.accentColor}60` : `1px solid ${tpl.accentColor}20`,
+                      boxShadow: isFeatured ? tpl.cardShadow : "none",
+                      backdropFilter: "blur(8px)",
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6,
+                      position: "relative", overflow: "hidden",
+                    }}>
+                      {isFeatured && (
+                        <>
+                          <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:`linear-gradient(90deg, transparent, ${tpl.accentColor}, transparent)` }} />
+                          <div style={{ fontSize: 9, fontWeight: 800, color: tpl.accentColor, background: `${tpl.accentColor}20`, padding: "2px 10px", borderRadius: 20, letterSpacing:1.5 }}>★ الأكثر أثراً</div>
+                        </>
+                      )}
+                      <div style={{ fontSize: posterH>800?24:20, fontWeight: 900, color: "#fff", lineHeight: 1.1, textShadow:"0 2px 10px rgba(0,0,0,0.4)" }}>{tier.amount}</div>
+                      <div style={{ fontSize: posterH>800?11.5:10, color: isFeatured ? "rgba(255,255,255,0.85)" : tpl.accentColor, lineHeight: 1.4, fontWeight:600 }}>{tier.label}</div>
+                    </div>
+                  );
+                })}
               </div>
 
-              {/* Bank + QR */}
+              {/* ── Bank Transfer + QR ── */}
               <div style={{
-                position: "relative",
-                zIndex: 2,
-                margin: "0 24px 16px",
-                background: "rgba(0,0,0,0.35)",
-                border: `1px solid ${tpl.accentColor}20`,
-                borderRadius: 18,
-                padding: "14px 18px",
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                backdropFilter: "blur(12px)",
+                position: "relative", zIndex: 2,
+                margin: posterH>800?"0 20px 12px":"0 16px 8px",
+                background: "rgba(0,0,0,0.38)",
+                border: `1px solid ${tpl.accentColor}25`,
+                borderRadius: 16,
+                padding: "12px 16px",
+                display: "flex", alignItems: "center", gap: 14,
+                backdropFilter: "blur(14px)",
               }}>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginBottom: 4, letterSpacing: 0.5 }}>التحويل المباشر</div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: tpl.accentColor, marginBottom: 4 }}>{config.bank}</div>
-                  <div style={{ fontSize: 11, fontFamily: "monospace", color: "rgba(255,255,255,0.7)", letterSpacing: 0.8 }}>{config.iban}</div>
+                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.38)", marginBottom: 3, letterSpacing:0.8, textTransform:"uppercase" }}>التحويل البنكي المباشر</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: tpl.accentColor, marginBottom: 3 }}>{config.bank}</div>
+                  <div style={{ fontSize: 10.5, fontFamily: "monospace", color: "rgba(255,255,255,0.72)", letterSpacing: 0.5, direction:"ltr", textAlign:"right" }}>{config.iban}</div>
                 </div>
                 <div style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 14,
+                  width: 72, height: 72, borderRadius: 14,
                   background: "#fff",
-                  padding: 5,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  padding: 4,
+                  display: "flex", alignItems: "center", justifyContent: "center",
                   flexShrink: 0,
-                  boxShadow: `0 0 20px ${tpl.accentGlow}`,
+                  boxShadow: `0 0 22px ${tpl.accentGlow}, 0 0 0 2px ${tpl.accentColor}30`,
                 }}>
-                  <img src="/images/qr-code.png" alt="QR" crossOrigin="anonymous" style={{ width: 70, height: 70, objectFit: "contain" }} />
+                  <img src="/images/qr-code.png" alt="QR" crossOrigin="anonymous"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }}
+                    style={{ width: 64, height: 64, objectFit: "contain" }} />
                 </div>
               </div>
 
-              {/* Footer */}
+              {/* ── Footer ── */}
               <div style={{
-                position: "relative",
-                zIndex: 2,
+                position: "relative", zIndex: 2,
                 background: tpl.footerBg,
                 backdropFilter: "blur(20px)",
-                padding: "14px 28px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderTop: `1px solid ${tpl.accentColor}20`,
+                padding: "12px 24px",
+                borderTop: `1px solid ${tpl.accentColor}25`,
+                display: "flex", justifyContent: "space-between", alignItems: "center",
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: 13 }}>📞</span>
-                  <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>{config.phone}</span>
+                <div style={{ display:"flex", alignItems:"center", gap:5 }}>
+                  <span style={{ fontSize:12 }}>📞</span>
+                  <span style={{ color:"#fff", fontSize:12.5, fontWeight:700 }}>{config.phone}</span>
                 </div>
-                <div style={{ color: tpl.accentColor, fontSize: 12, fontWeight: 600 }}>🌐 {config.website}</div>
-                <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 12 }}>@{config.social}</div>
+                <div style={{ textAlign:"center" }}>
+                  <div style={{ color:tpl.accentColor, fontSize:11, fontWeight:700 }}>🌐 {config.website}</div>
+                </div>
+                <div style={{ display:"flex", alignItems:"center", gap:4 }}>
+                  <span style={{ fontSize:11 }}>📱</span>
+                  <span style={{ color:"rgba(255,255,255,0.75)", fontSize:11 }}>@{config.social}</span>
+                </div>
               </div>
             </div>
 

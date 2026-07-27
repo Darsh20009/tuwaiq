@@ -12,7 +12,7 @@ import {
 
 /* ─── Types ────────────────────────────────────────── */
 type ChapterId =
-  | "news" | "campaigns" | "hajj" | "services"
+  | "news" | "campaigns" | "umrah" | "services"
   | "jobs" | "donors" | "about" | "founders" | "governance";
 
 type ChapterDef = { label: string; color: string; accent: string; href: string };
@@ -20,8 +20,8 @@ type ChapterDef = { label: string; color: string; accent: string; href: string }
 const CHAPTER_META: Record<ChapterId, ChapterDef> = {
   news:       { label: "آخر الأخبار",   color: "#2563eb", accent: "#eff6ff", href: "/news" },
   campaigns:  { label: "حملاتنا",       color: "#16a34a", accent: "#f0fdf4", href: "/campaigns" },
-  hajj:       { label: "كفالة حاج",     color: "#0d9488", accent: "#f0fdfa", href: "/service/hajj" },
-  services:   { label: "خدماتنا",       color: "#7c3aed", accent: "#f5f3ff", href: "/services" },
+  umrah:      { label: "كفالة عمرة",    color: "#7c3aed", accent: "#f5f3ff", href: "/service/umrah" },
+  services:   { label: "خدماتنا",       color: "#0d9488", accent: "#f0fdfa", href: "/services" },
   jobs:       { label: "فرص العمل",     color: "#d97706", accent: "#fffbeb", href: "/jobs" },
   donors:     { label: "المتبرعون",     color: "#b45309", accent: "#fef3c7", href: "/leaderboard" },
   about:      { label: "عن الجمعية",    color: "#1d4ed8", accent: "#eff6ff", href: "/about" },
@@ -30,12 +30,12 @@ const CHAPTER_META: Record<ChapterId, ChapterDef> = {
 };
 
 const CHAPTER_ORDER: ChapterId[] = [
-  "hajj", "news", "campaigns", "services", "jobs", "donors", "about", "founders", "governance",
+  "umrah", "news", "campaigns", "services", "jobs", "donors", "about", "founders", "governance",
 ];
 
 /* ─── Static data ─── */
 const SERVICES_STATIC = [
-  { title: "برنامج الحج الميسّر",         desc: "تيسير فريضة الحج للمستحقين",            link: "/service/hajj" },
+  { title: "كفالة عمرة",                  desc: "تيسير أداء العمرة للمحتاجين",            link: "/service/umrah" },
   { title: "كسوة الشتاء",                 desc: "ملابس شتوية للأسر المحتاجة",            link: "/service/winter" },
   { title: "السلة الغذائية",              desc: "احتياجات غذائية للأسر المعدمة",          link: "/service/food" },
   { title: "إفطار الصائمين",              desc: "موائد إفطار جماعية برمضان",              link: "/service/iftar" },
@@ -82,7 +82,7 @@ function ChIcon({ id, cls }: { id: ChapterId; cls?: string }) {
   const c = cls ?? "w-4 h-4";
   if (id === "news")       return <Newspaper  className={c} />;
   if (id === "campaigns")  return <Heart      className={c} />;
-  if (id === "hajj")       return <Tent       className={c} />;
+  if (id === "umrah")      return <Tent       className={c} />;
   if (id === "services")   return <Globe2     className={c} />;
   if (id === "jobs")       return <Briefcase  className={c} />;
   if (id === "donors")     return <Trophy     className={c} />;
@@ -109,7 +109,7 @@ export function SiteBookSection() {
   const { data: news      = [] } = useQuery<any[]>({ queryKey: ["/api/news"],                  staleTime: 120_000 });
   const { data: campaigns      } = useQuery<any>  ({ queryKey: ["/api/campaigns"],             staleTime: 120_000 });
   const { data: jobs      = [] } = useQuery<any[]>({ queryKey: ["/api/jobs"],                  staleTime: 180_000 });
-  const { data: hajjStats      } = useQuery<any>  ({ queryKey: ["/api/donations/hajj-stats"],  staleTime: 30_000 });
+  const { data: umrahStats     } = useQuery<any>  ({ queryKey: ["/api/donations/umrah-stats"], staleTime: 30_000 });
   const { data: topDonors      } = useQuery<any>  ({ queryKey: ["/api/donations/top-donors"],  staleTime: 60_000 });
   const { data: aboutContent   } = useQuery<any>  ({ queryKey: ["/api/content/about"],         staleTime: 300_000, enabled: chId === "about" });
   const { data: foundersContent} = useQuery<any>  ({ queryKey: ["/api/content/founders"],      staleTime: 300_000, enabled: chId === "founders" });
@@ -121,7 +121,7 @@ export function SiteBookSection() {
   const allItems: Record<ChapterId, any[]> = {
     news:       news.slice(0, 9),
     campaigns:  campaignList.filter((c: any) => c.isActive !== false).slice(0, 9),
-    hajj:       [],
+    umrah:      [],
     services:   SERVICES_STATIC,
     jobs:       jobs.slice(0, 9),
     donors:     donorList.slice(0, 9),
@@ -131,7 +131,7 @@ export function SiteBookSection() {
   };
 
   const items      = allItems[chId];
-  const isSpecial  = chId === "hajj" || chId === "about";
+  const isSpecial  = chId === "umrah" || chId === "about";
   const totalPages = isSpecial ? 1 : Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
   const pageItems  = items.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
 
@@ -208,11 +208,11 @@ export function SiteBookSection() {
                 transition={{ duration: 0.28, ease: "easeInOut" }}>
 
                 {/* ── Special chapters ── */}
-                {chId === "hajj"  && <HajjContent  data={hajjStats}      meta={chMeta} />}
+                {chId === "umrah" && <UmrahContent data={umrahStats}     meta={chMeta} />}
                 {chId === "about" && <AboutContent data={aboutContent}   meta={chMeta} />}
 
                 {/* ── Generic chapters ── */}
-                {chId !== "hajj" && chId !== "about" && (
+                {chId !== "umrah" && chId !== "about" && (
                   pageItems.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16 gap-3">
                       <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -268,23 +268,23 @@ export function SiteBookSection() {
   );
 }
 
-/* ══ Hajj special content ══ */
-function HajjContent({ data, meta }: { data: any; meta: ChapterDef }) {
+/* ══ Umrah special content ══ */
+function UmrahContent({ data, meta }: { data: any; meta: ChapterDef }) {
   const pct       = data?.currentProgressPercent ?? 0;
   const progress  = data?.currentProgress ?? 0;
   const confirmed = data?.confirmedAmount ?? 0;
   const pending   = data?.pendingAmount ?? 0;
   const completed = data?.completedPilgrims ?? 0;
   const total     = data?.totalPilgrims ?? 0;
-  const cost      = data?.hajjCost ?? 12000;
+  const cost      = data?.umrahCost ?? 3000;
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-3 justify-center">
         {[
-          { label: "حاج مكتمل ✅", val: `${completed}`,                       clr: meta.color },
-          { label: "قيد التجميع ⏳", val: `${total}`,                         clr: "#d97706" },
-          { label: "تكلفة الحج",    val: `${cost.toLocaleString("ar-SA")} ر.س`, clr: "#6b7280" },
+          { label: "معتمر مكتمل ✅", val: `${completed}`,                       clr: meta.color },
+          { label: "قيد التجميع ⏳", val: `${total}`,                           clr: "#d97706" },
+          { label: "تكلفة العمرة",   val: `${cost.toLocaleString("ar-SA")} ر.س`, clr: "#6b7280" },
         ].map((s) => (
           <div key={s.label} className="flex-1 min-w-24 rounded-2xl p-3 text-center border border-gray-100"
             style={{ background: meta.accent }}>
@@ -295,27 +295,27 @@ function HajjContent({ data, meta }: { data: any; meta: ChapterDef }) {
       </div>
       <div className="rounded-2xl px-4 py-4 border border-gray-100" style={{ background: meta.accent }}>
         <div className="flex justify-between text-xs font-bold mb-2" style={{ color: meta.color }}>
-          <span>🕋 نحو الحاج القادم</span>
+          <span>🕋 نحو المعتمر القادم</span>
           <span>{pct}% من {cost.toLocaleString("ar-SA")} ر.س</span>
         </div>
-        <div className="relative h-4 rounded-full overflow-hidden" style={{ background: "#d1fae5" }}>
+        <div className="relative h-4 rounded-full overflow-hidden" style={{ background: "#ede9fe" }}>
           {pending > 0 && (
             <div className="absolute inset-y-0 right-0 rounded-full"
-              style={{ width: `${Math.min(100, Math.round(((confirmed + pending) % cost) / cost * 100))}%`, background: "#6ee7b7" }} />
+              style={{ width: `${Math.min(100, Math.round(((confirmed + pending) % cost) / cost * 100))}%`, background: "#c4b5fd" }} />
           )}
           <div className="absolute inset-y-0 right-0 rounded-full transition-all duration-700"
-            style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${meta.color}, #0d9488)` }} />
+            style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${meta.color}, #4c1d95)` }} />
         </div>
         <div className="flex justify-between mt-2 text-xs text-gray-500">
           <span>{progress.toLocaleString("ar-SA")} ر.س محصّلة</span>
           {pending > 0 && <span className="text-amber-600">+{pending.toLocaleString("ar-SA")} ر.س قيد المراجعة</span>}
         </div>
       </div>
-      <Link href="/service/hajj">
+      <Link href="/service/umrah">
         <div className="w-full text-center py-2.5 rounded-2xl font-bold text-sm text-white cursor-pointer hover:opacity-90 transition-opacity"
-          style={{ background: `linear-gradient(90deg, ${meta.color}, #16a34a)` }}
-          data-testid="button-book-hajj-cta">
-          ساهم في كفالة حاج الآن 🕌
+          style={{ background: `linear-gradient(90deg, ${meta.color}, #4c1d95)` }}
+          data-testid="button-book-umrah-cta">
+          ساهم في كفالة معتمر الآن 🕌
         </div>
       </Link>
     </div>

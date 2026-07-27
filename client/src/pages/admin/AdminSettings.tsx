@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Save, Settings, Phone, Mail, Globe, MapPin, Building2, Percent, CheckCircle2, CreditCard, Eye, EyeOff, ShieldCheck, AlertTriangle, BarChart3, Landmark, ToggleLeft, ToggleRight, Activity, RefreshCw, ChevronDown, ChevronUp, Megaphone, KeyRound } from "lucide-react";
+import { Loader2, Save, Settings, Phone, Mail, Globe, MapPin, Building2, Percent, CheckCircle2, CreditCard, Eye, EyeOff, ShieldCheck, AlertTriangle, BarChart3, Landmark, ToggleLeft, ToggleRight, Activity, RefreshCw, ChevronDown, ChevronUp, Megaphone, KeyRound, Tent } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -138,6 +138,10 @@ export default function AdminSettings() {
     facebookCAPIToken: "",
     snapchatPixelId: "",
     snapchatCAPIToken: "",
+    umrahCost: "3000",
+    umrahEnabled: true,
+    hajjCost: "12000",
+    hajjEnabled: false,
   });
   const [saved, setSaved] = useState(false);
   const [showSecretKey, setShowSecretKey] = useState(false);
@@ -408,6 +412,73 @@ export default function AdminSettings() {
                   طريقة دفع واحدة فقط متاحة — سيُختار تلقائياً دون خيار للمتبرع.
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Kafala Settings */}
+          <Card className="border-purple-200">
+            <CardHeader>
+              <CardTitle className="text-sm font-bold flex items-center gap-2">
+                <Tent className="h-4 w-4 text-purple-600" />
+                إعدادات الكفالات
+              </CardTitle>
+              <CardDescription className="mt-1">
+                تحديد تكلفة كفالة العمرة والحج، وتفعيل/إيقاف كل نوع من الكفالات
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Umrah */}
+              <div className="rounded-xl border p-4 space-y-3 bg-purple-50/50">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-bold">🕋 كفالة عمرة</p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={form.umrahEnabled ? "default" : "secondary"} className="text-xs">
+                      {form.umrahEnabled ? "مفعّلة" : "مخفية"}
+                    </Badge>
+                    <Switch
+                      checked={!!form.umrahEnabled}
+                      onCheckedChange={(val) => setForm({ ...form, umrahEnabled: val })}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-muted-foreground">تكلفة كفالة معتمر واحد (ريال)</Label>
+                  <Input
+                    type="number"
+                    value={form.umrahCost || "3000"}
+                    onChange={(e) => setForm({ ...form, umrahCost: e.target.value })}
+                    placeholder="3000"
+                    dir="ltr"
+                    className="font-mono max-w-xs"
+                  />
+                </div>
+              </div>
+              {/* Hajj */}
+              <div className="rounded-xl border p-4 space-y-3 bg-teal-50/50">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-bold">🕌 كفالة حج</p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={form.hajjEnabled ? "default" : "secondary"} className="text-xs">
+                      {form.hajjEnabled ? "مفعّلة" : "مخفية"}
+                    </Badge>
+                    <Switch
+                      checked={!!form.hajjEnabled}
+                      onCheckedChange={(val) => setForm({ ...form, hajjEnabled: val })}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-muted-foreground">تكلفة كفالة حاج واحد (ريال)</Label>
+                  <Input
+                    type="number"
+                    value={form.hajjCost || "12000"}
+                    onChange={(e) => setForm({ ...form, hajjCost: e.target.value })}
+                    placeholder="12000"
+                    dir="ltr"
+                    className="font-mono max-w-xs"
+                  />
+                </div>
+              </div>
             </CardContent>
           </Card>
 

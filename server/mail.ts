@@ -6,7 +6,7 @@ import nodemailer from "nodemailer";
 const ORG_NAME = "جمعية طويق للخدمات الإنسانية";
 const ORG_LICENSE = "1000820300";
 const APP_URL = process.env.APP_URL || "https://tuwaiqassociation.sa";
-const FROM_EMAIL = process.env.SMTP_FROM || "noreply@tuwaiqassociation.sa";
+const FROM_EMAIL = process.env.SMTP_FROM || process.env.SMTP_USER || "noreply@tuwaiqassociation.sa";
 const FROM_FORMATTED = `"${ORG_NAME}" <${FROM_EMAIL}>`;
 
 // Public logo URL — works in all email clients including Gmail and Outlook web

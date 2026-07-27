@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const QUICK_SERVICES = [
   { id: "general",  label: "تبرع عام",    slug: "" },
-  { id: "hajj",     label: "كفالة حاج",   slug: "hajj" },
+  { id: "umrah",    label: "كفالة عمرة",  slug: "umrah" },
   { id: "families", label: "كفالة أسر",   slug: "families" },
   { id: "orphan",   label: "كفالة يتيم",  slug: "orphan" },
   { id: "relief",   label: "تفريج كربة",  slug: "relief" },
@@ -13,15 +13,15 @@ const QUICK_SERVICES = [
 
 const QUICK_AMOUNTS: Record<string, number[]> = {
   general:  [15, 50, 100, 200, 500, 1000],
-  hajj:     [100, 250, 500, 1250, 5000, 12000],
+  umrah:    [100, 300, 500, 1000, 1500, 3000],
   families: [15, 50, 100, 200, 500],
   orphan:   [100, 200, 350, 500, 1000],
   relief:   [15, 50, 100, 200, 500],
 };
 
-const HAJJ_LABELS: Record<number, string> = {
-  100: "مساهمة رمزية", 250: "مساهمة", 500: "مساهمة كبيرة",
-  1250: "باقة متوسطة", 5000: "باقة كبيرة", 12000: "كفالة حاج كامل",
+const UMRAH_LABELS: Record<number, string> = {
+  100: "مساهمة رمزية", 300: "مساهمة", 500: "مساهمة كبيرة",
+  1000: "ربع كفالة", 1500: "نصف كفالة", 3000: "كفالة معتمر كاملة",
 };
 
 interface Props {
@@ -39,13 +39,13 @@ export function QuickDonateStrip({ onAmountSelect, defaultService = "general" }:
       ? `/donate?amount=${a}&campaignId=${serviceSlug}`
       : `/donate?amount=${a}`;
 
-  const { data: hajjStats } = useQuery<any>({
-    queryKey: ["/api/donations/hajj-stats"],
+  const { data: umrahStats } = useQuery<any>({
+    queryKey: ["/api/donations/umrah-stats"],
     queryFn: async () => {
-      const r = await fetch("/api/donations/hajj-stats");
+      const r = await fetch("/api/donations/umrah-stats");
       return r.ok ? r.json() : null;
     },
-    enabled: activeService === "hajj",
+    enabled: activeService === "umrah",
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 30_000,
@@ -78,47 +78,47 @@ export function QuickDonateStrip({ onAmountSelect, defaultService = "general" }:
           ))}
         </div>
 
-        {/* Hajj Progress Bar */}
-        {activeService === "hajj" && hajjStats && (
-          <div className="rounded-xl px-4 py-3 border" style={{ background: "hsl(152 40% 97%)", borderColor: "hsl(152 40% 82%)" }}>
-            <div className="flex items-center justify-between mb-2 text-xs font-bold" style={{ color: "hsl(152 42% 28%)" }}>
-              <span>🕋 تقدم كفالة الحجاج</span>
+        {/* Umrah Progress Bar */}
+        {activeService === "umrah" && umrahStats && (
+          <div className="rounded-xl px-4 py-3 border" style={{ background: "hsl(270 40% 97%)", borderColor: "hsl(270 40% 82%)" }}>
+            <div className="flex items-center justify-between mb-2 text-xs font-bold" style={{ color: "hsl(270 42% 38%)" }}>
+              <span>🕋 تقدم كفالة المعتمرين</span>
               <span style={{ color: "hsl(35 80% 45%)" }}>
-                {hajjStats.completedPilgrims > 0
-                  ? `${hajjStats.completedPilgrims} حاج مكتمل ✅`
-                  : hajjStats.totalPilgrims > 0
-                  ? `${hajjStats.totalPilgrims} حاج في الطريق ⏳`
-                  : "نحو أول حاج"}
+                {umrahStats.completedPilgrims > 0
+                  ? `${umrahStats.completedPilgrims} معتمر مكتمل ✅`
+                  : umrahStats.totalPilgrims > 0
+                  ? `${umrahStats.totalPilgrims} معتمر في الطريق ⏳`
+                  : "نحو أول معتمر"}
               </span>
             </div>
-            <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(152 40% 88%)" }}>
-              {hajjStats.pendingAmount > 0 && (
+            <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(270 40% 88%)" }}>
+              {umrahStats.pendingAmount > 0 && (
                 <div
                   className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                   style={{
-                    width: `${Math.min(100, Math.round(((hajjStats.confirmedAmount || 0) + hajjStats.pendingAmount) % hajjStats.hajjCost / hajjStats.hajjCost * 100))}%`,
-                    background: "hsl(152 40% 68%)",
+                    width: `${Math.min(100, Math.round(((umrahStats.confirmedAmount || 0) + umrahStats.pendingAmount) % umrahStats.umrahCost / umrahStats.umrahCost * 100))}%`,
+                    background: "hsl(270 40% 68%)",
                   }}
                 />
               )}
               <div
                 className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                 style={{
-                  width: `${hajjStats.currentProgressPercent}%`,
-                  background: "linear-gradient(90deg, hsl(152 52% 38%) 0%, hsl(175 52% 34%) 100%)",
+                  width: `${umrahStats.currentProgressPercent}%`,
+                  background: "linear-gradient(90deg, hsl(270 52% 48%) 0%, hsl(260 52% 34%) 100%)",
                 }}
               />
             </div>
-            <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(152 30% 45%)" }}>
+            <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(270 30% 45%)" }}>
               <span>
-                {hajjStats.currentProgress > 0
-                  ? `${hajjStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو الحاج القادم`
+                {umrahStats.currentProgress > 0
+                  ? `${umrahStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو المعتمر القادم`
                   : "لم تتجمع تبرعات بعد"}
-                {hajjStats.pendingAmount > 0 && (
-                  <span className="mr-1 text-amber-600">(+ {hajjStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
+                {umrahStats.pendingAmount > 0 && (
+                  <span className="mr-1 text-amber-600">(+ {umrahStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
                 )}
               </span>
-              <span className="font-bold">{hajjStats.currentProgressPercent}% من 12,000 ر.س</span>
+              <span className="font-bold">{umrahStats.currentProgressPercent}% من 3,000 ر.س</span>
             </div>
           </div>
         )}
@@ -126,8 +126,8 @@ export function QuickDonateStrip({ onAmountSelect, defaultService = "general" }:
         {/* Row 2 – amount buttons */}
         <div className="flex flex-wrap items-center gap-2">
           {amounts.map((a) => {
-            const isFullHajj = activeService === "hajj" && a === 12000;
-            const btnStyle = isFullHajj
+            const isFullUmrah = activeService === "umrah" && a === 3000;
+            const btnStyle = isFullUmrah
               ? { borderColor: "hsl(35 80% 45%)", color: "white", backgroundColor: "hsl(35 80% 45%)" }
               : { borderColor: "hsl(152 42% 72%)", color: "hsl(152 42% 28%)", backgroundColor: "white" };
 
@@ -136,14 +136,14 @@ export function QuickDonateStrip({ onAmountSelect, defaultService = "general" }:
                 className="px-3.5 py-1.5 text-sm font-bold rounded-lg border-2 transition-all duration-150 hover:shadow-sm flex flex-col items-center leading-tight"
                 style={btnStyle}
                 onMouseOver={e => {
-                  if (!isFullHajj) {
+                  if (!isFullUmrah) {
                     const b = e.currentTarget as HTMLButtonElement;
                     b.style.backgroundColor = "hsl(152 42% 28%)";
                     b.style.color = "white";
                   }
                 }}
                 onMouseOut={e => {
-                  if (!isFullHajj) {
+                  if (!isFullUmrah) {
                     const b = e.currentTarget as HTMLButtonElement;
                     b.style.backgroundColor = "white";
                     b.style.color = "hsl(152 42% 28%)";
@@ -153,8 +153,8 @@ export function QuickDonateStrip({ onAmountSelect, defaultService = "general" }:
                 data-testid={`button-quick-${activeService}-${a}`}
               >
                 <span>{a.toLocaleString("ar-SA")} ر.س</span>
-                {activeService === "hajj" && HAJJ_LABELS[a] && (
-                  <span className="text-[10px] opacity-80">{HAJJ_LABELS[a]}</span>
+                {activeService === "umrah" && UMRAH_LABELS[a] && (
+                  <span className="text-[10px] opacity-80">{UMRAH_LABELS[a]}</span>
                 )}
               </button>
             );

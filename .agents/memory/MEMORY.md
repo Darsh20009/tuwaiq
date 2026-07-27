@@ -1,0 +1,4 @@
+- [SMTP config](smtp-config.md) — cPanel SMTP via env vars; FROM must match SMTP_USER
+- [Hajj→Umrah replacement](hajj-umrah-replacement.md) — where umrah/hajj swaps live and admin toggles
+- [Poster generator path](poster-route.md) — route is /admin/posters not /admin/poster-generator; poster redesign adds corner ornaments & Islamic geometry
+- [SEO middleware](seo-notes.md) — static lookup at step 2 AND step 5; /service/:slug covered; pre-existing TS errors in routes.ts/Profile.tsx are harmless

@@ -178,7 +178,8 @@ export async function getHajjStats(req: Request, res: Response): Promise<void> {
 
 export async function getUmrahStats(req: Request, res: Response): Promise<void> {
   try {
-    const UMRAH_COST = 3000;
+    const settings = await db.collection("settings").findOne({});
+    const UMRAH_COST = Number(settings?.umrahCost) || 3000;
     const [confirmedDocs, pendingDocs] = await Promise.all([
       db.collection("donations").find(
         { type: "umrah", status: { $in: ["confirmed", "success"] }, isDeleted: { $ne: true } },

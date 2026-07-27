@@ -147,6 +147,34 @@ const STATIC_SEO: Record<string, { title: string; description: string; image: st
     image: DEFAULT_OG_IMAGE,
     keywords: `${KEYWORDS_BASE}, أثر, مستفيدون, شفافية, نتائج, تقارير`,
   },
+  "/service/umrah": {
+    title: `كفالة عمرة | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "ساهم في كفالة معتمر وأدخله بيت الله الحرام — كفالة العمرة من جمعية طويق للخدمات الإنسانية بالرياض. كفالة معتمر كاملة بـ 3000 ريال. العمرة إلى العمرة كفارة لما بينهما.",
+    image: "/images/og-main.png",
+    keywords: `${KEYWORDS_BASE}, كفالة عمرة, كفالة معتمر, عمرة, بيت الله الحرام, مكة المكرمة, تبرع للعمرة, صدقة عمرة`,
+  },
+  "/service/orphan": {
+    title: `كفالة يتيم | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "أنا وكافل اليتيم كهاتين في الجنة — كفالة اليتيم من جمعية طويق للخدمات الإنسانية في الرياض. ساهم في رعاية الأيتام.",
+    image: DEFAULT_OG_IMAGE,
+    keywords: `${KEYWORDS_BASE}, كفالة يتيم, أيتام, رعاية الأيتام, صدقة, ثواب`,
+  },
+  "/service/families": {
+    title: `كفالة أسر أرامل | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "كفالة الأسر الأرامل والمحتاجة من جمعية طويق للخدمات الإنسانية بالرياض — ساهم في دعم الأسر الأكثر احتياجاً.",
+    image: DEFAULT_OG_IMAGE,
+    keywords: `${KEYWORDS_BASE}, كفالة أسر, أرامل, أسر محتاجة, دعم اجتماعي`,
+  },
+  "/service/water": {
+    title: `سقيا الماء | جمعية طويق للخدمات الإنسانية`,
+    description:
+      "سقيا الماء صدقة جارية تمتد أثرها — ساهم مع جمعية طويق للخدمات الإنسانية في توفير الماء للمحتاجين.",
+    image: "/images/og-water.png",
+    keywords: `${KEYWORDS_BASE}, سقيا الماء, صدقة جارية, مياه, بئر, تبرع`,
+  },
 };
 
 // ── Schemas ────────────────────────────────────────────────────────────────────
@@ -392,6 +420,46 @@ function buildHomeFAQSchema(baseUrl: string): string {
           "text": "جمعية طويق وطويق للخدمات الإنسانية وطويق الخيرية وجمعية طويق الإنسانية — كلها أسماء تشير إلى نفس الجمعية الخيرية: جمعية طويق للخدمات الإنسانية، ومقرها الرياض، المملكة العربية السعودية.",
         },
       },
+      {
+        "@type": "Question",
+        "name": "ما هي أشهر جمعية خيرية في الرياض؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "جمعية طويق للخدمات الإنسانية من أبرز الجمعيات الخيرية المعتمدة في الرياض — مرخصة برقم 1000820300، تخدم الأسر المحتاجة في السويدي والعريجاء وسائر أحياء الرياض.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "كيف أكفل معتمراً عبر جمعية طويق؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "يمكنك كفالة معتمر من خلال التبرع بـ 3000 ريال كاملة أو مساهمة بأي مبلغ عبر موقع جمعية طويق للخدمات الإنسانية tuwaiqassociation.sa/service/umrah — وعند اكتمال المبلغ نرسل معتمراً إلى بيت الله الحرام.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "هل يمكنني التبرع بالزكاة لجمعية طويق؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نعم، تقبل جمعية طويق للخدمات الإنسانية زكاة المال وتوزعها على المستحقين من الأسر الفقيرة والمحتاجة في الرياض وفق الضوابط الشرعية. تبرع عبر tuwaiqassociation.sa",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "هل جمعية طويق تعمل في حي السويدي بالرياض؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نعم، جمعية طويق للخدمات الإنسانية تخدم أحياء غرب الرياض شاملاً السويدي والعريجاء والنسيم وغيرها. مقرها في العريجاء الوسطى، شارع يزيد بن أبي سفيان.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "ما هو الإيبان الخاص بجمعية طويق للتبرع؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "يمكنك التبرع لجمعية طويق للخدمات الإنسانية عبر التحويل البنكي أو الدفع الإلكتروني مباشرةً من الموقع. لمعرفة الإيبان الحالي زر صفحة التحويل البنكي: tuwaiqassociation.sa/bank-transfer",
+        },
+      },
     ],
   });
 }
@@ -559,9 +627,14 @@ export function createSEOMiddleware(db: Db) {
       }
     } catch {}
 
-    // 2. Dynamic: /services/:slug
+    // 2. Static SEO lookup (includes /service/umrah, /service/hajj etc.)
+    if (!seoData && STATIC_SEO[path]) {
+      seoData = STATIC_SEO[path];
+    }
+
+    // 3. Dynamic: /services/:slug or /service/:slug
     if (!seoData) {
-      const serviceMatch = path.match(/^\/services\/(.+)$/);
+      const serviceMatch = path.match(/^\/services?\/(.+)$/);
       if (serviceMatch) {
         try {
           const service = await withTimeout(db.collection("services").findOne({ slug: serviceMatch[1] }));
