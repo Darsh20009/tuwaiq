@@ -359,8 +359,8 @@ function HeroSection() {
 function ServicesSection() {
   const services = [
     {
-      title: "كفالة حاج", icon: Globe2, slug: "hajj",
-      desc: "اكفل حاجاً ليؤدي فريضته ويدعو لك", hadith: "الحج المبرور ليس له جزاء إلا الجنة",
+      title: "كفالة عمرة", icon: Globe2, slug: "umrah",
+      desc: "اكفل معتمراً ليؤدي عمرته ويدعو لك", hadith: "العمرة إلى العمرة كفارة لما بينهما",
       gradient: "from-emerald-600 to-teal-500",
       image: "/images/service-hajj.png",
       stat: "320+ مستفيد", accent: "hsl(152 42% 28%)",
@@ -552,7 +552,7 @@ function AboutSection() {
   ];
 
   const highlights = [
-    { icon: Globe2, label: "كفالة حاج", color: "bg-emerald-500" },
+    { icon: Globe2, label: "كفالة عمرة", color: "bg-emerald-500" },
     { icon: HomeIcon, label: "كفالة أسر", color: "bg-sky-500" },
     { icon: Baby, label: "كفالة يتيم", color: "bg-amber-500" },
     { icon: HandHeart, label: "تفريج كربة", color: "bg-violet-500" },
@@ -611,7 +611,7 @@ function AboutSection() {
                   <div className="absolute inset-0 opacity-10"><div className="absolute top-2 right-4 w-20 h-20 bg-white rounded-full blur-2xl" /></div>
                   <div className="relative z-10 p-5">
                     <Globe2 className="w-8 h-8 text-white mb-2" />
-                    <p className="font-heading font-bold text-white text-sm">كفالة حاج</p>
+                    <p className="font-heading font-bold text-white text-sm">كفالة عمرة</p>
                     <p className="text-white/70 text-xs mt-1">320+ مستفيد</p>
                   </div>
                 </div>
