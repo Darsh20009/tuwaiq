@@ -22,6 +22,36 @@ import { useToast } from "@/hooks/use-toast";
 import { useSEO } from "@/hooks/use-seo";
 
 const SERVICES_DETAILS: Record<string, any> = {
+  umrah: {
+    title: "كفالة عمرة",
+    titlePromo: "تبرع لكفالة معتمر",
+    icon: Globe2,
+    color: "bg-violet-600",
+    gradientFrom: "from-violet-600",
+    gradientTo: "to-purple-500",
+    bgGradient: "from-violet-700 to-purple-600",
+    poster: "/images/service-umrah.png",
+    hadith: "العمرة إلى العمرة كفارة لما بينهما — رواه البخاري",
+    hadithPromo: "صَدَقَتُكَ تُوصِلُه لِبَيْتِ الله\nتَخَيَّل فَرحة مُعتَمِر بَكفَلك\nسابق إلى الخير في بقاع الأرض",
+    seoDescription: "اكفل معتمراً ليؤدي عمرته ويدعو لك — جمعية طويق للخدمات الإنسانية",
+    bank: {
+      name: "مصرف الراجحي",
+      iban: "SA3080 00058960801956792 3",
+      display: "SA3080\n00058960801956793",
+      logo: "🏦",
+    },
+    description: `العمرة سنة مؤكدة وزيارة لبيت الله الحرام، وكثير من المسلمين يعجزون عن أدائها لضيق ذات اليد.\nمن خلال برنامج كفالة عمرة، نمنح هذه الفرصة لمن عجز عن توفير تكاليفها بمفرده.\n\nيشمل البرنامج:\n• تسجيل المعتمر وتأمين الإجراءات الرسمية\n• تغطية تكاليف الانتقال والإقامة\n• التنسيق مع شركات العمرة المعتمدة\n• متابعة المعتمر طوال رحلته المباركة`,
+    amounts: [300, 500, 1000, 1500, 2000, 3000],
+    stats: { beneficiaries: 320, projects: 18, targetAmount: 300000, currentAmount: 120000 },
+    impacts: [
+      { amount: 300, description: "مساهمة في كفالة معتمر" },
+      { amount: 500, description: "إسهام في رحلة المعتمر" },
+      { amount: 1000, description: "ثلث كفالة معتمر كاملة" },
+      { amount: 1500, description: "نصف كفالة معتمر كاملة" },
+      { amount: 2000, description: "كفالة جزئية شاملة للمعتمر" },
+      { amount: 3000, description: "كفالة معتمر كاملة لمعتمر واحد" },
+    ],
+  },
   hajj: {
     title: "كفالة حاج",
     titlePromo: "تبرع لكفالة حاج",
@@ -143,6 +173,24 @@ function buildWhatsappMessage(service: any, slug: string, siteUrl: string) {
   const donateUrl = `${siteUrl}/donate?type=${slug}`;
 
   const msgs: Record<string, string> = {
+    umrah: `🕋✨ *تبرع لكفالة معتمر* ✨🕋
+
+"الْعُمْرَةُ إِلَى الْعُمْرَةِ كَفَّارَةٌ لِمَا بَيْنَهُمَا" 🤍
+
+كفالة معتمر تعني أنك تفتح له باب بيت الله وهو يدعو لك بظهر الغيب 💜
+
+📌 *طريقة التبرع السريع:*
+🏦 مصرف الراجحي
+🔢 SA3080 00058960801956793
+
+🔗 أو عبر الموقع:
+${donateUrl}
+
+🤝 *جمعية طويق للخدمات الإنسانية*
+رقم السجل: 1000820300 | ترخيص: 6573
+
+شارك البوستر مع أهلك وأصدقاؤك وكن سبباً في خير كثير 🌿`,
+
     hajj: `🕋✨ *تبرع لكفالة حاج* ✨🕋
 
 "الحَجُّ الْمَبْرُورُ لَيْسَ لَهُ جَزَاءٌ إِلَّا الْجَنَّةُ" 🤍
@@ -273,6 +321,14 @@ export default function ServiceDetail() {
   const { data: hajjStats } = useQuery<any>({
     queryKey: ["/api/donations/hajj-stats"],
     enabled: slug === "hajj",
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 30_000,
+  });
+
+  const { data: umrahStats } = useQuery<any>({
+    queryKey: ["/api/donations/umrah-stats"],
+    enabled: slug === "umrah",
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 30_000,
@@ -815,6 +871,51 @@ export default function ServiceDetail() {
                             </div>
                           )}
 
+                          {/* Umrah Progress Bar */}
+                          {slug === "umrah" && umrahStats && (
+                            <div className="mb-5 rounded-xl border p-3.5" style={{ background: "hsl(270 40% 97%)", borderColor: "hsl(270 40% 82%)" }}>
+                              <div className="flex items-center justify-between mb-2 text-xs font-bold" style={{ color: "hsl(270 42% 25%)" }}>
+                                <span>🕋 تقدم كفالة المعتمرين</span>
+                                <span style={{ color: "hsl(35 80% 42%)" }}>
+                                  {umrahStats.completedPilgrims > 0
+                                    ? `${umrahStats.completedPilgrims} معتمر مكتمل ✅`
+                                    : umrahStats.totalPilgrims > 0
+                                    ? `${umrahStats.totalPilgrims} معتمر في الطريق ⏳`
+                                    : "نحو أول معتمر"}
+                                </span>
+                              </div>
+                              <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(270 40% 86%)" }}>
+                                {umrahStats.pendingAmount > 0 && (
+                                  <div
+                                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
+                                    style={{
+                                      width: `${Math.min(100, Math.round(((umrahStats.confirmedAmount || 0) + umrahStats.pendingAmount) % (umrahStats.umrahCost || 3000) / (umrahStats.umrahCost || 3000) * 100))}%`,
+                                      background: "hsl(270 40% 66%)",
+                                    }}
+                                  />
+                                )}
+                                <div
+                                  className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
+                                  style={{
+                                    width: `${umrahStats.currentProgressPercent}%`,
+                                    background: "linear-gradient(90deg, hsl(270 52% 36%) 0%, hsl(290 52% 32%) 100%)",
+                                  }}
+                                />
+                              </div>
+                              <div className="flex items-center justify-between mt-1.5 text-[11px]" style={{ color: "hsl(270 30% 42%)" }}>
+                                <span>
+                                  {umrahStats.currentProgress > 0
+                                    ? `${umrahStats.currentProgress.toLocaleString("ar-SA")} ر.س نحو المعتمر القادم`
+                                    : "لم تتجمع تبرعات بعد"}
+                                  {umrahStats.pendingAmount > 0 && (
+                                    <span className="mr-1 text-amber-600">(+ {umrahStats.pendingAmount.toLocaleString("ar-SA")} ر.س قيد المراجعة)</span>
+                                  )}
+                                </span>
+                                <span className="font-bold">{umrahStats.currentProgressPercent}% من {(umrahStats.umrahCost || 3000).toLocaleString("ar-SA")} ر.س</span>
+                              </div>
+                            </div>
+                          )}
+
                           {/* Hajj Progress Bar */}
                           {slug === "hajj" && hajjStats && (
                             <div className="mb-5 rounded-xl border p-3.5" style={{ background: "hsl(152 40% 97%)", borderColor: "hsl(152 40% 82%)" }}>
@@ -829,7 +930,6 @@ export default function ServiceDetail() {
                                 </span>
                               </div>
                               <div className="relative h-3 rounded-full overflow-hidden" style={{ background: "hsl(152 40% 86%)" }}>
-                                {/* Pending layer */}
                                 {hajjStats.pendingAmount > 0 && (
                                   <div
                                     className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
@@ -839,7 +939,6 @@ export default function ServiceDetail() {
                                     }}
                                   />
                                 )}
-                                {/* Confirmed layer */}
                                 <div
                                   className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                                   style={{
