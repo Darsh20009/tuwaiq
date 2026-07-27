@@ -362,7 +362,7 @@ function ServicesSection() {
       title: "كفالة عمرة", icon: Globe2, slug: "umrah",
       desc: "اكفل معتمراً ليؤدي عمرته ويدعو لك", hadith: "العمرة إلى العمرة كفارة لما بينهما",
       gradient: "from-emerald-600 to-teal-500",
-      image: "/images/service-hajj.png",
+      image: "/images/service-umrah.png",
       stat: "320+ مستفيد", accent: "hsl(152 42% 28%)",
     },
     {
